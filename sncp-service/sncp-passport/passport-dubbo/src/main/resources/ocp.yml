@@ -1,0 +1,5 @@
+ocp:
+  connectTimeout:2000
+  readTimeout:2000
+  appid:test_app
+  pwd:111111
