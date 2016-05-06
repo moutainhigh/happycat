@@ -1,16 +1,20 @@
 package com.woniu.sncp.passport.dto;
 
-import java.io.Serializable;
+
 import java.util.Date;
 
-/**
- * 帐号返回参数
- * @author chenyx
- * @date 2016年5月4日
- */
-public class PassportDto implements Serializable {
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-	private static final long serialVersionUID = 6473223887162527457L;
+/**
+ * ocp远程返回的对象
+ * @author chenyx
+ *
+ */
+@JsonAutoDetect
+public class OcpResponsePassportDto extends OcpResponseDto {
+	
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
@@ -72,12 +76,16 @@ public class PassportDto implements Serializable {
 	/**
 	 * 帐号状态 - S_STATE
 	 */
+	@JsonProperty("accountState")
 	private String state;
 
 	/**
 	 * 注册日期 - D_CREATE
 	 */
 	private Date createDate;
+	
+	
+	private String aliase;
 
 	/**
 	 * 注册时IP - N_IP
@@ -113,8 +121,6 @@ public class PassportDto implements Serializable {
 	 * 手机是否通过认证 - S_MOBILE_AUTHED
 	 */
 	private String mobileAuthed;
-	
-	private String aliase;
 
 	public Long getId() {
 		return id;
@@ -294,15 +300,13 @@ public class PassportDto implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PassportDto [id=" + id + ", account=" + account + ", password=" + password + ", vipLevel=" + vipLevel
-				+ ", name=" + name + ", identity=" + identity + ", identityAuthState=" + identityAuthState
+		return "OcpResponsePassportDto [id=" + id + ", account=" + account + ", password=" + password + ", vipLevel="
+				+ vipLevel + ", name=" + name + ", identity=" + identity + ", identityAuthState=" + identityAuthState
 				+ ", ageFlag=" + ageFlag + ", gender=" + gender + ", identityBirthday=" + identityBirthday
 				+ ", birthday=" + birthday + ", email=" + email + ", state=" + state + ", createDate=" + createDate
-				+ ", regIp=" + regIp + ", regCityId=" + regCityId + ", issuerId=" + issuerId + ", spreaderId="
-				+ spreaderId + ", emailAuthed=" + emailAuthed + ", mobile=" + mobile + ", mobileAuthed=" + mobileAuthed
-				+ ", aliase=" + aliase + "]";
+				+ ", aliase=" + aliase + ", regIp=" + regIp + ", regCityId=" + regCityId + ", issuerId=" + issuerId
+				+ ", spreaderId=" + spreaderId + ", emailAuthed=" + emailAuthed + ", mobile=" + mobile
+				+ ", mobileAuthed=" + mobileAuthed + "]";
 	}
-	
-	
-	
+
 }

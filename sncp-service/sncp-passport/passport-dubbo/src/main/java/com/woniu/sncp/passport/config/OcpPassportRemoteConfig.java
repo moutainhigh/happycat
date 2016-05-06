@@ -1,9 +1,10 @@
 package com.woniu.sncp.passport.config;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -16,34 +17,18 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Ocp-Passport远程调用配置
  * @author chenyx
  * @date 2016年5月5日
  */
 @Configuration
-@ConfigurationProperties(prefix = "ocp")
 public class OcpPassportRemoteConfig {
 	
-	/**
-	 * 远程调用超时时间
-	 */
-	private int connectTimeout;
-	
-	/**
-	 * 远程调用返回超时时间
-	 */
-	private int readTimeout;
-	
-	/**
-	 * ocp远程调用帐号
-	 */
-	private String appid;
-	
-	/**
-	 * ocp远程调用帐号密码
-	 */
-	private String pwd;
+	@Autowired
+	private OcpPassportProfile ocpPassportProfile;
 	
 	@Bean
 	public RestTemplate restTemplate() {
@@ -55,8 +40,8 @@ public class OcpPassportRemoteConfig {
 	@Bean
 	public ClientHttpRequestFactory clientHttpRequestFactory() {
 		HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-		httpRequestFactory.setConnectTimeout(connectTimeout);
-		httpRequestFactory.setReadTimeout(readTimeout);
+		httpRequestFactory.setConnectTimeout(ocpPassportProfile.getConnectTimeout());
+		httpRequestFactory.setReadTimeout(ocpPassportProfile.getReadTimeout());
 		return httpRequestFactory;
 	}
 	
@@ -72,14 +57,17 @@ public class OcpPassportRemoteConfig {
 	@Bean
 	public HttpHeaders httpHeaders() {
 		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.set("H_APPID", appid);
-		httpHeaders.set("H_PWD", pwd);
+		httpHeaders.set("H_APPID", ocpPassportProfile.getAppid());
+		httpHeaders.set("H_PWD", ocpPassportProfile.getPwd());
 		return httpHeaders;
 	}
 	
 	public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
 		MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
 		mappingJackson2HttpMessageConverter.setSupportedMediaTypes(mediaTypeList());
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
+		mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
 		return mappingJackson2HttpMessageConverter;
 	}
 	
@@ -89,22 +77,6 @@ public class OcpPassportRemoteConfig {
 		mediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
 		mediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
 		return mediaTypes;
-	}
-
-	public int getConnectTimeout() {
-		return connectTimeout;
-	}
-
-	public void setConnectTimeout(int connectTimeout) {
-		this.connectTimeout = connectTimeout;
-	}
-
-	public int getReadTimeout() {
-		return readTimeout;
-	}
-
-	public void setReadTimeout(int readTimeout) {
-		this.readTimeout = readTimeout;
 	}
 	
 }

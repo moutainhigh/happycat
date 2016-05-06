@@ -15,5 +15,13 @@
 		<module>fcm-mongo</module>
 		<module>fcm-dubbo</module>
 	</modules>
+		
+	<dependencies>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>sncp-exception</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 	
 </project>

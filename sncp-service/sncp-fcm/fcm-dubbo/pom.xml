@@ -13,6 +13,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
+			<artifactId>passport-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
 			<artifactId>fcm-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -41,7 +46,22 @@
 			<artifactId>dozer</artifactId>
 			<version>${dozer.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>${zkclient.version}</version>
+		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<defaultGoal>compile</defaultGoal>
+	</build>
 
 
 </project>
