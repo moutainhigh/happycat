@@ -18,7 +18,7 @@ public class FcmServiceRepositoryImplTest {
 	
 	@Test public void testQueryFcmTime() {
         for (int i = 0; i < 10; i++) {
-        	Long queryFcmTime = fcmService.queryFcmTime(123L, 10L);
+        	Long queryFcmTime = fcmService.fcmOnlineTime(123L, 10L);
         	System.out.println("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
         	try {

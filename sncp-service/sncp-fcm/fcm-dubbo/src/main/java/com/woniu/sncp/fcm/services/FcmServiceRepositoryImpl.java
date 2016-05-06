@@ -29,7 +29,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	}
 
 	@Override
-	public Long queryFcmTime(Long accountId, Long gameId) {
+	public Long fcmOnlineTime(Long accountId, Long gameId) {
 		Long onlineTimeSeconds = 0L;
 		
 		PassportFcmTotalTimeTo fcmTotalTimeTo = queryUserFcmTotalTime(accountId, gameId);
