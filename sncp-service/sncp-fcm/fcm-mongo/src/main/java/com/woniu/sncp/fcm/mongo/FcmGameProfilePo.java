@@ -3,20 +3,25 @@ package com.woniu.sncp.fcm.mongo;
 import java.io.Serializable;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
  * mongoDB对象
  * @author chenyx
  * @date 2016年5月4日
  */
+@Document(collection = "pp_aoperator_games")
 public class FcmGameProfilePo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	private String id;
-	
-	private String gameId;
+	@Field("N_AOID")
+	private Long aoId;
+	@Field("N_GAME_ID")
+	private Long gameId;
 
 	public String getId() {
 		return id;
@@ -26,12 +31,20 @@ public class FcmGameProfilePo implements Serializable {
 		this.id = id;
 	}
 
-	public String getGameId() {
+	public Long getAoId() {
+		return aoId;
+	}
+
+	public void setAoId(Long aoId) {
+		this.aoId = aoId;
+	}
+
+	public Long getGameId() {
 		return gameId;
 	}
 
-	public void setGameId(String gameId) {
+	public void setGameId(Long gameId) {
 		this.gameId = gameId;
 	}
-
+	
 }

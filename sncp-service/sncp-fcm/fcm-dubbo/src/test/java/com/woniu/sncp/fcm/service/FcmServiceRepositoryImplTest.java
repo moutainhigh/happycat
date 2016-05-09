@@ -18,7 +18,7 @@ public class FcmServiceRepositoryImplTest {
 	
 	@Test public void testQueryFcmTime() {
         for (int i = 0; i < 10; i++) {
-        	Long queryFcmTime = fcmService.fcmOnlineTime(123L, 10L);
+        	Long queryFcmTime = fcmService.fcmOnlineTime("123", 10L);
         	System.out.println("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
         	try {
@@ -29,7 +29,7 @@ public class FcmServiceRepositoryImplTest {
 	}
 	
 	@Test public void testQueryUserFcmTotalTime(){
-		PassportFcmTotalTimeTo userFcmTotalTimeTo = fcmService.queryUserFcmTotalTime(123L, 10L);
+		PassportFcmTotalTimeTo userFcmTotalTimeTo = fcmService.queryUserFcmTotalTime("123", 10L);
 		System.out.println("test userFcmTotalTimeTo:"+userFcmTotalTimeTo);
 		Assert.assertNotNull(userFcmTotalTimeTo);
 	}
