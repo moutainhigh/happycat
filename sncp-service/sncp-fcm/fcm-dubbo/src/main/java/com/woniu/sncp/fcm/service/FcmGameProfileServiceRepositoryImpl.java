@@ -10,7 +10,7 @@ import com.woniu.sncp.fcm.dto.FcmGameProfileTo;
 import com.woniu.sncp.fcm.mongo.FcmGameProfilePo;
 import com.woniu.sncp.fcm.mongo.repository.FcmGameProfileRepository;
 
-public class FcmGameProfileRepositoryImpl implements FcmGameProfileService{
+public class FcmGameProfileServiceRepositoryImpl implements FcmGameProfileService{
 
 	@Autowired FcmGameProfileRepository repository;
 	
@@ -21,7 +21,7 @@ public class FcmGameProfileRepositoryImpl implements FcmGameProfileService{
 
 	@Override
 	public Long delete(Long aoId, Long gameId) {
-		return repository.deteleByAoIdAndGameId(aoId, gameId);
+		return repository.deleteByAoIdAndGameId(aoId, gameId);
 	}
 
 	@Override

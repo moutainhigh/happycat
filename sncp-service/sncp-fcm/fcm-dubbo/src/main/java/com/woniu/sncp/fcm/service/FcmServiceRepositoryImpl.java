@@ -34,14 +34,14 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	protected static final Logger log = LoggerFactory.getLogger(FcmServiceRepositoryImpl.class);
 	
 	@Autowired PassportFcmTotalTimeRepository repository;
-	@Autowired FcmGameProfileRepositoryImpl gameProfileRepository;
+	@Autowired FcmGameProfileServiceRepositoryImpl gameProfileService;
 	@Autowired PassportService passportService;
 
 	@Override
 	public boolean isFcm(Long accountId,Long aoId,Long gameId) throws PassportNotFoundException {
 		
 		//检查游戏是否需要防沉迷
-		FcmGameProfileTo gameProfile = gameProfileRepository.query(aoId, gameId);
+		FcmGameProfileTo gameProfile = gameProfileService.query(aoId, gameId);
 		if(gameProfile == null) return false;
 		
 		try {
