@@ -50,8 +50,7 @@ public class OcpResponseDto implements Serializable {
 		this.desc = desc;
 	}
 
-	@Override
-	public String toString() {
+	public String toOcpString() {
 		return "OcpResponseDto [respState=" + respState + ", code=" + code + ", desc=" + desc + "]";
 	}
 	

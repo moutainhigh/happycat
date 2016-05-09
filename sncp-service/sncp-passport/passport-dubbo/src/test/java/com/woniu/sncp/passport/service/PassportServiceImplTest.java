@@ -25,7 +25,7 @@ public class PassportServiceImplTest {
 	public void testFindPassportByAccountOrAliase() {
 		PassportDto passportDto = null;
 		try {
-			passportDto = passportService.findPassportByAccountOrAliase("dakfjdajfadfdadfasfadfa");
+			passportDto = passportService.findPassportByAccountOrAliase("test123");
 		} catch (PassportNotFoundException | PassportHasFrozenException | PassportHasLockedException e) {
 			e.printStackTrace();
 		}
@@ -36,7 +36,7 @@ public class PassportServiceImplTest {
 	public void testFindPassportByAid() {
 		PassportDto passportDto = null;
 		try {
-			passportDto = passportService.findPassportByAid(999999999L);
+			passportDto = passportService.findPassportByAid(123456L);
 		} catch (PassportNotFoundException e) {
 			e.printStackTrace();
 		}

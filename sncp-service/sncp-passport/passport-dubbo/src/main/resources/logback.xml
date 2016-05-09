@@ -22,6 +22,8 @@
 			</pattern>
 		</encoder>
 	</appender>
+	
+	<logger name="com.woniu.sncp.passport" level="INFO"/>
 
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
