@@ -18,9 +18,12 @@
 	<dubbo:protocol name="dubbo" port="20003" />
 	
 	<!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.woniu.sncp.fcm.services.FcmService" ref="fcmService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.fcm.service.FcmService" ref="fcmService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.fcm.service.FcmGameProfileService" ref="fcmGameProfileService" version="1.0.0"/>
  
     <!-- 和本地bean一样实现服务 -->
-    <bean id="fcmService" class="com.woniu.sncp.fcm.services.FcmServiceRepositoryImpl"/>
+    <bean id="fcmService" class="com.woniu.sncp.fcm.service.FcmServiceRepositoryImpl"/>
+    
+    <bean id="fcmGameProfileService" class="com.woniu.sncp.fcm.service.FcmGameProfileServiceRepositoryImpl"/>
 	
 </beans>

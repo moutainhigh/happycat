@@ -7,13 +7,15 @@ import java.io.Serializable;
  * @author chenyx
  * @date 2016年5月4日
  */
-public class FcmGameProfile implements Serializable {
+public class FcmGameProfileTo implements Serializable {
 
 	private static final long serialVersionUID = 7590811202479166457L;
 	
 	private String id;
 	
-	private String gameId;
+	private Long aoId;
+	
+	private Long gameId;
 
 	public String getId() {
 		return id;
@@ -23,16 +25,20 @@ public class FcmGameProfile implements Serializable {
 		this.id = id;
 	}
 
-	public String getGameId() {
+	public Long getAoId() {
+		return aoId;
+	}
+
+	public void setAoId(Long aoId) {
+		this.aoId = aoId;
+	}
+
+	public Long getGameId() {
 		return gameId;
 	}
 
-	public void setGameId(String gameId) {
+	public void setGameId(Long gameId) {
 		this.gameId = gameId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }
