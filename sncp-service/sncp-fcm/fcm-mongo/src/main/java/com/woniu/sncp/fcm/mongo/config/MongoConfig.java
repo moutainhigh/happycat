@@ -17,25 +17,25 @@ import com.mongodb.WriteConcern;
 public class MongoConfig {
 	
 	@Value("${mongodb.ip}")
-	private String mongodbIp;
+	private String mongodbIp;//ip
 	
 	@Value("${mongodb.port}")
-	private int mongodbPort;
+	private int mongodbPort;//端口
 	
 	@Value("${mongodb.collectionName}")
-	private String collectionName;
+	private String collectionName;//表名
 	
 	@Value("${mongodb.userName}")
-	private String userName;
+	private String userName;//用户名
 	
 	@Value("${mongodb.userPwd}")
-	private String userPassword;
+	private String userPassword;//密码
 	
 	@Value("${mongodb.connection.timeout}")
-	private int connectionTimeout;
+	private int connectionTimeout;//连接超时时间 毫秒
 	
 	@Value("${mongodb.connectionsPerHost}")
-	private int connectionsPerHost;
+	private int connectionsPerHost;//连接数
 	
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		
