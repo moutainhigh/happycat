@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author chenyx
  *
  */
-@JsonAutoDetect
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.NONE)
 public class OcpResponsePassportDto extends OcpResponseDto {
 	
 	private static final long serialVersionUID = 1L;

@@ -2,6 +2,7 @@ package com.woniu.sncp.passport.dto;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author chenyx
  *
  */
-@JsonIgnoreProperties(value={"APPENDIX"})
+@JsonAutoDetect
+@JsonIgnoreProperties(value={"APPENDIX","PARAMS"})
 public class OcpResponseDto implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

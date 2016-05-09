@@ -84,8 +84,31 @@ public class PassportServiceImpl implements PassportService {
 	@Override
 	public PassportDto findPassportByAid(Long aid)
 			throws PassportNotFoundException, SystemException {
-		// TODO Auto-generated method stub
-		return null;
+		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+		map.add("id", String.valueOf(aid));
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);      
+		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, httpHeaders);
+		ResponseEntity<OcpResponsePassportDto> responseEntity = null;
+		try {
+			logger.info("request: " + serverUrl + "/user/passport/search/id" + ","  + request);
+			responseEntity = restTemplate.postForEntity(serverUrl + "/user/passport/search/id", request, OcpResponsePassportDto.class);
+			logger.info("response: " + serverUrl + "/user/passport/search/id" + ","  + responseEntity);
+		} catch(ResourceAccessException rae) {
+			throw new SystemException("ResourceAccessException：" + rae.getMessage());
+		} catch(Exception e) {
+			throw new SystemException("Other Exception " + e.getMessage());
+		}
+		DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+		OcpResponsePassportDto responsePassportDto = responseEntity.getBody();
+		if(responsePassportDto.getRespState().equals(ERROR_STATE)) {
+			if(responsePassportDto.getCode().intValue() == 201001) {
+				throw new PassportNotFoundException("Passport not found!");
+			}
+			OcpResponseDto responseDto = (OcpResponseDto)responsePassportDto;
+			throw new SystemException("ocp-passport call exception: " + responseDto.toString());
+		}
+		PassportDto passportDto = dozerBeanMapper.map(responsePassportDto, PassportDto.class);
+		return passportDto;
 	}
 
 	public String getServerUrl() {
