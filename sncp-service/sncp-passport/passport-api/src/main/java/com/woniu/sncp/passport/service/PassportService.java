@@ -41,6 +41,6 @@ public interface PassportService {
 	 * @throws SystemException  系统异常
 	 */
 	public PassportDto findPassportByAid(Long aid)
-			throws PassportNotFoundException, PassportHasFrozenException, PassportHasLockedException, SystemException;
+			throws PassportNotFoundException, SystemException;
 
 }

@@ -80,6 +80,13 @@ public class PassportServiceImpl implements PassportService {
 		PassportDto passportDto = dozerBeanMapper.map(responsePassportDto, PassportDto.class);
 		return passportDto;
 	}
+	
+	@Override
+	public PassportDto findPassportByAid(Long aid)
+			throws PassportNotFoundException, SystemException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public String getServerUrl() {
 		return serverUrl;
@@ -88,5 +95,7 @@ public class PassportServiceImpl implements PassportService {
 	public void setServerUrl(String serverUrl) {
 		this.serverUrl = serverUrl;
 	}
+
+	
 
 }
