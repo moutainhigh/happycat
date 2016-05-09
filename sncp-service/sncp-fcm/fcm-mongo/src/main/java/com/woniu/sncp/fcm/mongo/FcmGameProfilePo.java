@@ -1,16 +1,19 @@
-package com.woniu.sncp.fcm.dto;
+package com.woniu.sncp.fcm.mongo;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
+
 /**
- * 防沉迷游戏配置
+ * mongoDB对象
  * @author chenyx
  * @date 2016年5月4日
  */
-public class FcmGameProfile implements Serializable {
+public class FcmGameProfilePo implements Serializable {
 
-	private static final long serialVersionUID = 7590811202479166457L;
+	private static final long serialVersionUID = 1L;
 	
+	@Id
 	private String id;
 	
 	private String gameId;
@@ -29,10 +32,6 @@ public class FcmGameProfile implements Serializable {
 
 	public void setGameId(String gameId) {
 		this.gameId = gameId;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 }

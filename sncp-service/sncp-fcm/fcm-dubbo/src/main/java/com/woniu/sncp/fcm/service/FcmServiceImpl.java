@@ -1,4 +1,4 @@
-package com.woniu.sncp.fcm.services;
+package com.woniu.sncp.fcm.service;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
