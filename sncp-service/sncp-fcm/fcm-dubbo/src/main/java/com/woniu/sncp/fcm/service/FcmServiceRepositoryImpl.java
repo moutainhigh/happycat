@@ -1,4 +1,4 @@
-package com.woniu.sncp.fcm.services;
+package com.woniu.sncp.fcm.service;
 
 import java.util.Date;
 import java.util.List;

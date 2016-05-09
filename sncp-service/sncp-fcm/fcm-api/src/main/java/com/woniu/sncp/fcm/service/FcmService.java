@@ -2,9 +2,7 @@ package com.woniu.sncp.fcm.service;
 
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.exception.SystemException;
-import com.woniu.sncp.fcm.dto.FcmIsNeedReqDto;
-import com.woniu.sncp.fcm.dto.FcmTimeOnlineReqDto;
-import com.woniu.sncp.fcm.dto.FcmTimeOnlineRespDto;
+import com.woniu.sncp.fcm.dto.PassportFcmTotalTimeTo;
 
 /**
  * 防沉迷接口
@@ -14,21 +12,30 @@ import com.woniu.sncp.fcm.dto.FcmTimeOnlineRespDto;
 public interface FcmService {
 
 	/**
-	 * 判断玩家是否需要防沉迷
-	 * @param fcmIsNeedRequestDto 请求参数 {@link com.woniu.sncp.fcm.dto.FcmIsNeedReqDto}
+	 * 根据游戏id和帐号id 判断是否是防沉迷帐号
+	 * 
+	 * @param accountId
+	 * @param gameId
 	 * @return true:需要防沉迷，false:不需要防沉迷
-	 * @throws MissingParamsException 缺少参数异常
-	 * @throws SystemException 系统异常
 	 */
-	public Boolean isNeedingFcm(FcmIsNeedReqDto fcmIsNeedRequestDto) throws MissingParamsException, SystemException;
+	boolean isFcm(Long accountId,Long gameId) throws MissingParamsException, SystemException;
 	
 	/**
-	 * 在线时长查询和累计
-	 * @param fcmTimeOnlineReqDto 请求参数{@link com.woniu.sncp.fcm.dto.FcmTimeOnlineReqDto}
-	 * @return FcmTimeOnlineRespDto {@link com.woniu.sncp.fcm.dto.FcmTimeOnlineRespDto}
-	 * @throws MissingParamsException 缺少参数异常
-	 * @throws SystemException 系统异常
+	 * 根据游戏id和帐号id 更新在线时长和离线时长，并返回在线时长
+	 * 
+	 * @param accountId 
+	 * @param gameId
+	 * @return 返回在线时长 单位秒
 	 */
-	public FcmTimeOnlineRespDto timeOnlineAccumulative(FcmTimeOnlineReqDto fcmTimeOnlineReqDto) throws MissingParamsException, SystemException;
+	Long fcmOnlineTime(Long accountId,Long gameId) throws MissingParamsException, SystemException;
 	
+	/**
+	 * 根据游戏id和帐号id 查询防沉迷信息
+	 * 
+	 * @param accountId
+	 * @param gameId
+	 * @return PassportFcmTotalTimeTo {@link com.woniu.sncp.fcm.dto.PassportFcmTotalTimeTo}
+	 * @throws MissingParamsException 缺少参数异常
+	 */
+	PassportFcmTotalTimeTo queryUserFcmTotalTime(Long accountId,Long gameId) throws MissingParamsException, SystemException;
 }

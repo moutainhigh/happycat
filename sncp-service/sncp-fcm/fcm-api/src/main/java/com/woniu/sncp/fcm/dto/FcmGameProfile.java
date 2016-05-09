@@ -3,9 +3,9 @@ package com.woniu.sncp.fcm.dto;
 import java.io.Serializable;
 
 /**
- * ·À³ÁÃÔÓÎÏ·ÅäÖÃ
+ * é˜²æ²‰è¿·æ¸¸æˆé…ç½®
  * @author chenyx
- * @date 2016Äê5ÔÂ4ÈÕ
+ * @date 2016å¹´5æœˆ4æ—¥
  */
 public class FcmGameProfile implements Serializable {
 

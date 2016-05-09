@@ -1,4 +1,4 @@
-package com.woniu.sncp.fcm.services;
+package com.woniu.sncp.fcm.service;
 
 import org.junit.Assert;
 import org.junit.Test;
