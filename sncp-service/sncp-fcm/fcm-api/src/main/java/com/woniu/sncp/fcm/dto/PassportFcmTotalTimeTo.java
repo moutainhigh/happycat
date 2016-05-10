@@ -47,6 +47,6 @@ public class PassportFcmTotalTimeTo implements Serializable{
 	}
 	
 	public String toString(){
-		return "PassportFcmTotalTime  identity:"+identity+",gameId:"+gameId+",time:"+time+",leaveTime:"+leaveTime+",lastChange:"+lastChange;
+		return "identity:"+identity+",gameId:"+gameId+",time:"+time+",leaveTime:"+leaveTime+",lastChange:"+lastChange;
 	}
 }
