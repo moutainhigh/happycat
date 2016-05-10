@@ -57,6 +57,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			}
 			
 			//18周岁 s_ispass =2 身份证和名字不为空
+			/*
 			if(FCM_STATUS_AUTH_ING.equals(passport.getIdentityAuthState())
 					&& birthDay.before(fcmDay)
 					&& StringUtils.isNotBlank(passport.getIdentity())
@@ -74,6 +75,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 					){
 				return false;
 			}
+			*/
 		} catch (SystemException e) {
 			log.error(e.getMessage(),e);
 			//TODO: 告警处理
