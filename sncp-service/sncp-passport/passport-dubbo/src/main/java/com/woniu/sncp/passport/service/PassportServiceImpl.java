@@ -75,7 +75,7 @@ public class PassportServiceImpl implements PassportService {
 				throw new PassportHasLockedException("Passport has frozen");
 			}
 			OcpResponseDto responseDto = (OcpResponseDto)responsePassportDto;
-			throw new SystemException("ocp-passport call exception: " + responseDto.toString());
+			throw new SystemException("ocp-passport call exception: " + responseDto.toOcpString());
 		}
 		PassportDto passportDto = dozerBeanMapper.map(responsePassportDto, PassportDto.class);
 		return passportDto;
@@ -105,7 +105,7 @@ public class PassportServiceImpl implements PassportService {
 				throw new PassportNotFoundException("Passport not found!");
 			}
 			OcpResponseDto responseDto = (OcpResponseDto)responsePassportDto;
-			throw new SystemException("ocp-passport call exception: " + responseDto.toString());
+			throw new SystemException("ocp-passport call exception: " + responseDto.toOcpString());
 		}
 		PassportDto passportDto = dozerBeanMapper.map(responsePassportDto, PassportDto.class);
 		return passportDto;
