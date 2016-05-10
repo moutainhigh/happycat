@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.MongoException;
+import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.exception.SystemException;
 import com.woniu.sncp.fcm.dto.FcmGameProfileTo;
 import com.woniu.sncp.fcm.dto.PassportFcmTotalTimeTo;
@@ -39,6 +40,11 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 	@Override
 	public boolean isFcm(Long accountId,Long aoId,Long gameId) throws PassportNotFoundException {
+		if( accountId == null
+				|| aoId == null
+				|| gameId == null){
+			throw new MissingParamsException("accountId or aoId or gameId is null");
+		}
 		
 		try {
 			//检查游戏是否需要防沉迷
@@ -87,6 +93,12 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 	@Override
 	public Long fcmOnlineTime(String identity, Long gameId) {
+		
+		if( StringUtils.isBlank(identity)
+				|| gameId == null){
+			throw new MissingParamsException("identity or gameId is null");
+		}
+		
 		Long onlineTimeSeconds = 0L;
 
 		try{
@@ -155,6 +167,11 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 	@Override
 	public PassportFcmTotalTimeTo queryUserFcmTotalTime(String identity, Long gameId) {
+		if( StringUtils.isBlank(identity)
+				|| gameId == null){
+			throw new MissingParamsException("identity or gameId is null");
+		}
+		
 		PassportFcmTotalTimeTo ppFcmTotalTimeTo = null;
 		try{
 			
@@ -173,6 +190,10 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	}
 
 	public String queryIdentity(Long accountId) throws PassportNotFoundException{
+		if( accountId == null){
+			throw new MissingParamsException("accountId is null");
+		}
+		
 		try{
 			PassportDto passport = passportService.findPassportByAid(accountId);
 			log.info("query identity - accountId:"+accountId+",passport:"+passport);

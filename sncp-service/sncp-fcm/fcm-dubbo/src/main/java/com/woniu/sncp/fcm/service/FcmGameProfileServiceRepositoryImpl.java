@@ -38,13 +38,18 @@ public class FcmGameProfileServiceRepositoryImpl implements FcmGameProfileServic
 
 	@Override
 	public Long delete(Long aoId, Long gameId) {
-
+		if( aoId == null
+				|| gameId == null){
+			throw new MissingParamsException("aoId or gameId is null");
+		}
 		return repository.deleteByAoIdAndGameId(aoId, gameId);
 	}
 
 	@Override
 	public List<FcmGameProfileTo> query(Long aoId) {
-		
+		if( aoId == null){
+			throw new MissingParamsException("aoId is null");
+		}
 		List<FcmGameProfilePo> fcmGameProfilePoList = repository.queryByAoId(aoId);
 		 
 		List<FcmGameProfileTo> fcmGameProfileToList = new ArrayList<FcmGameProfileTo>();
@@ -59,15 +64,18 @@ public class FcmGameProfileServiceRepositoryImpl implements FcmGameProfileServic
 
 	@Override
 	public FcmGameProfileTo query(Long aoId, Long gameId) {
+		if( aoId == null
+				|| gameId == null){
+			throw new MissingParamsException("aoId or gameId is null");
+		}
+		FcmGameProfilePo fcmGameProfilePo = repository.queryByAoIdAndGameId(aoId, gameId);
+		 
+		FcmGameProfileTo fcmGameProfileTo = null;
+		if(fcmGameProfilePo != null){
+			fcmGameProfileTo = new DozerBeanMapper().map(fcmGameProfilePo, FcmGameProfileTo.class);
+		}
 		
-		 FcmGameProfilePo fcmGameProfilePo = repository.queryByAoIdAndGameId(aoId, gameId);
-		 
-		 FcmGameProfileTo fcmGameProfileTo = null;
-		 if(fcmGameProfilePo != null){
-			 fcmGameProfileTo = new DozerBeanMapper().map(fcmGameProfilePo, FcmGameProfileTo.class);
-		 }
-		 
-		 return fcmGameProfileTo;
+		return fcmGameProfileTo;
 	}
 
 }
