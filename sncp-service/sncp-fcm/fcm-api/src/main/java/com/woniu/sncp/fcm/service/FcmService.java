@@ -41,7 +41,7 @@ public interface FcmService {
 	 * @param gameId
 	 * @return 返回在线时长 单位秒
 	 */
-	Long fcmOnlineTime(String identity,Long gameId) throws MissingParamsException,MissingParamsException;
+	Long fcmOnlineTime(String identity,Long gameId) throws MissingParamsException,SystemException;
 	
 	/**
 	 * 根据游戏id和帐号id 查询防沉迷信息
