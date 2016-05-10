@@ -15,6 +15,7 @@
 	<properties>
 		<jdk.version>1.8</jdk.version>
 		<commons.encoding>UTF-8</commons.encoding>
+		<maven.repositories.url>http://mvn.3.com:1860/nexus</maven.repositories.url>
 		<dubbo.version>2.5.3</dubbo.version>
 		<dozer.version>5.5.1</dozer.version>
 		<zkclient.version>0.2</zkclient.version>
@@ -35,8 +36,14 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
 	</dependencies>
+	
+	 <scm>
+        <url>scm:git:ssh://git@3.com/woniu-microservices.git</url>
+        <connection>scm:git:ssh://git@3.com/woniu-microservices.git</connection>
+        <developerConnection>scm:git:ssh://git@3.com/woniu-microservices.git</developerConnection>
+		<tag>HEAD</tag>
+    </scm>
 
 	<build>
 		<plugins>
@@ -66,8 +73,28 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Snapshots</name>
+			<url>${maven.repositories.url}/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+		<repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>${maven.repositories.url}/content/repositories/releases</url>
+		</repository>
+	</distributionManagement>
+
+
 
 
 </project>
