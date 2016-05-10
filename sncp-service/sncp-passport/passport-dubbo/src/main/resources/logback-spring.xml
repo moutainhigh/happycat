@@ -13,7 +13,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/usr/sncp/logs/ms/passport.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<fileNamePattern>./logs/passport.%d{yyyy-MM-dd}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
