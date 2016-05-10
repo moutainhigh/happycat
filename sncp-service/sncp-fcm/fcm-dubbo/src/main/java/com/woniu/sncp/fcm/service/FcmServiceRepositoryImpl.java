@@ -40,11 +40,11 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	@Override
 	public boolean isFcm(Long accountId,Long aoId,Long gameId) throws PassportNotFoundException {
 		
-		//检查游戏是否需要防沉迷
-		FcmGameProfileTo gameProfile = gameProfileService.query(aoId, gameId);
-		if(gameProfile == null) return false;
-		
 		try {
+			//检查游戏是否需要防沉迷
+			FcmGameProfileTo gameProfile = gameProfileService.query(aoId, gameId);
+			if(gameProfile == null) return false;
+			
 			PassportDto passport = passportService.findPassportByAid(accountId);
 			
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
@@ -168,6 +168,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	public String queryIdentity(Long accountId) throws PassportNotFoundException{
 		try{
 			PassportDto passport = passportService.findPassportByAid(accountId);
+			log.info("query identity passport:"+passport);
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
