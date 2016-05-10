@@ -89,7 +89,6 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 		try{
 			PassportFcmTotalTimeTo fcmTotalTimeTo = queryUserFcmTotalTime(identity, gameId);
-			log.info("jpa query fcmTotalTime:"+fcmTotalTimeTo);
 			
 			if(fcmTotalTimeTo == null){
 				fcmTotalTimeTo = new PassportFcmTotalTimeTo();
@@ -104,7 +103,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			
 			Date now = new Date();
 			Long intervalTimeSeconds = (now.getTime()-fcmTotalTimeTo.getLastChange().getTime())/1000;
-			log.info("jpa intervalTimeSeconds:"+intervalTimeSeconds);
+			log.info("fcmOnlineTime - identity:"+identity+",gameId:"+gameId+",intervalTimeSeconds:"+intervalTimeSeconds);
 			
 			fcmTotalTimeTo.setLastChange(now);
 			//离线超过5小时 重新计数在线时间
@@ -113,6 +112,8 @@ public class FcmServiceRepositoryImpl implements FcmService{
 				fcmTotalTimeTo.setTime(0L);
 	
 				repository.save(new DozerBeanMapper().map(fcmTotalTimeTo, PassportFcmTotalTimePo.class));
+				
+				log.info("fcmOnlineTime > 5 hours - identity:"+identity+",gameId:"+gameId+",onlineTimeSeconds:"+onlineTimeSeconds);
 				return onlineTimeSeconds;
 			}
 			
@@ -127,13 +128,16 @@ public class FcmServiceRepositoryImpl implements FcmService{
 				} else {
 					fcmTotalTimeTo.setLeaveTime(reNewLeaveTime);
 				}
+				
+				log.info("fcmOnlineTime > 5 mins - identity:"+identity+",gameId:"+gameId+",fcmTotalTimeTo:"+fcmTotalTimeTo);
 			} else { // 小于等于10分钟
 				Long reNewOnlineTime = 0L;
 				reNewOnlineTime = intervalTimeSeconds + fcmTotalTimeTo.getTime();
 				fcmTotalTimeTo.setTime(reNewOnlineTime);
+				
+				log.info("fcmOnlineTime <= 10 mins - identity:"+identity+",gameId:"+gameId+",fcmTotalTimeTo:"+fcmTotalTimeTo);
 			}
 			
-			log.info("jpa update before:"+fcmTotalTimeTo);
 			repository.save(new DozerBeanMapper().map(fcmTotalTimeTo, PassportFcmTotalTimePo.class));
 			
 			onlineTimeSeconds = fcmTotalTimeTo.getTime();
@@ -143,6 +147,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			//TODO: 告警处理
 		}
 		
+		log.info("fcmOnlineTime finished - identity:"+identity+",gameId:"+gameId+",onlineTimeSeconds:"+onlineTimeSeconds);
 		return onlineTimeSeconds;
 	}
 
@@ -161,14 +166,14 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			return null;
 		}
 		
-		log.info("jpa query fcm total time:"+ppFcmTotalTimeTo);
+		log.info("jpa query fcm total time - identity:"+identity+",gameId:"+gameId+",result:"+ppFcmTotalTimeTo);
 		return ppFcmTotalTimeTo;
 	}
 
 	public String queryIdentity(Long accountId) throws PassportNotFoundException{
 		try{
 			PassportDto passport = passportService.findPassportByAid(accountId);
-			log.info("query identity passport:"+passport);
+			log.info("query identity - accountId:"+accountId+",passport:"+passport);
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
@@ -177,12 +182,14 @@ public class FcmServiceRepositoryImpl implements FcmService{
 				return passport.getId() + "";
 			}
 			
+			log.info("query identity - accountId:"+accountId+",result:"+passport.getIdentity());
 			return passport.getIdentity();
 		} catch (SystemException e) {
 			log.error(e.getMessage(),e);
 			//TODO: 告警处理
 		}
 		
+		log.info("query identity - accountId:"+accountId+",result:"+accountId);
 		return accountId+"";
 	}
 }
