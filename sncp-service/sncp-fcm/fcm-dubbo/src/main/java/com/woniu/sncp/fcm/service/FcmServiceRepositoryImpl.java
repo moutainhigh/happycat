@@ -39,7 +39,9 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	@Autowired PassportService passportService;
 
 	@Override
-	public boolean isFcm(Long accountId,Long aoId,Long gameId) throws PassportNotFoundException {
+	public boolean isFcm(Long accountId,Long aoId,Long gameId,boolean validateThreeCondition) throws PassportNotFoundException {
+		log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition);
+		
 		if( accountId == null
 				|| aoId == null
 				|| gameId == null){
@@ -63,8 +65,8 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			}
 			
 			//18周岁 s_ispass =2 身份证和名字不为空
-			/*
-			if(FCM_STATUS_AUTH_ING.equals(passport.getIdentityAuthState())
+			if(validateThreeCondition
+					&& FCM_STATUS_AUTH_ING.equals(passport.getIdentityAuthState())
 					&& birthDay.before(fcmDay)
 					&& StringUtils.isNotBlank(passport.getIdentity())
 					&& StringUtils.isNotBlank(passport.getName())
@@ -75,13 +77,14 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			//3天内注册 且身份证和名字为空
 			Date registerDay = passport.getCreateDate();
 			Date registerNotLimitDay = DateUtils.addYears(new Date(), -3);
-			if(registerDay.after(registerNotLimitDay)
+			if(validateThreeCondition
+					&& registerDay.after(registerNotLimitDay)
 					&& StringUtils.isBlank(passport.getIdentity())
 					&& StringUtils.isBlank(passport.getName())
 					){
 				return false;
 			}
-			*/
+			
 		} catch (SystemException e) {
 			log.error(e.getMessage(),e);
 			//TODO: 告警处理
