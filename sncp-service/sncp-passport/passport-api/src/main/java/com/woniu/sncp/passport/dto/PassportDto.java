@@ -6,7 +6,8 @@ import java.util.Date;
 /**
  * 帐号返回参数
  * @author chenyx
- * @date 2016年5月4日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 public class PassportDto implements Serializable {
 

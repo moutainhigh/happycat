@@ -10,14 +10,15 @@ import com.woniu.sncp.passport.exception.PassportNotFoundException;
  * 帐号相关服务接口
  * 
  * @author chenyx
- * @date 2016年5月4日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 public interface PassportService {
 
 	/**
 	 * 根据帐号或者别名查询帐号信息
 	 * 
-	 * @param passportOrAliase
+	 * @param passportOrAliase 蜗牛通行证或者蜗牛虚商手机号
 	 * @return 帐号信息{@link com.woniu.sncp.passport.dto.PassportDto}
 	 * @throws PassportNotFoundException
 	 *             帐号未找到
@@ -36,8 +37,6 @@ public interface PassportService {
 	 * @param aid 帐号ID
 	 * @return 帐号信息{@link com.woniu.sncp.passport.dto.PassportDto}
 	 * @throws PassportNotFoundException 帐号未找到
-	 * @throws PassportHasFrozenException 帐号被冻结
-	 * @throws PassportHasLockedException 帐号被锁定
 	 * @throws SystemException  系统异常
 	 */
 	public PassportDto findPassportByAid(Long aid)
