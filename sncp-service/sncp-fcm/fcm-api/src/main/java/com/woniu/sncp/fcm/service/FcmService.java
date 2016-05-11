@@ -24,12 +24,16 @@ public interface FcmService {
 	 * @param accountId 蜗牛通行证Id
 	 * @param aoId 运营商Id
 	 * @param gameId 游戏Id
+	 * @param validThreeCondition 
+	 * 				true 18周岁 已审核，审核中和3天内注册 不防沉迷
+	 * 				false 仅 18周岁 已审核 不防沉迷
+	 * 
 	 * @return true:需要防沉迷，false:不需要防沉迷
 	 * @throws MissingParamsException 参数缺少异常 
 	 * @throws PassportNotFoundException 帐号未找到
 	 * 
 	 */
-	boolean isFcm(Long accountId,Long aoId,Long gameId) throws MissingParamsException, PassportNotFoundException;
+	boolean isFcm(Long accountId,Long aoId,Long gameId,boolean validateThreeCondition) throws MissingParamsException, PassportNotFoundException;
 	
 	/**
 	 * 根据帐号id查询 防沉迷唯一标识
@@ -51,8 +55,7 @@ public interface FcmService {
 	 * @return 返回在线时长 单位秒
 	 * @throws MissingParamsException 参数缺少异常
 	 */
-	Long fcmOnlineTime(String identity,Long gameId) throws MissingParamsException;
-	
+	Long fcmOnlineTime(String identity,Long gameId) throws MissingParamsException,SystemException;	
 	/**
 	 * 根据游戏id和帐号id 查询防沉迷信息
 	 * 

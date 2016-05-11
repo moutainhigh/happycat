@@ -22,6 +22,12 @@ public class FcmServiceRepositoryImplTest {
 	
 	@Autowired FcmService fcmService;
 	
+	@Test public void testIsFcm() throws MissingParamsException, PassportNotFoundException{
+		boolean fcm = fcmService.isFcm(180812L, 7L, 10L, true);
+		log.info("fcm result:"+fcm);
+		Assert.assertEquals(false, fcm);
+	}
+	
 	@Test public void testQueryIdentity(){
 		try {
 			String identity = fcmService.queryIdentity(180812L);
@@ -39,7 +45,7 @@ public class FcmServiceRepositoryImplTest {
 			String identity = fcmService.queryIdentity(180812L);
 
         	Long queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
-        	System.out.println("test queryFcmTime:"+queryFcmTime);
+        	log.info("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
 	        	
 		} catch (MissingParamsException e) {
@@ -53,7 +59,7 @@ public class FcmServiceRepositoryImplTest {
 		try {
 			String identity = fcmService.queryIdentity(180812L);
 			PassportFcmTotalTimeTo userFcmTotalTimeTo = fcmService.queryUserFcmTotalTime(identity, 10L);
-			System.out.println("test userFcmTotalTimeTo:"+userFcmTotalTimeTo);
+			log.info("test userFcmTotalTimeTo:"+userFcmTotalTimeTo);
 			Assert.assertNotNull(userFcmTotalTimeTo);
 		} catch (MissingParamsException e) {
 			log.error("testQueryFcmTime 缺少参数");
