@@ -151,7 +151,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 					fcmTotalTimeTo.setLeaveTime(reNewLeaveTime);
 				}
 				
-				log.info("fcmOnlineTime > 5 mins - identity:"+identity+",gameId:"+gameId+",fcmTotalTimeTo:"+fcmTotalTimeTo);
+				log.info("fcmOnlineTime > 10 mins - identity:"+identity+",gameId:"+gameId+",fcmTotalTimeTo:"+fcmTotalTimeTo);
 			} else { // 小于等于10分钟
 				Long reNewOnlineTime = 0L;
 				reNewOnlineTime = intervalTimeSeconds + fcmTotalTimeTo.getTime();
