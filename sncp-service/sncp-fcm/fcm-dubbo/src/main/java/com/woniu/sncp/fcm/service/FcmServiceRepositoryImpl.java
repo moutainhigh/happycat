@@ -11,8 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mongodb.MongoException;
+import com.woniu.sncp.alarm.dto.AlarmMessageTo;
+import com.woniu.sncp.alarm.service.AlarmMessageService;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.exception.SystemException;
+import com.woniu.sncp.fcm.config.AlarmPropertiesConfig;
 import com.woniu.sncp.fcm.dto.FcmGameProfileTo;
 import com.woniu.sncp.fcm.dto.PassportFcmTotalTimeTo;
 import com.woniu.sncp.fcm.mongo.PassportFcmTotalTimePo;
@@ -37,6 +40,8 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	@Autowired PassportFcmTotalTimeRepository repository;
 	@Autowired FcmGameProfileServiceRepositoryImpl gameProfileService;
 	@Autowired PassportService passportService;
+	@Autowired AlarmMessageService alarmMessageService;
+	@Autowired AlarmPropertiesConfig alarmConfig;
 
 	@Override
 	public boolean isFcm(Long accountId,Long aoId,Long gameId,boolean validateThreeCondition) throws PassportNotFoundException {
@@ -87,7 +92,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			
 		} catch (SystemException e) {
 			log.error(e.getMessage(),e);
-			//TODO: 告警处理
+			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷判断异常[已降级处理]，"+e.getMessage()));
 			return false;//系统异常降级处理 
 		}
 		
@@ -161,7 +166,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 		
 		} catch (SystemException e){//系统异常降级处理 
 			log.error(e.getMessage(),e);
-			//TODO: 告警处理
+			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷计时异常[已降级处理]，"+e.getMessage()));
 		}
 		
 		log.info("fcmOnlineTime finished - identity:"+identity+",gameId:"+gameId+",onlineTimeSeconds:"+onlineTimeSeconds);
@@ -185,6 +190,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 				ppFcmTotalTimeTo =  dozerBeanMapper.map(find.get(0), PassportFcmTotalTimeTo.class);
 			}
 		} catch (MongoException e){
+			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "Mongo库异常，"+e.getMessage()));
 			return null;
 		}
 		
@@ -212,7 +218,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			return passport.getIdentity();
 		} catch (SystemException e) {
 			log.error(e.getMessage(),e);
-			//TODO: 告警处理
+			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷唯一标识查询异常[已降级处理]，"+e.getMessage()));
 		}
 		
 		log.info("query identity - accountId:"+accountId+",result:"+accountId);

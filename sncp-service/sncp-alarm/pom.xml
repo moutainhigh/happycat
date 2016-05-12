@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>sncp-alarm</artifactId>
+	<packaging>pom</packaging>
+	
+	<parent>
+		<groupId>com.woniu.sncp</groupId>
+		<artifactId>sncp-service</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<modules>
+		<module>alarm-api</module>
+		<module>alarm-dubbo</module>
+	</modules>
+		
+	<dependencies>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>sncp-exception</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+	
+</project>
