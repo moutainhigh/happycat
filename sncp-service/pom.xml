@@ -26,6 +26,7 @@
 	<modules>
 		<module>sncp-fcm</module>
 		<module>sncp-passport</module>
+		<module>sncp-alarm</module>
 		<module>sncp-exception</module>
 	</modules>
 

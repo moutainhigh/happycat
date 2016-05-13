@@ -16,11 +16,8 @@ import com.mongodb.WriteConcern;
 @EnableMongoRepositories(basePackages="com.woniu.sncp.fcm.mongo.repository")
 public class MongoConfig {
 	
-	@Value("${mongodb.ip}")
-	private String mongodbIp;//ip
-	
-	@Value("${mongodb.port}")
-	private int mongodbPort;//端口
+	@Value("${mongodb.url}")
+	private String mongodbUrl;//mongodb url 支持多个ip:port,ip:port
 	
 	@Value("${mongodb.collectionName}")
 	private String collectionName;//表名
@@ -38,8 +35,13 @@ public class MongoConfig {
 	private int connectionsPerHost;//连接数
 	
 	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
-		
-		String strUri = String.format("mongodb://%s:%d/%s", mongodbIp, mongodbPort, collectionName);
+		String strUri = "";
+		if(userName == null || "".equals(userName)
+				|| userPassword == null || "".equals(userPassword)){
+			strUri = String.format("mongodb://%s/%s", mongodbUrl, collectionName);
+		} else {
+			strUri = String.format("mongodb://%s:%s@%s/%s", userName, userPassword, mongodbUrl, collectionName);
+		}
 		WriteConcern writeConcern = WriteConcern.JOURNAL_SAFE;
 		MongoClientOptions.Builder  builder= MongoClientOptions
 												.builder()
@@ -47,7 +49,7 @@ public class MongoConfig {
 												.connectionsPerHost(connectionsPerHost)
 												.writeConcern(writeConcern);
 		MongoClientURI mongoUri = new MongoClientURI(strUri,builder);
-
+		
 		return new SimpleMongoDbFactory(mongoUri);
 	}
 
@@ -56,6 +58,5 @@ public class MongoConfig {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
 				
 		return mongoTemplate;
-		
 	}
 }

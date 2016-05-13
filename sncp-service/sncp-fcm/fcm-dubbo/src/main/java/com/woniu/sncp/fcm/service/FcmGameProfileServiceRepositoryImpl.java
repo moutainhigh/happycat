@@ -2,6 +2,7 @@ package com.woniu.sncp.fcm.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
@@ -52,12 +53,10 @@ public class FcmGameProfileServiceRepositoryImpl implements FcmGameProfileServic
 		}
 		List<FcmGameProfilePo> fcmGameProfilePoList = repository.queryByAoId(aoId);
 		 
-		List<FcmGameProfileTo> fcmGameProfileToList = new ArrayList<FcmGameProfileTo>();
-		if(fcmGameProfilePoList != null && !fcmGameProfilePoList.isEmpty()){
-			for (FcmGameProfilePo po : fcmGameProfilePoList) {
-				fcmGameProfileToList.add(new DozerBeanMapper().map(po, FcmGameProfileTo.class));
-			}
-		}
+		List<FcmGameProfileTo> fcmGameProfileToList = fcmGameProfilePoList
+														.stream()
+														.map(o -> new DozerBeanMapper().map(o, FcmGameProfileTo.class))
+														.collect(Collectors.toList());
 		 
 		return fcmGameProfileToList;
 	}

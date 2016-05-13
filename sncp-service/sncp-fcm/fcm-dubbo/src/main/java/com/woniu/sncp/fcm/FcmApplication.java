@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ImportResource;
  */
 @SpringBootApplication
 @ImportResource({"classpath*:META-INF/spring/dubbo-fcm-provider.xml",
-	"classpath*:META-INF/spring/dubbo-passport-consumer.xml"})
+	"classpath*:META-INF/spring/dubbo-consumer.xml"})
 public class FcmApplication {
 	
 	public static void main(String[] args) {
