@@ -19,21 +19,21 @@ public class FcmGameProfileRepositoryImplTest {
 	@Autowired FcmGameProfileServiceRepositoryImpl service;
 	
 	@Test
-	public void testSave(){
+	public void testSave() {
 		FcmGameProfileTo to = new FcmGameProfileTo();
-		to.setAoId(-123456L);
+		to.setAoId(-125456L);
 		to.setGameId(10L);
 		service.save(to);
 		
-		FcmGameProfileTo query = service.query(-123456L, 10L);
+		FcmGameProfileTo query = service.query(-125456L, 10L);
 		Assert.assertNotNull(query);
 		
-		List<FcmGameProfileTo> query2 = service.query(-123456L);
+		List<FcmGameProfileTo> query2 = service.query(-125456L);
 		Assert.assertEquals(true, query2.size()>=1);
 		
-		service.delete(-123456L, 10L);
+		service.delete(-125456L, 10L);
 		
-		query = service.query(-123456L, 10L);
+		query = service.query(-125456L, 10L);
 		Assert.assertNull(query);
 	}
 	

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd
+			http://www.springframework.org/schema/integration
+			http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+			http://www.springframework.org/schema/task 
+			http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<int:channel id="mongoRequestChannel" />
+	
+	<task:executor id="mongoPool" pool-size="2"
+		queue-capacity="2" keep-alive="120" />
+
+	<int:inbound-channel-adapter expression="'-24'"
+		channel="mongoRequestChannel">
+		<int:poller cron="0 0 2-3 * * *" task-executor="mongoPool" />
+	</int:inbound-channel-adapter>
+
+	<int:service-activator input-channel="mongoRequestChannel"
+		ref="fmcScheduleActivator" method="cleanFcmOnlineTime" requires-reply="false" />
+
+
+</beans>
