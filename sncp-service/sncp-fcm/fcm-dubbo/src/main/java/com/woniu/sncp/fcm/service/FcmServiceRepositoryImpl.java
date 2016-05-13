@@ -135,7 +135,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 	
 				repository.save(new DozerBeanMapper().map(fcmTotalTimeTo, PassportFcmTotalTimePo.class));
 				
-				log.info("fcmOnlineTime > 5 hours - identity:"+identity+",gameId:"+gameId+",onlineTimeSeconds:"+onlineTimeSeconds);
+				log.info("fcmOnlineTime > 5 hours - _id:"+fcmTotalTimeTo.getId()+"identity:"+identity+",gameId:"+gameId+",onlineTimeSeconds:"+onlineTimeSeconds);
 				return onlineTimeSeconds;
 			}
 			

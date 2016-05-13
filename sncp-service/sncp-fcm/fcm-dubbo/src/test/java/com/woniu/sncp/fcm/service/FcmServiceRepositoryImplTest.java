@@ -1,5 +1,7 @@
 package com.woniu.sncp.fcm.service;
 
+import java.util.stream.Stream;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,9 +44,21 @@ public class FcmServiceRepositoryImplTest {
 	
 	@Test public void testQueryFcmTime() {
 		try {
-			String identity = fcmService.queryIdentity(180812L);
+			String identity = fcmService.queryIdentity(180859L);//180858 180812 180859
 
         	Long queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
+        	log.info("test queryFcmTime:"+queryFcmTime);
+        	Assert.assertNotNull(queryFcmTime);
+        	
+        	identity = fcmService.queryIdentity(180812L);//180858 180812 180859
+
+        	queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
+        	log.info("test queryFcmTime:"+queryFcmTime);
+        	Assert.assertNotNull(queryFcmTime);
+        	
+        	identity = fcmService.queryIdentity(180858L);//180858 180812 180859
+
+        	queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
         	log.info("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
 	        	
@@ -68,4 +82,7 @@ public class FcmServiceRepositoryImplTest {
 		}
 	}
 	
+	@Test public void testDeleteUserFcmTotalTime(){
+		
+	}
 }

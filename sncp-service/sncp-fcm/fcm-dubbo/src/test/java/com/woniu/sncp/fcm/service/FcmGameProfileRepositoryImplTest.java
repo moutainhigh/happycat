@@ -20,15 +20,18 @@ public class FcmGameProfileRepositoryImplTest {
 	
 	public @Test void testSave(){
 		FcmGameProfileTo to = new FcmGameProfileTo();
+		
+		service.delete(-123456L, 10L);
+		
 		to.setAoId(-123456L);
 		to.setGameId(10L);
 		service.save(to);
 		
-		FcmGameProfileTo query = service.query(-1233456L, 10L);
+		FcmGameProfileTo query = service.query(-123456L, 10L);
 		Assert.assertNotNull(query);
 		
 		List<FcmGameProfileTo> query2 = service.query(-123456L);
-		Assert.assertEquals(true, query2.size()>=1);
+		Assert.assertEquals(true, query2.stream().anyMatch(p->p.getAoId() == -123456L));
 		
 		service.delete(-123456L, 10L);
 		
