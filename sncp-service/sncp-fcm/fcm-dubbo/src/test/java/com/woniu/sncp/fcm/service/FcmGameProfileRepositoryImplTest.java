@@ -43,4 +43,11 @@ public class FcmGameProfileRepositoryImplTest {
 		List<FcmGameProfileTo> query = service.query(-123456L);
 		Assert.assertNotNull(query);
 	}
+	
+	public @Test void testBatchSave(){
+		FcmGameProfileTo to = new FcmGameProfileTo();
+		to.setAoId(7L);
+		to.setGameId(10L);
+		service.save(to);
+	}
 }

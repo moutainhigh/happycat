@@ -224,4 +224,9 @@ public class FcmServiceRepositoryImpl implements FcmService{
 		log.info("query identity - accountId:"+accountId+",result:"+accountId);
 		return accountId+"";
 	}
+
+	@Override
+	public void save(PassportFcmTotalTimeTo passportFcmTotalTimeTo) throws MissingParamsException, SystemException {
+		repository.save(new DozerBeanMapper().map(passportFcmTotalTimeTo, PassportFcmTotalTimePo.class));
+	}
 }
