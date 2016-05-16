@@ -65,4 +65,13 @@ public interface FcmService {
 	 * @throws SystemException 系统异常
 	 */
 	PassportFcmTotalTimeTo queryUserFcmTotalTime(String identity,Long gameId) throws MissingParamsException, SystemException;
+	
+	/**
+	 * 更新防沉迷帐号统计数据
+	 * 
+	 * @param passportFcmTotalTimeTo
+	 * @throws MissingParamsException
+	 * @throws SystemException
+	 */
+	void save(PassportFcmTotalTimeTo passportFcmTotalTimeTo) throws MissingParamsException, SystemException;
 }

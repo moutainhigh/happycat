@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-	<dubbo:application name="service-dubbo-monitor" />
+	<dubbo:application name="service-dubbo-alarm" />
 	<!-- 使用multicast广播注册中心暴露服务地址 -->
 	<dubbo:registry address="${dubbo.zookeeper}" />
 	<!-- 用dubbo协议在20002端口暴露服务 -->

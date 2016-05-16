@@ -13,13 +13,21 @@ public class PassportFcmTotalTimeTo implements Serializable{
 	
 	
 	private static final long serialVersionUID = 7746452028165460285L;
-
+	
+	//mongodb 主键 无实际意义
+	private String id;
 	private String identity;
 	private Long gameId;
 	private Long time;
 	private Long leaveTime;
 	private Date lastChange;
 
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	/**
 	 * @return 身份证
 	 */

@@ -16,7 +16,7 @@ public class PassportFcmTotalTimePo implements Serializable{
 	private static final long serialVersionUID = 7746452028165460285L;
 	
 	@Id
-	private ObjectId id;
+	private String id;
 	@Field("S_IDENTITY")
 	private String identity;
 	@Field("N_GAME_ID")
@@ -28,10 +28,10 @@ public class PassportFcmTotalTimePo implements Serializable{
 	@Field("D_LAST_CHANGE")
 	private Date lastChange;
 	
-	public ObjectId getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(ObjectId id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getIdentity() {
