@@ -37,7 +37,7 @@ public class FcmGameProfileRepositoryImplTest {
 		
 		query = service.query(-123456L, 10L);
 		Assert.assertNull(query);
-	}
+	} 
 	
 	public @Test void testQuery(){
 		List<FcmGameProfileTo> query = service.query(-123456L);

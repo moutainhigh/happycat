@@ -19,3 +19,4 @@ target
 *.iml
 *.ipr
 *.iws
+/sncp-service/sncp-fcm/fcm-schedule/*.classpath
