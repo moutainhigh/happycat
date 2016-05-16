@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -25,12 +27,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2016年5月5日
  */
 @Configuration
+@RibbonClient(name = "passports")
 public class OcpPassportRemoteConfig {
 	
 	@Autowired
 	private OcpPassportProfile ocpPassportProfile;
 	
 	@Bean
+	@LoadBalanced
 	public RestTemplate restTemplate() {
 		RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
 		restTemplate.setMessageConverters(messageConverterList());

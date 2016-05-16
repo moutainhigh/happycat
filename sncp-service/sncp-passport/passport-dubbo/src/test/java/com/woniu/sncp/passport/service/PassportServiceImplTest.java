@@ -2,10 +2,14 @@ package com.woniu.sncp.passport.service;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.woniu.sncp.passport.PassportApplication;
@@ -20,6 +24,9 @@ public class PassportServiceImplTest {
 	
 	@Autowired
 	private PassportService passportService;
+	
+	@Autowired
+    private LoadBalancerClient loadBalancer;
 
 	@Test
 	public void testFindPassportByAccountOrAliase() {
@@ -42,5 +49,12 @@ public class PassportServiceImplTest {
 		}
 		assertNotNull(passportDto);
 	}
+	
+	@Test
+	public void doStuff() {
+        ServiceInstance instance = loadBalancer.choose("passports");
+        URI storesUri = URI.create(String.format("http://%s:%s", instance.getHost(), instance.getPort()));
+        System.out.println(storesUri);
+    }
 
 }
