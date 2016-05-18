@@ -43,7 +43,9 @@ public class FcmGameProfileServiceRepositoryImpl implements FcmGameProfileServic
 				|| gameId == null){
 			throw new MissingParamsException("aoId or gameId is null");
 		}
-		return repository.deleteByAoIdAndGameId(aoId, gameId);
+		Long result = repository.deleteByAoIdAndGameId(aoId, gameId);
+		log.info("delete game profile - aoId:"+aoId+",gameId:"+gameId+",result:"+result); 
+		return result;
 	}
 
 	@Override
