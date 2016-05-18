@@ -11,7 +11,7 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用passportService -->
-	<dubbo:reference id="passportService" interface="com.woniu.sncp.passport.service.PassportService" client="netty" version="1.0.0"/>
+	<dubbo:reference id="passportService" interface="com.woniu.sncp.passport.service.PassportService" client="netty" version="1.0.0" check="false"/>
 	
 	<dubbo:reference id="alarmMessageService" interface="com.woniu.sncp.alarm.service.AlarmMessageService" client="netty" version="1.0.0" check="false"/>
 </beans>
