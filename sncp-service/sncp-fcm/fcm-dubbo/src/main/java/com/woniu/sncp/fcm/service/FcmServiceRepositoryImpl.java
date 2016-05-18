@@ -55,7 +55,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 		
 		try {
 			//检查游戏是否需要防沉迷
-			FcmGameProfileTo gameProfile = gameProfileService.query(aoId, gameId);
+			FcmGameProfileTo gameProfile = gameProfileService.query(aoId, -gameId);//配置表游戏为负数时防沉迷
 			if(gameProfile == null) return false;
 			
 			PassportDto passport = passportService.findPassportByAid(accountId);
