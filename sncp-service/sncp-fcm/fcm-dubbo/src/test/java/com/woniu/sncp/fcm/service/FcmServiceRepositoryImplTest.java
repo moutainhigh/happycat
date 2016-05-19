@@ -25,7 +25,7 @@ public class FcmServiceRepositoryImplTest {
 	@Autowired FcmService fcmService;
 	
 	@Test public void testIsFcm() throws MissingParamsException, PassportNotFoundException{
-		boolean fcm = fcmService.isFcm(180812L, 7L, 10L, true);
+		boolean fcm = fcmService.isFcm(1502542997L, 7L, 54L, true);
 		log.info("fcm result:"+fcm);
 		Assert.assertEquals(false, fcm);
 	}

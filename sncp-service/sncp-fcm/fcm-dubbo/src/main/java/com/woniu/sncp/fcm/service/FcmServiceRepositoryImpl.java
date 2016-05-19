@@ -59,7 +59,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			if(gameProfile == null) return false;
 			
 			PassportDto passport = passportService.findPassportByAid(accountId);
-			
+			log.info("is fcm - "+passport);
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
@@ -83,7 +83,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			
 			//3天内注册 且身份证和名字为空
 			Date registerDay = passport.getCreateDate();
-			Date registerNotLimitDay = DateUtils.addYears(new Date(), -3);
+			Date registerNotLimitDay = DateUtils.addDays(new Date(), -3);
 			if(validateThreeCondition
 					&& registerDay.after(registerNotLimitDay)
 					&& StringUtils.isBlank(passport.getIdentity())
@@ -92,7 +92,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 				return false;
 			}
 			
-		} catch (SystemException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷判断异常[已降级处理]，"+e.getMessage()));
 			return false;//系统异常降级处理 
@@ -166,7 +166,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			
 			onlineTimeSeconds = fcmTotalTimeTo.getTime();
 		
-		} catch (SystemException e){//系统异常降级处理 
+		} catch (Exception e){//系统异常降级处理 
 			log.error(e.getMessage(),e);
 			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷计时异常[已降级处理]，"+e.getMessage()));
 		}
