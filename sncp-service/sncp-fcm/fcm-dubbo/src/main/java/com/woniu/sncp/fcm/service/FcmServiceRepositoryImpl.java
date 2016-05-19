@@ -106,7 +106,8 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 	@Override
 	public Long fcmOnlineTime(String identity, Long gameId) {
-		
+		log.info("fcmOnlineTime - identity:"+identity+",gameId:"+gameId);
+
 		if( StringUtils.isBlank(identity)
 				|| gameId == null){
 			throw new MissingParamsException("identity or gameId is null");

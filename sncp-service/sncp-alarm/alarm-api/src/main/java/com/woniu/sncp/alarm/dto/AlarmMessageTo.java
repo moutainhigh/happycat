@@ -1,12 +1,19 @@
 package com.woniu.sncp.alarm.dto;
 
+import java.io.Serializable;
+
 /**
  * 告警对象
  * @author luzz
  *
  */
-public class AlarmMessageTo {
+public class AlarmMessageTo implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3756098010967356541L;
+
 	public AlarmMessageTo(String src,String content){
 		this.src = src;
 		this.content = content;

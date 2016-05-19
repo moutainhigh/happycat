@@ -44,21 +44,23 @@ public class FcmServiceRepositoryImplTest {
 	
 	@Test public void testQueryFcmTime() {
 		try {
-			String identity = fcmService.queryIdentity(180859L);//180858 180812 180859
+			Long aid = 1502542997L;
+			Long gameId = 54L;
+			String identity = fcmService.queryIdentity(aid);//180858 180812 180859
 
-        	Long queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
+        	Long queryFcmTime = fcmService.fcmOnlineTime(identity, gameId);
         	log.info("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
         	
-        	identity = fcmService.queryIdentity(180812L);//180858 180812 180859
+        	identity = fcmService.queryIdentity(aid);//180858 180812 180859
 
-        	queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
+        	queryFcmTime = fcmService.fcmOnlineTime(identity, gameId);
         	log.info("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
         	
-        	identity = fcmService.queryIdentity(180858L);//180858 180812 180859
+        	identity = fcmService.queryIdentity(aid);//180858 180812 180859
 
-        	queryFcmTime = fcmService.fcmOnlineTime(identity, 10L);
+        	queryFcmTime = fcmService.fcmOnlineTime(identity, gameId);
         	log.info("test queryFcmTime:"+queryFcmTime);
         	Assert.assertNotNull(queryFcmTime);
 	        	
