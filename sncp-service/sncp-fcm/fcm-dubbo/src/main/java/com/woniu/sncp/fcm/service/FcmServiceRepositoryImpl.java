@@ -56,10 +56,13 @@ public class FcmServiceRepositoryImpl implements FcmService{
 		try {
 			//检查游戏是否需要防沉迷
 			FcmGameProfileTo gameProfile = gameProfileService.query(aoId, -gameId);//配置表游戏为负数时防沉迷
-			if(gameProfile == null) return false;
+			if(gameProfile == null) {
+				log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition+" - gameProfile is null");
+				return false;
+			}
 			
 			PassportDto passport = passportService.findPassportByAid(accountId);
-			log.info("is fcm - "+passport);
+			log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition+" - "+passport);
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
@@ -211,14 +214,14 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
-			if(birthDay.before(fcmDay)
+			if((birthDay != null && birthDay.before(fcmDay))
 					|| StringUtils.isBlank(passport.getIdentity())){
 				return passport.getId() + "";
 			}
 			
 			log.info("query identity - accountId:"+accountId+",result:"+passport.getIdentity());
 			return passport.getIdentity();
-		} catch (SystemException e) {
+		} catch (Exception e) {
 			log.error(e.getMessage(),e);
 			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷唯一标识查询异常[已降级处理]，"+e.getMessage()));
 		}
