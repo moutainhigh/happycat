@@ -28,6 +28,7 @@
 		<module>sncp-passport</module>
 		<module>sncp-alarm</module>
 		<module>sncp-exception</module>
+		<module>sncp-cloud-config</module>
 	</modules>
 
 	<dependencies>
