@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.woniu.cbss</groupId>
+	<artifactId>cbss.core.parent</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<name>${project.artifactId}</name>
+	<url>http://maven.apache.org</url>
+	<modules>
+		<module>cbss.util/trunk</module>
+		<module>cbss.trace/trunk</module>
+		<module>cbss.validation/trunk</module>
+		<module>cbss.signature/trunk</module>
+		<module>cbss.model/trunk</module>
+		<module>cbss.errorcode/trunk</module>
+		<module>cbss.call/trunk</module>
+		<module>cbss.repository/trunk</module>
+		<module>cbss.authorize/trunk</module>
+	</modules>
+</project>
