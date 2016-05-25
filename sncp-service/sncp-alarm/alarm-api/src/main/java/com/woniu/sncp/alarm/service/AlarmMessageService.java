@@ -13,7 +13,7 @@ public interface AlarmMessageService {
 	/**
 	 * 告警消息异步发送
 	 * 
-	 * @param monitorMessage {@link com.woniu.sncp.monitor.dto.AlarmMessageTo}
+	 * @param alarmMessage {@link com.woniu.sncp.alarm.dto.AlarmMessageTo}
 	 */
 	void sendMessage(AlarmMessageTo alarmMessage);
 }
