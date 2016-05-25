@@ -9,7 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 /**
  * mongoDB对象
  * @author chenyx
- * @date 2016年5月4日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 @Document(collection = "pp_aoperator_games")
 public class FcmGameProfilePo implements Serializable {

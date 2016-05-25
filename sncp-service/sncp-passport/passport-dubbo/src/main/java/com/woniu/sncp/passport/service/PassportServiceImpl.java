@@ -25,7 +25,8 @@ import com.woniu.sncp.passport.exception.PassportNotFoundException;
 /**
  * 帐号相关接口实现
  * @author chenyx
- * @date 2016年5月4日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 public class PassportServiceImpl implements PassportService {
 	

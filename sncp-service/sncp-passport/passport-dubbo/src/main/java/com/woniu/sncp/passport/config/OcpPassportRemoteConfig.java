@@ -24,7 +24,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Ocp-Passport远程调用配置
  * @author chenyx
- * @date 2016年5月5日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 @Configuration
 @RibbonClient(name = "passports")
