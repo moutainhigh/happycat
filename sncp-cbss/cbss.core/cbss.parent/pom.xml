@@ -15,17 +15,6 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.3.5.RELEASE</version>
 	</parent>
-	<modules>
-		<module>../cbss.util/trunk</module>
-		<module>../cbss.trace/trunk</module>
-		<module>../cbss.validation/trunk</module>
-		<module>../cbss.signature/trunk</module>
-		<module>../cbss.model/trunk</module>
-		<module>../cbss.errorcode/trunk</module>
-		<module>../cbss.call/trunk</module>
-		<module>../cbss.repository/trunk</module>
-		<module>../cbss.authorize/trunk</module>
-	</modules>
 
 	<properties>
 
