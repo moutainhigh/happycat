@@ -3,7 +3,8 @@ package com.woniu.sncp.exception;
 /**
  * 缺少参数异常
  * @author chenyx
- * @date 2016年5月6日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 public class MissingParamsException extends RuntimeException {
 
