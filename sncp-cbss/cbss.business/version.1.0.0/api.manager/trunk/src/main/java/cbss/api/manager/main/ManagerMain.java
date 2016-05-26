@@ -14,7 +14,6 @@ import de.codecentric.boot.admin.config.EnableAdminServer;
 public class ManagerMain {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(ManagerMain.class);
-		application.addListeners(new ExceptionEventListener());
 		application.run(args);
 	}
 

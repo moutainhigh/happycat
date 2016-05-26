@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration>
+<configuration debug="false" scan="true" scanPeriod="30 minutes">
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator />
+
+	<substitutionProperty name="log.base"
+		value="/usr/sncp/logs/micro/manager" />
 
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoder 默认配置为PatternLayoutEncoder -->
@@ -14,20 +19,49 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/fcm.%d{yyyy-MM-dd}.${server.port}.log
+			<fileNamePattern>${log.base}/${server.port}/%d{yyyy-MM-dd}.${PID}.log
 			</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+				%msg%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<root level="INFO">
+	<appender name="TRACE_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.base}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="cbss.core.trace.aspect.listener" level="TRACE">
+		<appender-ref ref="TRACE_LOG" />
+	</logger>
+
+	<logger name="cbss.api.fcm.aspectj">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="cbss.api.fcm.main">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="cbss.core">
+		<level value="DEBUG" />
+	</logger>
+	<root>
+		<level value="info" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>
-
 </configuration>  
