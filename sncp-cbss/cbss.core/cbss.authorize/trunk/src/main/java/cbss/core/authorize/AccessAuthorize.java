@@ -28,8 +28,8 @@ import cbss.core.model.constant.NameFactory;
 import cbss.core.model.request.access.RequestAccess;
 import cbss.core.repository.redis.RedisService;
 import cbss.core.signature.md5.MD5Encrypt;
-import cbss.core.trace.LogFormat;
-import cbss.core.trace.Trace;
+import cbss.core.trace.aspect.listener.Trace;
+import cbss.core.trace.logformat.LogFormat;
 import cbss.core.util.CommonMethod;
 import cbss.core.util.DateUtils;
 import cbss.core.vaildation.IPRangeValidator;
@@ -474,6 +474,10 @@ public class AccessAuthorize {
 			}
 
 			if (StringUtils.isEmpty(securityResource.getNote())) {
+				return null;
+			}
+
+			if (paramsMap == null) {
 				return null;
 			}
 

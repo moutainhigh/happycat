@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.stereotype.Component;
 
-import cbss.core.trace.LogFormat;
+import cbss.core.trace.logformat.LogFormat;
 
 @Component
 public class RedisService {

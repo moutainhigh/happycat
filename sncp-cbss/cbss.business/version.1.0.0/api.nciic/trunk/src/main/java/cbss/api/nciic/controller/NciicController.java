@@ -32,7 +32,7 @@ public class NciicController {
 	@RequestMapping(value = "/nciic/query", method = RequestMethod.POST)
 	@ResponseBody
 	public EchoInfo<Object> query(@RequestBody NciicRequestDatas requestDatas) {
-		return errorCode.getErrorCode(0);
+		return errorCode.getErrorCode(0,requestDatas.getUuid());
 	}
 
 	@RequestMapping(value = "/nciic/deliver", method = RequestMethod.POST)
@@ -42,9 +42,9 @@ public class NciicController {
 		NciicMessageIn nciicMessageIn = new NciicMessageIn(requestDatas.getParamdata().getRealName(), requestDatas.getParamdata().getIdentityNo());
 		try {
 			NciicMessageOut out = nciicMessageService.checkRealNameIdentityNo(nciicMessageIn);
-			return errorCode.getErrorCode(1).setData(out.actualResult());
+			return errorCode.getErrorCode(1,requestDatas.getUuid()).setData(out.actualResult());
 		} catch (NciicException e) {
-			return errorCode.getErrorCode(0);
+			return errorCode.getErrorCode(0,requestDatas.getUuid());
 		}
 
 	}

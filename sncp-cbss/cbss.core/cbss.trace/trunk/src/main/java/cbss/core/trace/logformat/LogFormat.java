@@ -1,4 +1,4 @@
-package cbss.core.trace;
+package cbss.core.trace.logformat;
 
 import java.util.List;
 

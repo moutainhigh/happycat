@@ -1,9 +1,11 @@
 package cbss.core.model.request.access;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +18,9 @@ public class RequestAccess implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Date reciveTime = new Date();
+	private String uuid = UUID.randomUUID().toString();
+
 	private RequestDatas requestDatas;
 
 	private HttpServletRequest servletRequest;
@@ -23,8 +28,20 @@ public class RequestAccess implements Serializable {
 	private String accessVerify;
 	private String traceState;
 
+	public Date getReciveTime() {
+		return reciveTime;
+	}
+
+	public void setReciveTime(Date reciveTime) {
+		this.reciveTime = reciveTime;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
+
 	public String getRemoteIp() {
-		return IpUtils.getRemoteAddr(servletRequest);
+		return servletRequest == null ? "-2.-2.-2.-2" : IpUtils.getRemoteAddr(servletRequest);
 	}
 
 	public HttpServletRequest getServletRequest() {
@@ -68,21 +85,23 @@ public class RequestAccess implements Serializable {
 	}
 
 	public Map getLimitData() {
-		Map pkeys = getServletRequest().getParameterMap();
-		Map datas = new HashMap(pkeys);
-		Enumeration attrs = getServletRequest().getAttributeNames();
-		while (attrs.hasMoreElements()) {
-			String attr = String.valueOf(attrs.nextElement());
-			if (!datas.containsKey(attr)) {
-				datas.put(attr, getServletRequest().getAttribute(attr));
+		if (getServletRequest() != null) {
+			Map pkeys = getServletRequest().getParameterMap();
+			Map datas = new HashMap(pkeys);
+			Enumeration attrs = getServletRequest().getAttributeNames();
+			while (attrs.hasMoreElements()) {
+				String attr = String.valueOf(attrs.nextElement());
+				if (!datas.containsKey(attr)) {
+					datas.put(attr, getServletRequest().getAttribute(attr));
+				}
 			}
+			Enumeration names = getServletRequest().getHeaderNames();
+			while (names.hasMoreElements()) {
+				String name = (String) names.nextElement();
+				datas.put(name, getServletRequest().getHeader(name));
+			}
+			return datas;
 		}
-		Enumeration names = getServletRequest().getHeaderNames();
-		while (names.hasMoreElements()) {
-			String name = (String) names.nextElement();
-			datas.put(name, getServletRequest().getHeader(name));
-		}
-
-		return datas;
+		return null;
 	}
 }

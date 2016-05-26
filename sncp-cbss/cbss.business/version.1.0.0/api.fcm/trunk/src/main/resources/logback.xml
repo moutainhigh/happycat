@@ -53,11 +53,9 @@
 	<logger name="cbss.api.fcm.aspectj">
 		<level value="DEBUG" />
 	</logger>
-
 	<logger name="cbss.api.fcm.main">
 		<level value="DEBUG" />
 	</logger>
-
 	<logger name="cbss.core">
 		<level value="DEBUG" />
 	</logger>

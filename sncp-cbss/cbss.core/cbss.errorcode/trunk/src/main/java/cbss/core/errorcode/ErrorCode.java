@@ -30,11 +30,12 @@ public class ErrorCode {
 		return echoInfo;
 	}
 
-	public EchoInfo<Object> getErrorCode(int code) {
+	public EchoInfo<Object> getErrorCode(int code, String requestUuid) {
 		String info = translate(String.valueOf(code));
 		EchoInfo<Object> echoInfo = new EchoInfo<Object>();
 		echoInfo.setMsgcode(code);
 		echoInfo.setMessage(info);
+		echoInfo.setUuid(requestUuid);
 		return echoInfo;
 	}
 }

@@ -56,6 +56,15 @@ public class RequestDatas<T extends RequestParam> implements Serializable {
 	private String traceState;
 	private AccessSecurityInfo accessSecurityInfo;
 	private SecurityResource securityResource;
+	private String uuid;
+
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 	public String getVersion() {
 		return version;

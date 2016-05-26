@@ -14,13 +14,24 @@ public class EchoInfo<T> {
 	private T data;
 
 	private Long appRspTime = Calendar.getInstance().getTimeInMillis();
+	private String uuid;
+
+	public EchoInfo<T> setUuid(String uuid) {
+		this.uuid = uuid;
+		return this;
+	}
+
+	public String getUuid() {
+		return uuid;
+	}
 
 	public Long getAppRspTime() {
 		return appRspTime;
 	}
 
-	public void setAppRspTime(Long appRspTime) {
+	public EchoInfo<T> setAppRspTime(Long appRspTime) {
 		this.appRspTime = appRspTime;
+		return this;
 	}
 
 	public Integer getMsgcode() {

@@ -19,6 +19,7 @@ public class DateUtils {
 	public static final String DATE_DF = "yyyy-MM-dd";
 	public static final String TIMESTAMP_DF = "yyyy-MM-dd HH:mm:ss";
 	public static final String TIMESTAMP_DM = "MM-dd HH:mm:ss";
+	public static final String TIMESTAMP_MS = "yyyy-MM-dd HH:mm:ss:SSS";
 
 	// 限制实例化
 	private DateUtils() {
