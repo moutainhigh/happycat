@@ -24,17 +24,22 @@ public class Trace {
 		return exception;
 	}
 
-	public String traceApiTime(String url, Object paramData, Long requestTime, Date receiveTime, Date finishTime) {
+	public String traceApiTime(String url, Object paramData, Long requestTime, Date receiveTime, Date finishTime, Date accessAuthorizeEndtime) {
 		Map<String, Object> traceTime = new HashMap<String, Object>();
 		traceTime.put(url, finishTime.getTime() - requestTime);
 
 		Map<String, Object> urltimeinfos = new HashMap<String, Object>();
 		urltimeinfos.put("url", url);
 		urltimeinfos.put("paramData", JSONObject.toJSONString(paramData));
-		urltimeinfos.put("requestTime", DateUtils.format(new Date(requestTime), DateUtils.TIMESTAMP_MS));
+		if (requestTime != null) {
+			urltimeinfos.put("requestTime", DateUtils.format(new Date(requestTime), DateUtils.TIMESTAMP_MS));
+			urltimeinfos.put("rcrqTime", receiveTime.getTime() - requestTime);
+		}
 		urltimeinfos.put("receiveTime", DateUtils.format(receiveTime, DateUtils.TIMESTAMP_MS));
+		urltimeinfos.put("authTime", DateUtils.format(accessAuthorizeEndtime, DateUtils.TIMESTAMP_MS));
 		urltimeinfos.put("finishTime", DateUtils.format(finishTime, DateUtils.TIMESTAMP_MS));
-		urltimeinfos.put("rcrqTime", receiveTime.getTime() - requestTime);
+		urltimeinfos.put("aurcTime", accessAuthorizeEndtime.getTime() - receiveTime.getTime());
+		urltimeinfos.put("fiauTime", finishTime.getTime() - accessAuthorizeEndtime.getTime());
 		urltimeinfos.put("fircTime", finishTime.getTime() - receiveTime.getTime());
 
 		traceTime.put(url + "#infos", urltimeinfos);
