@@ -89,44 +89,44 @@ public class AccessAuthorizeFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-
+		RequestAccess requestAccess = new RequestAccess();
 		// 1.封装请求对象
 		AccessAuthorizeRequestWrapper accessAuthorizeRequestWrapper = new AccessAuthorizeRequestWrapper((HttpServletRequest) servletRequest);
-
 		// 2.封装响应对象
 		HttpServletResponseWrapper httpServletResponseWrapper = new HttpServletResponseWrapper((HttpServletResponse) servletResponse);
 
-		// 3.校验请求头信息
-		String headAccessverify = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessverify.name());
-		String headAccessId = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessId.name());
-		String headAccessType = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessType.name());
-		String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
-
-		if (StringUtils.isBlank(headAccessverify)) {
-			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, "-1").setData("HTTP HEADER accessverify IS MUST SET.")));
-			return;
-		}
-		if (StringUtils.isBlank(headAccessId)) {
-			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, "-2").setData("HTTP HEADER accessId IS MUST SET.")));
-			return;
-		}
-		if (StringUtils.isBlank(headAccessType)) {
-			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, "-3").setData("HTTP HEADER accessType IS MUST SET.")));
-			return;
-		}
-		if (StringUtils.isBlank(headAccessPasswd)) {
-			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, "-4").setData("HTTP HEADER accessPasswd IS MUST SET.")));
-			return;
-		}
-
-		RequestAccess requestAccess = new RequestAccess();
 		try {
-
+			// 初始http部分数据
 			requestAccess.setRequestParamData(buildLimitParamData(accessAuthorizeRequestWrapper));
 			requestAccess.setRequestURI(accessAuthorizeRequestWrapper.getRequestURI());
 			requestAccess.setSessionId(accessAuthorizeRequestWrapper.getSession().getId());
 			requestAccess.setRemoteIp(IpUtils.getRemoteAddr(accessAuthorizeRequestWrapper));
 			requestAccess.setBody(accessAuthorizeRequestWrapper.getBody());
+
+			// 3.校验请求头信息
+			String headAccessverify = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessverify.name());
+			String headAccessId = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessId.name());
+			String headAccessType = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessType.name());
+			String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
+
+			if (StringUtils.isBlank(headAccessverify)) {
+				echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessverify IS MUST SET.")));
+				return;
+			}
+			if (StringUtils.isBlank(headAccessId)) {
+				echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessId IS MUST SET.")));
+				return;
+			}
+			if (StringUtils.isBlank(headAccessType)) {
+				echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessType IS MUST SET.")));
+				return;
+			}
+			if (StringUtils.isBlank(headAccessPasswd)) {
+				echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessPasswd IS MUST SET.")));
+				return;
+			}
+			
+			// 初始http部分数据
 			requestAccess.setAccessVerify(headAccessverify);
 
 			// 4.转换业务参数
