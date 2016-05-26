@@ -150,7 +150,7 @@ public class AccessAuthorize {
 		charset = StringUtils.isBlank(charset) ? NameFactory.default_charset.utf8.getValue() : charset;
 		String appsign = MD5Encrypt.encrypt(bodySign, charset, true);
 		if (logger.isInfoEnabled()) {
-			String url = requestAccess.getServletRequest().getRequestURI();
+			String url = requestAccess.getRequestURI();
 			logger.info(url + ",beforemd5:" + bodySign + ",md5:" + appsign + ",accessVerfy:" + accessVerfy);
 		}
 		if (!accessVerfy.equalsIgnoreCase(appsign)) {
@@ -166,8 +166,8 @@ public class AccessAuthorize {
 	 */
 	public boolean limit(RequestAccess requestAccess)
 			throws AccessLimitException {
-		SecurityResource securityResource = accessAuthorizeData.getSecurityResource(requestAccess.getRequestDatas().getAccessId(), requestAccess.getServletRequest().getServletPath(),
-				accessAuthorizeData.getMethod(requestAccess.getServletRequest().getServletPath()));
+		SecurityResource securityResource = accessAuthorizeData.getSecurityResource(requestAccess.getRequestDatas().getAccessId(), requestAccess.getRequestURI(),
+				accessAuthorizeData.getMethod(requestAccess.getRequestURI()));
 
 		if (securityResource == null) {
 			throw new AccessLimitException(trace.traceException("access fobidden resource is null", requestAccess.getTraceState(), ""));
@@ -181,7 +181,7 @@ public class AccessAuthorize {
 		String clientIp = ip;
 		boolean isLimit = false;
 		if (securityResource != null && "1".equals(securityResource.getState())) {
-			isLimit = hasLimitIp(info, ip, clientIp, securityResource, requestAccess.getServletRequest().getRequestURL().toString());
+			isLimit = hasLimitIp(info, ip, clientIp, securityResource, requestAccess.getRequestURI().toString());
 		} else if (securityResource != null && "0".equals(securityResource.getState())) {
 			return true;
 		}
@@ -192,8 +192,12 @@ public class AccessAuthorize {
 
 		Integer limitCode = null;
 		if (!isLimit) {
-			limitCode = checkPassportRequestTime(requestAccess.getServletRequest().getSession().getId(), securityResource, requestAccess.getRequestDatas().getAccessType().toString(),
-					requestAccess.getLimitData(), requestAccess.getRemoteIp(), requestAccess.getServletRequest().getRequestURL().toString());
+
+			JSONObject paramdatas = JSONObject.parseObject(requestAccess.getBody());
+			paramdatas.putAll(requestAccess.getRequestParamData());
+
+			limitCode = checkPassportRequestTime(requestAccess.getSessionId(), securityResource, requestAccess.getRequestDatas().getAccessType().toString(), paramdatas, requestAccess.getRemoteIp(),
+					requestAccess.getRequestURI().toString());
 
 		}
 		if (null != limitCode) {

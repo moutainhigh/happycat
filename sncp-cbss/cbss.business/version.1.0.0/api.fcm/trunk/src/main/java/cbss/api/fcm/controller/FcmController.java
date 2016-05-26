@@ -61,12 +61,12 @@ public class FcmController {
 		String gameIds = data.getGameIds();
 
 		if (StringUtils.isBlank(gameIds) || issuerId <= 0L) {
-			return errorCode.getErrorCode(1001, requestDatas.getUuid());
+			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 
 		String[] gameArr = gameIds.split(",");
 		if (gameArr == null || gameArr.length < 1) {
-			return errorCode.getErrorCode(1001, requestDatas.getUuid());
+			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 		List<Long> ids = new ArrayList<Long>();
 		for (int i = 0; i < gameArr.length; i++) {
@@ -97,13 +97,13 @@ public class FcmController {
 				to.setGameId(id);
 				fcmGameProfileService.save(to);
 			}
-			return errorCode.getErrorCode(1, requestDatas.getUuid());
+			return errorCode.getErrorCode(1, requestDatas.getSessionId());
 		} catch (MissingParamsException e) {
 			logger.error("fcmConf", e);
-			return errorCode.getErrorCode(10001, requestDatas.getUuid());
+			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (Exception e) {
 			logger.error("fcmConf", e);
-			return errorCode.getErrorCode(10002, requestDatas.getUuid());
+			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 	}
 
@@ -115,13 +115,13 @@ public class FcmController {
 		long aid = data.getAid();
 
 		if (aid <= 0L || gameId <= 0L) {
-			return errorCode.getErrorCode(1001, requestDatas.getUuid());
+			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 
 		try {
 			String identity = fcmService.queryIdentity(aid);
 			PassportFcmTotalTimeTo passportFcmTotalTimeTo = fcmService.queryUserFcmTotalTime(identity, gameId);
-			EchoInfo<Object> result = errorCode.getErrorCode(1, requestDatas.getUuid());
+			EchoInfo<Object> result = errorCode.getErrorCode(1, requestDatas.getSessionId());
 			FcmTimeRequestParam d = new FcmTimeRequestParam();
 			if (passportFcmTotalTimeTo == null) {
 				d.setLeaveTime(0L);
@@ -134,13 +134,13 @@ public class FcmController {
 			return result;
 		} catch (MissingParamsException e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(10001, requestDatas.getUuid());
+			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (PassportNotFoundException e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(13101, requestDatas.getUuid());
+			return errorCode.getErrorCode(13101, requestDatas.getSessionId());
 		} catch (Exception e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(10002, requestDatas.getUuid());
+			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 	}
 
@@ -154,7 +154,7 @@ public class FcmController {
 		Long time = data.getTime();
 
 		if (aid <= 0L || gameId <= 0L) {
-			return errorCode.getErrorCode(1001, requestDatas.getUuid());
+			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 
 		try {
@@ -173,16 +173,16 @@ public class FcmController {
 				passportFcmTotalTimeTo.setTime(time);
 			}
 			fcmService.save(passportFcmTotalTimeTo);
-			return errorCode.getErrorCode(1, requestDatas.getUuid());
+			return errorCode.getErrorCode(1, requestDatas.getSessionId());
 		} catch (MissingParamsException e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(10001, requestDatas.getUuid());
+			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (PassportNotFoundException e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(13101, requestDatas.getUuid());
+			return errorCode.getErrorCode(13101, requestDatas.getSessionId());
 		} catch (Exception e) {
 			logger.error("updateTime", e);
-			return errorCode.getErrorCode(10002, requestDatas.getUuid());
+			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 	}
 
@@ -196,7 +196,7 @@ public class FcmController {
 		long gameId = data.getGameId();
 
 		if (aid <= 0L || issuerId <= 0L || gameId <= 0L) {
-			return errorCode.getErrorCode(1001, requestDatas.getUuid());
+			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 
 		try {
@@ -216,21 +216,21 @@ public class FcmController {
 				logger.info("time:" + time);
 				Map<String, Object> data1 = new HashMap<String, Object>();
 				data1.put("onlineTime", time);
-				return errorCode.getErrorCode(1, requestDatas.getUuid()).setData(data1);
+				return errorCode.getErrorCode(1, requestDatas.getSessionId()).setData(data1);
 			} else {
-				return errorCode.getErrorCode(10017, requestDatas.getUuid());
+				return errorCode.getErrorCode(10017, requestDatas.getSessionId());
 			}
 		} catch (MissingParamsException e) {
 			logger.error("fcmOnlineTime", e);
-			return errorCode.getErrorCode(10001, requestDatas.getUuid());
+			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (PassportNotFoundException e) {
 			logger.error("fcmOnlineTime", e);
-			return errorCode.getErrorCode(13101, requestDatas.getUuid());
+			return errorCode.getErrorCode(13101, requestDatas.getSessionId());
 		} catch (Exception e) {
 			AlarmMessageTo to = new AlarmMessageTo("", e.getMessage());
 			alarmMessageService.sendMessage(to);
 			logger.error("fcmOnlineTime", e);
-			return errorCode.getErrorCode(10002, requestDatas.getUuid());
+			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 	}
 }

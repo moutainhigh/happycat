@@ -2,15 +2,9 @@ package cbss.core.model.request.access;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import cbss.core.model.request.RequestDatas;
-import cbss.core.util.IpUtils;
 
 public class RequestAccess implements Serializable {
 	/**
@@ -19,89 +13,70 @@ public class RequestAccess implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Date reciveTime = new Date();
-	private String uuid = UUID.randomUUID().toString();
 
 	private RequestDatas requestDatas;
 
-	private HttpServletRequest servletRequest;
 	private String body;
 	private String accessVerify;
 	private String traceState;
 
+	private String remoteIp;
+	private Map requestParamData;
+	private String requestURI;
+	private String sessionId;
 	public Date getReciveTime() {
 		return reciveTime;
 	}
-
 	public void setReciveTime(Date reciveTime) {
 		this.reciveTime = reciveTime;
 	}
-
-	public String getUuid() {
-		return uuid;
-	}
-
-	public String getRemoteIp() {
-		return servletRequest == null ? "-2.-2.-2.-2" : IpUtils.getRemoteAddr(servletRequest);
-	}
-
-	public HttpServletRequest getServletRequest() {
-		return servletRequest;
-	}
-
-	public void setServletRequest(HttpServletRequest servletRequest) {
-		this.servletRequest = servletRequest;
-	}
-
-	public String getTraceState() {
-		return traceState;
-	}
-
-	public void setTraceState(String traceState) {
-		this.traceState = traceState;
-	}
-
-	public String getAccessVerify() {
-		return accessVerify;
-	}
-
-	public void setAccessVerify(String accessVerify) {
-		this.accessVerify = accessVerify;
-	}
-
-	public String getBody() {
-		return body;
-	}
-
-	public void setBody(String body) {
-		this.body = body;
-	}
-
 	public RequestDatas getRequestDatas() {
 		return requestDatas;
 	}
-
 	public void setRequestDatas(RequestDatas requestDatas) {
 		this.requestDatas = requestDatas;
 	}
-
-	public Map getLimitData() {
-		if (getServletRequest() != null) {
-			Map pkeys = getServletRequest().getParameterMap();
-			Map datas = new HashMap(pkeys);
-			Enumeration attrs = getServletRequest().getAttributeNames();
-			while (attrs.hasMoreElements()) {
-				String attr = String.valueOf(attrs.nextElement());
-				if (!datas.containsKey(attr)) {
-					datas.put(attr, getServletRequest().getAttribute(attr));
-				}
-			}
-			Enumeration names = getServletRequest().getHeaderNames();
-			while (names.hasMoreElements()) {
-				String name = (String) names.nextElement();
-				datas.put(name, getServletRequest().getHeader(name));
-			}
-			return datas;
-		}
-		return null;
+	public String getBody() {
+		return body;
 	}
+	public void setBody(String body) {
+		this.body = body;
+	}
+	public String getAccessVerify() {
+		return accessVerify;
+	}
+	public void setAccessVerify(String accessVerify) {
+		this.accessVerify = accessVerify;
+	}
+	public String getTraceState() {
+		return traceState;
+	}
+	public void setTraceState(String traceState) {
+		this.traceState = traceState;
+	}
+	public String getRemoteIp() {
+		return remoteIp;
+	}
+	public void setRemoteIp(String remoteIp) {
+		this.remoteIp = remoteIp;
+	}
+	public Map getRequestParamData() {
+		return requestParamData;
+	}
+	public void setRequestParamData(Map requestParamData) {
+		this.requestParamData = requestParamData;
+	}
+	public String getRequestURI() {
+		return requestURI;
+	}
+	public void setRequestURI(String requestURI) {
+		this.requestURI = requestURI;
+	}
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+
 }
