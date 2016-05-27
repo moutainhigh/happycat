@@ -208,16 +208,17 @@ public class FcmController {
 			}
 
 			boolean isfcm = fcmService.isFcm(aid, issuerId, gameId, validateThreeCondition);
-			logger.info("isfcm:" + isfcm);
 			if (isfcm) {
 				String identity = fcmService.queryIdentity(aid);
-				logger.info("identity:" + identity);
 				Long time = fcmService.fcmOnlineTime(identity, gameId);
-				logger.info("time:" + time);
+				logger.info("aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
+						",isfcm:" + isfcm + ",identity:" + identity + ",time:" + time);
 				Map<String, Object> data1 = new HashMap<String, Object>();
 				data1.put("onlineTime", time);
 				return errorCode.getErrorCode(1, requestDatas.getSessionId()).setData(data1);
 			} else {
+				logger.info("aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
+						",isfcm:" + isfcm + ",identity:,time:");
 				return errorCode.getErrorCode(10017, requestDatas.getSessionId());
 			}
 		} catch (MissingParamsException e) {
