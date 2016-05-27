@@ -16,7 +16,7 @@ import org.springframework.core.annotation.Order;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MessageSourceAutoConfiguration {
 
-	@Value("${errorcode.bis.basename}")
+	@Value("${cbss.api.errorcode.bis.basename}")
 	private List<String> basenames;
 
 	@Bean

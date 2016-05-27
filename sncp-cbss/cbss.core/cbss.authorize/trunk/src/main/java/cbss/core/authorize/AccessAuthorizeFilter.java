@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -90,6 +91,8 @@ public class AccessAuthorizeFilter implements Filter {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		RequestAccess requestAccess = new RequestAccess();
+		requestAccess.setSessionId(UUID.randomUUID().toString());
+
 		// 1.封装请求对象
 		AccessAuthorizeRequestWrapper accessAuthorizeRequestWrapper = new AccessAuthorizeRequestWrapper((HttpServletRequest) servletRequest);
 		// 2.封装响应对象
@@ -98,10 +101,10 @@ public class AccessAuthorizeFilter implements Filter {
 		Date accessAuthorizeEndtime = null;
 		try {
 			try {
+
 				// 初始http部分数据
 				requestAccess.setRequestParamData(buildLimitParamData(accessAuthorizeRequestWrapper));
 				requestAccess.setRequestURI(accessAuthorizeRequestWrapper.getRequestURI());
-				requestAccess.setSessionId(accessAuthorizeRequestWrapper.getSession().getId());
 				requestAccess.setRemoteIp(IpUtils.getRemoteAddr(accessAuthorizeRequestWrapper));
 				requestAccess.setBody(accessAuthorizeRequestWrapper.getBody());
 

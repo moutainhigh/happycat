@@ -26,12 +26,12 @@ public class Trace {
 
 	public String traceApiTime(String url, Object paramData, Long requestTime, Date receiveTime, Date finishTime, Date accessAuthorizeEndtime) {
 		Map<String, Object> traceTime = new HashMap<String, Object>();
-		traceTime.put(url, finishTime.getTime() - requestTime);
-
 		Map<String, Object> urltimeinfos = new HashMap<String, Object>();
 		urltimeinfos.put("url", url);
 		urltimeinfos.put("paramData", JSONObject.toJSONString(paramData));
+		
 		if (requestTime != null) {
+			traceTime.put(url, finishTime.getTime() - requestTime);
 			urltimeinfos.put("requestTime", DateUtils.format(new Date(requestTime), DateUtils.TIMESTAMP_MS));
 			urltimeinfos.put("rcrqTime", receiveTime.getTime() - requestTime);
 		}
