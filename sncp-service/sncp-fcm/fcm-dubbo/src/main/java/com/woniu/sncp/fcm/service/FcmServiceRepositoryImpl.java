@@ -45,11 +45,13 @@ public class FcmServiceRepositoryImpl implements FcmService{
 
 	@Override
 	public boolean isFcm(Long accountId,Long aoId,Long gameId,boolean validateThreeCondition) throws PassportNotFoundException {
-		log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition);
+		String paramsMsg = "is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition;
+		log.info(paramsMsg);
 		
 		if( accountId == null
 				|| aoId == null
 				|| gameId == null){
+			log.error("accountId or aoId or gameId is null");
 			throw new MissingParamsException("accountId or aoId or gameId is null");
 		}
 		
@@ -57,12 +59,12 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			//检查游戏是否需要防沉迷
 			FcmGameProfileTo gameProfile = gameProfileService.query(aoId, -gameId);//配置表游戏为负数时防沉迷
 			if(gameProfile == null) {
-				log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition+" - gameProfile is null");
+				log.info(paramsMsg +" - gameProfile is null,fcm return false");
 				return false;
 			}
 			
 			PassportDto passport = passportService.findPassportByAid(accountId);
-			log.info("is fcm - accountId:"+accountId+",aoId:"+aoId+",gameId:"+gameId+",validateThreeCondition:"+validateThreeCondition+" - "+passport);
+			log.info(paramsMsg +" - "+passport);
 			Date fcmDay = DateUtils.addYears(new Date(), -18);
 			Date birthDay = passport.getIdentityBirthday();
 			
@@ -70,6 +72,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 			if(FCM_STATUS_PASSED.equals(passport.getIdentityAuthState())
 					&& birthDay != null
 					&& birthDay.before(fcmDay)){
+				log.info(paramsMsg +" - ispass is 3,fcm return false");
 				return false;
 			}
 			
@@ -81,6 +84,7 @@ public class FcmServiceRepositoryImpl implements FcmService{
 					&& birthDay != null
 					&& birthDay.before(fcmDay)
 					){
+				log.info(paramsMsg + " - ispass is 2,fcm return false");
 				return false;
 			}
 			
@@ -92,15 +96,17 @@ public class FcmServiceRepositoryImpl implements FcmService{
 					&& StringUtils.isBlank(passport.getIdentity())
 					&& StringUtils.isBlank(passport.getName())
 					){
+				log.info(paramsMsg +" - 3 day ,fcm return false");
 				return false;
 			}
 			
 		} catch (Exception e) {
-			log.error(e.getMessage(),e);
+			log.error(paramsMsg +" - exception ,fcm return false",e);
 			alarmMessageService.sendMessage(new AlarmMessageTo(alarmConfig.getSrc(), "防沉迷判断异常[已降级处理]，"+e.getMessage()));
 			return false;//系统异常降级处理 
 		}
 		
+		log.info(paramsMsg +" - fcm return true");
 		return true;
 	}
 
