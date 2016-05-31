@@ -4,7 +4,8 @@ package com.woniu.sncp.exception;
  * 业务异常父类
  * 所有业务异常全部继承于它
  * @author chenyx
- * @date 2016年5月6日
+ * @since JDK1.8
+ * @version 1.0.0
  */
 public class BusinessException extends Exception {
 	

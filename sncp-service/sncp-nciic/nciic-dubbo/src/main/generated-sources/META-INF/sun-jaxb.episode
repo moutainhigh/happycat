@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<bindings xmlns="http://java.sun.com/xml/ns/jaxb" if-exists="true" version="2.1">
+  <!--
+
+此文件是由 JavaTM Architecture for XML Binding (JAXB) 引用实现 v2.2.11 生成的
+请访问 <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+在重新编译源模式时, 对此文件的所有修改都将丢失。
+生成时间: 2016.05.25 时间 01:50:35 PM CST 
+
+  -->
+  <bindings xmlns:tns="https://api.nciic.org.cn/NciicServices" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.woniu.sncp.nciic.wsdl"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="tns:nciicDiscern">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicDiscern"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicDiscernResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicDiscernResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckGetPhone">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckGetPhone"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckGetPhoneResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckGetPhoneResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckChina">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckChina"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckChinaResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckChinaResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicGetCondition">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicGetCondition"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicGetConditionResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicGetConditionResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicExactSearch">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicExactSearch"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicExactSearchResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicExactSearchResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCourt">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCourt"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCourtResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCourtResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicFmxxEntry">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicFmxxEntry"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicFmxxEntryResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicFmxxEntryResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheck">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheck"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCombineSearch">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCombineSearch"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCombineSearchResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCombineSearchResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckMobile">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckMobile"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckMobileResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckMobileResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckFile">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckFile"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckFileResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckFileResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckHotel">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckHotel"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckHotelResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckHotelResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicKyxxEntry">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicKyxxEntry"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicKyxxEntryResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicKyxxEntryResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicBirthplaceCompare">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicBirthplaceCompare"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicBirthplaceCompareResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicBirthplaceCompareResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicGetFile">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicGetFile"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicGetFileResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicGetFileResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicAddrExactSearch">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicAddrExactSearch"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicAddrExactSearchResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicAddrExactSearchResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckSetPhone">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckSetPhone"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckSetPhoneResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckSetPhoneResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCompare">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCompare"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCompareResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCompareResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicDateCollection">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicDateCollection"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicDateCollectionResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicDateCollectionResponse"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckScan">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckScan"/>
+    </bindings>
+    <bindings if-exists="true" scd="tns:nciicCheckScanResponse">
+      <class ref="com.woniu.sncp.nciic.wsdl.NciicCheckScanResponse"/>
+    </bindings>
+  </bindings>
+  <bindings xmlns:tns="http://domain.webservices.serv.nciic.com" if-exists="true" scd="x-schema::tns">
+    <schemaBindings map="false">
+      <package name="com.woniu.sncp.nciic.wsdl"/>
+    </schemaBindings>
+    <bindings if-exists="true" scd="~tns:FileObjectSetPhone">
+      <class ref="com.woniu.sncp.nciic.wsdl.FileObjectSetPhone"/>
+    </bindings>
+    <bindings if-exists="true" scd="~tns:FileObject">
+      <class ref="com.woniu.sncp.nciic.wsdl.FileObject"/>
+    </bindings>
+  </bindings>
+</bindings>
