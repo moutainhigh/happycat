@@ -75,6 +75,9 @@ public class AccessAuthorizeFilter implements Filter {
 
 	@Autowired
 	private Trace trace;
+	
+	@Autowired
+	private IpUtils ipUtils;
 
 	@Override
 	public void destroy() {
@@ -105,7 +108,7 @@ public class AccessAuthorizeFilter implements Filter {
 				// 初始http部分数据
 				requestAccess.setRequestParamData(buildLimitParamData(accessAuthorizeRequestWrapper));
 				requestAccess.setRequestURI(accessAuthorizeRequestWrapper.getRequestURI());
-				requestAccess.setRemoteIp(IpUtils.getRemoteAddr(accessAuthorizeRequestWrapper));
+				requestAccess.setRemoteIp(ipUtils.getRemoteAddr(accessAuthorizeRequestWrapper));
 				requestAccess.setBody(accessAuthorizeRequestWrapper.getBody());
 
 				// 3.校验请求头信息

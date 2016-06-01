@@ -28,41 +28,41 @@ public class IpUtils {
 
 	private static String LONG_IP = "(((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))[.]((((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))([-](((2[0-4]\\d)|(25[0-5]))|(1\\d{2})|([1-9]\\d)|(\\d))){0,1}([/]((3[0-2])|([1-2]\\d)|(\\d))){0,1})";
 
-	private static String open_x_forwarded_for;
-	private static String open_Proxy_Client_IP;
-	private static String open_WL_Proxy_Client_IP;
-	private static String open_Other_Attract_IP;
+	private String openXforwardedfor;
+	private String openProxyClientIP;
+	private String openWLProxyClientIP;
+	private String openOtherAttractIP;
 
-	public static String getOpen_x_forwarded_for() {
-		return open_x_forwarded_for;
+	public String getOpenXforwardedfor() {
+		return openXforwardedfor;
 	}
 
-	public static void setOpen_x_forwarded_for(String open_x_forwarded_for) {
-		IpUtils.open_x_forwarded_for = open_x_forwarded_for;
+	public void setOpenXforwardedfor(String openXforwardedfor) {
+		this.openXforwardedfor = openXforwardedfor;
 	}
 
-	public static String getOpen_Proxy_Client_IP() {
-		return open_Proxy_Client_IP;
+	public String getOpenProxyClientIP() {
+		return openProxyClientIP;
 	}
 
-	public static void setOpen_Proxy_Client_IP(String open_Proxy_Client_IP) {
-		IpUtils.open_Proxy_Client_IP = open_Proxy_Client_IP;
+	public void setOpenProxyClientIP(String openProxyClientIP) {
+		this.openProxyClientIP = openProxyClientIP;
 	}
 
-	public static String getOpen_WL_Proxy_Client_IP() {
-		return open_WL_Proxy_Client_IP;
+	public String getOpenWLProxyClientIP() {
+		return openWLProxyClientIP;
 	}
 
-	public static void setOpen_WL_Proxy_Client_IP(String open_WL_Proxy_Client_IP) {
-		IpUtils.open_WL_Proxy_Client_IP = open_WL_Proxy_Client_IP;
+	public void setOpenWLProxyClientIP(String openWLProxyClientIP) {
+		this.openWLProxyClientIP = openWLProxyClientIP;
 	}
 
-	public static String getOpen_Other_Attract_IP() {
-		return open_Other_Attract_IP;
+	public String getOpenOtherAttractIP() {
+		return openOtherAttractIP;
 	}
 
-	public static void setOpen_Other_Attract_IP(String open_Other_Attract_IP) {
-		IpUtils.open_Other_Attract_IP = open_Other_Attract_IP;
+	public void setOpenOtherAttractIP(String openOtherAttractIP) {
+		this.openOtherAttractIP = openOtherAttractIP;
 	}
 
 	/**
@@ -76,20 +76,20 @@ public class IpUtils {
 	 * @param request
 	 * @return 获取真实的IP
 	 */
-	public static String getRemoteAddr(HttpServletRequest request) {
+	public String getRemoteAddr(HttpServletRequest request) {
 		String ip = null;
-		if (!StringUtils.isBlank(open_x_forwarded_for) && "yes".equalsIgnoreCase(open_x_forwarded_for)) {
+		if (!StringUtils.isBlank(getOpenXforwardedfor()) && "yes".equalsIgnoreCase(getOpenXforwardedfor())) {
 			ip = request.getHeader("x-forwarded-for");
-		} else if (!StringUtils.isBlank(open_Proxy_Client_IP) && "yes".equalsIgnoreCase(open_Proxy_Client_IP)) {
+		} else if (!StringUtils.isBlank(getOpenProxyClientIP()) && "yes".equalsIgnoreCase(getOpenProxyClientIP())) {
 			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 				ip = request.getHeader("Proxy-Client-IP");
 			}
-		} else if (!StringUtils.isBlank(open_WL_Proxy_Client_IP) && "yes".equalsIgnoreCase(open_WL_Proxy_Client_IP)) {
+		} else if (!StringUtils.isBlank(getOpenWLProxyClientIP()) && "yes".equalsIgnoreCase(getOpenWLProxyClientIP())) {
 			if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 				ip = request.getHeader("WL-Proxy-Client-IP");
 			}
-		} else if (!StringUtils.isBlank(open_Other_Attract_IP)) {
-			String otherAttractIp = open_Other_Attract_IP;
+		} else if (!StringUtils.isBlank(getOpenOtherAttractIP())) {
+			String otherAttractIp = getOpenOtherAttractIP();
 			String[] otherAttractIps = otherAttractIp.split(",");
 			for (String attractIp : otherAttractIps) {
 				ip = request.getHeader(attractIp);
@@ -114,7 +114,7 @@ public class IpUtils {
 		return ip;
 	}
 
-	public static boolean ipMacth(String ip) {
+	public boolean ipMacth(String ip) {
 		if (StringUtils.isNotEmpty(ip)) {
 			return ip.matches(IP);
 		}
@@ -127,7 +127,7 @@ public class IpUtils {
 	 * @param ip
 	 * @return
 	 */
-	public static boolean ipMacthLongIp(String ip) {
+	public boolean ipMacthLongIp(String ip) {
 		if (StringUtils.isNotEmpty(ip)) {
 			return ip.matches(LONG_IP);
 		}
@@ -157,10 +157,6 @@ public class IpUtils {
 		return result.toString();
 	}
 
-	// 限制实例化
-	private IpUtils() {
-	}
-
 	/**
 	 * 字符串转换为数字
 	 * 
@@ -168,7 +164,7 @@ public class IpUtils {
 	 *            ip地址
 	 * @return 0 ~ 4294967295的数字，如果ip地址格式错误，返回-1
 	 */
-	public static long ipToLong(String ip) {
+	public long ipToLong(String ip) {
 		if (ip == null || "".equals(ip.trim()))
 			return -1;
 
@@ -192,7 +188,7 @@ public class IpUtils {
 	 *            long类型数组，长度为4
 	 * @return 数字格式的ip地址
 	 */
-	public static long ipToLong(long[] ip) {
+	public long ipToLong(long[] ip) {
 		return (ip[0] << 24) + (ip[1] << 16) + (ip[2] << 8) + ip[3];
 	}
 
@@ -203,7 +199,7 @@ public class IpUtils {
 	 *            数字格式的ip
 	 * @return 字符串格式的ip地址，例如127.0.0.1。如果超出范围(0 ~ 4294967295)，返回null。
 	 */
-	public static String longToIp(long ip) {
+	public String longToIp(long ip) {
 		if (ip < 0 || ip > 4294967295L)
 			return null;
 
@@ -221,7 +217,7 @@ public class IpUtils {
 		return sb.toString();
 	}
 
-	public static String remarkIp(String ip) {
+	public String remarkIp(String ip) {
 		if (StringUtils.isEmpty(ip)) {
 			return "";
 		}
