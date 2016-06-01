@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.woniu.sncp</groupId>
 	<artifactId>sncp-service</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>pom</packaging>
 
 	<parent>
@@ -44,7 +44,7 @@
         <url>scm:git:ssh://git@3.com/woniu-microservices.git</url>
         <connection>scm:git:ssh://git@3.com/woniu-microservices.git</connection>
         <developerConnection>scm:git:ssh://git@3.com/woniu-microservices.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>sncp-service-1.0.1</tag>
     </scm>
 
 	<build>
