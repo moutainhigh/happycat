@@ -27,6 +27,7 @@
 		<cbss.api.init.version>0.0.1</cbss.api.init.version>
 		<cbss.authorize.version>0.0.1</cbss.authorize.version>
 		<cbss.errorcode.version>0.0.1</cbss.errorcode.version>
+		<cbss.trace.version>0.0.1</cbss.trace.version>
 		<cbss.call.version>0.0.1</cbss.call.version>
 		<cbss.model.version>0.0.1</cbss.model.version>
 		<cbss.repository.version>0.0.1</cbss.repository.version>
@@ -198,6 +199,11 @@
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.signature</artifactId>
 				<version>${cbss.signature.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.trace</artifactId>
+				<version>${cbss.trace.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>

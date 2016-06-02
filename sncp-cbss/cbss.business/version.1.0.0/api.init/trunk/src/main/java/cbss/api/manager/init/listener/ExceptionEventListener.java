@@ -12,7 +12,7 @@ public class ExceptionEventListener implements ApplicationListener<ApplicationFa
 	}
 
 	private void handleException(Throwable exception) {
-		System.out.println(exception);
+		
 	}
 
 }
