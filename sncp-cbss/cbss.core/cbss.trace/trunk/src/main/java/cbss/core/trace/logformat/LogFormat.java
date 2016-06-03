@@ -1,12 +1,18 @@
 package cbss.core.trace.logformat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import cbss.core.trace.aspect.listener.Trace;
+import cbss.core.util.IpUtils;
 
 @Component
 @ConfigurationProperties(prefix = "cbss.api.forbiLog.conf", locations = { "classpath:forbiLog.properties" })
@@ -16,6 +22,9 @@ public class LogFormat {
 	public List<String> forbiAttrInfos;
 	public List<String> forbiKeys;
 	public List<String> newlinereplces;
+
+	@Autowired
+	private Trace trace;
 
 	public List<String> getForbiMethodInfos() {
 		return forbiMethodInfos;
@@ -115,34 +124,51 @@ public class LogFormat {
 	 */
 	public String format(String customHead, boolean appendHead, String fullClassName, String method, String params, String startTime, String timeDifference, String url, String ip, String errorMsg,
 			boolean output) {
+
+		Map<String, Object> tracelog = new HashMap<String, Object>();
+
 		StringBuffer loggerBuffer = new StringBuffer();
 		if (appendHead) {
-			loggerBuffer.append(format(customHead));
+			tracelog.put("customkey", format(customHead));
+			loggerBuffer.append(tracelog.get("customkey"));
 			loggerBuffer.append("\t");
 		}
 
 		boolean isNewlinereplcesLog = isNewlinereplcesLog(method);
+		tracelog.put("fullClassName", (format(fullClassName)));
+		tracelog.put("method", format(method));
+		tracelog.put("params", isRecordSecurityLog(method) ? "***" : (isNewlinereplcesLog ? formatNewLine(params) : format(params)));
+		tracelog.put("startTime", format(startTime));
+		tracelog.put("timeDifference", (isNewlinereplcesLog ? formatNewLine(timeDifference) : format(timeDifference)));
+		tracelog.put("url", isNewlinereplcesLog ? formatNewLine(url) : format(url));
+		tracelog.put("ip", format(ip));
+		tracelog.put("errorMsg", isRecordSecurityLog(errorMsg) ? "***" : (isNewlinereplcesLog ? formatNewLine(errorMsg) : format(errorMsg)));
+		tracelog.put("pidinfo", format(IpUtils.getLoaclAddr()));
 
-		loggerBuffer.append(format(fullClassName));
+		loggerBuffer.append(tracelog.get("fullClassName"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(format(method));
+		loggerBuffer.append(tracelog.get("method"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(isRecordSecurityLog(method) ? "***" : (isNewlinereplcesLog ? formatNewLine(params) : format(params)));
+		loggerBuffer.append(tracelog.get("params"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(format(startTime));
+		loggerBuffer.append(tracelog.get("startTime"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(isNewlinereplcesLog ? formatNewLine(timeDifference) : format(timeDifference));
+		loggerBuffer.append(tracelog.get("timeDifference"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(isNewlinereplcesLog ? formatNewLine(url) : format(url));
+		loggerBuffer.append(tracelog.get("url"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(format(ip));
+		loggerBuffer.append(tracelog.get("ip"));
 		loggerBuffer.append("\t");
-		loggerBuffer.append(isRecordSecurityLog(errorMsg) ? "***" : (isNewlinereplcesLog ? formatNewLine(errorMsg) : format(errorMsg)));
+		loggerBuffer.append(tracelog.get("errorMsg"));
 		loggerBuffer.append("\t");
+		loggerBuffer.append(tracelog.get("pidinfo"));
 
 		if (output) {
 			logger.debug(loggerBuffer.toString());
 		}
+
+		trace.trace(tracelog);
+
 		return loggerBuffer.toString();
 	}
 
@@ -153,5 +179,5 @@ public class LogFormat {
 	private static String format(String params) {
 		return StringUtils.isBlank(params) ? "-" : params.trim();
 	}
-	
+
 }

@@ -16,7 +16,6 @@
 	</parent>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -25,6 +24,25 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.core.util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.core.trace</artifactId>
 		</dependency>
 
 		<dependency>
