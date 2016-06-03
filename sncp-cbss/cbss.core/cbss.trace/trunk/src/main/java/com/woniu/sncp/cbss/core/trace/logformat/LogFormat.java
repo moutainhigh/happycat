@@ -1,5 +1,6 @@
 package com.woniu.sncp.cbss.core.trace.logformat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +19,10 @@ import com.woniu.sncp.cbss.core.util.IpUtils;
 @ConfigurationProperties(prefix = "cbss.api.forbiLog.conf", locations = { "classpath:forbiLog.properties" })
 public class LogFormat {
 	private static Logger logger = LoggerFactory.getLogger(LogFormat.class);
-	public List<String> forbiMethodInfos;
-	public List<String> forbiAttrInfos;
-	public List<String> forbiKeys;
-	public List<String> newlinereplces;
+	public List<String> forbiMethodInfos = new ArrayList<>(0);
+	public List<String> forbiAttrInfos = new ArrayList<>(0);
+	public List<String> forbiKeys = new ArrayList<>(0);
+	public List<String> newlinereplces = new ArrayList<>(0);
 
 	@Autowired
 	private Trace trace;
