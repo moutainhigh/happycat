@@ -60,7 +60,7 @@ cbss:
       heart: 
         conf: 
           metricUrl: http://monitor.yunwei.woniu.com:81/api/push_monitor/
-          metricType: heart.passport-dubbo
+          metricType: sncp.mirco.heart
           tags: desc=passport-dubbo,version=1.0.0
 
 security: 
