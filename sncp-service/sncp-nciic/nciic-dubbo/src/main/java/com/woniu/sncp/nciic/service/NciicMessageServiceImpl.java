@@ -15,9 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import com.woniu.sncp.exception.BusinessException;
-import com.woniu.sncp.nciic.dto.NciicMessageOut;
 import com.woniu.sncp.nciic.dto.NciicMessageIn;
+import com.woniu.sncp.nciic.dto.NciicMessageOut;
 
 public class NciicMessageServiceImpl implements NciicMessageService {
 
@@ -67,7 +66,7 @@ public class NciicMessageServiceImpl implements NciicMessageService {
 			Node errorCode = document.selectSingleNode("//ROWS/ROW/ErrorCode");
 			Node errorMsg = document.selectSingleNode("//ROWS/ROW/ErrorMsg");
 			if (errorCode != null || errorMsg != null) {
-				throw new BusinessException(((Element) errorCode).getText() + ":" + ((Element) errorMsg).getText());
+				throw new NciicException(((Element) errorCode).getText() + ":" + ((Element) errorMsg).getText());
 			}
 			List<NciicMessageOut> outs = new ArrayList<NciicMessageOut>();
 			List<Element> rows = document.selectNodes("//ROWS/ROW");

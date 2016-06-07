@@ -12,6 +12,7 @@
 
 	<modules>
 		<module>nciic-api</module>
+		<module>nciic-oracledb</module>
 		<module>nciic-dubbo</module>
 	</modules>
 		

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ImportResource;
 
 import com.woniu.sncp.nciic.dto.NciicMessageIn;
 import com.woniu.sncp.nciic.dto.NciicMessageOut;
+import com.woniu.sncp.nciic.service.NciicException;
 import com.woniu.sncp.nciic.service.NciicMessageService;
 
 @SpringBootApplication
@@ -31,12 +32,14 @@ public class NciicApplication {
 
 			NciicMessageIn nciicMessageIn = new NciicMessageIn(userName, identityNo);
 
-			NciicMessageOut nciicMessageOut = nciicMessageService.checkRealNameIdentityNo(nciicMessageIn);
-			
-			System.out.println(String.format(
-					"%s,errorInfo:%s,xm:%s-%s,sfzhm:%s-%s",
-					new String[] { String.valueOf(nciicMessageOut.actualResult()), nciicMessageOut.getErrorInfo(), nciicMessageOut.getUserName(), nciicMessageOut.getUserNameResult(),
-							nciicMessageOut.getIdentityNo(), nciicMessageOut.getIdentityNoResult() }));
+			try {
+				NciicMessageOut nciicMessageOut = nciicMessageService.checkRealNameIdentityNo(nciicMessageIn);
+				System.out.println(String.format("%s,errorInfo:%s,xm:%s-%s,sfzhm:%s-%s",
+						new String[] { String.valueOf(nciicMessageOut.actualResult()), nciicMessageOut.getErrorInfo(), nciicMessageOut.getUserName(), nciicMessageOut.getUserNameResult(),
+								nciicMessageOut.getIdentityNo(), nciicMessageOut.getIdentityNoResult() }));
+			} catch (NciicException e) {
+				System.err.println(e.getMessage());
+			}
 		};
 	}
 }
