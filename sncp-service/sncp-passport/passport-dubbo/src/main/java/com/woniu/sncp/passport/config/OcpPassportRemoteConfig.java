@@ -28,7 +28,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @version 1.0.0
  */
 @Configuration
-@RibbonClient(name = "passports")
 public class OcpPassportRemoteConfig {
 	
 	@Autowired

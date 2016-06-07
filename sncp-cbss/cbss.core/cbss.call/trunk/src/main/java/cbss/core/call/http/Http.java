@@ -27,11 +27,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import cbss.core.call.http.alert.AlertService;
-import cbss.core.trace.logformat.LogFormat;
-import cbss.core.util.DateUtils;
-import cbss.core.util.IpUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.sncp.cbss.core.trace.logformat.LogFormat;
+import com.woniu.sncp.cbss.core.util.DateUtils;
+import com.woniu.sncp.cbss.core.util.IpUtils;
 
 @Component
 @ConfigurationProperties(value = "cbss.api.alert.http.conf")

@@ -38,7 +38,16 @@ V1.0.0
 	7 修改src\main\resources\META-INF\spring\dubbo-consumer.xml 中
 		7.1 dubbo:application name信息
 		7.2 依赖dubbo-api接口信息
+	9 线上端口说明:
+		     11000
+		对应:abcde
 
+		每一位说明
+		a:微服务
+		b:dubbo用
+		c:业务用
+		d:业务用
+		e:实际端口
 
 
 	对接:
