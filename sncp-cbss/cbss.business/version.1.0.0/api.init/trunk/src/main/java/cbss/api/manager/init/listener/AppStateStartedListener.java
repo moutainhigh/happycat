@@ -3,7 +3,7 @@ package cbss.api.manager.init.listener;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 
-import cbss.core.trace.aspect.listener.Trace;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
 
 public class AppStateStartedListener implements ApplicationListener<ApplicationStartedEvent> {
 

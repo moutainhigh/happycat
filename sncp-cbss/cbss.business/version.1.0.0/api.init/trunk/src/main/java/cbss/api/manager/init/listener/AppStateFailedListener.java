@@ -3,7 +3,7 @@ package cbss.api.manager.init.listener;
 import org.springframework.boot.context.event.ApplicationFailedEvent;
 import org.springframework.context.ApplicationListener;
 
-import cbss.core.trace.aspect.listener.Trace;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
 
 public class AppStateFailedListener implements ApplicationListener<ApplicationFailedEvent> {
 
