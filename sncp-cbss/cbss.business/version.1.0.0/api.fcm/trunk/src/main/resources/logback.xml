@@ -46,17 +46,17 @@
 		</encoder>
 	</appender>
 
-	<logger name="cbss.core.trace.aspect.listener" level="TRACE">
+	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
 		<appender-ref ref="TRACE_LOG" />
 	</logger>
 
-	<logger name="cbss.api.fcm.aspectj">
+	<logger name="com.woniu.sncp.cbss.api.fcm.aspectj">
 		<level value="DEBUG" />
 	</logger>
-	<logger name="cbss.api.fcm.main">
+	<logger name="com.woniu.sncp.cbss.api.fcm">
 		<level value="DEBUG" />
 	</logger>
-	<logger name="cbss.core">
+	<logger name="com.woniu.sncp.cbss.core">
 		<level value="DEBUG" />
 	</logger>
 
