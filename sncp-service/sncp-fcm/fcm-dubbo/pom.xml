@@ -64,6 +64,23 @@
 			<artifactId>zkclient</artifactId>
 			<version>${zkclient.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>${spring.boot.admin.client.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.api.init</artifactId>
+			<version>${woniu.cbss.init.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

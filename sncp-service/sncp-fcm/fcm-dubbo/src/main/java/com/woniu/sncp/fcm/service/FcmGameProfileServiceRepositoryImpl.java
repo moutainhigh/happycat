@@ -1,6 +1,5 @@
 package com.woniu.sncp.fcm.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.exception.SystemException;
 import com.woniu.sncp.fcm.dto.FcmGameProfileTo;
 import com.woniu.sncp.fcm.mongo.FcmGameProfilePo;
 import com.woniu.sncp.fcm.mongo.repository.FcmGameProfileRepository;
