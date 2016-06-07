@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<!-- encoder 默认配置为PatternLayoutEncoder -->
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-			</pattern>
-		</encoder>
-	</appender>
+	<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	<jmxConfigurator/>
 
 	<!-- 每天生成一个日志文件，保存30天 -->
 	<appender name="FILE"
@@ -23,11 +17,29 @@
 		</encoder>
 	</appender>
 	
-	<logger name="com.woniu.sncp.passport" level="INFO"/>
+	<appender name="TRACE_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-	<root level="INFO">
-		<appender-ref ref="STDOUT" />
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
+		<appender-ref ref="TRACE_LOG" />
+	</logger>
+	
+	<logger name="com.woniu.sncp.passport" level="INFO">
 		<appender-ref ref="FILE" />
-	</root>
+	</logger>
+
+	<root level="INFO" />
 
 </configuration>  

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<bean id="hearthealth" class="com.woniu.sncp.cbss.api.manager.init.health.HeartHealth" />
+    <bean id="alertService" class="com.woniu.sncp.cbss.core.call.http.alert.AlertService" />
+    <bean id="threadPool" class="com.woniu.sncp.cbss.core.util.ThreadPool" />
+    <bean id="http" class="com.woniu.sncp.cbss.core.call.http.Http" />
+    <bean id="logformat" class="com.woniu.sncp.cbss.core.trace.logformat.LogFormat" />
+    <bean id="trace" class="com.woniu.sncp.cbss.core.trace.aspect.listener.Trace"/>
+	
+</beans>
