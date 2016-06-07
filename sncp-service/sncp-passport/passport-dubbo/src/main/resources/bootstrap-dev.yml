@@ -1,0 +1,82 @@
+#ocp远程调用参数
+ocp:
+  connectTimeout: 2000
+  readTimeout: 2000
+  appid: test_app
+  pwd: 111111
+  passport.server: http://passports
+
+logging:
+  path: /usr/sncp/logs/micro/passport
+
+dubbo:
+  zookeeper: zookeeper://192.168.1.128:2181
+  port: 20011
+
+#passport系统服务列表
+passports:
+  ribbon:
+    listOfServers: 192.168.1.128:12003,10.13.0.184:12003
+    ConnectTimeout: 2000
+    ReadTimeout: 2000
+    MaxAutoRetries: 0
+    MaxAutoRetriesNextServer: 0
+    OkToRetryOnAllOperations: true  
+    ServerListRefreshInterval: 2000
+    EnablePrimeConnections: true
+    EnableMarkingServerDownOnReachingFailureLimit: true
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
+    MaxHttpConnectionsPerHost: 50
+    eureka:
+      enabled: false
+      
+      
+niws:
+  loadbalancer: 
+    passports: 
+      connectionFailureCountThreshold: 1
+      circuitTripMaxTimeoutSeconds: 60
+      
+ribbon:
+  EnableMarkingServerDownOnReachingFailureLimit: true
+  
+  
+#Appliaction Trace
+cbss:
+  api: 
+    errorcode: 
+      bis: 
+        basename: errorcode_zh_CN
+    forbiLog: 
+      conf: 
+        forbiMethodInfos: processSubmit,mergeFranchiseeInfo,mobileRegisterPassport,registerPassport,registerPassport,regPassportBind,regPassportBind,validatePassport,queryEps,queryUserEps,updateEps,updateEpsByChType,updateEpsByUserId,updateEpsByUserIdAndChType,checkPassport,sendMobileSmsCode,sendMobileCode,mobileCodeAuth,mobileAuth,mobileRegisterPassport,registerPassport,sendMobileActiveKey,sendAppointmentSms,mobileCodeAuth,mobileAuth,imprestPropCard,registerPassport,checkPassport,exeProcWithJson,registerPassport,regPassport,regPassportBind,sdoMobileRegisterPassport,sdoRegisterPassport,checkPassport,register.json,register_check.json,vapi,changepassword,resetpasswordemail,resetpasswordsms,sendmobilecode,useCard,checkPassportOther,saveCompleteInfo,checkPassport
+        forbiAttrInfos: password,commitpassword,cipher,secAns,secQes,answner,commitnewpassword
+        forbiKeys: org.springframework,encodingFilter.FILTERED
+        newlinereplces: threePartnerImprest
+    threadpool:
+      conf: 
+        corePoolSize: 10
+        maximumPoolSize: 10
+        keepAliveTime: 60000
+        blockingQueueNum: 50
+    application:
+      heart: 
+        conf: 
+          metricUrl: http://124.202.142.136:81/api/push_monitor/
+          metricType: sncp.mirco.heart
+          tags: desc=passport-dubbo,version=1.0.0
+
+security: 
+  ignored: /cbss/api/**
+  user: 
+    name: cbssapi
+    password: ID)!DFASDPOI!@#
+
+management: 
+  context-path: /management
+  addApplicationContextHeader: false
+
+spring: 
+  boot: 
+    admin: 
+      url: http://10.103.4.137:2000
