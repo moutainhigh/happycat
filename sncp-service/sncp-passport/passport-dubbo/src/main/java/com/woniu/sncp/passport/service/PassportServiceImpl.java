@@ -1,6 +1,7 @@
 package com.woniu.sncp.passport.service;
 
 import org.dozer.DozerBeanMapper;
+import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class PassportServiceImpl implements PassportService {
 	private String serverUrl;
 
 	@Override
+	@Profiled(tag = "PassportServiceImpl.findPassportByAccountOrAliase")
 	public PassportDto findPassportByAccountOrAliase(String passportOrAliase)
 			throws PassportNotFoundException, PassportHasFrozenException, PassportHasLockedException, SystemException {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
@@ -83,6 +85,7 @@ public class PassportServiceImpl implements PassportService {
 	}
 	
 	@Override
+	@Profiled(tag = "PassportServiceImpl.findPassportByAid")
 	public PassportDto findPassportByAid(Long aid)
 			throws PassportNotFoundException, SystemException {
 		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
