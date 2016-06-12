@@ -1,5 +1,7 @@
 package com.woniu.sncp.passport.service;
 
+import java.util.Calendar;
+
 import org.dozer.DozerBeanMapper;
 import org.perf4j.aop.Profiled;
 import org.slf4j.Logger;
@@ -57,9 +59,11 @@ public class PassportServiceImpl implements PassportService {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, httpHeaders);
 		ResponseEntity<OcpResponsePassportDto> responseEntity = null;
 		try {
+			long start_time = Calendar.getInstance().getTimeInMillis();
 			logger.info("request: " + serverUrl + "/user/passport/query" + ","  + request);
 			responseEntity = restTemplate.postForEntity(serverUrl + "/user/passport/query", request, OcpResponsePassportDto.class);
 			logger.info("response: " + serverUrl + "/user/passport/query" + ","  + responseEntity);
+			logger.info("response Time:" + (Calendar.getInstance().getTimeInMillis() - start_time));
 		} catch(ResourceAccessException rae) {
 			throw new SystemException("ResourceAccessException：" + rae.getMessage());
 		} catch(Exception e) {
@@ -94,9 +98,11 @@ public class PassportServiceImpl implements PassportService {
 		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, httpHeaders);
 		ResponseEntity<OcpResponsePassportDto> responseEntity = null;
 		try {
+			long start_time = Calendar.getInstance().getTimeInMillis();
 			logger.info("request: " + serverUrl + "/user/passport/search/id" + ","  + request);
 			responseEntity = restTemplate.postForEntity(serverUrl + "/user/passport/search/id", request, OcpResponsePassportDto.class);
 			logger.info("response: " + serverUrl + "/user/passport/search/id" + ","  + responseEntity);
+			logger.info("response Time:" + (Calendar.getInstance().getTimeInMillis() - start_time));
 		} catch(ResourceAccessException rae) {
 			throw new SystemException("ResourceAccessException：" + rae.getMessage());
 		} catch(Exception e) {

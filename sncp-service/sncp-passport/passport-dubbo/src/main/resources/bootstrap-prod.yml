@@ -19,8 +19,8 @@ passports:
     listOfServers: passport.ocp.woniu.com,1.passport.ocp.woniu.com:12003,2.passport.ocp.woniu.com:12003,3.passport.ocp.woniu.com:12003
     ConnectTimeout: 2000
     ReadTimeout: 2000
-    MaxAutoRetries: 0
-    MaxAutoRetriesNextServer: 0
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
     OkToRetryOnAllOperations: true  
     ServerListRefreshInterval: 2000
     EnablePrimeConnections: true
@@ -28,6 +28,10 @@ passports:
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
     MaxHttpConnectionsPerHost: 200
     MaxTotalTimeToPrimeConnections: 2000
+    PoolMinThreads: 50
+    PoolMaxThreads: 500
+    ReceiveBufferSize: 5242880
+    SendBufferSize: 1048576
     eureka:
       enabled: false
       
@@ -64,7 +68,7 @@ cbss:
           tags: desc=passport-dubbo,version=1.0.0
 
 security: 
-  ignored: /cbss/api/**
+  ignored: /cbss/api/**,/passport/**
   user: 
     name: cbssapi
     password: ID)!DFASDPOI!@#

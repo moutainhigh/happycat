@@ -40,7 +40,7 @@
 			</Pattern>
 		</encoder>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<FileNamePattern>${LOG_PATH}/perf4j.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<FileNamePattern>${LOG_PATH}/perf4j.%d{yyyy-MM-dd}.${server.port}.log</FileNamePattern>
 			<maxHistory>5</maxHistory>
 		</rollingPolicy>
 	</appender>
