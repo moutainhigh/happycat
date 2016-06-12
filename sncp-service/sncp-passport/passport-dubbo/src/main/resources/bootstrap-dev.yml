@@ -64,7 +64,7 @@ cbss:
         conf: 
           metricUrl: http://124.202.142.136:81/api/push_monitor/
           metricType: sncp.mirco.heart
-          tags: desc=passport-dubbo,version=1.0.0
+          tags: desc=passport-dubbo,version='@project.version@'
 
 security: 
   ignored: /cbss/api/**

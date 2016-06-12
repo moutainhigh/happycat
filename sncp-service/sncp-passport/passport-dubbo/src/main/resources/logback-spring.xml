@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<include resource="org/springframework/boot/logging/logback/base.xml"/>
-	<jmxConfigurator/>
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator />
 
 	<!-- 每天生成一个日志文件，保存30天 -->
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		
+
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<fileNamePattern>${LOG_PATH}/passport.%d{yyyy-MM-dd}.${server.port}.log</fileNamePattern>
 			<maxHistory>30</maxHistory>
@@ -16,7 +16,7 @@
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
-	
+
 	<appender name="TRACE_LOG"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 
@@ -32,10 +32,44 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
+	<!-- This file appender is used to output aggregated performance statistics -->
+	<appender name="perf4jFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${LOG_PATH}/perf4j.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<maxHistory>5</maxHistory>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="CoalescingStatistics"
+		class="org.perf4j.logback.AsyncCoalescingStatisticsAppender">
+		<param name="TimeSlice" value="60000" />
+		<appender-ref ref="perf4jFileAppender"/>
+	</appender>
+	
+	
+
+	<!-- Loggers -->
+	<!-- The Perf4J logger. Note that org.perf4j.TimingLogger is the value of 
+		the org.perf4j.StopWatch.DEFAULT_LOGGER_NAME constant. Also, note that additivity 
+		is set to false, which is usually what is desired - this means that timing 
+		statements will only be sent to this logger and NOT to upstream loggers. -->
+	<logger name="org.perf4j.TimingLogger" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="CoalescingStatistics" />
+	</logger>
+
+	
+
+	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener"
+		level="TRACE">
 		<appender-ref ref="TRACE_LOG" />
 	</logger>
-	
+
 	<logger name="com.woniu.sncp.passport" level="INFO">
 		<appender-ref ref="FILE" />
 	</logger>

@@ -7,9 +7,3 @@ server:
   port: 8011
   tomcat:
     max-threads: 200
-
-info: 
-  app: 
-    name: passport-dubbo
-    description: passport dubbo service
-    version: 1.0.0

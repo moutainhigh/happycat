@@ -16,5 +16,8 @@
     <bean id="http" class="com.woniu.sncp.cbss.core.call.http.Http" />
     <bean id="logformat" class="com.woniu.sncp.cbss.core.trace.logformat.LogFormat" />
     <bean id="trace" class="com.woniu.sncp.cbss.core.trace.aspect.listener.Trace"/>
+    
+    <context:component-scan base-package="org.perf4j.log4j.aop"/>
+    <bean id="timingAspect" class="org.perf4j.log4j.aop.TimingAspect"/>
 	
 </beans>

@@ -3,6 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>passport-dubbo</artifactId>
 	<packaging>jar</packaging>
+	<description>Microservice Passport API</description>
 
 	<parent>
 		<groupId>com.woniu.sncp</groupId>
@@ -74,6 +75,16 @@
 		<dependency>
 			<groupId>org.jolokia</groupId>
 			<artifactId>jolokia-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.perf4j</groupId>
+			<artifactId>perf4j</artifactId>
+			<version>0.9.16</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-jexl</groupId>
+			<artifactId>commons-jexl</artifactId>
+			<version>1.1</version>
 		</dependency>
 	</dependencies>
 
