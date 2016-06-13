@@ -2,6 +2,8 @@ package com.woniu.sncp.cbss.core.repository.redis;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,12 @@ public class RedisService {
 
 	public String redisInfo() {
 		StringBuffer buffer = new StringBuffer();
-		List<RedisClientInfo> clinet = redisTemplate.getClientList();
-		for (RedisClientInfo info : clinet) {
-			buffer.append(info.getAddressPort()).append("\n");
+		Properties infos = redisTemplate.getConnectionFactory().getClusterConnection().info();
+		Set<Object> keys = infos.keySet();
+		for (Object key : keys) {
+			if (String.valueOf(key).endsWith("redis_version")) {
+				buffer.append(key).append("=").append(infos.get(key)).append("\n");
+			}
 		}
 		return buffer.toString();
 	}
