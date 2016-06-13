@@ -67,7 +67,7 @@ cbss:
           tags: desc=passport-dubbo,version='@project.version@'
 
 security: 
-  ignored: /cbss/api/**
+  ignored:  /cbss/api/**,/passport/**
   user: 
     name: cbssapi
     password: ID)!DFASDPOI!@#
