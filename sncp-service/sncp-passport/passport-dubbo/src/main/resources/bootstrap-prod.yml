@@ -83,3 +83,9 @@ spring:
       url: http://console.micro.woniu.com
       client: 
         prefer-ip: true
+  redis: 
+    cluster: 
+      nodes: 192.168.95.187:7001,192.168.95.239:7002,192.168.95.152:7003
+      maxTotal: 30
+      minIdle: 10
+      maxWaitMillis: 2000

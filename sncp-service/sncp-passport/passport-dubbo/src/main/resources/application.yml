@@ -5,3 +5,8 @@ info:
     description: @project.description@
     version: @project.version@
   version: @project.version@
+  
+management: 
+  health: 
+    redis: 
+      enabled: false

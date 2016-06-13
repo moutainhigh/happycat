@@ -12,6 +12,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
@@ -31,6 +32,7 @@ import com.woniu.sncp.passport.exception.PassportNotFoundException;
  * @since JDK1.8
  * @version 1.0.0
  */
+@Service("passportService")
 public class PassportServiceImpl implements PassportService {
 	
 	private Logger logger = LoggerFactory.getLogger(PassportServiceImpl.class);  

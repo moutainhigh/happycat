@@ -18,8 +18,10 @@
 	<dubbo:protocol name="dubbo" port="${dubbo.port}" />
 	<!-- 声明需要暴露的服务接口 -->
 	<dubbo:service interface="com.woniu.sncp.passport.service.PassportService"
-		ref="passportService" version="1.0.0" />
+		ref="passportCacheableService" version="1.0.0" />
 	<!-- 和本地bean一样实现服务 -->
 	<bean id="passportService" class="com.woniu.sncp.passport.service.PassportServiceImpl" />
+	<!-- redis缓存 -->
+	<bean id="passportCacheableService" class="com.woniu.sncp.passport.service.PassportCacheableServiceImpl" />
 
 </beans>
