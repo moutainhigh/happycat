@@ -39,7 +39,7 @@ public class FmcScheduleActivator {
 	public void cleanFcmOnlineTime(int expireHours) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.HOUR_OF_DAY, expireHours);
-		WriteResult result = mongoTemplate.remove(query(where("lastChange").gt(calendar.getTime())),
+		WriteResult result = mongoTemplate.remove(query(where("lastChange").lt(calendar.getTime())),
 				PassportFcmTotalTimePo.class);
 		logger.info("Schedule cleanFcmOnlineTime count " + result.getN());
 	}
