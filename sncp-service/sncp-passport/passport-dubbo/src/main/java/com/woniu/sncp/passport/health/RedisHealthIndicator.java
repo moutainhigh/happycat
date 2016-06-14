@@ -1,4 +1,4 @@
-package com.woniu.sncp.passport.Health;
+package com.woniu.sncp.passport.health;
 
 import java.util.Properties;
 import java.util.Set;
