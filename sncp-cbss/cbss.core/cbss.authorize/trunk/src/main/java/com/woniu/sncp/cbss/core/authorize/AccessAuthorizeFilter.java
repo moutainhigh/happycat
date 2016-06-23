@@ -196,6 +196,14 @@ public class AccessAuthorizeFilter implements Filter {
 							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")));
 							return;
 						}
+						if (StringUtils.isBlank(clientInfo.getClientUserIp())) {
+							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's clientUserIp Value is MUST SET.")));
+							return;
+						}
+						if (StringUtils.isBlank(clientInfo.getLocalReqIp())) {
+							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's localReqIp Value is MUST SET.")));
+							return;
+						}
 					} catch (Exception e) {
 						echoInfo(httpServletResponseWrapper,
 								(errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.").setErrorInfo(e.getMessage())));

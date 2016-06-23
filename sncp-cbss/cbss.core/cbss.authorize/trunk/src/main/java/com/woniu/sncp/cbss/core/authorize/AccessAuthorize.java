@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.sncp.cbss.core.authorize.exception.AccessAuthorizeException;
 import com.woniu.sncp.cbss.core.authorize.exception.AccessLimitException;
@@ -499,8 +500,8 @@ public class AccessAuthorize {
 			String[] cachs = datas.containsKey("ACPTCACH") ? datas.getString("ACPTCACH").split(",") : null;
 			String[] writeValue = datas.containsKey("ACPTVE") ? datas.getString("ACPTVE").split(",") : null;
 			codetypes = resetArray(codetypes, size);
-			seconds = resetArray(seconds, seconds.length, "1000");
-			cachs = resetArray(cachs, cachs.length);
+			seconds = resetArray(seconds, size, "1000");
+			cachs = resetArray(cachs, size);
 			writeValue = resetArray(writeValue, size);
 
 			String[] arrays = datas.containsKey("ACPTL") ? datas.getString("ACPTL").split(",") : null;
@@ -565,11 +566,24 @@ public class AccessAuthorize {
 
 				} else if (paramIdex.equals("-1008")) {
 					paramValue = String.valueOf(Calendar.getInstance().getTimeInMillis());
+				} else if (StringUtils.contains(paramIdex, '.')) {
+					String[] paramIdexstmp = StringUtils.split(paramIdex, '.');
+					Object object = paramsMap.get(paramIdexstmp[0]);
+					if (object instanceof List) {
+						Object obj = ((List) object).get(Integer.parseInt(paramIdexstmp[1]));
+						if (obj instanceof Map) {
+							paramValue = String.valueOf(((Map) obj).get(paramIdexstmp[2]));
+						}
+					} else if (object instanceof Map) {
+						paramValue = String.valueOf(((Map) object).get(paramIdexstmp[1]));
+					}
 				} else {
 					Object object = paramsMap.get(paramIdex);
 					if (object instanceof String[]) {
 						String[] objs = (String[]) object;
 						paramValue = objs[0];
+					} else if (object instanceof JSONArray) {
+						((JSONArray) object).get(0);
 					} else {
 						paramValue = String.valueOf(object);
 					}

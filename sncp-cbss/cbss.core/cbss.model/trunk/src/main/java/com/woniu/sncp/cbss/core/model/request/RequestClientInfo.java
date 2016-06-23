@@ -17,7 +17,20 @@ public class RequestClientInfo implements Serializable {
 	 */
 	private long startReqTime;
 
+	private String clientUserIp;
+	
+	private String localReqIp;
+
 	private List<Map<String, Object>> other = new ArrayList<Map<String, Object>>(0);
+
+	
+	public String getLocalReqIp() {
+		return localReqIp;
+	}
+
+	public void setLocalReqIp(String localReqIp) {
+		this.localReqIp = localReqIp;
+	}
 
 	public long getStartReqTime() {
 		return startReqTime;
@@ -29,10 +42,18 @@ public class RequestClientInfo implements Serializable {
 
 	public Map<String, Object> getOtherFirst() {
 		List<Map<String, Object>> list = getOther();
-		if(list != null && !list.isEmpty()){
+		if (list != null && !list.isEmpty()) {
 			list.get(0);
 		}
-		return new HashMap<String,Object>();
+		return new HashMap<String, Object>();
+	}
+
+	public String getClientUserIp() {
+		return clientUserIp;
+	}
+
+	public void setClientUserIp(String clientUserIp) {
+		this.clientUserIp = clientUserIp;
 	}
 
 	public List<Map<String, Object>> getOther() {

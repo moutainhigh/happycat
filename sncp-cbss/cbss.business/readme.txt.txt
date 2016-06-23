@@ -64,12 +64,12 @@ V1.0.0
 		
 		2.2 示例
 			1 参数数据是单条数据:
-				{"paramdata":{"issuerId":"7","gameId":"10","aid":"133861"},"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒}]}
+				{"paramdata":{"issuerId":"7","gameId":"10","aid":"133861"},"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒,"clientUserIp":"用户IP","localReqIp":"发起请求的本机IP"}]}
 			2 参数数据是多条格式相同数据:
-				{"paramdatas":[{"issuerId":"7","gameId":"10","aid":"133861"}],"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒}]}
+				{"paramdatas":[{"issuerId":"7","gameId":"10","aid":"133861"}],"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒,"clientUserIp":"用户IP","localReqIp":"发起请求的本机IP"}]}
 
 		2.3 accessverify如下
-			accessverify=md5({"paramdata":{"issuerId":"7","gameId":"10","aid":"133861"},"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒}]}1612O3I4J21L2K3JA223L1J2H3S0DF18SKLJ)
+			accessverify=md5({"paramdata":{"issuerId":"7","gameId":"10","aid":"133861"},"clientInfo":[{"startReqTime":请求方发起时间,long型,单位是毫秒,"clientUserIp":"用户IP","localReqIp":"发起请求的本机IP"}]}1612O3I4J21L2K3JA223L1J2H3S0DF18SKLJ)
 
 	以上示例使用的accessid等参数为
 	accessid:16
