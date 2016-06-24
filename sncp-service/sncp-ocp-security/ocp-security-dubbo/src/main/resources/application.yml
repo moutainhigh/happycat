@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: ocp-security-dubbo
+  profiles: 
+    active: dev

@@ -1,0 +1,26 @@
+dubbo:
+  zookeeper: zookeeper://192.168.95.120:2181?backup=192.168.95.135:2181,192.168.95.235:2181
+  port: 20031
+
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@10.17.0.200:1521:eai
+    username: sn_acl
+    password: o_acl_xn
+    max-wait: 5
+    max-active: 2
+    min-idle: 2
+  jpa:
+    database: ORACLE
+    show-sql: true
+    
+
+
+security:
+  zookeeper:
+    connectString: 192.168.95.120:2181,192.168.95.135:2181,192.168.95.235:2181
+    sessionTimeoutMs: 2000
+    connectionTimeoutMs: 2000
+    baseSleepTimeMs: 5000
+    maxRetries: 5

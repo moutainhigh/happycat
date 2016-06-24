@@ -58,7 +58,7 @@ public class OcpSecurityServiceImpl implements OcpSecurityService, InitializingB
 			}
 		}
 		if(credentialDTO == null || !credentialDTO.getPassword().equals(endocderPassword)) {
-			throw new CredentialNotFoundException();
+			throw new CredentialNotFoundException(new String[]{"Credential not found"});
 		}
 		return credentialDTO;
 	}
@@ -82,7 +82,7 @@ public class OcpSecurityServiceImpl implements OcpSecurityService, InitializingB
 			}
 		}
 		if(resourceDTO == null) {
-			throw new ResourceNotFoundException();
+			throw new ResourceNotFoundException(new String[]{"resource not found"});
 		}
 		return resourceDTO;
 	}

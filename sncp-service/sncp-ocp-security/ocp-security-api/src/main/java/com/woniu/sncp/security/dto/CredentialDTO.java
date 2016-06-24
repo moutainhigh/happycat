@@ -6,29 +6,29 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CredentialDTO implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	
+
 	private String userName;
-	
+
 	private String password;
-	
+
 	private String credentialState;
-	
+
 	private Date createDate;
-	
+
 	private Date updateDate;
-	
+
 	private String credentialType;
-	
+
 	private ProfileDTO profile;
-	
+
 	private Set<AppIPDTO> ipAddresses = new HashSet<AppIPDTO>();
-	
+
 	private Set<GroupDTO> groupSet = new HashSet<GroupDTO>();
-	
+
 	public String getId() {
 		return id;
 	}
@@ -74,12 +74,12 @@ public class CredentialDTO implements Serializable {
 	}
 
 	public void setProfile(ProfileDTO profile) {
-		if(profile != null) {
+		if (profile != null) {
 			this.profile = profile;
 			profile.setCredential(this);
 		}
 	}
-	
+
 	public Set<AppIPDTO> getIpAddresses() {
 		return ipAddresses;
 	}
@@ -136,7 +136,5 @@ public class CredentialDTO implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-	
+
 }

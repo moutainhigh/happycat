@@ -1,0 +1,5 @@
+server:
+  port: 8031
+  tomcat:
+    max-threads: 200
+    uri-encoding: UTF-8

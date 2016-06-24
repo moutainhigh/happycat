@@ -30,7 +30,7 @@
 		<jexl.version>1.1</jexl.version>
 		<oracle.client.version>11.2.0.3</oracle.client.version>
 		<commons-codec.version>1.10</commons-codec.version>
-		<curator.version>3.1.0</curator.version>
+		<curator.version>2.9.1</curator.version>
 		<commons-net.version>3.5</commons-net.version>
 	</properties>
 

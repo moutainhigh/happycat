@@ -1,16 +1,15 @@
 package com.woniu.sncp.security.exception;
 
 import com.woniu.sncp.exception.BusinessException;
+import com.woniu.sncp.exception.web.WebBaseException;
 
-public class ResourceNotFoundException  extends BusinessException {
+public class ResourceNotFoundException extends WebBaseException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ResourceNotFoundException() {
-		super();
-	}
+	private static final String CODE = "610000";
 	
-	public ResourceNotFoundException(String message) {
-		super(message);
+	public ResourceNotFoundException(Object[] args) {
+		super(CODE,args);
 	}
 }
