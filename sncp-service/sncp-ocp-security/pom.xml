@@ -13,6 +13,7 @@
 		<module>ocp-security-api</module>
 		<module>ocp-security-jpa</module>
 		<module>ocp-security-dubbo</module>
+		<module>spring-boot-ocp-security-starter</module>
 	</modules>
 	
 	<dependencies>
