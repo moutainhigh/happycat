@@ -3,6 +3,7 @@ package com.woniu.sncp.profile.service;
 
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.DownConfigTo;
 import com.woniu.sncp.profile.dto.PaginationTo;
 import com.woniu.sncp.profile.jpa.DownConfigRepository;
@@ -23,6 +25,15 @@ public class DownConfigServiceImpl implements DownConfigService{
 	
 	@Override
 	public PaginationTo query(String type, String osType,int pageSize,int pageNumber) {
+		String paramMsg = "query - type:"+type+",osType:"+osType+",pageSize:"+pageSize+",pageNumber:"+pageNumber;
+		log.info(paramMsg);
+		
+		if(StringUtils.isBlank(type)
+				 || StringUtils.isBlank(osType)){
+			log.error("params:"+paramMsg+",result:type or osType is null");
+			throw new MissingParamsException("type or osType is null");
+		}
+		
 		PageRequest pageable =  new PageRequest(pageNumber - 1, pageSize);
 		Page<DownConfigPo> result = repository.findByTypeAndOsTypeOrderBySortAscCreateAsc(type, osType, pageable);
 		
@@ -37,6 +48,7 @@ public class DownConfigServiceImpl implements DownConfigService{
 		to.setPageSize(pageSize);
 		to.setTotalSize(result.getTotalElements());
 		
+		log.info("params:"+paramMsg+",totalSize:"+to.getTotalSize()+",pageSize:"+to.getPageSize()+",pageNumber:"+to.getPageNumber());
 		return to;
 	}
 

@@ -12,7 +12,7 @@ public interface DownConfigService {
 	 * @param type 应用分类
 	 * @param osType 系统类型
 	 * @param pageSize 每页数据条数
-	 * @param pageNumber 当前页码
+	 * @param pageNumber 当前页码，从1开始
 	 * @return PaginationTo
 	 */
 	PaginationTo query(String type,String osType,int pageSize,int pageNumber);
