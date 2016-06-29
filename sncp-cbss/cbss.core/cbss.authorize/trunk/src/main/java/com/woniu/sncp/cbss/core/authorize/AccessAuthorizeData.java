@@ -255,6 +255,5 @@ public class AccessAuthorizeData {
 		} catch (Exception e) {
 			return NameFactory.default_constant.INFPARAM_HTTPPARAM_ALLMETHOD.getValue();
 		}
-
 	}
 }
