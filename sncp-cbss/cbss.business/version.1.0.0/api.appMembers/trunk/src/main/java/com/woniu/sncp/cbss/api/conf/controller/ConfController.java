@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
+import com.woniu.sncp.cbss.core.util.PropertiesUtl;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.DownConfigTo;
 import com.woniu.sncp.profile.dto.PaginationTo;
@@ -34,7 +35,9 @@ public class ConfController {
 	private DownConfigService downConfigService;
 	@Autowired
 	private ErrorCode errorCode;
-
+	@Autowired
+	private PropertiesUtl propertiesUtl;
+	
 	/**
 	 * eai中修改防沉迷开关后,调此接口把开关数据同步过去
 	 * 
@@ -60,13 +63,14 @@ public class ConfController {
 				return errorCode.getErrorCode(10007, requestDatas.getSessionId());
 			}
 			EchoInfo<Object> result = errorCode.getErrorCode(1, requestDatas.getSessionId());
+			String host = propertiesUtl.getUrl();
 			List<DownConfigTo> downConfigList = page.getDownConfigList();
 			List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 			for (DownConfigTo to : downConfigList) {
 				Map<String,Object> map = new HashMap<String,Object>();
 				map.put("type", to.getType());
 				map.put("name", to.getName());
-				map.put("icoUrl", to.getIco());
+				map.put("icoUrl", host + to.getIco());
 				map.put("downUrl", to.getDownUrl());
 				map.put("desc", to.getDesc());
 				map.put("osType", to.getOsType());
