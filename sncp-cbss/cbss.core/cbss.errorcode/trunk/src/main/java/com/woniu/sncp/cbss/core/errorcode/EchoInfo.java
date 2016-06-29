@@ -109,5 +109,4 @@ public class EchoInfo<T> {
 		this.data = data;
 		return this;
 	}
-
 }
