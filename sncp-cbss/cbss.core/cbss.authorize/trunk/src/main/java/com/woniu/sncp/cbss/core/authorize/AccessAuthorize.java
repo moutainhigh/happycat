@@ -24,6 +24,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.sncp.cbss.core.authorize.exception.AccessAuthorizeException;
 import com.woniu.sncp.cbss.core.authorize.exception.AccessLimitException;
+import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfo;
 import com.woniu.sncp.cbss.core.model.access.SecurityResource;
 import com.woniu.sncp.cbss.core.model.constant.NameFactory;
@@ -95,68 +96,80 @@ public class AccessAuthorize {
 	 */
 	public boolean authorize(RequestAccess requestAccess)
 			throws AccessAuthorizeException {
+		long time = System.currentTimeMillis();
+		long time1 = 0, time2 = 0, time3 = 0, time4 = 0, time5 = 0;
+		try {
+			String body = requestAccess.getBody();
+			String accessVerfy = requestAccess.getAccessVerify();
+			time1 = System.currentTimeMillis();
+			AccessSecurityInfo accessSecurityInfo = accessAuthorizeData.getAccessSecurityInfo(requestAccess.getRequestDatas().getAccessId(), requestAccess.getRequestDatas().getAccessType());
+			if (null == accessSecurityInfo) {
+				throw new AccessAuthorizeException(trace.traceException("access forbidden security info is null", requestAccess.getTraceState(), "[" + accessSecurityInfo + "]["
+						+ requestAccess.getRequestDatas().getAccessId() + requestAccess.getRequestDatas().getAccessType() + "]"));
+			}
+			time2 = System.currentTimeMillis();
+			if (!accessSecurityInfo.getFullName().startsWith(NameFactory.default_constant.ISDEBUG.getValue())) {
+				requestAccess.setTraceState("");
+			}
 
-		String body = requestAccess.getBody();
-		String accessVerfy = requestAccess.getAccessVerify();
+			if (!"1".equals(accessSecurityInfo.getState())) {
+				throw new AccessAuthorizeException(trace.traceException("access forbidden", requestAccess.getTraceState(), "[need:1][actual:" + accessSecurityInfo.getState() + "]"));
+			}
 
-		AccessSecurityInfo accessSecurityInfo = accessAuthorizeData.getAccessSecurityInfo(requestAccess.getRequestDatas().getAccessId(), requestAccess.getRequestDatas().getAccessType());
-		if (null == accessSecurityInfo) {
-			throw new AccessAuthorizeException(trace.traceException("access forbidden security info is null", requestAccess.getTraceState(), "[" + accessSecurityInfo + "]["
-					+ requestAccess.getRequestDatas().getAccessId() + requestAccess.getRequestDatas().getAccessType() + "]"));
-		}
+			if (!requestAccess.getRequestDatas().getAccessPasswd().equals(accessSecurityInfo.getPasswd())) {
+				throw new AccessAuthorizeException(trace.traceException("access forbidden passwd is wrong", requestAccess.getTraceState(), ""));
+			}
 
-		if (!accessSecurityInfo.getFullName().startsWith(NameFactory.default_constant.ISDEBUG.getValue())) {
-			requestAccess.setTraceState("");
-		}
+			String accessKey = accessSecurityInfo.getSeed();
+			if (StringUtils.isBlank(accessKey)) {
+				throw new AccessAuthorizeException(trace.traceException("access forbidden accesskey is null", requestAccess.getTraceState(), ""));
+			}
 
-		if (!"1".equals(accessSecurityInfo.getState())) {
-			throw new AccessAuthorizeException(trace.traceException("access forbidden", requestAccess.getTraceState(), "[need:1][actual:" + accessSecurityInfo.getState() + "]"));
-		}
+			String writeIp = accessSecurityInfo.getLimitIp();
 
-		if (!requestAccess.getRequestDatas().getAccessPasswd().equals(accessSecurityInfo.getPasswd())) {
-			throw new AccessAuthorizeException(trace.traceException("access forbidden passwd is wrong", requestAccess.getTraceState(), ""));
-		}
+			if (!isNotCheckIp(requestAccess.getRequestDatas().getAccessType())) {
+				String remoteIp = requestAccess.getRemoteIp();
+				if (!IPRangeValidator.isValid(writeIp, requestAccess.getRemoteIp())) {
+					throw new AccessAuthorizeException(trace.traceException("access forbidden IP verify error", requestAccess.getTraceState(), "[WIP:" + writeIp + "][RIP:" + remoteIp + "]"));
+				}
+			}
+			time3 = System.currentTimeMillis();
+			if (accessSecurityInfo.getStart() != null || accessSecurityInfo.getEnd() != null) {
+				if (accessSecurityInfo.getStart() != null && Calendar.getInstance().getTime().before(accessSecurityInfo.getStart())) {
+					throw new AccessAuthorizeException(trace.traceException("access forbidden start-time no coming on", requestAccess.getTraceState(), ""));
+				}
+				if (accessSecurityInfo.getEnd() != null && Calendar.getInstance().getTime().after(accessSecurityInfo.getEnd())) {
+					throw new AccessAuthorizeException(trace.traceException("access forbidden more than end-time ", requestAccess.getTraceState(), ""));
+				}
+			}
+			String bodySign = null;
+			if (requestAccess.getAccessVerifyType() <= EchoInfo.SIGNATURE_TYPE_DEFAULT) {
+				bodySign = body + accessSecurityInfo.getId().getId() + accessSecurityInfo.getId().getType() + accessSecurityInfo.getPasswd() + accessKey;
+			}
 
-		String accessKey = accessSecurityInfo.getSeed();
-		if (StringUtils.isBlank(accessKey)) {
-			throw new AccessAuthorizeException(trace.traceException("access forbidden accesskey is null", requestAccess.getTraceState(), ""));
-		}
+			String charset = null;
+			if (requestAccess.getRequestDatas().getOther() != null && requestAccess.getRequestDatas().getOther().getOtherFirst() != null) {
+				charset = ObjectUtils.toString((requestAccess.getRequestDatas().getOther().getOtherFirst().get(NameFactory.request_otherinfo.encryptcharset.getValue())));
+			}
 
-		String writeIp = accessSecurityInfo.getLimitIp();
-
-		if (!isNotCheckIp(requestAccess.getRequestDatas().getAccessType())) {
-			String remoteIp = requestAccess.getRemoteIp();
-			if (!IPRangeValidator.isValid(writeIp, requestAccess.getRemoteIp())) {
-				throw new AccessAuthorizeException(trace.traceException("access forbidden IP verify error", requestAccess.getTraceState(), "[WIP:" + writeIp + "][RIP:" + remoteIp + "]"));
+			charset = StringUtils.isBlank(charset) ? NameFactory.default_charset.utf8.getValue() : charset;
+			time4 = System.currentTimeMillis();
+			String appsign = MD5Encrypt.encrypt(bodySign, charset, true);
+			if (logger.isInfoEnabled()) {
+				String url = requestAccess.getRequestURI();
+				logger.info(url + ",beforemd5:" + bodySign + ",md5:" + appsign + ",accessVerfy:" + accessVerfy);
+			}
+			if (!accessVerfy.equalsIgnoreCase(appsign)) {
+				throw new AccessAuthorizeException(trace.traceException("access forbidden sign verify error", requestAccess.getTraceState(), "[" + body + "][" + accessVerfy + "][" + appsign));
+			}
+			requestAccess.getRequestDatas().setAccessSecurityInfo(accessSecurityInfo);
+			time5 = System.currentTimeMillis();
+		} finally {
+			if (logger.isInfoEnabled()) {
+				logger.info(requestAccess.getRequestDatas().getAccessId() + "," + requestAccess.getRequestDatas().getAccessType() + " ==>" + time + " ==>" + (time - time1) + " " + (time2 - time1)
+						+ " " + (time3 - time2) + " " + (time4 - time3) + " " + (time5 - time4));
 			}
 		}
-
-		if (accessSecurityInfo.getStart() != null || accessSecurityInfo.getEnd() != null) {
-			if (accessSecurityInfo.getStart() != null && Calendar.getInstance().getTime().before(accessSecurityInfo.getStart())) {
-				throw new AccessAuthorizeException(trace.traceException("access forbidden start-time no coming on", requestAccess.getTraceState(), ""));
-			}
-			if (accessSecurityInfo.getEnd() != null && Calendar.getInstance().getTime().after(accessSecurityInfo.getEnd())) {
-				throw new AccessAuthorizeException(trace.traceException("access forbidden more than end-time ", requestAccess.getTraceState(), ""));
-			}
-		}
-
-		String bodySign = body + accessSecurityInfo.getId().getId() + accessSecurityInfo.getId().getType() + accessSecurityInfo.getPasswd() + accessKey;
-
-		String charset = null;
-		if (requestAccess.getRequestDatas().getOther() != null && requestAccess.getRequestDatas().getOther().getOtherFirst() != null) {
-			charset = ObjectUtils.toString((requestAccess.getRequestDatas().getOther().getOtherFirst().get(NameFactory.request_otherinfo.encryptcharset.getValue())));
-		}
-
-		charset = StringUtils.isBlank(charset) ? NameFactory.default_charset.utf8.getValue() : charset;
-		String appsign = MD5Encrypt.encrypt(bodySign, charset, true);
-		if (logger.isInfoEnabled()) {
-			String url = requestAccess.getRequestURI();
-			logger.info(url + ",beforemd5:" + bodySign + ",md5:" + appsign + ",accessVerfy:" + accessVerfy);
-		}
-		if (!accessVerfy.equalsIgnoreCase(appsign)) {
-			throw new AccessAuthorizeException(trace.traceException("access forbidden sign verify error", requestAccess.getTraceState(), "[" + body + "][" + accessVerfy + "][" + appsign));
-		}
-		requestAccess.getRequestDatas().setAccessSecurityInfo(accessSecurityInfo);
 		return true;
 	}
 
