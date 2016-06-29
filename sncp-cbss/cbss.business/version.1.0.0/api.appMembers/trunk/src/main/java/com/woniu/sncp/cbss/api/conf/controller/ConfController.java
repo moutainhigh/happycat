@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.woniu.sncp.cbss.api.util.PropertiesUtl;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
-import com.woniu.sncp.cbss.core.util.PropertiesUtl;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.DownConfigTo;
 import com.woniu.sncp.profile.dto.PaginationTo;
