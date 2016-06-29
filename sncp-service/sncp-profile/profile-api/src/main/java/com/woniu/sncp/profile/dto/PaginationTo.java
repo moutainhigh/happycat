@@ -1,8 +1,14 @@
 package com.woniu.sncp.profile.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PaginationTo {
+public class PaginationTo implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2235769526291863977L;
+	
 	private Long totalSize;//总条数
 	private int pageNumber;//当前页
 	private int pageSize;//每页数据量
