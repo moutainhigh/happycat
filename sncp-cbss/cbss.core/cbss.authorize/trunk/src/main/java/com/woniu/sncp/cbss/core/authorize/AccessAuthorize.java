@@ -165,7 +165,10 @@ public class AccessAuthorize {
 			requestAccess.getRequestDatas().setAccessSecurityInfo(accessSecurityInfo);
 			time5 = System.currentTimeMillis();
 		} finally {
-			System.out.println(time + " ==>" + (time - time1) + " " + (time2 - time1) + " " + (time3 - time2) + " " + (time4 - time3) + " " + (time5 - time4));
+			if (logger.isInfoEnabled()) {
+				logger.info(requestAccess.getRequestDatas().getAccessId() + "," + requestAccess.getRequestDatas().getAccessType() + " ==>" + time + " ==>" + (time - time1) + " " + (time2 - time1)
+						+ " " + (time3 - time2) + " " + (time4 - time3) + " " + (time5 - time4));
+			}
 		}
 		return true;
 	}
