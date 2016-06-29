@@ -40,7 +40,7 @@ public class NciicNiftyService implements com.woniu.sncp.cbss.api.core.thrift.Ap
 			// try {
 			// NciicMessageOut out =
 			// nciicMessageService.checkRealNameIdentityNo(nciicMessageIn);
-			return errorCode.getCode(1).setData("hihi");
+			return errorCode.getCode(1).setData("hihi").setUuid(data.getSessionId()).setTime(System.currentTimeMillis()).setServerState(new State(Status.ALIVE, -1));
 			// // } catch (NciicException e) {
 			// return errorCode.getCode(0);
 			// }

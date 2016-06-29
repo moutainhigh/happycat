@@ -69,9 +69,9 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 		} catch (Exception e) {
 			if (e instanceof AccessAuthorizeException) {
 				Echo echo = new Echo();
-				echo.setMessage(e.getMessage() == null ? "NA" : e.getMessage());
+				echo.setMessage(e.getMessage() == null ? "NA1" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());
-				echo.setData("");
+				echo.setData("NA1");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.ALIVE, -1));
@@ -79,9 +79,9 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				return echo;
 			} else {
 				Echo echo = new Echo();
-				echo.setMessage(e.getMessage() == null ? "NA" : e.getMessage());
+				echo.setMessage(e.getMessage() == null ? "NA2" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());
-				echo.setData("");
+				echo.setData("NA2");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.ALIVE, -1));
@@ -110,9 +110,9 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 		if (!accessAuthorize.authorize(requestAccess)) {
 			throw new AccessAuthorizeException("REQ ACCESS AUTHORIZE FORBIDDEN");
 		}
-//		if (accessAuthorize.limit(requestAccess)) {
-//			throw new AccessAuthorizeException("REQ LIMIT AUTHORIZE FORBIDDEN");
-//		}
+		if (accessAuthorize.limit(requestAccess)) {
+			throw new AccessAuthorizeException("REQ LIMIT AUTHORIZE FORBIDDEN");
+		}
 	}
 
 	private RequestAccess buildRequestAccess(Method method, Access access, Data data, Signature signature) {
@@ -120,7 +120,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 		requestAccess.setRequestParamData(new HashMap(0));
 		requestAccess.setSessionId(UUID.randomUUID().toString());
 		requestAccess.setTraceState(data.getTraceState());
-		
+
 		data.setSessionId(requestAccess.getSessionId());
 
 		RequestDatas<SnailNiftyParam> requestDatas = new RequestDatas<SnailNiftyParam>();

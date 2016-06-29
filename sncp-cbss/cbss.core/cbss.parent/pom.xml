@@ -76,7 +76,7 @@
 		<javax.validation.version>1.1.0.Final</javax.validation.version>
 		<javax.ws.rs.version>2.0.1</javax.ws.rs.version>
 		<com.fasterxml.jackson.core.version>2.7.4</com.fasterxml.jackson.core.version>
-		<com.101tec.zkclient.version>0.2</com.101tec.zkclient.version>
+		<com.101tec.zkclient.version>0.9</com.101tec.zkclient.version>
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<logback.version>1.1.7</logback.version>
 		<apache.curator.version>2.4.2</apache.curator.version>
