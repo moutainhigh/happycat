@@ -1,8 +1,10 @@
 package com.woniu.sncp.cbss.core.authorize;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -27,8 +29,10 @@ public class AccessAuthorizeData {
 
 	private static final Logger logger = LoggerFactory.getLogger(AccessAuthorize.class);
 
-	public static List<AccessSecurityInfo> accessSecurityInfos = Collections.synchronizedList(new ArrayList<AccessSecurityInfo>());
-	public static List<SecurityResource> securityResources = Collections.synchronizedList(new ArrayList<SecurityResource>());
+	public static List<AccessSecurityInfo> accessSecurityInfos = (new ArrayList<AccessSecurityInfo>());
+	public static List<SecurityResource> securityResources = (new ArrayList<SecurityResource>());
+
+	public static Map<String, AccessSecurityInfo> requestInAccessSecurityInfo = (new HashMap<String, AccessSecurityInfo>());
 
 	@Autowired
 	private ZooKeeperFactory zooKeeperFactory;
@@ -38,6 +42,38 @@ public class AccessAuthorizeData {
 
 	@Autowired
 	private AccessUrlConfigurationProperties accessUrlConfigurationProperties;
+
+	/**
+	 * @param accessSecurityInfo
+	 * @param securityResources
+	 * @return isEmp
+	 */
+	private boolean deleteAccessSecurityInfoFromsecurityResources(AccessSecurityInfo accessSecurityInfo, List<SecurityResource> securityResources) {
+		boolean ishave = false;
+		for (SecurityResource securityResource : securityResources) {
+			if (accessSecurityInfo.getId().getId().compareTo(securityResource.getId().getId()) == 0) {
+				ishave = true;
+			}
+		}
+		return ishave;
+	}
+
+	private List<AccessSecurityInfo> deleteAccessSecurityInfoFromsecurityResources(List<AccessSecurityInfo> accessSecurityInfos, List<SecurityResource> securityResources) {
+		List<AccessSecurityInfo> wDelete = new ArrayList<AccessSecurityInfo>();
+		for (AccessSecurityInfo accessSecurityInfo : accessSecurityInfos) {
+			boolean ishave = false;
+			for (SecurityResource securityResource : securityResources) {
+				if (accessSecurityInfo.getId().getId().compareTo(securityResource.getId().getId()) == 0) {
+					ishave = true;
+				}
+			}
+
+			if (!ishave) {
+				wDelete.add(accessSecurityInfo);
+			}
+		}
+		return wDelete;
+	}
 
 	@PostConstruct
 	public void fromZookeeperData()
@@ -50,10 +86,15 @@ public class AccessAuthorizeData {
 			if (urls != null) {
 				for (String url : urls) {
 					String resourcesInfos = redisService.get(NameFactory.zookeeper_constant.accessSecurityResourcesPath2.getValue() + url);
-					if(StringUtils.isNotBlank(resourcesInfos)){
+					if (StringUtils.isNotBlank(resourcesInfos)) {
 						List<SecurityResource> data = JSONArray.parseArray(resourcesInfos, SecurityResource.class);
 						securityResources.addAll(data);
 					}
+				}
+
+				List<AccessSecurityInfo> wDelete = deleteAccessSecurityInfoFromsecurityResources(accessSecurityInfos, securityResources);
+				if (!wDelete.isEmpty()) {
+					accessSecurityInfos.removeAll(wDelete);
 				}
 			}
 		} catch (Exception e) {
@@ -82,6 +123,15 @@ public class AccessAuthorizeData {
 				if (isHave) {
 					// 更新
 					accessSecurityInfos.set(index - 1, accessSecurityInfoNew);
+
+					Collection<AccessSecurityInfo> keys = requestInAccessSecurityInfo.values();
+					for (AccessSecurityInfo accessSecurityInfo : keys) {
+						if ((accessSecurityInfoNew.getId().getId() + "-" + accessSecurityInfoNew.getId().getType()).equals(accessSecurityInfo.getId().getId() + "-"
+								+ accessSecurityInfo.getId().getType())) {
+							requestInAccessSecurityInfo.put((accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType()), accessSecurityInfoNew);
+						}
+					}
+
 				} else {
 					// 新增
 					accessSecurityInfos.add(accessSecurityInfoNew);
@@ -123,6 +173,11 @@ public class AccessAuthorizeData {
 				} else {
 					// 新增
 					securityResources.add(securityResourceNew);
+					
+					List<AccessSecurityInfo> wDelete = deleteAccessSecurityInfoFromsecurityResources(accessSecurityInfos, securityResources);
+					if (!wDelete.isEmpty()) {
+						accessSecurityInfos.removeAll(wDelete);
+					}
 				}
 			}
 		});
@@ -142,18 +197,27 @@ public class AccessAuthorizeData {
 		if (accessSecurityInfos == null || accessSecurityInfos.size() == 0) {
 			return accessSecurityInfo;
 		}
-		for (AccessSecurityInfo info : accessSecurityInfos) {
-			try {
-				if (info != null && info.getId() != null) {
-					if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
-						accessSecurityInfo = info;
-						break;
+		accessSecurityInfo = requestInAccessSecurityInfo.get(accessId + "-" + accessType);
+
+		if (accessSecurityInfo == null) {
+			for (AccessSecurityInfo info : accessSecurityInfos) {
+				try {
+					if (info != null && info.getId() != null) {
+						if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
+							accessSecurityInfo = info;
+							break;
+						}
 					}
+				} catch (Exception e) {
+					return accessSecurityInfo;
 				}
-			} catch (Exception e) {
-				return accessSecurityInfo;
+			}
+
+			if (accessSecurityInfo != null) {
+				requestInAccessSecurityInfo.put(accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType(), accessSecurityInfo);
 			}
 		}
+
 		return accessSecurityInfo;
 	}
 
@@ -184,6 +248,9 @@ public class AccessAuthorizeData {
 		}
 		try {
 			int start = servletPath.lastIndexOf("/");
+			if (start < 0) {
+				start = servletPath.lastIndexOf(".");
+			}
 			return servletPath.substring(start + 1);
 		} catch (Exception e) {
 			return NameFactory.default_constant.INFPARAM_HTTPPARAM_ALLMETHOD.getValue();

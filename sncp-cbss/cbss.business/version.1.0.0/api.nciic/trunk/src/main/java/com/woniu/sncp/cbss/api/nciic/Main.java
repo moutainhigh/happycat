@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ImportResource;
 import com.woniu.sncp.cbss.api.manager.init.listener.ExceptionEventListener;
 import com.woniu.sncp.cbss.core.trace.aspect.listener.ServletContainerApplicationListener;
 
-@ComponentScan(basePackages = { "cbss.*", "com.*" })
+@ComponentScan(basePackages = { "com.woniu.sncp.*" })
 @SpringBootApplication
-@ImportResource("classpath*:META-INF/spring/dubbo-passport-consumer.xml")
+@ImportResource("classpath*:META-INF/spring/dubbo-consumer.xml")
 
 public class Main {
 	public static void main(String[] args) {

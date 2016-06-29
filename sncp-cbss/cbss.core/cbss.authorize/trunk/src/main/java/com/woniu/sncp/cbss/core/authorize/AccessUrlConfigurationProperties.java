@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
@@ -22,6 +24,13 @@ public class AccessUrlConfigurationProperties {
 	List<String> paramTypes;
 	List<RequestDatas<RequestParam>> paramObjects;
 
+	List<String> services;
+	List<String> methods;
+	List<String> requestparams;
+
+	@Autowired
+	private ApplicationContext applicationContext;
+
 	public List<RequestDatas<RequestParam>> getParamObjects() {
 		return paramObjects;
 	}
@@ -37,11 +46,22 @@ public class AccessUrlConfigurationProperties {
 	@PostConstruct
 	public void buildParamObject() {
 		try {
-			paramObjects = new ArrayList<RequestDatas<RequestParam>>();
-			for (String paramType : paramTypes) {
-				Object object = Class.forName(paramType).newInstance();
-				if (object instanceof RequestDatas<?>) {
-					paramObjects.add((RequestDatas<RequestParam>) object);
+			if (paramTypes != null && !paramTypes.isEmpty()) {
+				paramObjects = new ArrayList<RequestDatas<RequestParam>>();
+				for (String paramType : paramTypes) {
+					Object object = Class.forName(paramType).newInstance();
+					if (object instanceof RequestDatas<?>) {
+						paramObjects.add((RequestDatas<RequestParam>) object);
+					}
+				}
+			}
+			
+			if (services != null && !services.isEmpty()) {
+				if (urls == null) {
+					urls = new ArrayList<String>();
+				}
+				for (int i = 0; i < services.size(); i++) {
+					urls.add(services.get(i) + "." + methods.get(i) + "." + requestparams.get(i));
 				}
 			}
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -61,4 +81,27 @@ public class AccessUrlConfigurationProperties {
 		this.urls = urls;
 	}
 
+	public List<String> getServices() {
+		return services;
+	}
+
+	public void setServices(List<String> services) {
+		this.services = services;
+	}
+
+	public List<String> getMethods() {
+		return methods;
+	}
+
+	public void setMethods(List<String> methods) {
+		this.methods = methods;
+	}
+
+	public List<String> getRequestparams() {
+		return requestparams;
+	}
+
+	public void setRequestparams(List<String> requestparams) {
+		this.requestparams = requestparams;
+	}
 }

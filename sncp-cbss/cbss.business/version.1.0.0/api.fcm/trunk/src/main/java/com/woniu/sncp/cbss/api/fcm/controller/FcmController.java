@@ -205,7 +205,7 @@ public class FcmController {
 				Map<String, Object> map = resource.getNoteFirst();
 				validateThreeCondition = Boolean.valueOf(ObjectUtils.toString(map.get("validateThree")));
 			}
-			
+
 			long start1 = System.currentTimeMillis();
 			boolean isfcm = fcmService.isFcm(aid, issuerId, gameId, validateThreeCondition);
 			long start2 = System.currentTimeMillis();
@@ -214,16 +214,13 @@ public class FcmController {
 				long start3 = System.currentTimeMillis();
 				Long time = fcmService.fcmOnlineTime(identity, gameId);
 				long start4 = System.currentTimeMillis();
-				logger.info((start2 - start1) + "," + (start3 - start2) + "," + (start4 - start3) + 
-						"aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
-						",isfcm:" + isfcm + ",identity:" + identity + ",time:" + time);
+				logger.info((start2 - start1) + "," + (start3 - start2) + "," + (start4 - start3) + "aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + ",isfcm:" + isfcm + ",identity:"
+						+ identity + ",time:" + time);
 				Map<String, Object> data1 = new HashMap<String, Object>();
 				data1.put("onlineTime", time);
 				return errorCode.getErrorCode(1, requestDatas.getSessionId()).setData(data1);
 			} else {
-				logger.info((start2 - start1) + ",-1,-1" + 
-						"aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
-						",isfcm:" + isfcm + ",identity:,time:");
+				logger.info((start2 - start1) + ",-1,-1" + "aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + ",isfcm:" + isfcm + ",identity:,time:");
 				return errorCode.getErrorCode(10017, requestDatas.getSessionId());
 			}
 		} catch (MissingParamsException e) {

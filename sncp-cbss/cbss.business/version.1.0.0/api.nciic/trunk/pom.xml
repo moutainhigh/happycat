@@ -18,34 +18,51 @@
 
 
 	<dependencies>
+		<!-- cbss api thrift -->
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>nifty-spring-boot-starter</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.core.thrift</artifactId>
+			<version>0.0.1</version>
+		</dependency>
 
-		<!-- sncp bss api -->
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.api.nciic.param</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<!-- cbss api thrift -->
+
+		<!-- sncp dubbo api -->
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
 			<artifactId>nciic-api</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<!-- sncp bss api -->
 		<dependency>
-			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.authorize</artifactId>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>alarm-api</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
 			<exclusions>
 				<exclusion>
-					<artifactId>log4j</artifactId>
-					<groupId>log4j</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>slf4j-log4j12</artifactId>
-					<groupId>org.slf4j</groupId>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- sncp dubbo api -->
 
-		<dependency>
-			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.model</artifactId>
-		</dependency>
-
+		<!-- sncp cbss core -->
 		<dependency>
 			<groupId>com.woniu.cbss</groupId>
 			<artifactId>cbss.api.init</artifactId>
@@ -62,17 +79,14 @@
 			<artifactId>cbss.core.errorcode</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
 
 		<dependency>
-			<groupId>com.woniu.sncp</groupId>
-			<artifactId>alarm-api</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
 		</dependency>
+		<!-- sncp cbss core -->
 
+		<!-- spring boot admin -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -104,23 +118,8 @@
 			<artifactId>json-simple</artifactId>
 			<optional>false</optional>
 		</dependency>
+		<!-- spring boot admin -->
 
-
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>dubbo</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-		</dependency>
 
 	</dependencies>
 
@@ -132,6 +131,32 @@
 			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.thrift.tools</groupId>
+				<artifactId>maven-thrift-plugin</artifactId>
+				<version>0.1.11</version>
+				<configuration>
+					<thriftExecutable>${project.basedir}/src/main/thrift.exe</thriftExecutable>
+					<generator>java</generator>
+					<outputDirectory>${project.basedir}/src/main/thrift/java</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>thrift-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>thrift-test-sources</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>

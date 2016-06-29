@@ -55,6 +55,11 @@
 			<groupId>com.woniu.cbss</groupId>
 			<artifactId>cbss.core.vaildation</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.woniu.cbss</groupId>
+			<artifactId>cbss.core.thrift</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

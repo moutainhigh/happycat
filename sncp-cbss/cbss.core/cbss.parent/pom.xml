@@ -47,7 +47,7 @@
 		<jaxen.version>1.1.4</jaxen.version>
 		<fscontext.version>4.2</fscontext.version>
 		<jasypt.version>1.9.0</jasypt.version>
-		<fastjson.version>1.2.11</fastjson.version>
+		<fastjson.version>1.2.13</fastjson.version>
 		<velocity.version>1.7</velocity.version>
 		<commonsJexl.version>1.1</commonsJexl.version>
 		<commonsHttpClient.version>4.0.1</commonsHttpClient.version>
@@ -90,13 +90,32 @@
 		<cbss.signature.version>0.0.1</cbss.signature.version>
 		<cbss.vaildation.version>0.0.1</cbss.vaildation.version>
 		<cbss.trace.version>0.0.1</cbss.trace.version>
+		<cbss.thrift.version>0.0.1</cbss.thrift.version>
 		<jedis.version>2.8.1</jedis.version>
 		<brave.version>3.6.0</brave.version>
 		<flexjson.version>3.3</flexjson.version>
+		<libthrift.version>0.9.3</libthrift.version>
+		<nifty.version>0.18.0</nifty.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+
+			<!-- nifty -->
+			<dependency>
+				<groupId>org.apache.thrift</groupId>
+				<artifactId>libthrift</artifactId>
+				<version>${libthrift.version}</version>
+				<scope>compile</scope>
+			</dependency>
+
+			<!-- nifty -->
+			<dependency>
+				<groupId>com.facebook.nifty</groupId>
+				<artifactId>nifty-core</artifactId>
+				<version>${nifty.version}</version>
+				<scope>compile</scope>
+			</dependency>
 			<dependency>
 				<groupId>net.sf.flexjson</groupId>
 				<artifactId>flexjson</artifactId>
@@ -211,6 +230,12 @@
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.errorcode</artifactId>
 				<version>${cbss.errorcode.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.thrift</artifactId>
+				<version>${cbss.thrift.version}</version>
 			</dependency>
 
 			<dependency>
