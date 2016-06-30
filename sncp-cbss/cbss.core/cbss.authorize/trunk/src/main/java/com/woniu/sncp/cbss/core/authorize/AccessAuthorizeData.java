@@ -1,10 +1,8 @@
 package com.woniu.sncp.cbss.core.authorize;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -27,12 +25,10 @@ import com.woniu.sncp.cbss.core.trace.aspect.ParamsAndReturningLog;
 @Component
 public class AccessAuthorizeData {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccessAuthorize.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccessAuthorizeData.class);
 
-	public static List<AccessSecurityInfo> accessSecurityInfos = (new ArrayList<AccessSecurityInfo>());
-	public static List<SecurityResource> securityResources = (new ArrayList<SecurityResource>());
-
-	public static Map<String, AccessSecurityInfo> requestInAccessSecurityInfo = (new HashMap<String, AccessSecurityInfo>());
+	public static List<AccessSecurityInfo> accessSecurityInfos = Collections.synchronizedList(new ArrayList<AccessSecurityInfo>());
+	public static List<SecurityResource> securityResources = Collections.synchronizedList(new ArrayList<SecurityResource>());
 
 	@Autowired
 	private ZooKeeperFactory zooKeeperFactory;
@@ -123,15 +119,6 @@ public class AccessAuthorizeData {
 				if (isHave) {
 					// 更新
 					accessSecurityInfos.set(index - 1, accessSecurityInfoNew);
-
-					Collection<AccessSecurityInfo> keys = requestInAccessSecurityInfo.values();
-					for (AccessSecurityInfo accessSecurityInfo : keys) {
-						if ((accessSecurityInfoNew.getId().getId() + "-" + accessSecurityInfoNew.getId().getType()).equals(accessSecurityInfo.getId().getId() + "-"
-								+ accessSecurityInfo.getId().getType())) {
-							requestInAccessSecurityInfo.put((accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType()), accessSecurityInfoNew);
-						}
-					}
-
 				} else {
 					// 新增
 					accessSecurityInfos.add(accessSecurityInfoNew);
@@ -173,7 +160,7 @@ public class AccessAuthorizeData {
 				} else {
 					// 新增
 					securityResources.add(securityResourceNew);
-					
+
 					List<AccessSecurityInfo> wDelete = deleteAccessSecurityInfoFromsecurityResources(accessSecurityInfos, securityResources);
 					if (!wDelete.isEmpty()) {
 						accessSecurityInfos.removeAll(wDelete);
@@ -197,27 +184,18 @@ public class AccessAuthorizeData {
 		if (accessSecurityInfos == null || accessSecurityInfos.size() == 0) {
 			return accessSecurityInfo;
 		}
-		accessSecurityInfo = requestInAccessSecurityInfo.get(accessId + "-" + accessType);
-
-		if (accessSecurityInfo == null) {
-			for (AccessSecurityInfo info : accessSecurityInfos) {
-				try {
-					if (info != null && info.getId() != null) {
-						if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
-							accessSecurityInfo = info;
-							break;
-						}
+		for (AccessSecurityInfo info : accessSecurityInfos) {
+			try {
+				if (info != null && info.getId() != null) {
+					if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
+						accessSecurityInfo = info;
+						break;
 					}
-				} catch (Exception e) {
-					return accessSecurityInfo;
 				}
-			}
-
-			if (accessSecurityInfo != null) {
-				requestInAccessSecurityInfo.put(accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType(), accessSecurityInfo);
+			} catch (Exception e) {
+				return accessSecurityInfo;
 			}
 		}
-
 		return accessSecurityInfo;
 	}
 
