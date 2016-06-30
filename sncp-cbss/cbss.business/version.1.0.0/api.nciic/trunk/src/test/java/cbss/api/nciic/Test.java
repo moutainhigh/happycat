@@ -22,8 +22,8 @@ public class Test {
 
 	public static void main(final String[] args) {
 		try {
-			TSocket transport = new TSocket("10.103.4.137", 13001); 
-			// TSocket transport = new TSocket("172.18.70.180", 8080);
+			// TSocket transport = new TSocket("10.103.4.137", 13001);
+			TSocket transport = new TSocket("172.18.70.180", 8080);
 			transport.open();
 			TBinaryProtocol protocol = new TBinaryProtocol(transport);
 			TMultiplexedProtocol protocol1 = new TMultiplexedProtocol(protocol, "api.nciicniftyservice");
