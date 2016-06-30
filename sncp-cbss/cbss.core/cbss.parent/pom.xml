@@ -234,7 +234,7 @@
 
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
-				<artifactId>cbss.core.thrift</artifactId>
+				<artifactId>cbss.core.thrift.linux</artifactId>
 				<version>${cbss.thrift.version}</version>
 			</dependency>
 
