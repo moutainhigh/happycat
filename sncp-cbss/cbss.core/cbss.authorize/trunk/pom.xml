@@ -58,7 +58,7 @@
 		
 		<dependency>
 			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.thrift.linux</artifactId>
+			<artifactId>cbss.core.thrift.win</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -22,14 +22,7 @@
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
 			<artifactId>nifty-spring-boot-starter</artifactId>
-			<version>0.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.thrift</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>com.woniu.cbss</groupId>
 			<artifactId>cbss.api.nciic.param</artifactId>
@@ -84,13 +77,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
-		<dependency>
-			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.errorcode</artifactId>
-		</dependency>
-
-
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
