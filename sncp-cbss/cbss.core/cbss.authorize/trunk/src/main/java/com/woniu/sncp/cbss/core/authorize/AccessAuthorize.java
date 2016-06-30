@@ -180,7 +180,7 @@ public class AccessAuthorize {
 		} finally {
 			if (logger.isTraceEnabled()) {
 				Map<String, Object> authorize = new HashMap<String, Object>();
-				String key = requestAccess.getRequestDatas().getAccessId() + requestAccess.getRequestDatas().getAccessType() + "authorize";
+				String key = requestAccess.getRequestDatas().getAccessId() + "-" + requestAccess.getRequestDatas().getAccessType() + "-authorize";
 				authorize.put(key, time5 - time);
 				authorize.put(key + "1", time2 - time1);
 				authorize.put(key + "2", time3 - time2);
@@ -261,7 +261,7 @@ public class AccessAuthorize {
 
 			if (logger.isTraceEnabled()) {
 				Map<String, Object> authorize = new HashMap<String, Object>();
-				String key = requestAccess.getRequestDatas().getAccessId() + requestAccess.getRequestDatas().getAccessType() + requestAccess.getRequestURI() + "limit";
+				String key = requestAccess.getRequestDatas().getAccessId() + "-" + requestAccess.getRequestDatas().getAccessType() + "-" + requestAccess.getRequestURI() + "-limit";
 				authorize.put(key, time5 - time);
 				authorize.put(key + "1", time2 - time1);
 				authorize.put(key + "2", time3 - time2);
