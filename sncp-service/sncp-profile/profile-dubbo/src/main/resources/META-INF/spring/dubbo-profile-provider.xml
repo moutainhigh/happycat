@@ -19,9 +19,13 @@
 	
 	<!-- 声明需要暴露的服务接口 -->
     <dubbo:service interface="com.woniu.sncp.profile.service.DownConfigService" ref="downConfigService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.profile.service.GameManageService" ref="gameManageService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.profile.service.CardManageService" ref="cardManageService" version="1.0.0"/>
  
     <!-- 和本地bean一样实现服务 -->
     <bean id="downConfigService" class="com.woniu.sncp.profile.service.DownConfigServiceImpl"/>
+    <bean id="gameManageService" class="com.woniu.sncp.profile.service.GameManageServiceImpl"/>
+    <bean id="cardManageService" class="com.woniu.sncp.profile.service.CardManageServiceImpl"/>
 	
 	<!-- monitor -->
 	<bean id="hearthealth" class="com.woniu.sncp.cbss.api.manager.init.health.HeartHealth" />

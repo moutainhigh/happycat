@@ -13,7 +13,7 @@ spring:
     min-idle: 2
   jpa:
     database: ORACLE
-    show-sql: true
+    show-sql: false
     
 
 

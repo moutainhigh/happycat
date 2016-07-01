@@ -41,7 +41,7 @@ public class FmcScheduleActivatorTest {
 		mongoTemplate.insert(objectToSave);
 	}
 
-	//@Test
+	@Test
 	public void testSeachMongo() {
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR, -1);

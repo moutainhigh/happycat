@@ -6,26 +6,18 @@
     http://code.alibabatech.com/schema/dubbo        
     http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->
-	<dubbo:application name="consumer-application-fcm" />
+	<dubbo:application name="consumer-application-profile" />
 
 	<!-- 使用multicast广播注册中心暴露发现服务地址 -->
 	<dubbo:registry address="${dubbo.zookeeper}" />
 
 	<!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
-	<dubbo:reference id="fcmService"
-		interface="com.woniu.sncp.fcm.service.FcmService" client="netty"
-		version="1.0.0" />
-
-	<dubbo:reference id="fcmGameProfileService"
-		interface="com.woniu.sncp.fcm.service.FcmGameProfileService" client="netty"
-		version="1.0.0" check="false" />
-		
-		<dubbo:reference id="alarmMessageService"
-		interface="com.woniu.sncp.alarm.service.AlarmMessageService" client="netty"
-		version="1.0.0" check="false" />
-		
 		
 	<dubbo:reference id="gameManageService"
 		interface="com.woniu.sncp.profile.service.GameManageService" client="netty"
+		version="1.0.0" />
+	
+	<dubbo:reference id="cardManageService"
+		interface="com.woniu.sncp.profile.service.CardManageService" client="netty"
 		version="1.0.0" />
 </beans>
