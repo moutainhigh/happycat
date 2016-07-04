@@ -39,9 +39,9 @@ public class ActivityManageController {
 	@Autowired
 	ActivityManageService activityManageService;
 	
-	@RequestMapping(value = "/cbss/api/app/imprest/allactivity", method = RequestMethod.POST)
+	@RequestMapping(value = "/app/imprest/allactivity", method = RequestMethod.POST)
 	@ResponseBody
-    public EchoInfo<Object> getGameAreaListNotImprestType(@RequestBody ActivityConfRequestDatas requestDatas) {
+    public EchoInfo<Object> getAllActivity(@RequestBody ActivityConfRequestDatas requestDatas) {
 		ActivityConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
 		String state = data.getState();

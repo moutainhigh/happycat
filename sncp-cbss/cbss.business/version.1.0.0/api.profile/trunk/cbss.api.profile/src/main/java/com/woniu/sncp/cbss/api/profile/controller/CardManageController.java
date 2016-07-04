@@ -45,7 +45,7 @@ public class CardManageController {
 	
 	@RequestMapping(value = "/app/imprest/value", method = RequestMethod.POST)
 	@ResponseBody
-    public EchoInfo<Object> getGameAreaListNotImprestType(@RequestBody CardConfRequestDatas requestDatas) {
+    public EchoInfo<Object> getCardValueDetail(@RequestBody CardConfRequestDatas requestDatas) {
 		CardConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
 		Long paymentId = data.getPlatformId();
