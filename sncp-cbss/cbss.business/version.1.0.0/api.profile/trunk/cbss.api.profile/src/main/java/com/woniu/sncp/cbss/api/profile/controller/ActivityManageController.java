@@ -1,6 +1,6 @@
 package com.woniu.sncp.cbss.api.profile.controller;
 
-import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +16,7 @@ import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.profile.dto.GameAreaDTO;
-import com.woniu.sncp.profile.dto.GameGroupDTO;
-import com.woniu.sncp.profile.service.GameManageService;
+import com.woniu.sncp.profile.service.ActivityManageService;
 
 /**
  * 
@@ -31,7 +29,7 @@ import com.woniu.sncp.profile.service.GameManageService;
 @RestController
 @RequestMapping(AccessAuthorizeFilterConfigures.BASE_CONTEXT)
 @Configuration
-public class GameManageController {
+public class ActivityManageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ErrorCode.class);
 	
@@ -39,20 +37,20 @@ public class GameManageController {
 	private ErrorCode errorCode;
 	
 	@Autowired
-	GameManageService gameManageService;
+	ActivityManageService activityManageService;
 	
-	@RequestMapping(value = "/app/imprest/areas", method = RequestMethod.POST)
+	@RequestMapping(value = "/cbss/api/app/imprest/allactivity", method = RequestMethod.POST)
 	@ResponseBody
-    public EchoInfo<Object> getGameAreaListNotImprestType(@RequestBody GameConfRequestDatas requestDatas) {
-		GameConfRequestParam data = requestDatas.getParamdata();
+    public EchoInfo<Object> getGameAreaListNotImprestType(@RequestBody ActivityConfRequestDatas requestDatas) {
+		ActivityConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
 		String state = data.getState();
-		String type = data.getType();
-		List<GameGroupDTO> gameGroupDTOList = gameManageService.findByGameIdAndStateAndType(gameId, state, type);
+		
+		Map<String,Object> retMap = activityManageService.findAllPloysByState(gameId, state);
 		EchoInfo<Object> retData = null;
 		try {
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
-			retData.setData(gameGroupDTOList);
+			retData.setData(retMap);
 		} catch (MissingParamsException e) {
 			logger.error("gameConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
@@ -64,24 +62,4 @@ public class GameManageController {
 		return retData;
 	}
 	
-	@RequestMapping(value = "/app/imprest/area", method = RequestMethod.POST)
-	@ResponseBody
-    public EchoInfo<Object> getGameAreaNotImprestType(@RequestBody GameConfRequestDatas requestDatas) {
-		GameConfRequestParam data = requestDatas.getParamdata();
-		Long serverId = data.getServerId();
-		GameAreaDTO gameAreaDTO = gameManageService.findByServerId(serverId);
-		EchoInfo<Object> retData = null;
-		try {
-			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
-			retData.setData(gameAreaDTO);
-		} catch (MissingParamsException e) {
-			logger.error("gameConf", e);
-			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
-		} catch (Exception e) {
-			logger.error("gameConf", e);
-			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
-		}
-		
-		return retData;
-	}
 }
