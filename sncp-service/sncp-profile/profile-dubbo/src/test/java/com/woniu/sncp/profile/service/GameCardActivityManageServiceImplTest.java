@@ -22,12 +22,14 @@ import com.woniu.sncp.profile.dto.GameGroupDTO;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(ProfileApplication.class)
-public class GameCardManageServiceImplTest {
+public class GameCardActivityManageServiceImplTest {
 
 	@Autowired
 	GameManageService gameManageService;
 	
-	@Test
+	
+	
+//	@Test
 	public void testGameQuery(){
 		Long gameId = 10L;
 		Long issuerId = 7L;
@@ -65,5 +67,16 @@ public class GameCardManageServiceImplTest {
 		for(CardDetailDTO dto:dtoList){
 			System.out.println(dto.toString());
 		}
+	}
+	
+	
+	@Autowired
+	ActivityManageService activityManageService;
+	
+	@Test
+	public void testActivityQuery(){
+		String state = "3";
+		Long gameId = 10L;
+		activityManageService.findAllPloysByState(gameId,state);
 	}
 }

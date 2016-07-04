@@ -5,6 +5,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -36,13 +37,17 @@ public class BaseDao {
      * @param clazz 实体类型为空则直接转换为map格式 
      * @return 
      */  
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public List<?> queryListEntity(String sql,Map<String, Object> params, Class<?> clazz){  
         Session session = entityManager.unwrap(org.hibernate.Session.class);  
         SQLQuery query = session.createSQLQuery(sql);  
-        if (params != null) {  
+        if (params != null) {
             for (String key : params.keySet()) {
-                query.setParameter(key, params.get(key));  
+            	if(params.get(key) instanceof Collection){
+            		query.setParameterList(key, (Collection)params.get(key));
+            	}else{
+            		query.setParameter(key, params.get(key));
+            	}
             }  
         }
         

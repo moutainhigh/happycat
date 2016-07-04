@@ -20,4 +20,8 @@
 	<dubbo:reference id="cardManageService"
 		interface="com.woniu.sncp.profile.service.CardManageService" client="netty"
 		version="1.0.0" />
+		
+	<dubbo:reference id="activityManageService"
+		interface="com.woniu.sncp.profile.service.ActivityManageService" client="netty"
+		version="1.0.0" />
 </beans>

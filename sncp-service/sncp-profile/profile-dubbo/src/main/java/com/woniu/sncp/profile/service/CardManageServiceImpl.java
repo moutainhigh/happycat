@@ -38,9 +38,9 @@ public class CardManageServiceImpl implements CardManageService {
 	@Override
 	public List<CardValueDTO> findValueByGameIdAndPlatformId(Long gameId, Long platformId) 
 			throws MissingParamsException{
-		String paramMsg = "query - gameId:"+gameId +",platformId:"+platformId;
-		log.info(paramMsg);
 		if(gameId == 0){
+			String paramMsg = "query - gameId:"+gameId +",platformId:"+platformId;
+			log.info(paramMsg);
 			log.error("params:"+paramMsg+",result:serverId is null");
 			throw new MissingParamsException("serverId is null");
 		}

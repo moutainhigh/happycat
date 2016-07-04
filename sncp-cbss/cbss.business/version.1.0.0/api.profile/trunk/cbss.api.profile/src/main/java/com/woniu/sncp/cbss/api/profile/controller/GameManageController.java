@@ -16,6 +16,7 @@ import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
+import com.woniu.sncp.profile.dto.GameAreaDTO;
 import com.woniu.sncp.profile.dto.GameGroupDTO;
 import com.woniu.sncp.profile.service.GameManageService;
 
@@ -48,8 +49,10 @@ public class GameManageController {
 		String state = data.getState();
 		String type = data.getType();
 		List<GameGroupDTO> gameGroupDTOList = gameManageService.findByGameIdAndStateAndType(gameId, state, type);
+		EchoInfo<Object> retData = null;
 		try {
-			
+			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
+			retData.setData(gameGroupDTOList);
 		} catch (MissingParamsException e) {
 			logger.error("gameConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
@@ -58,6 +61,27 @@ public class GameManageController {
 			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 		
-		return null;
+		return retData;
+	}
+	
+	@RequestMapping(value = "/app/imprest/area", method = RequestMethod.POST)
+	@ResponseBody
+    public EchoInfo<Object> getGameAreaNotImprestType(@RequestBody GameConfRequestDatas requestDatas) {
+		GameConfRequestParam data = requestDatas.getParamdata();
+		Long serverId = data.getServerId();
+		GameAreaDTO gameAreaDTO = gameManageService.findByServerId(serverId);
+		EchoInfo<Object> retData = null;
+		try {
+			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
+			retData.setData(gameAreaDTO);
+		} catch (MissingParamsException e) {
+			logger.error("gameConf", e);
+			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
+		} catch (Exception e) {
+			logger.error("gameConf", e);
+			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
+		}
+		
+		return retData;
 	}
 }

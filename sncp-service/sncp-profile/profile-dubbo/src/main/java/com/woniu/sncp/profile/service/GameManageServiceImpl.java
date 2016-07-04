@@ -1,6 +1,7 @@
 package com.woniu.sncp.profile.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -107,17 +108,20 @@ public class GameManageServiceImpl implements GameManageService {
 		for(GameGroupPo _gameGroupPo:gameGroupPoList){
 			GameGroupDTO dto = new GameGroupDTO();
 			Set<GameAreaPo> gameAreaPoSet = _gameGroupPo.getGameAreaSet();
-			boolean flag = false;
-			for(GameAreaPo gameAreaPo:gameAreaPoSet){
-				if(StringUtils.equals(gameAreaPo.getState(), "1") || StringUtils.equals(gameAreaPo.getState(), "3"));
-				flag = true;
-			}
-			if(flag){//如果满足gamearea.state=1 or gamearea.state=3,追加
-				beanMapper.map(_gameGroupPo, dto);
-				gameGroupDTOList.add(dto);
+			Set<GameAreaPo> _gameAreaPoSet = new HashSet<GameAreaPo>();//满足条件的区域数据
+			if(null != gameAreaPoSet && gameAreaPoSet.size()>0){
+				for(GameAreaPo gameAreaPo:gameAreaPoSet){
+					if((StringUtils.equals(gameAreaPo.getState(), "1") || StringUtils.equals(gameAreaPo.getState(), "3"))
+							&& (gameAreaPo.getIssuerId() == 186 || gameAreaPo.getIssuerId() <= 7)){
+						_gameAreaPoSet.add(gameAreaPo);
+					}
+				}
 			}else{
 				continue;
 			}
+			_gameGroupPo.setGameAreaSet(_gameAreaPoSet);//如果满足gamearea.state=1 or gamearea.state=3,追加
+			beanMapper.map(_gameGroupPo, dto);
+			gameGroupDTOList.add(dto);
 		}
 		
 		if(gameGroupDTOList.size()==0) {
