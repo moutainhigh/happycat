@@ -7,6 +7,17 @@ public class EchoInfo<T> {
 	public static final Integer OK = 0;
 	public static final Integer ERROR = -1000;
 
+	public static final Integer SIGNATURE_TYPE_DEFAULT = 1;
+
+	public static final Integer SERVER_STATUS_DEAD = 0;
+	public static final Integer SERVER_STATUS_STARTING = 1;
+	public static final Integer SERVER_STATUS_ALIVE = 2;
+	public static final Integer SERVER_STATUS_STOPPING = 3;
+	public static final Integer SERVER_STATUS_STOPPED = 4;
+	public static final Integer SERVER_STATUS_WARNING = 5;
+	public static final Integer SERVER_STATUS_FUTURE_STOPED = 6;
+	public static final Integer SERVER_STATUS_FUTURE_MAINTAIN = 7;
+
 	private Integer msgcode;
 	private String message;
 	private String errorInfo;
@@ -14,7 +25,27 @@ public class EchoInfo<T> {
 	private T data;
 
 	private Long appRspTime = Calendar.getInstance().getTimeInMillis();
+	private Integer serverState = SERVER_STATUS_STARTING;
 	private String uuid;
+	private Integer nextSignType = SIGNATURE_TYPE_DEFAULT;
+
+	public Integer getNextSignType() {
+		return nextSignType;
+	}
+
+	public EchoInfo<T> setNextSignType(Integer nextSignType) {
+		this.nextSignType = nextSignType;
+		return this;
+	}
+
+	public Integer getServerState() {
+		return serverState;
+	}
+
+	public EchoInfo<T> setServerState(Integer serverState) {
+		this.serverState = serverState;
+		return this;
+	}
 
 	public EchoInfo<T> setUuid(String uuid) {
 		this.uuid = uuid;
@@ -78,5 +109,4 @@ public class EchoInfo<T> {
 		this.data = data;
 		return this;
 	}
-
 }

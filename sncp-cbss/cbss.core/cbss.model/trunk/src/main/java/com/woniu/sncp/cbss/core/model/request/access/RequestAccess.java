@@ -18,6 +18,7 @@ public class RequestAccess implements Serializable {
 
 	private String body;
 	private String accessVerify;
+	private int accessVerifyType;
 	private String traceState;
 
 	private String remoteIp;
@@ -77,6 +78,12 @@ public class RequestAccess implements Serializable {
 	}
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
+	}
+	public int getAccessVerifyType() {
+		return accessVerifyType;
+	}
+	public void setAccessVerifyType(int accessVerifyType) {
+		this.accessVerifyType = accessVerifyType;
 	}
 
 }
