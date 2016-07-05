@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans        
+    http://www.springframework.org/schema/beans/spring-beans.xsd        
+    http://code.alibabatech.com/schema/dubbo        
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 提供方应用信息，用于计算依赖关系 -->
+	<dubbo:application name="service-dubbo-profile" />
+	<!-- 使用multicast广播注册中心暴露服务地址 -->
+	<dubbo:registry protocol="zookeeper" address="${dubbo.zookeeper}" />
+	<!-- 用dubbo协议在20002端口暴露服务 -->
+	<dubbo:protocol name="dubbo" port="${dubbo.port}" />
+	
+	<!-- 声明需要暴露的服务接口 -->
+    <dubbo:service interface="com.woniu.sncp.profile.service.DownConfigService" ref="downConfigService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.profile.service.GameManageService" ref="gameManageService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.profile.service.CardManageService" ref="cardManageService" version="1.0.0"/>
+    <dubbo:service interface="com.woniu.sncp.profile.service.ActivityManageService" ref="activityManageService" version="1.0.0"/>
+ 
+    <!-- 和本地bean一样实现服务 -->
+    <bean id="downConfigService" class="com.woniu.sncp.profile.service.DownConfigServiceImpl"/>
+    <bean id="gameManageService" class="com.woniu.sncp.profile.service.GameManageServiceImpl"/>
+    <bean id="cardManageService" class="com.woniu.sncp.profile.service.CardManageServiceImpl"/>
+    <bean id="activityManageService" class="com.woniu.sncp.profile.service.ActivityManageServiceImpl"/>
+	
+	<!-- monitor -->
+	<bean id="hearthealth" class="com.woniu.sncp.cbss.api.manager.init.health.HeartHealth" />
+    <bean id="alertService" class="com.woniu.sncp.cbss.core.call.http.alert.AlertService" />
+    <bean id="threadPool" class="com.woniu.sncp.cbss.core.util.ThreadPool" />
+    <bean id="http" class="com.woniu.sncp.cbss.core.call.http.Http" />
+    <bean id="logformat" class="com.woniu.sncp.cbss.core.trace.logformat.LogFormat" />
+    <bean id="trace" class="com.woniu.sncp.cbss.core.trace.aspect.listener.Trace"/>
+    
+</beans>
