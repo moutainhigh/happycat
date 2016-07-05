@@ -24,8 +24,4 @@
 		interface="com.woniu.sncp.alarm.service.AlarmMessageService" client="netty"
 		version="1.0.0" check="false" />
 		
-		
-	<dubbo:reference id="gameManageService"
-		interface="com.woniu.sncp.profile.service.GameManageService" client="netty"
-		version="1.0.0" />
 </beans>
