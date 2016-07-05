@@ -58,7 +58,7 @@ public class Http {
 		long startTime = System.currentTimeMillis();
 		String result = "";
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		boolean isException = true;
+		boolean isException = false;
 		try {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeout);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeout);
@@ -111,6 +111,7 @@ public class Http {
 			resultMap.put("httpclient", httpclient);
 			return resultMap;
 		} catch (Exception e) {
+			isException  = true;
 			throw e;
 		} finally {
 			httpclient.getConnectionManager().shutdown();
@@ -126,7 +127,7 @@ public class Http {
 		long startTime = System.currentTimeMillis();
 		StringBuffer result = new StringBuffer();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		boolean isException = true;
+		boolean isException = false;
 		try {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeout);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeout);
@@ -162,6 +163,7 @@ public class Http {
 			}
 			return resultMap;
 		} catch (Exception e) {
+			isException = true;
 			throw e;
 		} finally {
 			httpclient.getConnectionManager().shutdown();
