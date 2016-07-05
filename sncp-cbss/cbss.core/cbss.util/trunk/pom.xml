@@ -12,7 +12,7 @@
 		<groupId>com.woniu.cbss</groupId>
 		<artifactId>cbss.core.parent</artifactId>
 		<version>0.0.2</version>
-		<relativePath>../../cbss.core.parent/pom.xml</relativePath>
+		<relativePath>../../cbss.parent/pom.xml</relativePath>
 	</parent>
 	<dependencies>
 		<dependency>
