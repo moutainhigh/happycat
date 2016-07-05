@@ -3,8 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.woniu.cbss</groupId>
-	<artifactId>cbss.api.parent</artifactId>
-	<version>0.0.2</version>
+	<artifactId>cbss.core.parent</artifactId>
+	<version>0.0.1</version>
 	<packaging>pom</packaging>
 
 	<name>${project.artifactId}</name>
@@ -22,23 +22,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<jdk.version>1.8</jdk.version>
-
-		<!-- sncp bss core -->
-		<cbss.api.init.version>0.0.2</cbss.api.init.version>
-		<cbss.authorize.version>0.0.2</cbss.authorize.version>
-		<cbss.errorcode.version>0.0.2</cbss.errorcode.version>
-		<cbss.trace.version>0.0.2</cbss.trace.version>
-		<cbss.call.version>0.0.2</cbss.call.version>
-		<cbss.model.version>0.0.2</cbss.model.version>
-		<cbss.repository.version>0.0.2</cbss.repository.version>
-		<cbss.validation.version>0.0.2</cbss.validation.version>
-		<cbss.signature.version>0.0.2</cbss.signature.version>
-		<nifty.spring.boot.starter.version>${project.version}</nifty.spring.boot.starter.version>
-
-
 		<!-- Spring -->
-		<org.springframework.spring.version>4.2.6.RELEASE</org.springframework.spring.version>
-		<spring.boot>1.3.3.RELEASE</spring.boot>
+		<spring.version>4.2.6.RELEASE</spring.version>
+		<spring.data.version>1.7.1.RELEASE</spring.data.version>
 		<aspectj.version>1.7.3</aspectj.version>
 		<cglib.version>2.2</cglib.version>
 		<asm.version>3.1</asm.version>
@@ -64,21 +50,21 @@
 		<fastjson.version>1.2.11</fastjson.version>
 		<velocity.version>1.7</velocity.version>
 		<commonsJexl.version>1.1</commonsJexl.version>
-		<commonsHttpClient.version>4.2.5</commonsHttpClient.version>
-		<commonsBeanUtils.version>1.8.0</commonsBeanUtils.version>
-		<commonsCli.version>1.2</commonsCli.version>
-		<commonsCollections.version>3.2.1</commonsCollections.version>
-		<commonsIo.version>1.4</commonsIo.version>
-		<commonsLang.version>2.4</commonsLang.version>
-		<commonsFileupload.version>1.2.1</commonsFileupload.version>
-		<commonsConfiguration.version>1.5</commonsConfiguration.version>
-		<commonsCodec.version>1.8</commonsCodec.version>
-		<commonsCompress.version>1.5</commonsCompress.version>
-		<commonsValidator.version>1.4.0</commonsValidator.version>
+		<commonsHttpClient.version>4.0.1</commonsHttpClient.version>
+		<commonsBeanUtils.version>1.9.2</commonsBeanUtils.version>
+		<commonsCli.version>1.3.1</commonsCli.version>
+		<commonsCollections.version>3.2.2</commonsCollections.version>
+		<commonsIo.version>2.5</commonsIo.version>
+		<commonsLang.version>2.6</commonsLang.version>
+		<commonsFileupload.version>1.3.1</commonsFileupload.version>
+		<commonsConfiguration.version>1.10</commonsConfiguration.version>
+		<commonsCodec.version>1.10</commonsCodec.version>
+		<commonsCompress.version>1.11</commonsCompress.version>
+		<commonsValidator.version>1.5.1</commonsValidator.version>
 		<freemarker.version>2.3.9</freemarker.version>
 		<druid-version>1.0.18</druid-version>
 		<!-- Test -->
-		<junit.version>4.9</junit.version>
+		<junit.version>4.12</junit.version>
 		<mockobjects.version>0.09</mockobjects.version>
 		<mockito.version>1.9.5</mockito.version>
 		<powermock.version>1.5</powermock.version>
@@ -91,20 +77,30 @@
 		<javax.ws.rs.version>2.0.1</javax.ws.rs.version>
 		<com.fasterxml.jackson.core.version>2.7.4</com.fasterxml.jackson.core.version>
 		<com.101tec.zkclient.version>0.2</com.101tec.zkclient.version>
-		<commons.pool.version>1.6</commons.pool.version>
-		<spring.data.version>1.7.1.RELEASE</spring.data.version>
-		<brave.version>3.6.0</brave.version>
+		<zookeeper.version>3.4.8</zookeeper.version>
+		<logback.version>1.1.7</logback.version>
+		<apache.curator.version>2.4.2</apache.curator.version>
+
+		<cbss.authorize.version>0.0.1</cbss.authorize.version>
+		<cbss.util.version>0.0.1</cbss.util.version>
+		<cbss.errorcode.version>0.0.1</cbss.errorcode.version>
+		<cbss.call.version>0.0.1</cbss.call.version>
+		<cbss.model.version>0.0.1</cbss.model.version>
+		<cbss.repository.version>0.0.1</cbss.repository.version>
+		<cbss.signature.version>0.0.1</cbss.signature.version>
+		<cbss.vaildation.version>0.0.1</cbss.vaildation.version>
+		<cbss.trace.version>0.0.1</cbss.trace.version>
 		<jedis.version>2.8.1</jedis.version>
-		<com.googlecode.json.version>1.1.1</com.googlecode.json.version>
+		<brave.version>3.6.0</brave.version>
+		<flexjson.version>3.3</flexjson.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
-
 			<dependency>
-				<groupId>redis.clients</groupId>
-				<artifactId>jedis</artifactId>
-				<version>${jedis.version}</version>
+				<groupId>net.sf.flexjson</groupId>
+				<artifactId>flexjson</artifactId>
+				<version>${flexjson.version}</version>
 			</dependency>
 			<!-- zipkin -->
 			<dependency>
@@ -118,13 +114,7 @@
 				<artifactId>brave-core-spring</artifactId>
 				<version>${brave.version}</version>
 			</dependency>
-
 			<!-- sncp bss api -->
-			<dependency>
-				<groupId>commons-pool</groupId>
-				<artifactId>commons-pool</artifactId>
-				<version>${commons.pool.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
@@ -144,6 +134,12 @@
 				<groupId>com.101tec</groupId>
 				<artifactId>zkclient</artifactId>
 				<version>${com.101tec.zkclient.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -166,11 +162,10 @@
 				<version>${dubbo.version}</version>
 			</dependency>
 			<!-- BEGIN: sncp bss core -->
-
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
-				<artifactId>cbss.api.init</artifactId>
-				<version>${cbss.api.init.version}</version>
+				<artifactId>cbss.core.util</artifactId>
+				<version>${cbss.util.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
@@ -195,7 +190,7 @@
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.vaildation</artifactId>
-				<version>${cbss.validation.version}</version>
+				<version>${cbss.vaildation.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
@@ -209,16 +204,74 @@
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.safeguard</artifactId>
+				<version>${cbss.safeguard.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.errorcode</artifactId>
 				<version>${cbss.errorcode.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.woniu.sncp</groupId>
-				<artifactId>nifty-spring-boot-starter</artifactId>
-				<version>${nifty.spring.boot.starter.version}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-core</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-webmvc</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-tx</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springframework.data</groupId>
+				<artifactId>spring-data-redis</artifactId>
+				<version>${spring.data.version}</version>
+			</dependency>
+
+			<!-- ZooKeeper -->
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zookeeper.version}</version>
+				<exclusions>
+					<exclusion>
+						<artifactId>log4j</artifactId>
+						<groupId>log4j</groupId>
+					</exclusion>
+					<exclusion>
+						<artifactId>slf4j-log4j12</artifactId>
+						<groupId>org.slf4j</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${apache.curator.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-recipes</artifactId>
+				<version>${apache.curator.version}</version>
+			</dependency>
 			<!-- BEGIN: JPA Hibernate Implementation -->
 			<dependency>
 				<groupId>javax.annotation</groupId>
@@ -341,12 +394,7 @@
 			</dependency>
 			<!-- END: XStream -->
 
-			<!-- BEGIN: Log4j -->
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>${log4j.version}</version>
-			</dependency>
+			<!-- BEGIN: -->
 			<!-- slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -358,7 +406,15 @@
 				<artifactId>slf4j-api</artifactId>
 				<version>${slf4j.version}</version>
 			</dependency>
+
 			<!-- END: Log4j -->
+			<!-- BEGIN:logback -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback.version}</version>
+			</dependency>
+			<!-- END:logback -->
 
 			<!-- BEGIN: Bouncycastle -->
 			<dependency>
@@ -602,39 +658,8 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-test</artifactId>
-				<version>${org.springframework.spring.version}</version>
+				<version>${spring.version}</version>
 				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${org.springframework.spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context</artifactId>
-				<version>${org.springframework.spring.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${org.springframework.spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${org.springframework.spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-tx</artifactId>
-				<version>${org.springframework.spring.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-context-support</artifactId>
-				<version>${org.springframework.spring.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>mockobjects</groupId>
@@ -685,61 +710,16 @@
 				<scope>test</scope>
 			</dependency>
 			<!-- END: Test relative dependencies -->
-			<dependency>
-				<groupId>org.springframework.data</groupId>
-				<artifactId>spring-data-redis</artifactId>
-				<version>${spring.data.version}</version>
-			</dependency>
-
 
 			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-starter-client</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-server</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>de.codecentric</groupId>
-				<artifactId>spring-boot-admin-server-ui</artifactId>
-				<version>1.3.2</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-security</artifactId>
-				<version>${spring.boot}</version>
-			</dependency>
-
-
-			<dependency>
-				<groupId>com.googlecode.json-simple</groupId>
-				<artifactId>json-simple</artifactId>
-				<version>${com.googlecode.json.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-test</artifactId>
-				<version>${spring.boot}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>commons-logging</groupId>
-						<artifactId>commons-logging</artifactId>
-					</exclusion>
-				</exclusions>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
 	<build>
-		<plugins>
-
-		</plugins>
 		<pluginManagement>
 			<!-- Maven compiler plugin -->
 			<plugins>
@@ -780,12 +760,16 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.3</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-scm-plugin</artifactId>
 					<configuration>
 						<connectionType>connection</connectionType>
 					</configuration>
 				</plugin>
-
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-checkstyle-plugin</artifactId>
@@ -797,12 +781,6 @@
 							<version>${project.version}</version>
 						</dependency>
 					</dependencies>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>

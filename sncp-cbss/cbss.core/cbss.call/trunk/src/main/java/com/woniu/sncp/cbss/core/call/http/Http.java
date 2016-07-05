@@ -2,7 +2,6 @@ package com.woniu.sncp.cbss.core.call.http;
 
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +26,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
-import com.woniu.sncp.cbss.core.call.http.alert.AlertService;
 import com.woniu.sncp.cbss.core.trace.logformat.LogFormat;
-import com.woniu.sncp.cbss.core.util.DateUtils;
 import com.woniu.sncp.cbss.core.util.IpUtils;
 
 @Component
@@ -39,9 +36,6 @@ public class Http {
 
 	@Autowired
 	private LogFormat logFormat;
-
-	@Autowired
-	private AlertService alertService;
 
 	private String alertUrl;
 	private String alertServiceType;
@@ -64,6 +58,7 @@ public class Http {
 		long startTime = System.currentTimeMillis();
 		String result = "";
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean isException = true;
 		try {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeout);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeout);
@@ -116,21 +111,10 @@ public class Http {
 			resultMap.put("httpclient", httpclient);
 			return resultMap;
 		} catch (Exception e) {
-			try {
-				Map<String, Object> extend = new HashMap<String, Object>();
-				extend.put("timedelay", (System.currentTimeMillis() - start));
-				extend.put("machineip", (IpUtils.getLoaclAddr()));
-				alertService.submitAlertMsg(alertUrl, alertServiceType,
-						String.format(alertContent, DateUtils.format(new Date(), DateUtils.TIMESTAMP_MS), requsetUrl, String.valueOf(paramMaps), e.getMessage(), timeout), alertMaxcycle, alertTimeout,
-						extend);
-			} catch (Exception e1) {
-				logger.error(logFormat.format("HttpPost", "HttpPost", "HttpPost", headers + "|" + String.valueOf(paramMaps), String.valueOf(startTime),
-						String.valueOf(System.currentTimeMillis() - startTime), requsetUrl, IpUtils.getLoaclAddr(), e1.getMessage(), true));
-			}
 			throw e;
 		} finally {
 			httpclient.getConnectionManager().shutdown();
-			logger.error(logFormat.format("HttpPost", "HttpPost", "HttpPost", headers + "|" + String.valueOf(paramMaps), String.valueOf(startTime),
+			logger.error(logFormat.format("HttpPost" + (isException ? "-Exception" : "-Succ"), "HttpPost", "HttpPost", headers + "|" + String.valueOf(paramMaps), String.valueOf(startTime),
 					String.valueOf(System.currentTimeMillis() - startTime), requsetUrl, IpUtils.getLoaclAddr(), result, true));
 		}
 	}
@@ -142,6 +126,7 @@ public class Http {
 		long startTime = System.currentTimeMillis();
 		StringBuffer result = new StringBuffer();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
+		boolean isException = true;
 		try {
 			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, timeout);
 			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, timeout);
@@ -177,20 +162,10 @@ public class Http {
 			}
 			return resultMap;
 		} catch (Exception e) {
-			try {
-				Map<String, Object> extend = new HashMap<String, Object>();
-				extend.put("timedelay", (System.currentTimeMillis() - start));
-				extend.put("machineip", (IpUtils.getLoaclAddr()));
-				alertService.submitAlertMsg(alertUrl,alertServiceType, String.format(alertContent, DateUtils.format(new Date(), DateUtils.TIMESTAMP_MS), requsetUrl, postData, e.getMessage(), timeout),
-						alertMaxcycle, alertTimeout, extend);
-			} catch (Exception e1) {
-				logger.error(logFormat.format("HttpPost", "HttpPost", "HttpPost", headers + "|" + postData, String.valueOf(startTime), String.valueOf(System.currentTimeMillis() - startTime),
-						requsetUrl, IpUtils.getLoaclAddr(), e1.getMessage(), true));
-			}
 			throw e;
 		} finally {
 			httpclient.getConnectionManager().shutdown();
-			logger.error(logFormat.format("HttpPost", "HttpPost", "HttpPost", timeout + "|" + headers + "|" + postData, String.valueOf(startTime),
+			logger.error(logFormat.format("HttpPost" + (isException ? "-Exception" : "-Succ"), "HttpPost", "HttpPost", timeout + "|" + headers + "|" + postData, String.valueOf(startTime),
 					String.valueOf(System.currentTimeMillis() - startTime), requsetUrl, IpUtils.getLoaclAddr(), result.toString(), true));
 		}
 	}
@@ -211,14 +186,6 @@ public class Http {
 			}
 		}
 		return null;
-	}
-
-	public AlertService getAlertService() {
-		return alertService;
-	}
-
-	public void setAlertService(AlertService alertService) {
-		this.alertService = alertService;
 	}
 
 	public String getAlertServiceType() {

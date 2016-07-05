@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>cbss.core.vaildation</artifactId>
+	<artifactId>cbss.core.signature</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.artifactId}</name>
@@ -11,14 +11,12 @@
 	<parent>
 		<groupId>com.woniu.cbss</groupId>
 		<artifactId>cbss.core.parent</artifactId>
-		<version>0.0.2</version>
+		<version>0.0.1</version>
 		<relativePath>../../cbss.core.parent/pom.xml</relativePath>
 	</parent>
+
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>

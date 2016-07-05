@@ -4,7 +4,7 @@
 
 	<groupId>com.woniu.cbss</groupId>
 	<artifactId>cbss.core.parent</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>pom</packaging>
 
 	<name>${project.artifactId}</name>
@@ -92,7 +92,8 @@
 		<cbss.trace.version>${project.version}</cbss.trace.version>
 		<cbss.thrift.linux.version>${project.version}</cbss.thrift.linux.version>
 		<cbss.thrift.win.version>${project.version}</cbss.thrift.win.version>
-		
+		<nifty.spring.boot.starter.version>${project.version}</nifty.spring.boot.starter.version>
+
 		<nifty.version>0.18.0</nifty.version>
 		<jedis.version>2.8.1</jedis.version>
 		<brave.version>3.6.0</brave.version>
@@ -239,13 +240,19 @@
 				<artifactId>cbss.core.thrift.linux</artifactId>
 				<version>${cbss.thrift.linux.version}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.thrift.win</artifactId>
 				<version>${cbss.thrift.win.version}</version>
 			</dependency>
-			
+
+			<dependency>
+				<groupId>com.woniu.sncp</groupId>
+				<artifactId>nifty-spring-boot-starter</artifactId>
+				<version>${nifty.spring.boot.starter.version}</version>
+			</dependency>
+
 
 			<dependency>
 				<groupId>org.springframework</groupId>
