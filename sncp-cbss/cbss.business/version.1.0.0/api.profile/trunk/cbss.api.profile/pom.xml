@@ -15,9 +15,9 @@
 		<relativePath>../../api.parent/pom.xml</relativePath>
 	</parent>
 
-
-
-
+	<properties>
+		<dozer.version>5.5.1</dozer.version>
+	</properties>
 	<dependencies>
 
 		<!-- sncp bss profile api -->
@@ -121,6 +121,12 @@
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
 		</dependency>
 		
 	</dependencies>

@@ -55,7 +55,7 @@ public class ActivityManageDaoImpl extends BaseDao implements ActivityManageDao 
 		StringBuffer sbf = new StringBuffer();
 		sbf.setLength(0);
 		Map<String, Object> params = new HashMap<String, Object>();
-		sbf.append("select d.n_ploy_id as id,case when d.s_note is null then g.s_prop_name when d.s_note = g.s_prop_name then d.s_note else d.s_note end note,d.n_amount as amount  ");
+		sbf.append("select d.n_ploy_id as id,d.n_ploy_id as ployId,d.n_prop_id propsId,case when d.s_note is null then g.s_prop_name when d.s_note = g.s_prop_name then d.s_note else d.s_note end note,d.n_amount as amount  ");
 		sbf.append(" FROM PP_PRESENTS_PLOY_DETAIL d,GAME_PROPS g ");
 		sbf.append(" where 1=1 ");
 		sbf.append(" and g.n_prop_id = d.n_prop_id ");
