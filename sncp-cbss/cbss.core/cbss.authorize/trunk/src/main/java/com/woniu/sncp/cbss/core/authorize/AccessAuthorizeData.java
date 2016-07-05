@@ -1,7 +1,7 @@
 package com.woniu.sncp.cbss.core.authorize;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,22 +17,23 @@ import org.springframework.stereotype.Component;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfo;
+import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfoKey;
 import com.woniu.sncp.cbss.core.model.access.SecurityResource;
 import com.woniu.sncp.cbss.core.model.constant.NameFactory;
 import com.woniu.sncp.cbss.core.repository.redis.RedisService;
 import com.woniu.sncp.cbss.core.repository.zookeeper.ZooKeeperFactory;
 import com.woniu.sncp.cbss.core.repository.zookeeper.ZookeeperConfValue;
-import com.woniu.sncp.cbss.core.trace.aspect.ParamsAndReturningLog;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
 
 @Component
 public class AccessAuthorizeData {
 
-	private static final Logger logger = LoggerFactory.getLogger(AccessAuthorize.class);
+	private static final Logger logger = LoggerFactory.getLogger(AccessAuthorizeData.class);
 
-	public static List<AccessSecurityInfo> accessSecurityInfos = (new ArrayList<AccessSecurityInfo>());
-	public static List<SecurityResource> securityResources = (new ArrayList<SecurityResource>());
-
-	public static Map<String, AccessSecurityInfo> requestInAccessSecurityInfo = (new HashMap<String, AccessSecurityInfo>());
+	public static List<AccessSecurityInfo> accessSecurityInfos = Collections.synchronizedList(new ArrayList<AccessSecurityInfo>());
+	public static List<SecurityResource> securityResources = Collections.synchronizedList(new ArrayList<SecurityResource>());
+	@Autowired
+	private Trace trace;
 
 	@Autowired
 	private ZooKeeperFactory zooKeeperFactory;
@@ -123,15 +124,6 @@ public class AccessAuthorizeData {
 				if (isHave) {
 					// 更新
 					accessSecurityInfos.set(index - 1, accessSecurityInfoNew);
-
-					Collection<AccessSecurityInfo> keys = requestInAccessSecurityInfo.values();
-					for (AccessSecurityInfo accessSecurityInfo : keys) {
-						if ((accessSecurityInfoNew.getId().getId() + "-" + accessSecurityInfoNew.getId().getType()).equals(accessSecurityInfo.getId().getId() + "-"
-								+ accessSecurityInfo.getId().getType())) {
-							requestInAccessSecurityInfo.put((accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType()), accessSecurityInfoNew);
-						}
-					}
-
 				} else {
 					// 新增
 					accessSecurityInfos.add(accessSecurityInfoNew);
@@ -173,7 +165,7 @@ public class AccessAuthorizeData {
 				} else {
 					// 新增
 					securityResources.add(securityResourceNew);
-					
+
 					List<AccessSecurityInfo> wDelete = deleteAccessSecurityInfoFromsecurityResources(accessSecurityInfos, securityResources);
 					if (!wDelete.isEmpty()) {
 						accessSecurityInfos.removeAll(wDelete);
@@ -191,37 +183,93 @@ public class AccessAuthorizeData {
 		return JSONObject.parseObject(securityResource, SecurityResource.class);
 	}
 
-	@ParamsAndReturningLog
 	public AccessSecurityInfo getAccessSecurityInfo(Long accessId, Long accessType) {
+		long time = 0, time1 = 0, time2 = 0, time3 = 0, time4 = 0, time5 = 0;
+		long time7 = 0;
+		long[] time6 = null;
+		if (logger.isTraceEnabled())
+			time = System.currentTimeMillis();
 		AccessSecurityInfo accessSecurityInfo = null;
-		if (accessSecurityInfos == null || accessSecurityInfos.size() == 0) {
-			return accessSecurityInfo;
-		}
-		accessSecurityInfo = requestInAccessSecurityInfo.get(accessId + "-" + accessType);
+		try {
+			int size = accessSecurityInfos.size();
+			if (accessSecurityInfos == null || accessSecurityInfos.size() == 0) {
+				return accessSecurityInfo;
+			}
 
-		if (accessSecurityInfo == null) {
-			for (AccessSecurityInfo info : accessSecurityInfos) {
-				try {
-					if (info != null && info.getId() != null) {
-						if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
-							accessSecurityInfo = info;
-							break;
+			if (logger.isTraceEnabled())
+				time1 = System.currentTimeMillis();
+			if (logger.isTraceEnabled())
+				time6 = new long[accessSecurityInfos.size()];
+
+			if (logger.isTraceEnabled()) {
+
+				for (int i = 0; i < size; i++) {
+
+					if (logger.isTraceEnabled())
+						time7 = System.currentTimeMillis();
+
+					AccessSecurityInfo info = accessSecurityInfos.get(i);
+					try {
+						if (info != null) {
+							AccessSecurityInfoKey idinfo = info.getId();
+							if (idinfo != null) {
+								if (idinfo.getType().equals(accessType.toString()) && idinfo.getId().compareTo(accessId) == 0) {
+									accessSecurityInfo = info;
+									break;
+								}
+							}
 						}
+					} catch (Exception e) {
+						return accessSecurityInfo;
+					} finally {
+
+						if (logger.isTraceEnabled())
+							time6[i] = System.currentTimeMillis() - time7;
 					}
-				} catch (Exception e) {
-					return accessSecurityInfo;
+
+				}
+			} else {
+				int i = 0;
+				for (AccessSecurityInfo info : accessSecurityInfos) {
+
+					if (logger.isTraceEnabled())
+						time7 = System.currentTimeMillis();
+
+					try {
+						if (info != null && info.getId() != null) {
+							if (info.getId().getType().equals(accessType.toString()) && info.getId().getId().compareTo(accessId) == 0) {
+								accessSecurityInfo = info;
+								break;
+							}
+						}
+					} catch (Exception e) {
+						return accessSecurityInfo;
+					} finally {
+
+						if (logger.isTraceEnabled())
+							time6[i] = System.currentTimeMillis() - time7;
+					}
 				}
 			}
+			if (logger.isTraceEnabled())
+				time2 = System.currentTimeMillis();
 
-			if (accessSecurityInfo != null) {
-				requestInAccessSecurityInfo.put(accessSecurityInfo.getId().getId() + "-" + accessSecurityInfo.getId().getType(), accessSecurityInfo);
+		} finally {
+			if (logger.isTraceEnabled()) {
+				Map<String, Object> authorize = new HashMap<String, Object>();
+				String key = accessId + "-" + accessType + "-getAccessSecurityInfo";
+				authorize.put(key, time5 - time);
+				authorize.put(key + "1", time2 - time1);
+				authorize.put(key + "2", time3 - time2);
+				authorize.put(key + "3", time4 - time3);
+				authorize.put(key + "4", time5 - time4);
+				authorize.put(key + "5", time6);
+				trace.trace(authorize);
 			}
 		}
-
 		return accessSecurityInfo;
 	}
 
-	@ParamsAndReturningLog
 	public SecurityResource getSecurityResource(Long accessId, String uri, String methodName) {
 		for (SecurityResource securityResource : securityResources) {
 			if (securityResource.getId().getId().compareTo(accessId) == 0) {

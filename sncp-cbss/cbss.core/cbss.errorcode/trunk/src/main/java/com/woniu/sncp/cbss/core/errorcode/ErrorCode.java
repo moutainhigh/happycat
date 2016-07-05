@@ -52,6 +52,7 @@ public class ErrorCode {
 		Echo echo = new Echo();
 		echo.setMsgcode(code);
 		echo.setMessage(info);
+		echo.setData("");
 		return echo;
 	}
 }
