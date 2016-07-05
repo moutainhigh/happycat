@@ -65,7 +65,7 @@ public class AlertService {
 					}
 					rtn1 = code;
 				} catch (Exception e) {
-					logger.error("monitor-submitAlertMsg", e);
+					logger.error("monitor-submitAlertMsg1", e);
 					for (int i = 0; i < maxcycle; i++) {
 						try {
 							Map<String, Object> rtn = http.post(metricUrl, headers, JSONObject.toJSONString(datas), timeout, "utf-8");
@@ -75,9 +75,9 @@ public class AlertService {
 							}
 							rtn1 = code;
 						} catch (Exception e1) {
-							logger.error("monitor-submitAlertMsg", e1);
+							logger.error("monitor-submitAlertMsg2", e1);
 							if (i + 1 == maxcycle) {
-								return e1.getMessage();
+								return "code:" + e1.getMessage();
 							}
 						}
 					}
