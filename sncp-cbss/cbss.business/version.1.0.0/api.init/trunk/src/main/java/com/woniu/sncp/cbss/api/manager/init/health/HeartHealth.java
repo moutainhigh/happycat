@@ -23,8 +23,8 @@ public class HeartHealth implements HealthIndicator {
 	private String metricType = "";
 	private String tags = "";
 
-	private int maxcycle = 3;
-	private int timeout = 30000;
+	private int maxcycle = 1;
+	private int timeout = 1000;
 
 	@Autowired
 	private AlertService alertService;

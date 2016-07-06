@@ -23,4 +23,5 @@
 		<dubbo:reference id="alarmMessageService"
 		interface="com.woniu.sncp.alarm.service.AlarmMessageService" client="netty"
 		version="1.0.0" check="false" />
+		
 </beans>

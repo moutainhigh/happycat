@@ -11,8 +11,8 @@
 	<parent>
 		<groupId>com.woniu.cbss</groupId>
 		<artifactId>cbss.core.parent</artifactId>
-		<version>0.0.1</version>
-		<relativePath>../../cbss.core.parent/pom.xml</relativePath>
+		<version>0.0.2</version>
+		<relativePath>../../cbss.parent/pom.xml</relativePath>
 	</parent>
 
 
