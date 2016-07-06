@@ -25,17 +25,7 @@
 
 		<!-- sncp bss core -->
 		<cbss.api.init.version>0.0.2</cbss.api.init.version>
-		<cbss.authorize.version>0.0.2</cbss.authorize.version>
-		<cbss.errorcode.version>0.0.2</cbss.errorcode.version>
-		<cbss.trace.version>0.0.2</cbss.trace.version>
-		<cbss.call.version>0.0.2</cbss.call.version>
-		<cbss.model.version>0.0.2</cbss.model.version>
-		<cbss.repository.version>0.0.2</cbss.repository.version>
-		<cbss.validation.version>0.0.2</cbss.validation.version>
-		<cbss.signature.version>0.0.2</cbss.signature.version>
-		<nifty.spring.boot.starter.version>${project.version}</nifty.spring.boot.starter.version>
-
-
+		<cbss.core.version>0.0.2</cbss.core.version>
 		<!-- Spring -->
 		<org.springframework.spring.version>4.2.6.RELEASE</org.springframework.spring.version>
 		<spring.boot>1.3.3.RELEASE</spring.boot>
@@ -100,7 +90,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-
+			<dependency>
+				<groupId>com.woniu.sncp</groupId>
+				<artifactId>nifty-spring-boot-starter</artifactId>
+				<version>${cbss.core.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
@@ -175,48 +169,52 @@
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.authorize</artifactId>
-				<version>${cbss.authorize.version}</version>
+				<version>${cbss.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.thrift.win</artifactId>
+				<version>${cbss.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.thrift.linux</artifactId>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.call</artifactId>
-				<version>${cbss.call.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.model</artifactId>
-				<version>${cbss.model.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.repository</artifactId>
-				<version>${cbss.repository.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.vaildation</artifactId>
-				<version>${cbss.validation.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.signature</artifactId>
-				<version>${cbss.signature.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.trace</artifactId>
-				<version>${cbss.trace.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.errorcode</artifactId>
-				<version>${cbss.errorcode.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>com.woniu.sncp</groupId>
-				<artifactId>nifty-spring-boot-starter</artifactId>
-				<version>${nifty.spring.boot.starter.version}</version>
+				<version>${cbss.core.version}</version>
 			</dependency>
 
 			<!-- BEGIN: JPA Hibernate Implementation -->

@@ -23,4 +23,11 @@
     <!-- 和本地bean一样实现服务 -->
     <bean id="alarmMessageService" class="com.woniu.sncp.alarm.service.AlarmMessageServiceImpl"/>
 	
+	<!-- monitor -->
+	<bean id="hearthealth" class="com.woniu.sncp.cbss.api.manager.init.health.HeartHealth" />
+    <bean id="alertService" class="com.woniu.sncp.cbss.core.call.http.alert.AlertService" />
+    <bean id="threadPool" class="com.woniu.sncp.cbss.core.util.ThreadPool" />
+    <bean id="http" class="com.woniu.sncp.cbss.core.call.http.Http" />
+    <bean id="logformat" class="com.woniu.sncp.cbss.core.trace.logformat.LogFormat" />
+    <bean id="trace" class="com.woniu.sncp.cbss.core.trace.aspect.listener.Trace"/>
 </beans>
