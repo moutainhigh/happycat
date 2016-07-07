@@ -22,9 +22,9 @@ import com.woniu.sncp.profile.po.CardValuePo;
  * @date   2016年7月1日
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
-public class CardManageServiceImpl implements CardManageService {
+public class CardTypeManageServiceImpl implements CardTypeManageService {
 
-	protected static final Logger log = LoggerFactory.getLogger(CardManageServiceImpl.class);
+	protected static final Logger log = LoggerFactory.getLogger(CardTypeManageServiceImpl.class);
 			
 	@Autowired
 	CardManageDao cardManageDao;

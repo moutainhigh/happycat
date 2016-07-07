@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * 
+ * 游戏网络类型分组
  * @author fuzl
  *
  */

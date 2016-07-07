@@ -3,7 +3,7 @@ package com.woniu.sncp.profile.dto;
 import java.io.Serializable;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 卡大类</p>
  * 
  * @author fuzl
  * @date   2016年7月1日
