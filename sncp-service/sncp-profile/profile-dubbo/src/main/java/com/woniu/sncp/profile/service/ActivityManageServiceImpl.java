@@ -21,7 +21,7 @@ import com.woniu.sncp.profile.po.PassportPresentsPloyPo;
 import com.woniu.sncp.profile.service.ploy.PresentsPloyContext;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 活动信息管理实现</p>
  * 
  * @author fuzl
  * @date   2016年7月4日

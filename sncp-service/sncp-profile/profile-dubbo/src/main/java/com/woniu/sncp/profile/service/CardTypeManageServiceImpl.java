@@ -16,7 +16,7 @@ import com.woniu.sncp.profile.po.CardDetailPo;
 import com.woniu.sncp.profile.po.CardValuePo;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 卡类型信息管理实现</p>
  * 
  * @author fuzl
  * @date   2016年7月1日
