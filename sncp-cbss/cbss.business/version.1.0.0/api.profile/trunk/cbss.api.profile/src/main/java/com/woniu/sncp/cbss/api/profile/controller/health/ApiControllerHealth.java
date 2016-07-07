@@ -9,7 +9,6 @@ public class ApiControllerHealth implements HealthIndicator {
 	
 	
 	public Health health() {
-		//TODO 具体需再实现
 		return Health.unknown().build();
 	}
 
