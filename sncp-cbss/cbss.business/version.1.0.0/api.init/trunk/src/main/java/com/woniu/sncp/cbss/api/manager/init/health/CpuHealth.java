@@ -70,7 +70,7 @@ public class CpuHealth implements HealthIndicator {
 		int index = cpuGC(cpuGcTimes, cpuPrecent);
 		if (index >= cpuGcTimes) {
 			tags = (index) + "," + cpuPrecent + "%," + cpuPrecentMax + "%";
-			Metric metrics = new Metric(metricType, String.valueOf(new Date().getTime()), !StringUtils.isEmpty(tags) ? tags + "," + ipport : ipport);
+			Metric metrics = new Metric(metricType, String.valueOf(cpuPrecent), !StringUtils.isEmpty(tags) ? tags + "," + ipport : ipport);
 			try {
 				String rtn = alertService.metric(metricUrl, metrics, getMaxcycle(), getTimeout());
 				if (rtn.startsWith("code:")) {
