@@ -53,7 +53,7 @@ public class GameCardActivityManageServiceImplTest {
 	
 	
 	@Autowired
-	CardManageService cardManageService;
+	CardTypeManageService cardManageService;
 	
 	//@Test
 	public void testCardQuery(){

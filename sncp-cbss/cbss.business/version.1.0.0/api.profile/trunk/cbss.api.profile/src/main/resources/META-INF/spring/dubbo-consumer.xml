@@ -17,8 +17,8 @@
 		interface="com.woniu.sncp.profile.service.GameManageService" client="netty"
 		version="1.0.0" />
 	
-	<dubbo:reference id="cardManageService"
-		interface="com.woniu.sncp.profile.service.CardManageService" client="netty"
+	<dubbo:reference id="cardTypeManageService"
+		interface="com.woniu.sncp.profile.service.CardTypeManageService" client="netty"
 		version="1.0.0" />
 		
 	<dubbo:reference id="activityManageService"

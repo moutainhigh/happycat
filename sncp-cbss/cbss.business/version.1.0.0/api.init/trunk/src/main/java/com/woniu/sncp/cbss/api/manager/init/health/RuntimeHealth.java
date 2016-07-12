@@ -25,7 +25,7 @@ import com.woniu.sncp.cbss.core.util.IpUtils;
 public class RuntimeHealth implements HealthIndicator {
 
 	private String metricUrl = "http://monitor.yunwei.woniu.com:81/api/push_monitor/";
-	private String metricType = "sncp.mirco.precent.memory";
+	private String metricType = "sncp.micro.precent.memory";
 	private String tags = "";
 
 	private int maxcycle = 3;

@@ -1,8 +1,6 @@
 package com.woniu.sncp.cbss.api.profile.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +17,13 @@ import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.CardDetailDTO;
+import com.woniu.sncp.profile.dto.CardTypeDTO;
 import com.woniu.sncp.profile.dto.CardValueDTO;
-import com.woniu.sncp.profile.service.CardManageService;
+import com.woniu.sncp.profile.service.CardTypeManageService;
 
 /**
  * 
- * <p>descrption: </p>
+ * <p>descrption: 卡类型信息consume</p>
  * 
  * @author fuzl
  * @date   2016年7月4日
@@ -33,7 +32,7 @@ import com.woniu.sncp.profile.service.CardManageService;
 @RestController
 @RequestMapping(AccessAuthorizeFilterConfigures.BASE_CONTEXT)
 @Configuration
-public class CardManageController {
+public class CardTypeManageController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ErrorCode.class);
 	
@@ -41,7 +40,7 @@ public class CardManageController {
 	private ErrorCode errorCode;
 	
 	@Autowired
-	CardManageService cardManageService;
+	CardTypeManageService cardTypeManageService;
 	
 	@RequestMapping(value = "/app/imprest/value", method = RequestMethod.POST)
 	@ResponseBody
@@ -51,18 +50,19 @@ public class CardManageController {
 		Long paymentId = data.getPlatformId();
 		
 		//面值大类
-		List<CardValueDTO> cardValueDTOList = cardManageService.findValueByGameIdAndPlatformId(gameId, paymentId);
+		List<CardValueDTO> cardValueDTOList = cardTypeManageService.findValueByGameIdAndPlatformId(gameId, paymentId);
 		
 		//面值详情
-		List<CardDetailDTO> cardDetailDTOList = cardManageService.findDetailByGameIdAndPlatformId(gameId, paymentId);
+		List<CardDetailDTO> cardDetailDTOList = cardTypeManageService.findDetailByGameIdAndPlatformId(gameId, paymentId);
 		
 		EchoInfo<Object> retData = null;
 		try {
-			Map<String,Object> retMap = new HashMap<String,Object>();
+			//返回卡类型对象信息
+			CardTypeDTO retObj = new CardTypeDTO();
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
-			retMap.put("value", cardValueDTOList);
-			retMap.put("detail", cardDetailDTOList);
-			retData.setData(retMap);
+			retObj.setValue(cardValueDTOList);
+			retObj.setDetail(cardDetailDTOList);
+			retData.setData(retObj);
 		} catch (MissingParamsException e) {
 			logger.error("gameConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
