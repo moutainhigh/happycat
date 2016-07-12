@@ -71,10 +71,10 @@ public class CardTypeManageController {
 			}
 			retData.setData(cardValueDTOList);
 		} catch (MissingParamsException e) {
-			logger.error("gameConf", e);
+			logger.error("cardTypeConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (Exception e) {
-			logger.error("gameConf", e);
+			logger.error("cardTypeConf", e);
 			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 		
