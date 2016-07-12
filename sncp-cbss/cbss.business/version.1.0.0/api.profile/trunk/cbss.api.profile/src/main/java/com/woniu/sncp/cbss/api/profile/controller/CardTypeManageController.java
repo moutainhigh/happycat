@@ -18,7 +18,6 @@ import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.CardDetailDTO;
-import com.woniu.sncp.profile.dto.CardTypeDTO;
 import com.woniu.sncp.profile.dto.CardValueDTO;
 import com.woniu.sncp.profile.service.CardTypeManageService;
 
@@ -59,7 +58,6 @@ public class CardTypeManageController {
 		EchoInfo<Object> retData = null;
 		try {
 			//返回卡类型对象信息
-			CardTypeDTO retObj = new CardTypeDTO();
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
 			//处理面值大类,将具体面值放入对应的大类
 			for(CardValueDTO value:cardValueDTOList){
@@ -71,8 +69,7 @@ public class CardTypeManageController {
 				}
 				value.setDetails(_cardDetailDTOList);
 			}
-			retObj.setValue(cardValueDTOList);
-			retData.setData(retObj);
+			retData.setData(cardValueDTOList);
 		} catch (MissingParamsException e) {
 			logger.error("gameConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
