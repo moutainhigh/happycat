@@ -160,7 +160,6 @@
 				<version>${dubbo.version}</version>
 			</dependency>
 			<!-- BEGIN: sncp bss core -->
-
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.api.init</artifactId>

@@ -220,6 +220,11 @@
 				<artifactId>nifty-spring-boot-starter</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.woniu.sncp</groupId>
+				<artifactId>cbss.core.util.linux</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<!-- nifty -->
 			<dependency>
 				<groupId>org.apache.thrift</groupId>
