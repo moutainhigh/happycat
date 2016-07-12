@@ -1,5 +1,6 @@
 package com.woniu.sncp.cbss.api.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -60,8 +61,17 @@ public class CardTypeManageController {
 			//返回卡类型对象信息
 			CardTypeDTO retObj = new CardTypeDTO();
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
+			//处理面值大类,将具体面值放入对应的大类
+			for(CardValueDTO value:cardValueDTOList){
+				List<CardDetailDTO> _cardDetailDTOList = new ArrayList<CardDetailDTO>();
+				for(CardDetailDTO detail:cardDetailDTOList){
+					if(value.getId().equals(detail.getMainId())){
+						_cardDetailDTOList.add(detail);
+					}
+				}
+				value.setDetails(_cardDetailDTOList);
+			}
 			retObj.setValue(cardValueDTOList);
-			retObj.setDetail(cardDetailDTOList);
 			retData.setData(retObj);
 		} catch (MissingParamsException e) {
 			logger.error("gameConf", e);
