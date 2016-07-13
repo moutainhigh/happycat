@@ -24,8 +24,6 @@ public class AccessUrlConfigurationProperties {
 	List<String> paramTypes;
 	List<RequestDatas<RequestParam>> paramObjects;
 
-	List<String> services;
-	List<String> methods;
 	List<String> requestparams;
 
 	@Autowired
@@ -55,13 +53,13 @@ public class AccessUrlConfigurationProperties {
 					}
 				}
 			}
-			
-			if (services != null && !services.isEmpty()) {
+
+			if (requestparams != null && !requestparams.isEmpty()) {
 				if (urls == null) {
 					urls = new ArrayList<String>();
 				}
-				for (int i = 0; i < services.size(); i++) {
-					urls.add(services.get(i) + "." + methods.get(i) + "." + requestparams.get(i));
+				for (int i = 0; i < requestparams.size(); i++) {
+					urls.add(requestparams.get(i));
 				}
 			}
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
@@ -79,22 +77,6 @@ public class AccessUrlConfigurationProperties {
 
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
-	}
-
-	public List<String> getServices() {
-		return services;
-	}
-
-	public void setServices(List<String> services) {
-		this.services = services;
-	}
-
-	public List<String> getMethods() {
-		return methods;
-	}
-
-	public void setMethods(List<String> methods) {
-		this.methods = methods;
 	}
 
 	public List<String> getRequestparams() {

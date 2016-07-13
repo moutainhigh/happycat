@@ -48,6 +48,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 			throws Throwable {
 		RequestAccess requestAccess = null;
 		Date accessAuthorizeEndtime = null;
+		Object rtn = null;
 		try {
 			try {
 				Access access = (Access) mi.getArguments()[0];
@@ -59,7 +60,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 			} finally {
 				accessAuthorizeEndtime = new Date();
 			}
-			Object rtn = mi.proceed();
+			rtn = mi.proceed();
 			if (rtn instanceof Echo) {
 				((Echo) rtn).setUuid(requestAccess.getSessionId());
 				((Echo) rtn).setTime(System.currentTimeMillis());
@@ -94,10 +95,10 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 					// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
 					List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
 					for (RequestClientInfo requestClientInfo : clinfos) {
-						trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime);
+						trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, rtn);
 					}
 				} else {
-					trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime);
+					trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, rtn);
 				}
 			} catch (Exception e) {
 				logger.error("traceApiTime", e);
@@ -141,7 +142,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 
 		Param param = data.getParam();
 
-		requestAccess.setRequestURI(method.getDeclaringClass().getName() + "." + method.getName() + "." + param.getClassname());
+		requestAccess.setRequestURI(param.getClassname());
 
 		requestAccess.setAccessVerify(signature.getSignature());
 		requestAccess.setAccessVerifyType(signature.getType());

@@ -281,10 +281,10 @@ public class AccessAuthorizeFilter implements Filter {
 					List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
 					for (RequestClientInfo requestClientInfo : clinfos) {
 						trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(),
-								accessAuthorizeEndtime);
+								accessAuthorizeEndtime, null);
 					}
 				} else {
-					trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime);
+					trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, null);
 				}
 			} catch (Exception e) {
 				logger.error("traceApiTime", e);
