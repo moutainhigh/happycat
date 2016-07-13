@@ -49,7 +49,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
   private static final org.apache.thrift.protocol.TField NEXT_SIGN_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("nextSignType", org.apache.thrift.protocol.TType.I32, (short)6);
   private static final org.apache.thrift.protocol.TField SERVER_STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("serverState", org.apache.thrift.protocol.TType.STRUCT, (short)7);
   private static final org.apache.thrift.protocol.TField RESOLVE_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("resolveType", org.apache.thrift.protocol.TType.STRING, (short)8);
-  private static final org.apache.thrift.protocol.TField DOMAINNAME_FIELD_DESC = new org.apache.thrift.protocol.TField("domainname", org.apache.thrift.protocol.TType.STRING, (short)9);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -65,7 +64,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
   public int nextSignType; // required
   public State serverState; // required
   public String resolveType; // required
-  public String domainname; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -76,8 +74,7 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     TIME((short)5, "time"),
     NEXT_SIGN_TYPE((short)6, "nextSignType"),
     SERVER_STATE((short)7, "serverState"),
-    RESOLVE_TYPE((short)8, "resolveType"),
-    DOMAINNAME((short)9, "domainname");
+    RESOLVE_TYPE((short)8, "resolveType");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -108,8 +105,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
           return SERVER_STATE;
         case 8: // RESOLVE_TYPE
           return RESOLVE_TYPE;
-        case 9: // DOMAINNAME
-          return DOMAINNAME;
         default:
           return null;
       }
@@ -173,8 +168,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT        , "State")));
     tmpMap.put(_Fields.RESOLVE_TYPE, new org.apache.thrift.meta_data.FieldMetaData("resolveType", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
-    tmpMap.put(_Fields.DOMAINNAME, new org.apache.thrift.meta_data.FieldMetaData("domainname", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Echo.class, metaDataMap);
   }
@@ -183,8 +176,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     this.nextSignType = 1;
 
     this.resolveType = "1";
-
-    this.domainname = "-";
 
   }
 
@@ -196,8 +187,7 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     long time,
     int nextSignType,
     State serverState,
-    String resolveType,
-    String domainname)
+    String resolveType)
   {
     this();
     this.msgcode = msgcode;
@@ -211,7 +201,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     setNextSignTypeIsSet(true);
     this.serverState = serverState;
     this.resolveType = resolveType;
-    this.domainname = domainname;
   }
 
   /**
@@ -237,9 +226,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     if (other.isSetResolveType()) {
       this.resolveType = other.resolveType;
     }
-    if (other.isSetDomainname()) {
-      this.domainname = other.domainname;
-    }
   }
 
   public Echo deepCopy() {
@@ -259,8 +245,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
 
     this.serverState = null;
     this.resolveType = "1";
-
-    this.domainname = "-";
 
   }
 
@@ -453,30 +437,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     }
   }
 
-  public String getDomainname() {
-    return this.domainname;
-  }
-
-  public Echo setDomainname(String domainname) {
-    this.domainname = domainname;
-    return this;
-  }
-
-  public void unsetDomainname() {
-    this.domainname = null;
-  }
-
-  /** Returns true if field domainname is set (has been assigned a value) and false otherwise */
-  public boolean isSetDomainname() {
-    return this.domainname != null;
-  }
-
-  public void setDomainnameIsSet(boolean value) {
-    if (!value) {
-      this.domainname = null;
-    }
-  }
-
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case MSGCODE:
@@ -543,14 +503,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
       }
       break;
 
-    case DOMAINNAME:
-      if (value == null) {
-        unsetDomainname();
-      } else {
-        setDomainname((String)value);
-      }
-      break;
-
     }
   }
 
@@ -580,9 +532,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     case RESOLVE_TYPE:
       return getResolveType();
 
-    case DOMAINNAME:
-      return getDomainname();
-
     }
     throw new IllegalStateException();
   }
@@ -610,8 +559,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
       return isSetServerState();
     case RESOLVE_TYPE:
       return isSetResolveType();
-    case DOMAINNAME:
-      return isSetDomainname();
     }
     throw new IllegalStateException();
   }
@@ -701,15 +648,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
         return false;
     }
 
-    boolean this_present_domainname = true && this.isSetDomainname();
-    boolean that_present_domainname = true && that.isSetDomainname();
-    if (this_present_domainname || that_present_domainname) {
-      if (!(this_present_domainname && that_present_domainname))
-        return false;
-      if (!this.domainname.equals(that.domainname))
-        return false;
-    }
-
     return true;
   }
 
@@ -756,11 +694,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     list.add(present_resolveType);
     if (present_resolveType)
       list.add(resolveType);
-
-    boolean present_domainname = true && (isSetDomainname());
-    list.add(present_domainname);
-    if (present_domainname)
-      list.add(domainname);
 
     return list.hashCode();
   }
@@ -853,16 +786,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
         return lastComparison;
       }
     }
-    lastComparison = Boolean.valueOf(isSetDomainname()).compareTo(other.isSetDomainname());
-    if (lastComparison != 0) {
-      return lastComparison;
-    }
-    if (isSetDomainname()) {
-      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.domainname, other.domainname);
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-    }
     return 0;
   }
 
@@ -932,14 +855,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
       sb.append("null");
     } else {
       sb.append(this.resolveType);
-    }
-    first = false;
-    if (!first) sb.append(", ");
-    sb.append("domainname:");
-    if (this.domainname == null) {
-      sb.append("null");
-    } else {
-      sb.append(this.domainname);
     }
     first = false;
     sb.append(")");
@@ -1067,14 +982,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
-          case 9: // DOMAINNAME
-            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-              struct.domainname = iprot.readString();
-              struct.setDomainnameIsSet(true);
-            } else { 
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-            }
-            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -1133,11 +1040,6 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
         oprot.writeString(struct.resolveType);
         oprot.writeFieldEnd();
       }
-      if (struct.domainname != null) {
-        oprot.writeFieldBegin(DOMAINNAME_FIELD_DESC);
-        oprot.writeString(struct.domainname);
-        oprot.writeFieldEnd();
-      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -1166,15 +1068,9 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
       if (struct.isSetResolveType()) {
         optionals.set(0);
       }
-      if (struct.isSetDomainname()) {
-        optionals.set(1);
-      }
-      oprot.writeBitSet(optionals, 2);
+      oprot.writeBitSet(optionals, 1);
       if (struct.isSetResolveType()) {
         oprot.writeString(struct.resolveType);
-      }
-      if (struct.isSetDomainname()) {
-        oprot.writeString(struct.domainname);
       }
     }
 
@@ -1196,14 +1092,10 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
       struct.serverState = new State();
       struct.serverState.read(iprot);
       struct.setServerStateIsSet(true);
-      BitSet incoming = iprot.readBitSet(2);
+      BitSet incoming = iprot.readBitSet(1);
       if (incoming.get(0)) {
         struct.resolveType = iprot.readString();
         struct.setResolveTypeIsSet(true);
-      }
-      if (incoming.get(1)) {
-        struct.domainname = iprot.readString();
-        struct.setDomainnameIsSet(true);
       }
     }
   }

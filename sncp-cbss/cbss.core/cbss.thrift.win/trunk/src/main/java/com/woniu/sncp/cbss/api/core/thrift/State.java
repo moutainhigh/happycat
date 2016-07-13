@@ -43,6 +43,7 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
 
   private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.I32, (short)1);
   private static final org.apache.thrift.protocol.TField FUTURETIME_FIELD_DESC = new org.apache.thrift.protocol.TField("futuretime", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField DOMANENAME_FIELD_DESC = new org.apache.thrift.protocol.TField("domanename", org.apache.thrift.protocol.TType.STRING, (short)3);
 
   private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
   static {
@@ -56,6 +57,7 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
    */
   public Status status; // required
   public long futuretime; // required
+  public String domanename; // required
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -64,7 +66,8 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
      * @see Status
      */
     STATUS((short)1, "status"),
-    FUTURETIME((short)2, "futuretime");
+    FUTURETIME((short)2, "futuretime"),
+    DOMANENAME((short)3, "domanename");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -83,6 +86,8 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
           return STATUS;
         case 2: // FUTURETIME
           return FUTURETIME;
+        case 3: // DOMANENAME
+          return DOMANENAME;
         default:
           return null;
       }
@@ -132,6 +137,8 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
         new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, Status.class)));
     tmpMap.put(_Fields.FUTURETIME, new org.apache.thrift.meta_data.FieldMetaData("futuretime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.DOMANENAME, new org.apache.thrift.meta_data.FieldMetaData("domanename", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(State.class, metaDataMap);
   }
@@ -141,12 +148,14 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
 
   public State(
     Status status,
-    long futuretime)
+    long futuretime,
+    String domanename)
   {
     this();
     this.status = status;
     this.futuretime = futuretime;
     setFuturetimeIsSet(true);
+    this.domanename = domanename;
   }
 
   /**
@@ -158,6 +167,9 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       this.status = other.status;
     }
     this.futuretime = other.futuretime;
+    if (other.isSetDomanename()) {
+      this.domanename = other.domanename;
+    }
   }
 
   public State deepCopy() {
@@ -169,6 +181,7 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
     this.status = null;
     setFuturetimeIsSet(false);
     this.futuretime = 0;
+    this.domanename = null;
   }
 
   /**
@@ -226,6 +239,30 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
     __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __FUTURETIME_ISSET_ID, value);
   }
 
+  public String getDomanename() {
+    return this.domanename;
+  }
+
+  public State setDomanename(String domanename) {
+    this.domanename = domanename;
+    return this;
+  }
+
+  public void unsetDomanename() {
+    this.domanename = null;
+  }
+
+  /** Returns true if field domanename is set (has been assigned a value) and false otherwise */
+  public boolean isSetDomanename() {
+    return this.domanename != null;
+  }
+
+  public void setDomanenameIsSet(boolean value) {
+    if (!value) {
+      this.domanename = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case STATUS:
@@ -244,6 +281,14 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       }
       break;
 
+    case DOMANENAME:
+      if (value == null) {
+        unsetDomanename();
+      } else {
+        setDomanename((String)value);
+      }
+      break;
+
     }
   }
 
@@ -254,6 +299,9 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
 
     case FUTURETIME:
       return getFuturetime();
+
+    case DOMANENAME:
+      return getDomanename();
 
     }
     throw new IllegalStateException();
@@ -270,6 +318,8 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       return isSetStatus();
     case FUTURETIME:
       return isSetFuturetime();
+    case DOMANENAME:
+      return isSetDomanename();
     }
     throw new IllegalStateException();
   }
@@ -305,6 +355,15 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
         return false;
     }
 
+    boolean this_present_domanename = true && this.isSetDomanename();
+    boolean that_present_domanename = true && that.isSetDomanename();
+    if (this_present_domanename || that_present_domanename) {
+      if (!(this_present_domanename && that_present_domanename))
+        return false;
+      if (!this.domanename.equals(that.domanename))
+        return false;
+    }
+
     return true;
   }
 
@@ -321,6 +380,11 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
     list.add(present_futuretime);
     if (present_futuretime)
       list.add(futuretime);
+
+    boolean present_domanename = true && (isSetDomanename());
+    list.add(present_domanename);
+    if (present_domanename)
+      list.add(domanename);
 
     return list.hashCode();
   }
@@ -349,6 +413,16 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
     }
     if (isSetFuturetime()) {
       lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.futuretime, other.futuretime);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetDomanename()).compareTo(other.isSetDomanename());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetDomanename()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.domanename, other.domanename);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -383,6 +457,14 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
     if (!first) sb.append(", ");
     sb.append("futuretime:");
     sb.append(this.futuretime);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("domanename:");
+    if (this.domanename == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.domanename);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
@@ -448,6 +530,14 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
             }
             break;
+          case 3: // DOMANENAME
+            if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
+              struct.domanename = iprot.readString();
+              struct.setDomanenameIsSet(true);
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+            }
+            break;
           default:
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
         }
@@ -471,6 +561,11 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       oprot.writeFieldBegin(FUTURETIME_FIELD_DESC);
       oprot.writeI64(struct.futuretime);
       oprot.writeFieldEnd();
+      if (struct.domanename != null) {
+        oprot.writeFieldBegin(DOMANENAME_FIELD_DESC);
+        oprot.writeString(struct.domanename);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
     }
@@ -493,9 +588,15 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       if (struct.isSetFuturetime()) {
         optionals.set(0);
       }
-      oprot.writeBitSet(optionals, 1);
+      if (struct.isSetDomanename()) {
+        optionals.set(1);
+      }
+      oprot.writeBitSet(optionals, 2);
       if (struct.isSetFuturetime()) {
         oprot.writeI64(struct.futuretime);
+      }
+      if (struct.isSetDomanename()) {
+        oprot.writeString(struct.domanename);
       }
     }
 
@@ -504,10 +605,14 @@ public class State implements org.apache.thrift.TBase<State, State._Fields>, jav
       TTupleProtocol iprot = (TTupleProtocol) prot;
       struct.status = com.woniu.sncp.cbss.api.core.thrift.Status.findByValue(iprot.readI32());
       struct.setStatusIsSet(true);
-      BitSet incoming = iprot.readBitSet(1);
+      BitSet incoming = iprot.readBitSet(2);
       if (incoming.get(0)) {
         struct.futuretime = iprot.readI64();
         struct.setFuturetimeIsSet(true);
+      }
+      if (incoming.get(1)) {
+        struct.domanename = iprot.readString();
+        struct.setDomanenameIsSet(true);
       }
     }
   }

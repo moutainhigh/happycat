@@ -12,14 +12,15 @@ import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
 public enum Status implements org.apache.thrift.TEnum {
-  DEAD(0),
-  STARTING(1),
-  ALIVE(2),
-  STOPPING(3),
-  STOPPED(4),
-  WARNING(5),
-  FUTURE_STOPED(6),
-  FUTURE_MAINTAIN(7);
+  SERVER_DEAD(0),
+  SERVER_STARTING(1),
+  SERVER_ALIVE(2),
+  SERVER_STOPPING(3),
+  SERVER_STOPPED(4),
+  SERVER_WARNING(5),
+  SERVER_FUTURE_STOPED(6),
+  SERVER_FUTURE_MAINTAIN(7),
+  DOMAINNAME_CHANGE(8);
 
   private final int value;
 
@@ -41,21 +42,23 @@ public enum Status implements org.apache.thrift.TEnum {
   public static Status findByValue(int value) { 
     switch (value) {
       case 0:
-        return DEAD;
+        return SERVER_DEAD;
       case 1:
-        return STARTING;
+        return SERVER_STARTING;
       case 2:
-        return ALIVE;
+        return SERVER_ALIVE;
       case 3:
-        return STOPPING;
+        return SERVER_STOPPING;
       case 4:
-        return STOPPED;
+        return SERVER_STOPPED;
       case 5:
-        return WARNING;
+        return SERVER_WARNING;
       case 6:
-        return FUTURE_STOPED;
+        return SERVER_FUTURE_STOPED;
       case 7:
-        return FUTURE_MAINTAIN;
+        return SERVER_FUTURE_MAINTAIN;
+      case 8:
+        return DOMAINNAME_CHANGE;
       default:
         return null;
     }

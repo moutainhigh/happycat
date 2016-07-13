@@ -46,6 +46,4 @@ public class ApiConstants {
 
   public static final String TRACE_OPEN_CLIENT_STATE = "1";
 
-  public static final String DOMAINNAME_DEFAULT = "-";
-
 }

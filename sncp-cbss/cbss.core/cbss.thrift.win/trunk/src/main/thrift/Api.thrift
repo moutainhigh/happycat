@@ -13,20 +13,20 @@ const string ECHO_DATA_RESOLVE_TYPE_DEFAULT = "1"
 */
 const i32 SIGNATURE_TYPE_DEFAULT = 1
 const string TRACE_OPEN_CLIENT_STATE = "1"
-const string DOMAINNAME_DEFAULT = "-"
 
 /*
 * 服务状态
 */
 enum Status {
-  DEAD = 0,
-  STARTING = 1,
-  ALIVE = 2,
-  STOPPING = 3,
-  STOPPED = 4,
-  WARNING = 5,
-  FUTURE_STOPED = 6,
-  FUTURE_MAINTAIN = 7,
+  SERVER_DEAD = 0,
+  SERVER_STARTING = 1,
+  SERVER_ALIVE = 2,
+  SERVER_STOPPING = 3,
+  SERVER_STOPPED = 4,
+  SERVER_WARNING = 5,
+  SERVER_FUTURE_STOPED = 6,
+  SERVER_FUTURE_MAINTAIN = 7,
+  DOMAINNAME_CHANGE = 8,
 }
 
 /**
@@ -79,8 +79,7 @@ struct Echo{
 	5: required i64 time,
 	6: required i32 nextSignType = SIGNATURE_TYPE_DEFAULT,
 	7: required State serverState,
-	8: string resolveType = ECHO_DATA_RESOLVE_TYPE_DEFAULT,
-	9: string domainname  = DOMAINNAME_DEFAULT
+	8: string resolveType = ECHO_DATA_RESOLVE_TYPE_DEFAULT
 }
 
 /**
@@ -96,7 +95,8 @@ struct Signature{
 */
 struct State{
 	1: required Status status,
-	2: i64 futuretime
+	2: i64 futuretime,
+	3: string domanename
 }
 
 /**

@@ -64,7 +64,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 			if (rtn instanceof Echo) {
 				((Echo) rtn).setUuid(requestAccess.getSessionId());
 				((Echo) rtn).setTime(System.currentTimeMillis());
-				((Echo) rtn).setServerState(new State(Status.ALIVE, 0));
+				((Echo) rtn).setServerState(new State(Status.SERVER_ALIVE, 0, ""));
 			}
 			return rtn;
 		} catch (Exception e) {
@@ -75,7 +75,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				echo.setData("NA1");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
-				echo.setServerState(new State(Status.ALIVE, -1));
+				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));
 				echo.setMsgcode(-1);
 				return echo;
 			} else {
@@ -85,7 +85,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				echo.setData("NA2");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
-				echo.setServerState(new State(Status.ALIVE, -1));
+				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));
 				echo.setMsgcode(-2);
 				return echo;
 			}
