@@ -13,6 +13,7 @@ const string ECHO_DATA_RESOLVE_TYPE_DEFAULT = "1"
 */
 const i32 SIGNATURE_TYPE_DEFAULT = 1
 const string TRACE_OPEN_CLIENT_STATE = "1"
+const string DOMAINNAME_DEFAULT = "-"
 
 /*
 * 服务状态
@@ -79,6 +80,7 @@ struct Echo{
 	6: required i32 nextSignType = SIGNATURE_TYPE_DEFAULT,
 	7: required State serverState,
 	8: string resolveType = ECHO_DATA_RESOLVE_TYPE_DEFAULT,
+	9: string domainname  = DOMAINNAME_DEFAULT
 }
 
 /**
