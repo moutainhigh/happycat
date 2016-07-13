@@ -28,7 +28,7 @@ public class Test {
 			TMultiplexedProtocol protocol1 = new TMultiplexedProtocol(protocol, "api.fcmapiservice");
 			Api.Client client = new Api.Client(protocol1);
 			long time = System.currentTimeMillis();
-			for (int i = 0; i < 1; i++) {
+			for (int i = 0; i < 100; i++) {
 				Access access = new Access(203, 9, "l47Bz5vboMtfwa5", new HashMap<String, String>(0));
 				FcmConfRequestParam nciicRequestParam = new FcmConfRequestParam();
 				nciicRequestParam.setGameIds("1,2,3,4");
