@@ -77,7 +77,8 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));
 				echo.setMsgcode(-1);
-				return echo;
+				rtn = echo;
+				return rtn;
 			} else {
 				Echo echo = new Echo();
 				echo.setMessage(e.getMessage() == null ? "NA2" : e.getMessage());
@@ -87,7 +88,8 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));
 				echo.setMsgcode(-2);
-				return echo;
+				rtn = echo;
+				return rtn;
 			}
 		} finally {
 			try {
