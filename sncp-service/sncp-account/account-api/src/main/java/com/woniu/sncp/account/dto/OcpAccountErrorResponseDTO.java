@@ -10,7 +10,7 @@ package com.woniu.sncp.account.dto;
  * @Date 2016/7/11
  * @Version V1.0
  */
-public class OcpAccountBanlanceErrorResponseDTO extends OcpAccountDTO {
+public class OcpAccountErrorResponseDTO extends OcpAccountDTO {
 
     private static final long serialVersionUID = -7089599417068375644L;
 

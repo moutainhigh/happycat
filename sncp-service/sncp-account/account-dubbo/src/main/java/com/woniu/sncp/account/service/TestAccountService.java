@@ -4,6 +4,7 @@
 package com.woniu.sncp.account.service;
 
 import com.alibaba.fastjson.JSON;
+import com.woniu.sncp.account.dto.OcpAccountDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class TestAccountService {
 
 
     @RequestMapping(value = "/abc", method = RequestMethod.GET)
-    public String test(){
+    public String testQueryBalance(){
 
         Map<String, Object> m = new HashMap<String,Object>();
         m.put("abc", "def");
@@ -39,6 +40,20 @@ public class TestAccountService {
 
         return obj.toString();
 
+    }
+
+    @RequestMapping(value = "/def", method = RequestMethod.GET)
+    public String testEasyImprest(){
+
+        Map<String, Object> m = new HashMap<String,Object>();
+        m.put("method", "easyImprest");
+        Object json = JSON.toJSON(m);
+
+        OcpAccountDTO ocpAccountDTO = accountService.easyImprest(1L, "36", "-1", "o", "1", "1", "", json, "10101007");
+
+        System.out.println( ocpAccountDTO.toString() );
+
+        return ocpAccountDTO.toString();
     }
 
 

@@ -39,12 +39,6 @@ public class OcpAccountConfig {
     @Value("${http.read.timeout}")
     private int readTimeout;//读取超时
 
-    @Value("${http.ocp.account.appid}")
-    private String H_APPID;
-
-    @Value("${http.ocp.account.pwd}")
-    private String H_PWD;
-
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate(clientHttpRequestFactory());
@@ -68,18 +62,6 @@ public class OcpAccountConfig {
         converters.add(mappingJackson2HttpMessageConverter());
         return converters;
     }
-
-    @Bean
-    public HttpHeaders createOcpAccountHttpHeaders(){
-        if( !StringUtils.isEmpty(H_APPID) && !StringUtils.isEmpty(H_PWD) ){
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("H_APPID", H_APPID);
-            httpHeaders.set("H_PWD", H_PWD);
-            return httpHeaders;
-        }
-        return null;
-    }
-
 
     public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
