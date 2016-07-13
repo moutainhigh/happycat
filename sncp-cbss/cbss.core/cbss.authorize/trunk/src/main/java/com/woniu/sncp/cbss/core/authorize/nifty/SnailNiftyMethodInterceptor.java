@@ -62,17 +62,25 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 			}
 			rtn = mi.proceed();
 			if (rtn instanceof Echo) {
-				((Echo) rtn).setUuid(requestAccess.getSessionId());
-				((Echo) rtn).setTime(System.currentTimeMillis());
-				((Echo) rtn).setServerState(new State(Status.SERVER_ALIVE, 0, ""));
+
+				Echo echortn = ((Echo) rtn);
+				if (ApiConstants.ECHO_DATA_RESOLVE_TYPE_DEFAULT.equals(echortn.getResolveType())) {
+					if (!(echortn.getData().startsWith("{") && echortn.getData().endsWith("}"))) {
+						throw new IllegalArgumentException("Echo.Data is not JSON format");
+					}
+				}
+
+				echortn.setUuid(requestAccess.getSessionId());
+				echortn.setTime(System.currentTimeMillis());
+				echortn.setServerState(new State(Status.SERVER_ALIVE, 0, ""));
 			}
 			return rtn;
 		} catch (Exception e) {
 			if (e instanceof AccessAuthorizeException) {
 				Echo echo = new Echo();
-				echo.setMessage(e.getMessage() == null ? "NA1" : e.getMessage());
+				echo.setMessage(e.getMessage() == null ? "E1" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());
-				echo.setData("NA1");
+				echo.setData("{\"E\":\"E1\"}");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));
@@ -81,9 +89,9 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				return rtn;
 			} else {
 				Echo echo = new Echo();
-				echo.setMessage(e.getMessage() == null ? "NA2" : e.getMessage());
+				echo.setMessage(e.getMessage() == null ? "E2" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());
-				echo.setData("NA2");
+				echo.setData("{\"E\":\"E2\"}");
 				echo.setTime(System.currentTimeMillis());
 				echo.setNextSignType(ApiConstants.SIGNATURE_TYPE_DEFAULT);
 				echo.setServerState(new State(Status.SERVER_ALIVE, -1, ""));

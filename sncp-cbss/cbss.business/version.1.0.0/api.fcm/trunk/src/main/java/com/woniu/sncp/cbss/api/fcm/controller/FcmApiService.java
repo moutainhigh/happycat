@@ -94,7 +94,7 @@ public class FcmApiService implements com.woniu.sncp.cbss.api.core.thrift.Api.If
 				return errorCode.getCode(-1000);
 			}
 		} catch (Exception e1) {
-			return errorCode.getCode(-1001).setData(e1.getMessage());
+			return errorCode.getCode(-1001, e1.getMessage());
 		}
 	}
 

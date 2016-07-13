@@ -75,6 +75,9 @@ struct Echo{
 	1: required i64 msgcode,
 	2: required string message,
 	3: required string uuid,
+	/**
+	* Echo.resolveType为ECHO_DATA_RESOLVE_TYPE_DEFAULT,表示data是json格式
+	*/
 	4: required string data,
 	5: required i64 time,
 	6: required i32 nextSignType = SIGNATURE_TYPE_DEFAULT,
@@ -87,6 +90,10 @@ struct Echo{
 */
 struct Signature{
 	1: required i32 type = SIGNATURE_TYPE_DEFAULT,
+	/**
+	* 如果Data.Param.params不存在数据 且 Signature.type 为 SIGNATURE_TYPE_DEFAULT 使用 upper(md5(Data.Param.param+Access.id+Access.type+Access.passwd+Access.key))
+	* 如果Data.Param.params 存在数据  且 Signature.type 为 SIGNATURE_TYPE_DEFAULT 使用 upper(md5(JSONObject.toJSONString(Data.Param.params)+Access.id+Access.type+Access.passwd+Access.key))
+	*/
 	2: required string signature
 }
 
@@ -95,7 +102,13 @@ struct Signature{
 */
 struct State{
 	1: required Status status,
-	2: i64 futuretime,
+	/**
+	* 当status为SERVER_FUTURE_STOPED或SERVER_FUTURE_MAINTAIN时，此值会出现一个时间点格式:yyyy-MM-dd HH:mm:ss,表示在此时间点会进行维护或停服务
+	*/
+	2: string futuretime,
+	/**
+	* 当status为DOMAINNAME_CHANGE时，此值一个新域名或逗号分隔的多个域名，使用人按照顺序逐个调用直到调用成功或每个都使用过，如域名:a.b.c,a1.b.c,a2.b.c,表示3个域名轮询调用
+	*/
 	3: string domanename
 }
 

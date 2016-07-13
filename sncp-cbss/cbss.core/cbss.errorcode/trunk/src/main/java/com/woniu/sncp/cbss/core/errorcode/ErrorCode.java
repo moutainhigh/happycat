@@ -42,8 +42,10 @@ public class ErrorCode {
 	}
 
 	public Echo getCode(int code, String message) {
-		String info = translate(String.valueOf(code));
 		Echo echo = new Echo();
+		echo.setMsgcode(code);
+		echo.setMessage(message);
+		echo.setData("{}");
 		return echo;
 	}
 
@@ -52,7 +54,7 @@ public class ErrorCode {
 		Echo echo = new Echo();
 		echo.setMsgcode(code);
 		echo.setMessage(info);
-		echo.setData("");
+		echo.setData("{}");
 		return echo;
 	}
 }
