@@ -69,7 +69,7 @@ public class Trace {
 		threadPool.executeTask(new AyncTraceLog(tracelog));
 	}
 
-	public String traceApiTime(String url, Object paramData, Long requestTime, Date receiveTime, Date finishTime, Date accessAuthorizeEndtime) {
+	public String traceApiTime(String url, Object paramData, Long requestTime, Date receiveTime, Date finishTime, Date accessAuthorizeEndtime, Object returnInfo) {
 		Map<String, Object> traceTime = new HashMap<String, Object>();
 		Map<String, Object> urltimeinfos = new HashMap<String, Object>();
 		urltimeinfos.put("url", url);
@@ -91,7 +91,9 @@ public class Trace {
 		urltimeinfos.put("aurcTime", accessAuthorizeEndtime.getTime() - receiveTime.getTime());
 		urltimeinfos.put("fiauTime", finishTime.getTime() - accessAuthorizeEndtime.getTime());
 		urltimeinfos.put("fircTime", finishTime.getTime() - receiveTime.getTime());
-
+		if (returnInfo != null) {
+			urltimeinfos.put("returnInfo", returnInfo);
+		}
 		traceTime.put(url + "#infos", urltimeinfos);
 
 		threadPool.executeTask(new AyncTraceLog(traceTime));
