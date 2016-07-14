@@ -13,8 +13,8 @@ import org.apache.thrift.TEnum;
 
 public enum Status implements org.apache.thrift.TEnum {
   SERVER_DEAD(0),
-  SERVER_STARTING(1),
-  SERVER_ALIVE(2),
+  SERVER_ALIVE(1),
+  SERVER_STARTING(2),
   SERVER_STOPPING(3),
   SERVER_STOPPED(4),
   SERVER_WARNING(5),
@@ -44,9 +44,9 @@ public enum Status implements org.apache.thrift.TEnum {
       case 0:
         return SERVER_DEAD;
       case 1:
-        return SERVER_STARTING;
-      case 2:
         return SERVER_ALIVE;
+      case 2:
+        return SERVER_STARTING;
       case 3:
         return SERVER_STOPPING;
       case 4:

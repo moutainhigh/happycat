@@ -2,14 +2,18 @@ package com.woniu.sncp.cbss.core.authorize;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.bigdullrock.spring.boot.nifty.NiftyHandler;
+import com.woniu.sncp.cbss.core.authorize.nifty.NiftyParam;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 
@@ -23,8 +27,6 @@ public class AccessUrlConfigurationProperties {
 	List<String> urls;
 	List<String> paramTypes;
 	List<RequestDatas<RequestParam>> paramObjects;
-
-	List<String> requestparams;
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -54,14 +56,11 @@ public class AccessUrlConfigurationProperties {
 				}
 			}
 
-			if (requestparams != null && !requestparams.isEmpty()) {
-				if (urls == null) {
-					urls = new ArrayList<String>();
-				}
-				for (int i = 0; i < requestparams.size(); i++) {
-					urls.add(requestparams.get(i));
-				}
+			for (Map.Entry<String, Object> niftyParam : applicationContext.getBeansWithAnnotation(NiftyParam.class).entrySet()) {
+				String name = niftyParam.getValue().toString();
+				urls.add(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@')));
 			}
+
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -77,13 +76,5 @@ public class AccessUrlConfigurationProperties {
 
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
-	}
-
-	public List<String> getRequestparams() {
-		return requestparams;
-	}
-
-	public void setRequestparams(List<String> requestparams) {
-		this.requestparams = requestparams;
 	}
 }
