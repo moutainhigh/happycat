@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
 import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.passport.service.PassportService;
 import com.woniu.sncp.profile.dao.ActivityManageDao;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDetailDTO;
@@ -38,7 +37,7 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 	PresentsPloyContext presentsPloyContext;
 	
 //	@Autowired 
-	PassportService passportService;
+//	PassportService passportService;
 	
 	/**
 	 * 查询所有活动
