@@ -55,7 +55,7 @@ public class RestControllerAspect {
 			return retValue;
 
 		} catch (Throwable e) {
-			logger.error("", e);
+			logger.error("RestController", e);
 
 			EchoInfo<String> rEchoInfo = new EchoInfo<String>();
 			rEchoInfo.setMessage(e.getMessage());

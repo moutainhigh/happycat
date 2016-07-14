@@ -90,6 +90,9 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 				rtn = echo;
 				return rtn;
 			} else {
+
+				logger.error("Nifty", e);
+				
 				Echo echo = new Echo();
 				echo.setMessage(e.getMessage() == null ? "E2" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());

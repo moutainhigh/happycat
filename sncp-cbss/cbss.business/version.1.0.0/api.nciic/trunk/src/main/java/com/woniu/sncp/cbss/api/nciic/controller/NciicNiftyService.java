@@ -40,13 +40,13 @@ public class NciicNiftyService implements com.woniu.sncp.cbss.api.core.thrift.Ap
 			// try {
 			// NciicMessageOut out =
 			// nciicMessageService.checkRealNameIdentityNo(nciicMessageIn);
-			return errorCode.getCode(1).setData("hihi").setUuid(data.getSessionId()).setTime(System.currentTimeMillis()).setServerState(new State(Status.ALIVE, -1));
+			return errorCode.getCode(1);
 			// // } catch (NciicException e) {
 			// return errorCode.getCode(0);
 			// }
 		} else {
 			int resolvetype = data.getParam().getResolveType();
-			Echo echo = new Echo(1L, data.getParam().getParam(), UUID.randomUUID().toString(), data.getVersion(), System.currentTimeMillis(), 1, new State(Status.FUTURE_STOPED, 1),
+			Echo echo = new Echo(1L, data.getParam().getParam(), UUID.randomUUID().toString(), data.getVersion(), System.currentTimeMillis(), 1, new State(Status.SERVER_ALIVE, "", ""),
 					ApiConstants.ECHO_DATA_RESOLVE_TYPE_DEFAULT);
 			return echo;
 		}
