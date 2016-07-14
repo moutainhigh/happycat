@@ -10,6 +10,12 @@
 	</parent>
 
 	<dependencies>
+		<!-- passport  -->
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>passport-api</artifactId>
+			<version>${passport.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
 			<artifactId>profile-api</artifactId>
