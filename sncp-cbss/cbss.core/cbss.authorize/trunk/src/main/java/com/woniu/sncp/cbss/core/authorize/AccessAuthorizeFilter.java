@@ -262,11 +262,14 @@ public class AccessAuthorizeFilter implements Filter {
 					requestAccess.getRequestDatas().setSecurityResource(null);
 				}
 
-				accessAuthorizeRequestWrapper.setBody(JSONObject.toJSONString(requestAccess.getRequestDatas()));
-
 			} finally {
 				accessAuthorizeEndtime = new Date();
 			}
+
+			requestAccess.getRequestDatas().setReciveTime(requestAccess.getReciveTime().getTime());
+			requestAccess.getRequestDatas().setAccessAuthorizeEndtime(accessAuthorizeEndtime.getTime());
+			accessAuthorizeRequestWrapper.setBody(JSONObject.toJSONString(requestAccess.getRequestDatas()));
+
 			// 9.下一个过滤链
 			filterChain.doFilter(accessAuthorizeRequestWrapper, httpServletResponseWrapper);
 
@@ -275,19 +278,21 @@ public class AccessAuthorizeFilter implements Filter {
 			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP REQUEST ERROR").setErrorInfo(e.getMessage())));
 			return;
 		} finally {
-			try {
-				if (requestAccess != null && requestAccess.getRequestDatas() != null && requestAccess.getRequestDatas().getClientInfo() != null) {
-					// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
-					List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
-					for (RequestClientInfo requestClientInfo : clinfos) {
-						trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(),
-								accessAuthorizeEndtime, null);
+			if (logger.isTraceEnabled()) {
+				try {
+					if (requestAccess != null && requestAccess.getRequestDatas() != null && requestAccess.getRequestDatas().getClientInfo() != null) {
+						// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
+						List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
+						for (RequestClientInfo requestClientInfo : clinfos) {
+							trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(),
+									accessAuthorizeEndtime, null);
+						}
+					} else {
+						trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, null);
 					}
-				} else {
-					trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, null);
+				} catch (Exception e) {
+					logger.error("traceApiTime", e);
 				}
-			} catch (Exception e) {
-				logger.error("traceApiTime", e);
 			}
 			requestAccess = null;
 			accessAuthorizeRequestWrapper.clear();

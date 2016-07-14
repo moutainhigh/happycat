@@ -2,6 +2,7 @@ package com.woniu.sncp.cbss.core.model.request;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfo;
@@ -57,7 +58,26 @@ public class RequestDatas<T extends RequestParam> implements Serializable {
 	private AccessSecurityInfo accessSecurityInfo;
 	private SecurityResource securityResource;
 	private String sessionId;
+
+	private Long reciveTime = null;
+	private Long accessAuthorizeEndtime = null;
 	
+	public Long getAccessAuthorizeEndtime() {
+		return accessAuthorizeEndtime;
+	}
+
+	public void setAccessAuthorizeEndtime(Long accessAuthorizeEndtime) {
+		this.accessAuthorizeEndtime = accessAuthorizeEndtime;
+	}
+
+	public Long getReciveTime() {
+		return reciveTime;
+	}
+
+	public void setReciveTime(Long reciveTime) {
+		this.reciveTime = reciveTime;
+	}
+
 	public String getSessionId() {
 		return sessionId;
 	}

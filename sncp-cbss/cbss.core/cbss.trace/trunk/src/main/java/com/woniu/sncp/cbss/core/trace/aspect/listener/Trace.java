@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSONObject;
-import com.woniu.sncp.cbss.core.signature.md5.MD5Encrypt;
 import com.woniu.sncp.cbss.core.util.DateUtils;
 import com.woniu.sncp.cbss.core.util.IpUtils;
 import com.woniu.sncp.cbss.core.util.ThreadPool;
@@ -77,8 +77,8 @@ public class Trace {
 
 		if (requestTime != null) {
 
-			if (url.contains(".") && url.indexOf("com.woniu.sncp") == 0 && url.indexOf(".com.woniu.sncp") > 0) {
-				url = MD5Encrypt.encrypt(url);
+			if (url.contains(".") && url.indexOf("com.woniu.sncp") == 0) {
+				url = StringUtils.replace(url, "com.woniu.sncp.", "", 1);
 			}
 
 			traceTime.put(url, finishTime.getTime() - requestTime);

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.woniu.sncp.alarm.dto.AlarmMessageTo;
 import com.woniu.sncp.alarm.service.AlarmMessageService;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
+import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.cbss.core.model.access.SecurityResource;
@@ -54,6 +55,7 @@ public class FcmController {
 	 */
 	@RequestMapping(value = "/fcm/conf", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
 	public EchoInfo<Object> fcmConf(@RequestBody FcmConfRequestDatas requestDatas) {
 		FcmConfRequestParam data = requestDatas.getParamdata();
 		long issuerId = data.getIssuerId();
@@ -188,6 +190,7 @@ public class FcmController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/fcm/onlinetime", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
 	public EchoInfo<Object> fcmOnlineTime(@RequestBody FcmRequestDatas requestDatas) {
 		FcmOnlinetimeRequestParam data = requestDatas.getParamdata();
 		long aid = data.getAid();
