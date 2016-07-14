@@ -19,8 +19,6 @@ import com.woniu.sncp.passport.exception.PassportNotFoundException;
 import com.woniu.sncp.passport.service.PassportService;
 import com.woniu.sncp.profile.dao.ActivityManageDao;
 import com.woniu.sncp.profile.dto.ActivityDTO;
-import com.woniu.sncp.profile.dto.AllActivityDTO;
-import com.woniu.sncp.profile.dto.CardDetailDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDetailDTO;
 import com.woniu.sncp.profile.exception.ValidationException;
@@ -52,7 +50,7 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 	 * 查询所有活动
 	 */
 	@Override
-	public AllActivityDTO findAllPloysByState(Long gameId,String state)
+	public List<PassportPresentsPloyDTO> findAllPloysByState(Long gameId,String state)
 			throws MissingParamsException{
 		String paramMsg = "query - state:"+state;
 		logger.info(paramMsg);
@@ -130,12 +128,7 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 			ploy.setDetails(_detailDTO);//设置活动对应的详情
 		}
 		
-		
-		AllActivityDTO result = new AllActivityDTO();
-		result.setPloys(passportPresentsPloyDTOList);
-//		result.setDetails(passportPresentsPloyDetailDTOList);
-		
-		return result;
+		return passportPresentsPloyDTOList;
 	}
 
 	

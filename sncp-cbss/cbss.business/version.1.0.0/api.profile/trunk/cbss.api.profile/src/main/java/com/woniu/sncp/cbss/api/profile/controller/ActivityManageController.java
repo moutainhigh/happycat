@@ -1,6 +1,8 @@
 package com.woniu.sncp.cbss.api.profile.controller;
 
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.profile.dto.AllActivityDTO;
+import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.service.ActivityManageService;
 
 /**
@@ -46,16 +48,16 @@ public class ActivityManageController {
 		Long gameId = data.getGameId();
 		String state = data.getState();
 		
-		AllActivityDTO retObj = activityManageService.findAllPloysByState(gameId, state);
+		List<PassportPresentsPloyDTO> retObj = activityManageService.findAllPloysByState(gameId, state);
 		EchoInfo<Object> retData = null;
 		try {
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
 			retData.setData(retObj);
 		} catch (MissingParamsException e) {
-			logger.error("gameConf", e);
+			logger.error("activityConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (Exception e) {
-			logger.error("gameConf", e);
+			logger.error("activityConf", e);
 			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 		

@@ -1,12 +1,14 @@
 package com.woniu.sncp.profile.service;
 
 
+import java.util.List;
+
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.passport.exception.PassportHasFrozenException;
 import com.woniu.sncp.passport.exception.PassportHasLockedException;
 import com.woniu.sncp.passport.exception.PassportNotFoundException;
 import com.woniu.sncp.profile.dto.ActivityDTO;
-import com.woniu.sncp.profile.dto.AllActivityDTO;
+import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.exception.ValidationException;
 
 /**
@@ -24,7 +26,7 @@ public interface ActivityManageService {
 	 * @param state
 	 * @return 活动信息列表和活动详情列表对象
 	 */
-	public AllActivityDTO findAllPloysByState(Long gameId,String state);
+	public List<PassportPresentsPloyDTO> findAllPloysByState(Long gameId,String state);
 	/**
 	 * 查询具体官方活动对象
 	 * @param isEaiQuery  是否eai查询
