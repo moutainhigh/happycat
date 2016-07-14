@@ -3,13 +3,7 @@ package com.woniu.sncp.profile.service;
 
 import java.util.List;
 
-import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.passport.exception.PassportHasFrozenException;
-import com.woniu.sncp.passport.exception.PassportHasLockedException;
-import com.woniu.sncp.passport.exception.PassportNotFoundException;
-import com.woniu.sncp.profile.dto.ActivityDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
-import com.woniu.sncp.profile.exception.ValidationException;
 
 /**
  * <p>descrption: 活动管理接口</p>
@@ -43,7 +37,7 @@ public interface ActivityManageService {
 	 * @param issuerId    运营商id
 	 * @return
 	 */
-	public ActivityDTO findOfficalPloys(Boolean isEaiQuery,String impLogId,Long gameId,Long platformId,Long areaId,Long cardTypeId,String imprestDestination,Integer count,String passport,String decodeType,String valueAmount,String issuerId);
+//	public ActivityDTO findOfficalPloys(Boolean isEaiQuery,String impLogId,Long gameId,Long platformId,Long areaId,Long cardTypeId,String imprestDestination,Integer count,String passport,String decodeType,String valueAmount,String issuerId);
 	/**
 	 * 查询一卡通活动对象
 	 * @param isEaiQuery  是否eai查询
@@ -68,5 +62,5 @@ public interface ActivityManageService {
 	 * @throws PassportHasFrozenException 
 	 * @throws Exception 
 	 */
-	public ActivityDTO findSnailCardPloys(Boolean isEaiQuery,String impLogId,Long gameId,Long platformId,Long areaId,Long cardTypeId,String imprestDestination,Integer count,String passport,String decodeType,String valueAmount,String issuerId,String cardNo,String cardPwd) throws MissingParamsException, ValidationException, PassportNotFoundException, PassportHasFrozenException, PassportHasLockedException, Exception;
+//	public ActivityDTO findSnailCardPloys(Boolean isEaiQuery,String impLogId,Long gameId,Long platformId,Long areaId,Long cardTypeId,String imprestDestination,Integer count,String passport,String decodeType,String valueAmount,String issuerId,String cardNo,String cardPwd) throws MissingParamsException, ValidationException, PassportNotFoundException, PassportHasFrozenException, PassportHasLockedException, Exception;
 }

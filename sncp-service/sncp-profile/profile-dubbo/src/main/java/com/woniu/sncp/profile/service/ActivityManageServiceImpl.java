@@ -12,16 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 
 import com.woniu.sncp.exception.MissingParamsException;
-import com.woniu.sncp.passport.dto.PassportDto;
-import com.woniu.sncp.passport.exception.PassportHasFrozenException;
-import com.woniu.sncp.passport.exception.PassportHasLockedException;
-import com.woniu.sncp.passport.exception.PassportNotFoundException;
 import com.woniu.sncp.passport.service.PassportService;
 import com.woniu.sncp.profile.dao.ActivityManageDao;
-import com.woniu.sncp.profile.dto.ActivityDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDetailDTO;
-import com.woniu.sncp.profile.exception.ValidationException;
 import com.woniu.sncp.profile.po.PassportPresentsPloyDetailPo;
 import com.woniu.sncp.profile.po.PassportPresentsPloyPo;
 import com.woniu.sncp.profile.service.ploy.PresentsPloyContext;
@@ -132,93 +126,93 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 	}
 
 	
-	@Override
-	public ActivityDTO findOfficalPloys(Boolean isEaiQuery,String impLogId,Long gameId, Long platformId, Long areaId, Long cardTypeId,
-			String imprestDestination, Integer count, String account, String decodeType, String valueAmount,
-			String issuerId) throws MissingParamsException{
-		// 
-		return null;
-	}
-
-	
-	@Override
-	public ActivityDTO findSnailCardPloys(Boolean isEaiQuery,String impLogId,Long gameId, Long platformId, Long areaId, Long cardTypeId,
-			String imprestDestination, Integer count, String account, String decodeType, String valueAmount,
-			String issuerId, String cardNo, String cardPwd) throws MissingParamsException,ValidationException,PassportNotFoundException,PassportHasFrozenException,PassportHasLockedException,Exception {
-
-		if (logger.isDebugEnabled()) {
-			logger.debug("imprestDestination: " + imprestDestination);
-		}
-		
-		try {
-			if (StringUtils.isBlank(cardNo)
-					|| StringUtils.isBlank(cardPwd)
-					|| StringUtils.isBlank(imprestDestination)
-					|| StringUtils.isBlank(account)) {
-				throw new MissingParamsException("cardNo or cardPwd or imprestDestination or account is null");
-			}
-			//查询账号
-			PassportDto passport = passportService.findPassportByAccountOrAliase(account);
-			
-			//判断卡号
-			if (StringUtils.isBlank(cardNo) || cardNo.length() < 10) {
-				logger.error("卡号不正确，卡号：" + cardNo);
-				throw new ValidationException("卡号或密码不正确!");
-			}
-			
-			//查询卡信息
-			//SnailCard snailCard = imprestService.querySnailCard(cardNo);
-			
-			if (!isEaiQuery) { // 不是eai查询调用，则须校验密码
-//				cardPwd = DesUtil.getCString(snailCard.getPassword(), cardPwd);
-//				if (StringUtils.isBlank(cardPwd)
-//						|| !StringUtils
-//								.equals(cardPwd, snailCard.getPassword())) {
-//					logger.error("卡号不正确，卡号：" + cardNo);
-//					throw new ValidationException("卡号或密码不正确!");
-//				}
-
-				// eai查询就不需要验证
-//				if (SnailCard.STATE_NOT_ACTIVE.equals(snailCard.getState()))
-//					throw new ValidationException("此卡未激活");
-//				if (SnailCard.STATE_USED.equals(snailCard.getState()))
-//					throw new ValidationException("此卡已被使用");
-//				if (SnailCard.STATE_FREEZE.equals(snailCard.getState()))
-//					throw new ValidationException("此卡已被冻结");
-//				if (SnailCard.STATE_NOT_VALID.equals(snailCard.getState()))
-//					throw new ValidationException("此卡已被作废");
-			}
-			
-			// 一卡通的支付平台属于官方直充 - 100
-			List<Object[]> propList = null;
-//			if (!isEaiQuery) {
-//				propList = imprestPloyService.imprestPloy(
-//						snailCard.getCardTypeId(), 1, 100L, gameId,
-//						("0".equals(imprestDestination) ? 0L : areaId), areaId,
-//						account, true, 0L, isEaiQuery, snailCard,new SingletonMap());
-//			} else {
-//				propList = imprestPloyService.imprestPloy(
-//						snailCard.getCardTypeId(), 1, 100L, gameId,
-//						("0".equals(imprestDestination) ? 0L : areaId), areaId,
-//						account, true, Long.parseLong(impLogId), isEaiQuery,
-//						snailCard,new SingletonMap());
+//	@Override
+//	public ActivityDTO findOfficalPloys(Boolean isEaiQuery,String impLogId,Long gameId, Long platformId, Long areaId, Long cardTypeId,
+//			String imprestDestination, Integer count, String account, String decodeType, String valueAmount,
+//			String issuerId) throws MissingParamsException{
+//		// 
+//		return null;
+//	}
+//
+//	
+//	@Override
+//	public ActivityDTO findSnailCardPloys(Boolean isEaiQuery,String impLogId,Long gameId, Long platformId, Long areaId, Long cardTypeId,
+//			String imprestDestination, Integer count, String account, String decodeType, String valueAmount,
+//			String issuerId, String cardNo, String cardPwd) throws MissingParamsException,ValidationException,PassportNotFoundException,PassportHasFrozenException,PassportHasLockedException,Exception {
+//
+//		if (logger.isDebugEnabled()) {
+//			logger.debug("imprestDestination: " + imprestDestination);
+//		}
+//		
+//		try {
+//			if (StringUtils.isBlank(cardNo)
+//					|| StringUtils.isBlank(cardPwd)
+//					|| StringUtils.isBlank(imprestDestination)
+//					|| StringUtils.isBlank(account)) {
+//				throw new MissingParamsException("cardNo or cardPwd or imprestDestination or account is null");
 //			}
-			
-			
-			
-		} catch (PassportNotFoundException e) {
-			throw new PassportNotFoundException("用户账号不存在");
-		} catch (PassportHasFrozenException e) {
-			throw new PassportHasFrozenException("帐号被冻结");
-		} catch (PassportHasLockedException e) {
-			throw new PassportHasLockedException("帐号被锁定");
-		}catch (Exception e) {
-			throw new Exception("操作异常");
-		}
-		
-		
-		
-		return null;
-	}
+//			//查询账号
+//			PassportDto passport = passportService.findPassportByAccountOrAliase(account);
+//			
+//			//判断卡号
+//			if (StringUtils.isBlank(cardNo) || cardNo.length() < 10) {
+//				logger.error("卡号不正确，卡号：" + cardNo);
+//				throw new ValidationException("卡号或密码不正确!");
+//			}
+//			
+//			//查询卡信息
+//			//SnailCard snailCard = imprestService.querySnailCard(cardNo);
+//			
+//			if (!isEaiQuery) { // 不是eai查询调用，则须校验密码
+////				cardPwd = DesUtil.getCString(snailCard.getPassword(), cardPwd);
+////				if (StringUtils.isBlank(cardPwd)
+////						|| !StringUtils
+////								.equals(cardPwd, snailCard.getPassword())) {
+////					logger.error("卡号不正确，卡号：" + cardNo);
+////					throw new ValidationException("卡号或密码不正确!");
+////				}
+//
+//				// eai查询就不需要验证
+////				if (SnailCard.STATE_NOT_ACTIVE.equals(snailCard.getState()))
+////					throw new ValidationException("此卡未激活");
+////				if (SnailCard.STATE_USED.equals(snailCard.getState()))
+////					throw new ValidationException("此卡已被使用");
+////				if (SnailCard.STATE_FREEZE.equals(snailCard.getState()))
+////					throw new ValidationException("此卡已被冻结");
+////				if (SnailCard.STATE_NOT_VALID.equals(snailCard.getState()))
+////					throw new ValidationException("此卡已被作废");
+//			}
+//			
+//			// 一卡通的支付平台属于官方直充 - 100
+//			List<Object[]> propList = null;
+////			if (!isEaiQuery) {
+////				propList = imprestPloyService.imprestPloy(
+////						snailCard.getCardTypeId(), 1, 100L, gameId,
+////						("0".equals(imprestDestination) ? 0L : areaId), areaId,
+////						account, true, 0L, isEaiQuery, snailCard,new SingletonMap());
+////			} else {
+////				propList = imprestPloyService.imprestPloy(
+////						snailCard.getCardTypeId(), 1, 100L, gameId,
+////						("0".equals(imprestDestination) ? 0L : areaId), areaId,
+////						account, true, Long.parseLong(impLogId), isEaiQuery,
+////						snailCard,new SingletonMap());
+////			}
+//			
+//			
+//			
+//		} catch (PassportNotFoundException e) {
+//			throw new PassportNotFoundException("用户账号不存在");
+//		} catch (PassportHasFrozenException e) {
+//			throw new PassportHasFrozenException("帐号被冻结");
+//		} catch (PassportHasLockedException e) {
+//			throw new PassportHasLockedException("帐号被锁定");
+//		}catch (Exception e) {
+//			throw new Exception("操作异常");
+//		}
+//		
+//		
+//		
+//		return null;
+//	}
 
 }
