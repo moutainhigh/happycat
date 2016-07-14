@@ -42,7 +42,7 @@ public class ApiConstants {
 
   public static final String ECHO_DATA_RESOLVE_TYPE_DEFAULT = "1";
 
-  public static final int SIGNATURE_TYPE_DEFAULT = 1;
+  public static final int SIGNATURE_TYPE_DEFAULT = 0;
 
   public static final String TRACE_OPEN_CLIENT_STATE = "1";
 

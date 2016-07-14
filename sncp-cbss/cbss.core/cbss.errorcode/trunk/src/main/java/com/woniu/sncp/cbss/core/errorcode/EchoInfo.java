@@ -7,7 +7,7 @@ public class EchoInfo<T> {
 	public static final Integer OK = 0;
 	public static final Integer ERROR = -1000;
 
-	public static final Integer SIGNATURE_TYPE_DEFAULT = 1;
+	public static final Integer SIGNATURE_TYPE_DEFAULT = 0;
 
 	public static final Integer SERVER_STATUS_DEAD = 0;
 	public static final Integer SERVER_STATUS_STARTING = 1;

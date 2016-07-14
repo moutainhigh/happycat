@@ -12,7 +12,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.bigdullrock.spring.boot.nifty.NiftyHandler;
 import com.woniu.sncp.cbss.core.authorize.nifty.NiftyParam;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;

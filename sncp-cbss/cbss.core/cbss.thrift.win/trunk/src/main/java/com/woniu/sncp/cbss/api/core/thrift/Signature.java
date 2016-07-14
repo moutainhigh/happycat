@@ -137,7 +137,7 @@ public class Signature implements org.apache.thrift.TBase<Signature, Signature._
   }
 
   public Signature() {
-    this.type = 1;
+    this.type = 0;
 
   }
 
@@ -168,7 +168,7 @@ public class Signature implements org.apache.thrift.TBase<Signature, Signature._
 
   @Override
   public void clear() {
-    this.type = 1;
+    this.type = 0;
 
     this.signature = null;
   }

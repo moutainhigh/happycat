@@ -11,7 +11,7 @@ const string ECHO_DATA_RESOLVE_TYPE_DEFAULT = "1"
 * DATA:
 * 	upper(md5(notNull(Data.Param.params)?JSONObject.toJSONString(Data.Param.params):Data.Param.param))
 */
-const i32 SIGNATURE_TYPE_DEFAULT = 1
+const i32 SIGNATURE_TYPE_DEFAULT = 0
 const string TRACE_OPEN_CLIENT_STATE = "1"
 
 /*

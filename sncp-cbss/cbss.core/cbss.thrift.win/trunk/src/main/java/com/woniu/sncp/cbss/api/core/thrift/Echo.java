@@ -179,7 +179,7 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
   }
 
   public Echo() {
-    this.nextSignType = 1;
+    this.nextSignType = 0;
 
     this.resolveType = "1";
 
@@ -247,7 +247,7 @@ public class Echo implements org.apache.thrift.TBase<Echo, Echo._Fields>, java.i
     this.data = null;
     setTimeIsSet(false);
     this.time = 0;
-    this.nextSignType = 1;
+    this.nextSignType = 0;
 
     this.serverState = null;
     this.resolveType = "1";
