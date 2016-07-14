@@ -1,9 +1,10 @@
 package com.woniu.sncp.profile.service;
 
-import java.util.Map;
+
+import com.woniu.sncp.profile.dto.AllActivityDTO;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 活动管理接口</p>
  * 
  * @author fuzl
  * @date   2016年7月4日
@@ -11,5 +12,11 @@ import java.util.Map;
  */
 public interface ActivityManageService {
 
-	public Map<String,Object> findAllPloysByState(Long gameId,String state);
+	/**
+	 * 根据游戏id和状态查询所有活动
+	 * @param gameId
+	 * @param state
+	 * @return 活动信息列表和活动详情列表对象
+	 */
+	public AllActivityDTO findAllPloysByState(Long gameId,String state);
 }

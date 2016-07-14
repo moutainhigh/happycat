@@ -2,9 +2,7 @@ package com.woniu.sncp.profile.service;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
@@ -15,6 +13,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dao.ActivityManageDao;
+import com.woniu.sncp.profile.dto.AllActivityDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDTO;
 import com.woniu.sncp.profile.dto.PassportPresentsPloyDetailDTO;
 import com.woniu.sncp.profile.po.PassportPresentsPloyDetailPo;
@@ -22,7 +21,7 @@ import com.woniu.sncp.profile.po.PassportPresentsPloyPo;
 import com.woniu.sncp.profile.service.ploy.PresentsPloyContext;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 活动信息管理实现</p>
  * 
  * @author fuzl
  * @date   2016年7月4日
@@ -42,7 +41,7 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 	 * 查询所有活动
 	 */
 	@Override
-	public Map<String,Object> findAllPloysByState(Long gameId,String state)
+	public AllActivityDTO findAllPloysByState(Long gameId,String state)
 			throws MissingParamsException{
 		String paramMsg = "query - state:"+state;
 		log.info(paramMsg);
@@ -98,7 +97,6 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 		}
 		List<PassportPresentsPloyDetailPo> passportPresentsPloyDetailPoList= activityManageDao.findAllByStateAndPloyIds(ployIds);
 		
-		
 		List<PassportPresentsPloyDetailDTO> passportPresentsPloyDetailDTOList = new ArrayList<PassportPresentsPloyDetailDTO>(passportPresentsPloyDetailPoList.size());
 		for(PassportPresentsPloyDetailPo detailPo:passportPresentsPloyDetailPoList){
 			PassportPresentsPloyDetailDTO detailDTO = new PassportPresentsPloyDetailDTO();
@@ -109,9 +107,10 @@ public class ActivityManageServiceImpl implements ActivityManageService {
 			}
 		}
 		
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("ploys", passportPresentsPloyDTOList);
-		result.put("details", passportPresentsPloyDetailDTOList);
+		//所有活动对象拼装返回
+		AllActivityDTO result = new AllActivityDTO();
+		result.setPloys(passportPresentsPloyDTOList);
+		result.setDetails(passportPresentsPloyDetailDTOList);
 		
 		return result;
 	}

@@ -16,15 +16,15 @@ import com.woniu.sncp.profile.po.CardDetailPo;
 import com.woniu.sncp.profile.po.CardValuePo;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 卡类型信息管理实现</p>
  * 
  * @author fuzl
  * @date   2016年7月1日
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
-public class CardManageServiceImpl implements CardManageService {
+public class CardTypeManageServiceImpl implements CardTypeManageService {
 
-	protected static final Logger log = LoggerFactory.getLogger(CardManageServiceImpl.class);
+	protected static final Logger log = LoggerFactory.getLogger(CardTypeManageServiceImpl.class);
 			
 	@Autowired
 	CardManageDao cardManageDao;

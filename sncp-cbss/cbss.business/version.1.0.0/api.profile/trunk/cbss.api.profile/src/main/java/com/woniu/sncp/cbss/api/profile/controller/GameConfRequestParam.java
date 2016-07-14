@@ -6,10 +6,11 @@ import com.woniu.sncp.cbss.core.model.request.ParamValueValidateException;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 
 /**
+ * 
  * <p>descrption: </p>
  * 
  * @author fuzl
- * @date   2016Äê7ÔÂ1ÈÕ
+ * @date   2016å¹´7æœˆ5æ—¥
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
 public class GameConfRequestParam extends RequestParam {
