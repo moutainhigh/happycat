@@ -1,6 +1,7 @@
 package com.woniu.sncp.profile.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>descrption: 卡大类</p>
@@ -27,6 +28,9 @@ public class CardValueDTO implements Serializable{
 	private Long cardId;
 	private Long paymentId;
 	private Long dispOrder;
+	
+	List<CardDetailDTO> details;
+	
 	public Long getId() {
 		return id;
 	}
@@ -99,12 +103,19 @@ public class CardValueDTO implements Serializable{
 	public void setDispOrder(Long dispOrder) {
 		this.dispOrder = dispOrder;
 	}
+	
+	public List<CardDetailDTO> getDetails() {
+		return details;
+	}
+	public void setDetails(List<CardDetailDTO> details) {
+		this.details = details;
+	}
 	@Override
 	public String toString() {
 		return "CardValueDTO [id=" + id + ", dispName=" + dispName + ", minValue=" + minValue + ", currency=" + currency
 				+ ", type=" + type + ", cardPoint=" + cardPoint + ", cardPrice=" + cardPrice + ", currencyName="
 				+ currencyName + ", customValueFlag=" + customValueFlag + ", cardId=" + cardId + ", paymentId="
-				+ paymentId + ", dispOrder=" + dispOrder + "]";
+				+ paymentId + ", dispOrder=" + dispOrder + ", details=" + details + "]";
 	}
 	
 }

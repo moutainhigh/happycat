@@ -2,6 +2,7 @@ package com.woniu.sncp.profile.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 帐号赠送活动配置表 - PP_PRESENTS_PLOY
@@ -33,6 +34,11 @@ public class PassportPresentsPloyDTO implements Serializable {
 	 * 状态 - 3 - 启用
 	 */
 	public static final String STATE_VALID = "3";
+	
+	/**
+	 * 活动详情列表
+	 */
+	List<PassportPresentsPloyDetailDTO> details;
 	
 	/**
 	 * 主键ID - N_ID
@@ -280,4 +286,12 @@ public class PassportPresentsPloyDTO implements Serializable {
         this.auditDate = auditDate;
     }
 
+	public List<PassportPresentsPloyDetailDTO> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<PassportPresentsPloyDetailDTO> details) {
+		this.details = details;
+	}
+    
 }

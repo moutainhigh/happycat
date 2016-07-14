@@ -21,10 +21,6 @@ public class CardTypeDTO implements Serializable {
 	 * 面值大类
 	 */
 	List<CardValueDTO> value;
-	/**
-	 * 面值详情
-	 */
-	List<CardDetailDTO> detail;
 
 	public List<CardValueDTO> getValue() {
 		return value;
@@ -32,14 +28,6 @@ public class CardTypeDTO implements Serializable {
 
 	public void setValue(List<CardValueDTO> value) {
 		this.value = value;
-	}
-
-	public List<CardDetailDTO> getDetail() {
-		return detail;
-	}
-
-	public void setDetail(List<CardDetailDTO> detail) {
-		this.detail = detail;
 	}
 	
 }
