@@ -42,6 +42,46 @@ public class SecurityResource {
 	 */
 	private String note;
 
+	/**
+	 * 当status为SERVER_FUTURE_STOPED或SERVER_FUTURE_MAINTAIN时，此值会出现一个时间点格式:yyyy-MM
+	 * -dd HH:mm:ss,表示在此时间点会进行维护或停服务
+	 */
+	private String futureTime = "";
+	/**
+	 * 当status为DOMAINNAME_CHANGE时，此值一个新域名或逗号分隔的多个域名，使用人按照顺序逐个调用直到调用成功或每个都使用过，如域名
+	 * :a.b.c,a1.b.c,a2.b.c,表示3个域名轮询调用
+	 */
+	private String domaneName = "";
+
+	/**
+	 * 签名规则，默认0
+	 */
+	private int signType = 0;
+	
+	public int getSignType() {
+		return signType;
+	}
+
+	public void setSignType(int signType) {
+		this.signType = signType;
+	}
+
+	public String getFutureTime() {
+		return StringUtils.isBlank(futureTime) ? "" : futureTime;
+	}
+
+	public void setFutureTime(String futuretime) {
+		this.futureTime = futuretime;
+	}
+
+	public String getDomaneName() {
+		return StringUtils.isBlank(domaneName) ? "" : domaneName;
+	}
+
+	public void setDomaneName(String domaneName) {
+		this.domaneName = domaneName;
+	}
+
 	public SecurityResourcePK getId() {
 		return id;
 	}

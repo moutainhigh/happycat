@@ -90,7 +90,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-
+			<dependency>
+				<groupId>com.woniu.sncp</groupId>
+				<artifactId>nifty-spring-boot-starter</artifactId>
+				<version>${cbss.core.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
@@ -156,7 +160,6 @@
 				<version>${dubbo.version}</version>
 			</dependency>
 			<!-- BEGIN: sncp bss core -->
-
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.api.init</artifactId>
@@ -165,6 +168,16 @@
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.authorize</artifactId>
+				<version>${cbss.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.thrift.win</artifactId>
+				<version>${cbss.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.woniu.cbss</groupId>
+				<artifactId>cbss.core.thrift.linux</artifactId>
 				<version>${cbss.core.version}</version>
 			</dependency>
 			<dependency>
