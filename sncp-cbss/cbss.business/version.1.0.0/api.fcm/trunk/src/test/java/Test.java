@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TMultiplexedProtocol;
-import org.apache.thrift.transport.TSocket; 
+import org.apache.thrift.transport.TSocket;
 
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.sncp.cbss.api.core.thrift.Access;
@@ -20,7 +20,8 @@ public class Test {
 
 	public static void main(final String[] args) {
 		try {
-			TSocket transport = new TSocket("10.103.4.137", 12001);
+			TSocket transport = new TSocket("10.103.4.134", 12001);
+			// TSocket transport = new TSocket("10.103.4.137", 12001);
 			// TSocket transport = new TSocket("172.18.70.180", 8080);
 			// TSocket transport = new TSocket("172.18.80.47", 90);
 			// TSocket transport = new TSocket("cbss.api.woniu.com", 80);
@@ -28,7 +29,7 @@ public class Test {
 			TBinaryProtocol protocol = new TBinaryProtocol(transport);
 			TMultiplexedProtocol protocol1 = new TMultiplexedProtocol(protocol, "api.fcmapiservice");
 			Api.Client client = new Api.Client(protocol1);
-			long time = System.currentTimeMillis(); 
+			long time = System.currentTimeMillis();
 			for (int i = 0; i < 100; i++) {
 				Access access = new Access(203, 9, "l47Bz5vboMtfwa5", new HashMap<String, String>(0));
 				FcmConfRequestParam nciicRequestParam = new FcmConfRequestParam();
