@@ -21,22 +21,12 @@ public class AllActivityDTO implements Serializable {
 	 * 活动信息列表
 	 */
 	List<PassportPresentsPloyDTO> ploys;
-	/**
-	 * 活动详情列表
-	 */
-	List<PassportPresentsPloyDetailDTO> details;
 	
 	public List<PassportPresentsPloyDTO> getPloys() {
 		return ploys;
 	}
 	public void setPloys(List<PassportPresentsPloyDTO> ploys) {
 		this.ploys = ploys;
-	}
-	public List<PassportPresentsPloyDetailDTO> getDetails() {
-		return details;
-	}
-	public void setDetails(List<PassportPresentsPloyDetailDTO> details) {
-		this.details = details;
 	}
 
 }

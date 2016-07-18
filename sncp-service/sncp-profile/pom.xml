@@ -1,18 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>sncp-profile</artifactId>
 	<packaging>pom</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	
+
 	<parent>
 		<groupId>com.woniu.sncp</groupId>
 		<artifactId>sncp-service</artifactId>
 		<version>1.0.4-SNAPSHOT</version>
 	</parent>
-	
+
 	<properties>
 		<exception.version>1.0.4-SNAPSHOT</exception.version>
+		<passport.version>1.0.4-SNAPSHOT</passport.version>
+		<commons.lang.version>2.4</commons.lang.version>
 		<commons.beanutils.version>1.8.3</commons.beanutils.version>
+		<commons.collections.version>3.2.1</commons.collections.version>
 	</properties>
 
 	<modules>
@@ -20,7 +24,7 @@
 		<module>profile-jpa</module>
 		<module>profile-dubbo</module>
 	</modules>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
@@ -29,9 +33,12 @@
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
-  			<artifactId>commons-beanutils</artifactId>
-			<version>${commons.beanutils.version}</version>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 </project>

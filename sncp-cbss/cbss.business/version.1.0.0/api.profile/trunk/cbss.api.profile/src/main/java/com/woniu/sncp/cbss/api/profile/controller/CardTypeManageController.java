@@ -1,5 +1,6 @@
 package com.woniu.sncp.cbss.api.profile.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,7 +18,6 @@ import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
 import com.woniu.sncp.profile.dto.CardDetailDTO;
-import com.woniu.sncp.profile.dto.CardTypeDTO;
 import com.woniu.sncp.profile.dto.CardValueDTO;
 import com.woniu.sncp.profile.service.CardTypeManageService;
 
@@ -58,16 +58,23 @@ public class CardTypeManageController {
 		EchoInfo<Object> retData = null;
 		try {
 			//返回卡类型对象信息
-			CardTypeDTO retObj = new CardTypeDTO();
 			retData = errorCode.getErrorCode(1, requestDatas.getSessionId());
-			retObj.setValue(cardValueDTOList);
-			retObj.setDetail(cardDetailDTOList);
-			retData.setData(retObj);
+			//处理面值大类,将具体面值放入对应的大类
+			for(CardValueDTO value:cardValueDTOList){
+				List<CardDetailDTO> _cardDetailDTOList = new ArrayList<CardDetailDTO>();
+				for(CardDetailDTO detail:cardDetailDTOList){
+					if(value.getId().equals(detail.getMainId())){
+						_cardDetailDTOList.add(detail);
+					}
+				}
+				value.setDetails(_cardDetailDTOList);
+			}
+			retData.setData(cardValueDTOList);
 		} catch (MissingParamsException e) {
-			logger.error("gameConf", e);
+			logger.error("cardTypeConf", e);
 			return errorCode.getErrorCode(10001, requestDatas.getSessionId());
 		} catch (Exception e) {
-			logger.error("gameConf", e);
+			logger.error("cardTypeConf", e);
 			return errorCode.getErrorCode(10002, requestDatas.getSessionId());
 		}
 		
