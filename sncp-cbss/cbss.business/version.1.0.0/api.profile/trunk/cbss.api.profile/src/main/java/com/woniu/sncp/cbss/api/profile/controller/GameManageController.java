@@ -20,6 +20,7 @@ import com.woniu.sncp.cbss.api.profile.response.GameAreaResponseData;
 import com.woniu.sncp.cbss.api.profile.response.GameAreaResponseDatas;
 import com.woniu.sncp.cbss.api.profile.response.GameAreasResponseDatas;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
+import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
@@ -50,6 +51,7 @@ public class GameManageController {
 	
 	@RequestMapping(value = "/app/imprest/areas", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
     public EchoInfo<Object> getGameAreaListNotImprestType(@RequestBody GameConfRequestDatas requestDatas) {
 		GameConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
@@ -98,6 +100,7 @@ public class GameManageController {
 	
 	@RequestMapping(value = "/app/imprest/area", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
     public EchoInfo<Object> getGameAreaNotImprestType(@RequestBody GameConfRequestDatas requestDatas) {
 		GameConfRequestParam data = requestDatas.getParamdata();
 		Long serverId = data.getServerId();

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
+import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
@@ -44,6 +45,7 @@ public class CardTypeManageController {
 	
 	@RequestMapping(value = "/app/imprest/value", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
     public EchoInfo<Object> getCardValueDetail(@RequestBody CardConfRequestDatas requestDatas) {
 		CardConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
