@@ -2,9 +2,11 @@ package com.woniu.sncp.cbss.api.fcm.controller;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.woniu.sncp.cbss.core.authorize.nifty.NiftyParam;
 import com.woniu.sncp.cbss.core.model.request.ParamValueValidateException;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 
+@NiftyParam
 public class FcmConfRequestParam extends RequestParam {
 
 	/**

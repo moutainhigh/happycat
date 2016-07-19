@@ -24,5 +24,9 @@
 		<module>cbss.call/trunk</module>
 		<module>cbss.repository/trunk</module>
 		<module>cbss.authorize/trunk</module>
+		
+		<module>nifty-spring-boot-starter</module>
+		<module>cbss.thrift.linux/trunk</module>
+		<module>cbss.thrift.win/trunk</module>
 	</modules>
 </project>
