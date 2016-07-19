@@ -19,9 +19,9 @@
 	<dubbo:reference id="fcmGameProfileService"
 		interface="com.woniu.sncp.fcm.service.FcmGameProfileService" client="netty"
 		version="1.0.0" check="false" />
-
-	<dubbo:reference id="alarmMessageService"
+		
+		<dubbo:reference id="alarmMessageService"
 		interface="com.woniu.sncp.alarm.service.AlarmMessageService" client="netty"
 		version="1.0.0" check="false" />
-
+		
 </beans>

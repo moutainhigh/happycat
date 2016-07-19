@@ -24,7 +24,7 @@ public class TraceCounterExceptionAspect {
 		afterThrowing(joinPoint, ex);
 	}
 
-	@AfterThrowing(pointcut = "execution(* com.woniu.sncp.cbss.api..*.*(..)) throws Exception", throwing = "ex")
+	@AfterThrowing(pointcut = "execution(* com.woniu.sncp..*Impl.*(..)) throws Exception", throwing = "ex")
 	public void exceptionImpl(JoinPoint joinPoint, Throwable ex) {
 		afterThrowing(joinPoint, ex);
 	}

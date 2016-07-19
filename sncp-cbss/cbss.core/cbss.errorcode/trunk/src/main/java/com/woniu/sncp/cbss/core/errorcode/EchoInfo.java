@@ -5,13 +5,13 @@ import java.util.Calendar;
 public class EchoInfo<T> {
 
 	public static final Integer OK = 0;
-	public static final Integer ERROR = -1;
+	public static final Integer ERROR = -1000;
 
-	public static final Integer SIGNATURE_TYPE_DEFAULT = 0;
+	public static final Integer SIGNATURE_TYPE_DEFAULT = 1;
 
 	public static final Integer SERVER_STATUS_DEAD = 0;
-	public static final Integer SERVER_STATUS_ALIVE = 1;
-	public static final Integer SERVER_STATUS_STARTING = 2;
+	public static final Integer SERVER_STATUS_STARTING = 1;
+	public static final Integer SERVER_STATUS_ALIVE = 2;
 	public static final Integer SERVER_STATUS_STOPPING = 3;
 	public static final Integer SERVER_STATUS_STOPPED = 4;
 	public static final Integer SERVER_STATUS_WARNING = 5;
@@ -23,30 +23,11 @@ public class EchoInfo<T> {
 	private String errorInfo;
 	private String url;
 	private T data;
-	
-	private String domaneName;
-	private String futureTime;
 
 	private Long appRspTime = Calendar.getInstance().getTimeInMillis();
-	private Integer serverState = SERVER_STATUS_ALIVE;
+	private Integer serverState = SERVER_STATUS_STARTING;
 	private String uuid;
 	private Integer nextSignType = SIGNATURE_TYPE_DEFAULT;
-
-	public String getDomaneName() {
-		return domaneName;
-	}
-
-	public void setDomaneName(String domaneName) {
-		this.domaneName = domaneName;
-	}
-
-	public String getFutureTime() {
-		return futureTime;
-	}
-
-	public void setFutureTime(String futureTime) {
-		this.futureTime = futureTime;
-	}
 
 	public Integer getNextSignType() {
 		return nextSignType;

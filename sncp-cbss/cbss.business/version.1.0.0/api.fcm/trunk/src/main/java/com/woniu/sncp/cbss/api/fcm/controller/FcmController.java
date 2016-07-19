@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.woniu.sncp.alarm.dto.AlarmMessageTo;
 import com.woniu.sncp.alarm.service.AlarmMessageService;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
-import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.cbss.core.model.access.SecurityResource;
@@ -55,7 +54,6 @@ public class FcmController {
 	 */
 	@RequestMapping(value = "/fcm/conf", method = RequestMethod.POST)
 	@ResponseBody
-	@EchoRestControllerAspectType
 	public EchoInfo<Object> fcmConf(@RequestBody FcmConfRequestDatas requestDatas) {
 		FcmConfRequestParam data = requestDatas.getParamdata();
 		long issuerId = data.getIssuerId();
@@ -110,7 +108,6 @@ public class FcmController {
 
 	@RequestMapping(value = "/fcm/queryTime", method = RequestMethod.POST)
 	@ResponseBody
-	@EchoRestControllerAspectType
 	public EchoInfo<Object> queryTime(@RequestBody FcmTimeRequestDatas requestDatas) {
 		FcmTimeRequestParam data = requestDatas.getParamdata();
 		long gameId = data.getGameId();
@@ -148,7 +145,6 @@ public class FcmController {
 
 	@RequestMapping(value = "/fcm/updateTime", method = RequestMethod.POST)
 	@ResponseBody
-	@EchoRestControllerAspectType
 	public EchoInfo<Object> updateTime(@RequestBody FcmTimeRequestDatas requestDatas) {
 		FcmTimeRequestParam data = requestDatas.getParamdata();
 		long gameId = data.getGameId();
@@ -192,7 +188,6 @@ public class FcmController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/fcm/onlinetime", method = RequestMethod.POST)
 	@ResponseBody
-	@EchoRestControllerAspectType
 	public EchoInfo<Object> fcmOnlineTime(@RequestBody FcmRequestDatas requestDatas) {
 		FcmOnlinetimeRequestParam data = requestDatas.getParamdata();
 		long aid = data.getAid();
@@ -210,7 +205,7 @@ public class FcmController {
 				Map<String, Object> map = resource.getNoteFirst();
 				validateThreeCondition = Boolean.valueOf(ObjectUtils.toString(map.get("validateThree")));
 			}
-
+			
 			long start1 = System.currentTimeMillis();
 			boolean isfcm = fcmService.isFcm(aid, issuerId, gameId, validateThreeCondition);
 			long start2 = System.currentTimeMillis();
@@ -219,13 +214,16 @@ public class FcmController {
 				long start3 = System.currentTimeMillis();
 				Long time = fcmService.fcmOnlineTime(identity, gameId);
 				long start4 = System.currentTimeMillis();
-				logger.info((start2 - start1) + "," + (start3 - start2) + "," + (start4 - start3) + "aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + ",isfcm:" + isfcm + ",identity:"
-						+ identity + ",time:" + time);
+				logger.info((start2 - start1) + "," + (start3 - start2) + "," + (start4 - start3) + 
+						"aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
+						",isfcm:" + isfcm + ",identity:" + identity + ",time:" + time);
 				Map<String, Object> data1 = new HashMap<String, Object>();
 				data1.put("onlineTime", time);
 				return errorCode.getErrorCode(1, requestDatas.getSessionId()).setData(data1);
 			} else {
-				logger.info((start2 - start1) + ",-1,-1" + "aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + ",isfcm:" + isfcm + ",identity:,time:");
+				logger.info((start2 - start1) + ",-1,-1" + 
+						"aid:" + aid + ",issuerId:" + issuerId + ",gameId:" + gameId + 
+						",isfcm:" + isfcm + ",identity:,time:");
 				return errorCode.getErrorCode(10017, requestDatas.getSessionId());
 			}
 		} catch (MissingParamsException e) {

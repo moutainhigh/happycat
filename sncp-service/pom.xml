@@ -42,8 +42,7 @@
 		<module>sncp-cloud-config</module>
 		<module>sncp-ocp-security</module>
 		<module>sncp-profile</module>
-        <module>sncp-account</module>
-    </modules>
+	</modules>
 
 	<dependencies>
 		<dependency>
