@@ -47,7 +47,7 @@ public class ActivityManageController {
 		ActivityConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
 		String state = data.getState();
-		//查询活动
+		
 		List<PassportPresentsPloyDTO> retObj = activityManageService.findAllPloysByState(gameId, state);
 		EchoInfo<Object> retData = null;
 		try {

@@ -53,13 +53,7 @@ public class TraceAroundAspect {
 
 	}
 
-	@Around("execution(* cbss.api..*.*(..))")
-	public Object aroundApi(ProceedingJoinPoint joinPoint)
-			throws Throwable {
-		return aroundIn(joinPoint);
-	}
-
-	@Around("execution(* com.woniu.sncp..*Impl.*(..))")
+	@Around("execution(* com.woniu.sncp.cbss.api..*.*(..))")
 	public Object aroundImpl(ProceedingJoinPoint joinPoint)
 			throws Throwable {
 		return aroundIn(joinPoint);

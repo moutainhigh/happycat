@@ -14,12 +14,7 @@ public class CounterBeforeAspect {
 	@Autowired
 	private CounterService counterService;
 
-	@Before("execution(* cbss.api..*.*(..))")
-	public void countServiceInvoke(JoinPoint joinPoint) {
-		counterService.increment(joinPoint.getSignature().getDeclaringTypeName() + "#" + joinPoint.getSignature().getName());
-	}
-
-	@Before("execution(* com.woniu.sncp..*Impl.*(..))")
+	@Before("execution(* com.woniu.sncp.cbss.api..*.*(..))")
 	public void increment(JoinPoint joinPoint) {
 		counterService.increment(joinPoint.getSignature().getDeclaringTypeName() + "#" + joinPoint.getSignature().getName());
 	}

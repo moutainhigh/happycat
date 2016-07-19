@@ -3,9 +3,6 @@
 	<include resource="org/springframework/boot/logging/logback/base.xml" />
 	<jmxConfigurator />
 
-	<substitutionProperty name="log.base"
-		value="/usr/sncp/logs/micro/cbssapi" />
-
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<!-- encoder 默认配置为PatternLayoutEncoder -->
 		<encoder>
@@ -19,7 +16,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.base}/${server.port}/%d{yyyy-MM-dd}.${PID}.log
+			<fileNamePattern>${LOG_PATH}/${server.port}/%d{yyyy-MM-dd}.${PID}.log
 			</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
@@ -35,7 +32,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${log.base}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
+			<fileNamePattern>${LOG_PATH}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
 			</fileNamePattern>
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
@@ -46,19 +43,17 @@
 		</encoder>
 	</appender>
 
-	<logger name="cbss.core.trace.aspect.listener" level="TRACE">
+	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
 		<appender-ref ref="TRACE_LOG" />
 	</logger>
 
-	<logger name="cbss.api.fcm.aspectj">
+	<logger name="com.woniu.sncp.cbss.api.nciic.aspectj">
 		<level value="DEBUG" />
 	</logger>
-
-	<logger name="cbss.api.fcm.main">
+	<logger name="com.woniu.sncp.cbss.api.nciic">
 		<level value="DEBUG" />
 	</logger>
-
-	<logger name="cbss.core">
+	<logger name="com.woniu.sncp.cbss.core">
 		<level value="DEBUG" />
 	</logger>
 
