@@ -26,6 +26,7 @@ V1.0.0
 						@SuppressWarnings("unchecked")
 						@RequestMapping(value = "/fcm/onlinetime", method = RequestMethod.POST) //POST方式请求:/cbss/api/fcm/onlinetime
 						@ResponseBody
+						@EchoRestControllerAspectType
 						public EchoInfo<Object> fcmOnlineTime(@RequestBody FcmRequestDatas requestDatas) {
 							//业务逻辑
 						}
