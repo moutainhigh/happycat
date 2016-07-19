@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
+import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
@@ -43,6 +44,7 @@ public class ActivityManageController {
 	
 	@RequestMapping(value = "/app/imprest/allactivity", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
     public EchoInfo<Object> getAllActivity(@RequestBody ActivityConfRequestDatas requestDatas) {
 		ActivityConfRequestParam data = requestDatas.getParamdata();
 		Long gameId = data.getGameId();
