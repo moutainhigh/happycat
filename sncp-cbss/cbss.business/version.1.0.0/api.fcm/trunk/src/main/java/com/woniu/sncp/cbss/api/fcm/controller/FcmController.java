@@ -110,6 +110,7 @@ public class FcmController {
 
 	@RequestMapping(value = "/fcm/queryTime", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
 	public EchoInfo<Object> queryTime(@RequestBody FcmTimeRequestDatas requestDatas) {
 		FcmTimeRequestParam data = requestDatas.getParamdata();
 		long gameId = data.getGameId();
@@ -147,6 +148,7 @@ public class FcmController {
 
 	@RequestMapping(value = "/fcm/updateTime", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
 	public EchoInfo<Object> updateTime(@RequestBody FcmTimeRequestDatas requestDatas) {
 		FcmTimeRequestParam data = requestDatas.getParamdata();
 		long gameId = data.getGameId();

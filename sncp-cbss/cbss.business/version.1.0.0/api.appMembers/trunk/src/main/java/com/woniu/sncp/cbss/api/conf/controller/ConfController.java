@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.woniu.sncp.cbss.api.util.PropertiesUtl;
 import com.woniu.sncp.cbss.core.authorize.AccessAuthorizeFilterConfigures;
+import com.woniu.sncp.cbss.core.authorize.rest.EchoRestControllerAspectType;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.errorcode.ErrorCode;
 import com.woniu.sncp.exception.MissingParamsException;
@@ -39,13 +40,13 @@ public class ConfController {
 	private PropertiesUtl propertiesUtl;
 	
 	/**
-	 * eai中修改防沉迷开关后,调此接口把开关数据同步过去
 	 * 
 	 * @param requestDatas
 	 * @return
 	 */
 	@RequestMapping(value = "/app/members/conf", method = RequestMethod.POST)
 	@ResponseBody
+	@EchoRestControllerAspectType
 	public EchoInfo<Object> appMembersConf(@RequestBody AppConfRequestDatas requestDatas) {
 		AppConfRequestParam data = requestDatas.getParamdata();
 		String type = data.getType();
