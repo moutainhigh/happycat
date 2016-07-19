@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import com.woniu.sncp.cbss.api.core.thrift.Echo;
-
 @Component
 public class ErrorCode {
 
@@ -39,22 +37,5 @@ public class ErrorCode {
 		echoInfo.setMessage(info);
 		echoInfo.setUuid(requestUuid);
 		return echoInfo;
-	}
-
-	public Echo getCode(int code, String message) {
-		Echo echo = new Echo();
-		echo.setMsgcode(code);
-		echo.setMessage(message);
-		echo.setData("{}");
-		return echo;
-	}
-
-	public Echo getCode(int code) {
-		String info = translate(String.valueOf(code));
-		Echo echo = new Echo();
-		echo.setMsgcode(code);
-		echo.setMessage(info);
-		echo.setData("{}");
-		return echo;
 	}
 }

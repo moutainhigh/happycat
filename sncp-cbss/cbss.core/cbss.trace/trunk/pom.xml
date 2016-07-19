@@ -43,10 +43,6 @@
 			<groupId>com.woniu.cbss</groupId>
 			<artifactId>cbss.core.util</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.woniu.cbss</groupId>
-			<artifactId>cbss.core.signature</artifactId>
-		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

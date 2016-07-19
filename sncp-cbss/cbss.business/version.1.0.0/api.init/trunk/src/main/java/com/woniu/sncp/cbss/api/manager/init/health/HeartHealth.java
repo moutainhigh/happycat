@@ -20,7 +20,7 @@ import com.woniu.sncp.cbss.core.util.IpUtils;
 public class HeartHealth implements HealthIndicator {
 
 	private String metricUrl = "http://monitor.yunwei.woniu.com:81/api/push_monitor/";
-	private String metricType = "sncp.micro.heart";
+	private String metricType = "";
 	private String tags = "";
 
 	private int maxcycle = 1;

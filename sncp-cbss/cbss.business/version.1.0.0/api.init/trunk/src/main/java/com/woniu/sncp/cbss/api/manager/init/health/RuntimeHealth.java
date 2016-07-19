@@ -5,6 +5,7 @@ import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ import com.woniu.sncp.cbss.core.util.IpUtils;
 public class RuntimeHealth implements HealthIndicator {
 
 	private String metricUrl = "http://monitor.yunwei.woniu.com:81/api/push_monitor/";
-	private String metricType = "sncp.micro.precent.memory";
+	private String metricType = "sncp.mirco.precent.memory";
 	private String tags = "";
 
 	private int maxcycle = 3;
@@ -87,7 +88,7 @@ public class RuntimeHealth implements HealthIndicator {
 		int index = memoryGC(memoryGcTimes, useMemPrecent);
 		if (index >= memoryGcTimes) {
 			tags = (index) + "," + useMemPrecent + "%," + memoryPrecentMax + "%";
-			Metric metrics = new Metric(metricType, String.valueOf(useMemPrecent), !StringUtils.isEmpty(tags) ? tags + "," + ipport : ipport);
+			Metric metrics = new Metric(metricType, String.valueOf(new Date().getTime()), !StringUtils.isEmpty(tags) ? tags + "," + ipport : ipport);
 			try {
 				String rtn = alertService.metric(metricUrl, metrics, getMaxcycle(), getTimeout());
 				if (rtn.startsWith("code:")) {

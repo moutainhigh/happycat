@@ -2,7 +2,6 @@ package com.woniu.sncp.cbss.core.model.request;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfo;
@@ -20,64 +19,45 @@ public class RequestDatas<T extends RequestParam> implements Serializable {
 	/*
 	 * 版本
 	 */
-	private String version;
+	public String version;
 	/*
 	 * 客户端请求信息
 	 */
-	private List<RequestClientInfo> clientInfo = new ArrayList<RequestClientInfo>(0);
+	public List<RequestClientInfo> clientInfo = new ArrayList<RequestClientInfo>(0);
 	/*
 	 * 接口权限accessId
 	 */
-	private Long accessId;
+	public Long accessId;
 	/*
 	 * 接口权限accessType
 	 */
-	private Long accessType;
+	public Long accessType;
 	/*
 	 * 接口权限accessPasswd
 	 */
-	private String accessPasswd;
+	public String accessPasswd;
 	/*
 	 * 接口权限serviceShortName 业务简称
 	 */
-	private String serviceShortName;
+	public String serviceShortName;
 	/*
 	 * 单条数据
 	 */
-	private T paramdata;
+	public T paramdata;
 	/*
 	 * 数据是数组形势
 	 */
-	private List<T> paramdatas;
+	public List<T> paramdatas;
 	/*
 	 * 请求扩展数据
 	 */
-	private RequestOther other = new RequestOther();
+	public RequestOther other = new RequestOther();
 
 	private String traceState;
 	private AccessSecurityInfo accessSecurityInfo;
 	private SecurityResource securityResource;
 	private String sessionId;
-
-	private Long reciveTime = null;
-	private Long accessAuthorizeEndtime = null;
 	
-	public Long getAccessAuthorizeEndtime() {
-		return accessAuthorizeEndtime;
-	}
-
-	public void setAccessAuthorizeEndtime(Long accessAuthorizeEndtime) {
-		this.accessAuthorizeEndtime = accessAuthorizeEndtime;
-	}
-
-	public Long getReciveTime() {
-		return reciveTime;
-	}
-
-	public void setReciveTime(Long reciveTime) {
-		this.reciveTime = reciveTime;
-	}
-
 	public String getSessionId() {
 		return sessionId;
 	}

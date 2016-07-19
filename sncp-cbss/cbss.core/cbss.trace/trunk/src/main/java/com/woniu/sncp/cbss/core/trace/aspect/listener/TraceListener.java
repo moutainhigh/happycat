@@ -69,7 +69,7 @@ public class TraceListener {
 						}
 					}
 				}
-
+				
 				if (ex != null) {
 					src.setMethodOutException(ex.toString());
 					logger.trace(JSONObject.toJSONString(src, SerializerFeature.WriteDateUseDateFormat));
@@ -95,26 +95,8 @@ public class TraceListener {
 					}
 				}
 				if (isMethodIndata) {
-					if (args1.getClass().isArray() || args1.getClass().getName().startsWith("org.springframework.aop.aspectj.annotation")) {
-						Object[] arrays = (Object[]) args1;
-						boolean is = false;
-						for (Object cls : arrays) {
-							if (cls.getClass().getName().startsWith("org")) {
-								is = true;
-								break;
-							}
-						}
-						if (!is) {
-							src.setMethodInData(JSONObject.toJSONString(args1 == null ? new Object() : args1));
-							src.setRecordUUID(JSONObject.toJSONString(args1 == null ? new Object() : args1));
-						} else {
-							src.setMethodInData(JSONObject.toJSONString(new Object()));
-							src.setRecordUUID(JSONObject.toJSONString(new Object()));
-						}
-					} else {
-						src.setMethodInData(JSONObject.toJSONString(args1 == null ? new Object() : args1));
-						src.setRecordUUID(JSONObject.toJSONString(args1 == null ? new Object() : args1));
-					}
+					src.setMethodInData(JSONObject.toJSONString(args1 == null ? new Object() : args1));
+					src.setRecordUUID(JSONObject.toJSONString(args1 == null ? new Object() : args1));
 				} else {
 					src.setMethodInData("");
 					src.setRecordUUID(JSONObject.toJSONString(new Object()));

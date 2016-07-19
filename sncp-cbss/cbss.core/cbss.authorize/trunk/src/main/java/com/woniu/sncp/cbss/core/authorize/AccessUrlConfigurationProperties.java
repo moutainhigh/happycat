@@ -2,17 +2,12 @@ package com.woniu.sncp.cbss.core.authorize;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.woniu.sncp.cbss.core.authorize.nifty.NiftyParam;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 
@@ -26,9 +21,6 @@ public class AccessUrlConfigurationProperties {
 	List<String> urls;
 	List<String> paramTypes;
 	List<RequestDatas<RequestParam>> paramObjects;
-
-	@Autowired
-	private ApplicationContext applicationContext;
 
 	public List<RequestDatas<RequestParam>> getParamObjects() {
 		return paramObjects;
@@ -45,21 +37,13 @@ public class AccessUrlConfigurationProperties {
 	@PostConstruct
 	public void buildParamObject() {
 		try {
-			if (paramTypes != null && !paramTypes.isEmpty()) {
-				paramObjects = new ArrayList<RequestDatas<RequestParam>>();
-				for (String paramType : paramTypes) {
-					Object object = Class.forName(paramType).newInstance();
-					if (object instanceof RequestDatas<?>) {
-						paramObjects.add((RequestDatas<RequestParam>) object);
-					}
+			paramObjects = new ArrayList<RequestDatas<RequestParam>>();
+			for (String paramType : paramTypes) {
+				Object object = Class.forName(paramType).newInstance();
+				if (object instanceof RequestDatas<?>) {
+					paramObjects.add((RequestDatas<RequestParam>) object);
 				}
 			}
-
-			for (Map.Entry<String, Object> niftyParam : applicationContext.getBeansWithAnnotation(NiftyParam.class).entrySet()) {
-				String name = niftyParam.getValue().toString();
-				urls.add(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@')));
-			}
-
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -76,4 +60,5 @@ public class AccessUrlConfigurationProperties {
 	public void setUrls(List<String> urls) {
 		this.urls = urls;
 	}
+
 }

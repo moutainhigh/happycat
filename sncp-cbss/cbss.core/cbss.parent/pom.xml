@@ -17,8 +17,7 @@
 	</parent>
 
 	<properties>
-		<nifty.version>0.19.0</nifty.version>
-		<thrift.version>0.9.3</thrift.version>
+
 		<maven.repositories.url>http://mvn.3.com/nexus</maven.repositories.url>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -48,7 +47,7 @@
 		<jaxen.version>1.1.4</jaxen.version>
 		<fscontext.version>4.2</fscontext.version>
 		<jasypt.version>1.9.0</jasypt.version>
-		<fastjson.version>1.2.14</fastjson.version>
+		<fastjson.version>1.2.11</fastjson.version>
 		<velocity.version>1.7</velocity.version>
 		<commonsJexl.version>1.1</commonsJexl.version>
 		<commonsHttpClient.version>4.0.1</commonsHttpClient.version>
@@ -81,6 +80,17 @@
 		<zookeeper.version>3.4.8</zookeeper.version>
 		<logback.version>1.1.7</logback.version>
 		<apache.curator.version>2.4.2</apache.curator.version>
+		
+		<cbss.authorize.version>${project.version}</cbss.authorize.version>
+		<cbss.util.version>${project.version}</cbss.util.version>
+		<cbss.errorcode.version>${project.version}</cbss.errorcode.version>
+		<cbss.call.version>${project.version}</cbss.call.version>
+		<cbss.model.version>${project.version}</cbss.model.version>
+		<cbss.repository.version>${project.version}</cbss.repository.version>
+		<cbss.signature.version>${project.version}</cbss.signature.version>
+		<cbss.vaildation.version>${project.version}</cbss.vaildation.version>
+		<cbss.trace.version>${project.version}</cbss.trace.version>
+		
 		<jedis.version>2.8.1</jedis.version>
 		<brave.version>3.6.0</brave.version>
 		<flexjson.version>3.3</flexjson.version>
@@ -156,89 +166,52 @@
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.util</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.util.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.authorize</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.authorize.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.call</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.call.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.model</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.model.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.repository</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.repository.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.vaildation</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.vaildation.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.signature</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.signature.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.trace</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.trace.version}</version>
 			</dependency>
-
-			<dependency>
-				<groupId>com.woniu.cbss</groupId>
-				<artifactId>cbss.core.thrift.win</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.woniu.cbss</groupId>
-				<artifactId>cbss.core.thrift.linux</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.safeguard</artifactId>
-				<version>${project.version}</version>
+				<version>${cbss.safeguard.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.woniu.cbss</groupId>
 				<artifactId>cbss.core.errorcode</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.woniu.sncp</groupId>
-				<artifactId>nifty-spring-boot-starter</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.woniu.sncp</groupId>
-				<artifactId>cbss.core.util.linux</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-			<!-- nifty -->
-			<dependency>
-				<groupId>org.apache.thrift</groupId>
-				<artifactId>libthrift</artifactId>
-				<version>${thrift.version}</version>
-				<scope>compile</scope>
-			</dependency>
-
-			<!-- nifty -->
-			<dependency>
-				<groupId>com.facebook.nifty</groupId>
-				<artifactId>nifty-core</artifactId>
-				<version>${nifty.version}</version>
-				<scope>compile</scope>
+				<version>${cbss.errorcode.version}</version>
 			</dependency>
 
 			<dependency>

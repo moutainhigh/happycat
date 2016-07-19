@@ -1,6 +1,7 @@
 package com.woniu.sncp.cbss.core.repository.redis;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -10,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.types.RedisClientInfo;
 import org.springframework.stereotype.Component;
 
 import com.woniu.sncp.cbss.core.trace.logformat.LogFormat;

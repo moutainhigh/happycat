@@ -23,6 +23,7 @@ import com.woniu.sncp.cbss.core.model.constant.NameFactory;
 import com.woniu.sncp.cbss.core.repository.redis.RedisService;
 import com.woniu.sncp.cbss.core.repository.zookeeper.ZooKeeperFactory;
 import com.woniu.sncp.cbss.core.repository.zookeeper.ZookeeperConfValue;
+import com.woniu.sncp.cbss.core.trace.aspect.ParamsAndReturningLog;
 import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
 
 @Component
