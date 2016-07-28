@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/integration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       ">
+
+
+	<chain id="splitPresentsPloys" input-channel="ployParticipator"
+		output-channel="presentsPloys">
+		<header-enricher>
+			<header name="ployParticipator" expression="payload" />
+		</header-enricher>
+		<splitter expression="payload.presentsPloys" />
+	</chain>
+
+</beans:beans>

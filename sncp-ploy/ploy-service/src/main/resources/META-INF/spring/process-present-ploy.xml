@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/integration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       ">
+
+	<channel id="ployH" />
+	<channel id="ployA1" />
+	<channel id="ployW" />
+	<channel id="ployP" />
+	<channel id="ploySC" />
+	<channel id="ployMZ" />
+	<channel id="ployC" />
+	
+	<beans:bean id="presentPloyTypeA1" class="com.woniu.sncp.ploy.type.PresentPloyTypeA1" />
+	<beans:bean id="presentPloyTypeH" class="com.woniu.sncp.ploy.type.PresentPloyTypeH" />
+	<beans:bean id="presentPloyTypeW" class="com.woniu.sncp.ploy.type.PresentPloyTypeW" />
+	<beans:bean id="presentPloyTypeP" class="com.woniu.sncp.ploy.type.PresentPloyTypeP" />
+	<beans:bean id="presentPloyTypeSC" class="com.woniu.sncp.ploy.type.PresentPloyTypeSC" />
+	<beans:bean id="presentPloyTypeMZ" class="com.woniu.sncp.ploy.type.PresentPloyTypeMZ" />
+	<beans:bean id="presentPloyTypeC" class="com.woniu.sncp.ploy.type.PresentPloyTypeC" />
+
+	<chain id="dispatcherPresentsPloys" input-channel="presentsPloys">
+	<!-- 	<header-enricher>
+			<header name="delayMe" expression="(headers['sequenceNumber'] != null ? headers['sequenceNumber'] : 1) * 2000"/>
+		</header-enricher> -->
+		<router expression="'ploy_' + payload.type">
+			<mapping value="ploy_h" channel="ployH"/>
+			<mapping value="ploy_a1" channel="ployA1"/>
+			<mapping value="ploy_W" channel="ployW"/>
+			<mapping value="ploy_P" channel="ployP"/>
+			<mapping value="ploy_sc" channel="ploySC"/>
+			<mapping value="ploy_mz" channel="ployMZ"/>
+			<mapping value="ploy_c" channel="ployC"/>
+		</router>
+	</chain>
+	
+	<service-activator input-channel="ployH" ref="presentPloyTypeH" output-channel="aggregatorStats"/>
+	<service-activator input-channel="ployA1" ref="presentPloyTypeA1" output-channel="aggregatorStats"/>
+    <service-activator input-channel="ployW" ref="presentPloyTypeW" output-channel="aggregatorStats"/>
+    <service-activator input-channel="ployP" ref="presentPloyTypeP" output-channel="aggregatorStats"/>
+    <service-activator input-channel="ploySC" ref="presentPloyTypeSC" output-channel="aggregatorStats"/>
+    <service-activator input-channel="ployMZ" ref="presentPloyTypeMZ" output-channel="aggregatorStats"/> 
+    <service-activator input-channel="ployC" ref="presentPloyTypeC" output-channel="aggregatorStats"/>
+    
+  <!--   <delayer id="delayer" input-channel="aggregatorStats" delay-header-name="delayMe"
+             default-delay="3000" output-channel="aggregatorStatsOut"/> -->
+</beans:beans>

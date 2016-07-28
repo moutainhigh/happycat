@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns="http://www.springframework.org/schema/integration" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<channel id="ployRequest" />
+	<channel id="ployResponse" />
+
+	<gateway id="ployService" service-interface="com.woniu.sncp.ploy.service.PloyService">
+		<method request-channel="ployRequest" reply-channel="ployResponse"
+			name="queryPloy" reply-timeout="2000" request-timeout="2000"></method>
+	</gateway>
+
+	<!-- 查询匹配的活动 -->
+	<beans:import resource="find-present-ploy.xml" />
+	
+	
+	<!-- 拆分活动 -->
+	<channel id="ployParticipator" />
+	<beans:import resource="split-present-ploy.xml"/>
+	
+	<!-- 处理每个活动 -->
+	<channel id="presentsPloys" />
+	<beans:import resource="process-present-ploy.xml"/>
+	
+	<beans:import resource="aggregator-ploy-details.xml"/>
+	<poller default="true" fixed-rate="1000"/>
+
+
+
+</beans:beans>
