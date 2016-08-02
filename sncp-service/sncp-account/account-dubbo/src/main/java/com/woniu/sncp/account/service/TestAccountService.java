@@ -27,34 +27,34 @@ public class TestAccountService {
     private AccountService accountService;
 
 
-    @RequestMapping(value = "/abc", method = RequestMethod.GET)
-    public String testQueryBalance(){
-
-        Map<String, Object> m = new HashMap<String,Object>();
-        m.put("abc", "def");
-        Object json = JSON.toJSON(m);
-
-        Object obj = accountService.queryBalance(1L, 7, "36", "-1", null, "-1", "2016-07-08 15:18:00", json, "10101007");
-
-        System.out.println( obj.toString() );
-
-        return obj.toString();
-
-    }
-
-    @RequestMapping(value = "/def", method = RequestMethod.GET)
-    public String testEasyImprest(){
-
-        Map<String, Object> m = new HashMap<String,Object>();
-        m.put("method", "easyImprest");
-        Object json = JSON.toJSON(m);
-
-        OcpAccountDTO ocpAccountDTO = accountService.easyImprest(1L, "36", "-1", "o", "1", "1", "", json, "10101007");
-
-        System.out.println( ocpAccountDTO.toString() );
-
-        return ocpAccountDTO.toString();
-    }
+//    @RequestMapping(value = "/abc", method = RequestMethod.GET)
+//    public String testQueryBalance(){
+//
+//        Map<String, Object> m = new HashMap<String,Object>();
+//        m.put("abc", "def");
+//        Object json = JSON.toJSON(m);
+//
+//        Object obj = accountService.queryBalanceMicroService(1L, 7, "36", "-1", null, "-1", "2016-07-08 15:18:00", json, "10101007");
+//
+//        System.out.println( obj.toString() );
+//
+//        return obj.toString();
+//
+//    }
+//
+//    @RequestMapping(value = "/def", method = RequestMethod.GET)
+//    public String testEasyImprest(){
+//
+//        Map<String, Object> m = new HashMap<String,Object>();
+//        m.put("method", "easyImprest");
+//        Object json = JSON.toJSON(m);
+//
+//        OcpAccountDTO ocpAccountDTO = accountService.easyImprest(1L, "36", "-1", "o", "1", "1", "", json, "10101007");
+//
+//        System.out.println( ocpAccountDTO.toString() );
+//
+//        return ocpAccountDTO.toString();
+//    }
 
 
 }
