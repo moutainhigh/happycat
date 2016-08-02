@@ -79,7 +79,7 @@ management:
 spring: 
   boot: 
     admin: 
-      url: http://10.103.4.137:2000
+      url: http://10.110.34.5:2000
   redis: 
     cluster: 
       nodes: 10.106.0.199:7000,10.106.0.199:7001,10.106.0.199:7002
