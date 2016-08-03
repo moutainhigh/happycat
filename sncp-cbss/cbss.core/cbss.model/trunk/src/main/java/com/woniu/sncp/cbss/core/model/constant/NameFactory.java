@@ -58,7 +58,7 @@ public class NameFactory {
 	}
 
 	public enum default_constant {
-		INFPARAM_HTTPPARAM_ALLMETHOD("ALLMETHOD"), ISSETSECURITYRESOURCES("CBSS"),ISDEBUG("DEBUG");
+		INFPARAM_HTTPPARAM_ALLMETHOD("ALLMETHOD"), ISDEBUG("DEBUG");
 
 		private String value;
 
