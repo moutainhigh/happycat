@@ -13,7 +13,8 @@
 	<channel id="ploySC" />
 	<channel id="ployMZ" />
 	<channel id="ployC" />
-	
+	<channel id="defaultPloy" />
+
 	<beans:bean id="presentPloyTypeA1" class="com.woniu.sncp.ploy.type.PresentPloyTypeA1" />
 	<beans:bean id="presentPloyTypeH" class="com.woniu.sncp.ploy.type.PresentPloyTypeH" />
 	<beans:bean id="presentPloyTypeW" class="com.woniu.sncp.ploy.type.PresentPloyTypeW" />
@@ -22,29 +23,52 @@
 	<beans:bean id="presentPloyTypeMZ" class="com.woniu.sncp.ploy.type.PresentPloyTypeMZ" />
 	<beans:bean id="presentPloyTypeC" class="com.woniu.sncp.ploy.type.PresentPloyTypeC" />
 
+	<beans:bean id="defaultPresentPloyType"
+		class="com.woniu.sncp.ploy.type.DefaultPresentPloyType" />
+
 	<chain id="dispatcherPresentsPloys" input-channel="presentsPloys">
-	<!-- 	<header-enricher>
-			<header name="delayMe" expression="(headers['sequenceNumber'] != null ? headers['sequenceNumber'] : 1) * 2000"/>
-		</header-enricher> -->
+		<!-- <header-enricher> <header name="delayMe" expression="(headers['sequenceNumber'] 
+			!= null ? headers['sequenceNumber'] : 1) * 2000"/> </header-enricher> -->
 		<router expression="'ploy_' + payload.type">
-			<mapping value="ploy_h" channel="ployH"/>
-			<mapping value="ploy_a1" channel="ployA1"/>
-			<mapping value="ploy_W" channel="ployW"/>
-			<mapping value="ploy_P" channel="ployP"/>
-			<mapping value="ploy_sc" channel="ploySC"/>
-			<mapping value="ploy_mz" channel="ployMZ"/>
-			<mapping value="ploy_c" channel="ployC"/>
+			<mapping value="ploy_h" channel="ployH" />
+			<mapping value="ploy_a1" channel="ployA1" />
+			<mapping value="ploy_W" channel="ployW" />
+			<mapping value="ploy_P" channel="ployP" />
+			<mapping value="ploy_sc" channel="ploySC" />
+			<mapping value="ploy_mz" channel="ployMZ" />
+			<mapping value="ploy_c" channel="ployC" />
+			<mapping value="ploy_q" channel="defaultPloy" />
+			<mapping value="ploy_z" channel="defaultPloy" />
+			<mapping value="ploy_U" channel="defaultPloy" />
+			<mapping value="ploy_Y" channel="defaultPloy" />
+			<mapping value="ploy_y" channel="defaultPloy" />
+			<mapping value="ploy_C" channel="defaultPloy" />
+			<mapping value="ploy_X" channel="defaultPloy" />
+			<mapping value="ploy_B" channel="defaultPloy" />
+			<mapping value="ploy_l" channel="defaultPloy" />
+			<mapping value="ploy_S" channel="defaultPloy" />
+			<mapping value="ploy_PP" channel="defaultPloy" />
 		</router>
 	</chain>
-	
-	<service-activator input-channel="ployH" ref="presentPloyTypeH" output-channel="aggregatorStats"/>
-	<service-activator input-channel="ployA1" ref="presentPloyTypeA1" output-channel="aggregatorStats"/>
-    <service-activator input-channel="ployW" ref="presentPloyTypeW" output-channel="aggregatorStats"/>
-    <service-activator input-channel="ployP" ref="presentPloyTypeP" output-channel="aggregatorStats"/>
-    <service-activator input-channel="ploySC" ref="presentPloyTypeSC" output-channel="aggregatorStats"/>
-    <service-activator input-channel="ployMZ" ref="presentPloyTypeMZ" output-channel="aggregatorStats"/> 
-    <service-activator input-channel="ployC" ref="presentPloyTypeC" output-channel="aggregatorStats"/>
-    
-  <!--   <delayer id="delayer" input-channel="aggregatorStats" delay-header-name="delayMe"
-             default-delay="3000" output-channel="aggregatorStatsOut"/> -->
+
+	<service-activator input-channel="ployH" ref="presentPloyTypeH"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ployA1" ref="presentPloyTypeA1"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ployW" ref="presentPloyTypeW"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ployP" ref="presentPloyTypeP"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ploySC" ref="presentPloyTypeSC"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ployMZ" ref="presentPloyTypeMZ"
+		output-channel="aggregatorStats" />
+	<service-activator input-channel="ployC" ref="presentPloyTypeC"
+		output-channel="aggregatorStats" />
+
+	<service-activator input-channel="defaultPloy" ref="defaultPresentPloyType"
+		output-channel="aggregatorStats" />
+
+	<!-- <delayer id="delayer" input-channel="aggregatorStats" delay-header-name="delayMe" 
+		default-delay="3000" output-channel="aggregatorStatsOut"/> -->
 </beans:beans>

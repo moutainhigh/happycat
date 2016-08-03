@@ -25,6 +25,6 @@ public class PloyServiceTest {
 		ployRequestDTO.setGame("10");
 		ployRequestDTO.setEventTime(new Date());
 		PloyResponseDTO ployResponseDTO = ployService.queryPloy(ployRequestDTO);
-		System.out.println(ployResponseDTO);
+		System.out.println(ployResponseDTO.getPloyTypeStats().size());
 	}
 }

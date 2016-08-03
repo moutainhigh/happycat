@@ -11,6 +11,7 @@ import org.springframework.messaging.Message;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.woniu.sncp.ploy.dto.PloyResponseDTO;
+import com.woniu.sncp.ploy.dto.PloyTypeStatDTO;
 import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
 
 /**
@@ -33,10 +34,12 @@ public class PloyAggregatorStat {
 			System.out.println(ployTypeStat.toString());
 			list.add(ployTypeStat.getPayload());
 		}
-		return new PloyResponseDTO();
+		PloyResponseDTO ployResponseDTO = new PloyResponseDTO();
+		ployResponseDTO.setPloyTypeStats(list);
+		return ployResponseDTO;
 	}
 
-	@ReleaseStrategy
+	/*@ReleaseStrategy
 	public boolean canRelease(List<Message<PloyTypeStatDTO>> ployTypeStats) {
 		PloyParticipator ployParticipator = (PloyParticipator) ployTypeStats.get(0).getHeaders()
 				.get("ployParticipator");
@@ -50,6 +53,6 @@ public class PloyAggregatorStat {
 						return ployTypeStat.getPayload().getPresentsPloy();
 					}
 				}));
-	}
+	}*/
 
 }

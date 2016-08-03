@@ -15,8 +15,6 @@
             ref="ployAggregatorStat"
             method="preparePloyResponse"
             correlation-strategy="ployAggregatorStat"
-            correlation-strategy-method="correlatingPloyParticipatorFor"
-            release-strategy="ployAggregatorStat"
-            release-strategy-method="canRelease"/>
+            correlation-strategy-method="correlatingPloyParticipatorFor"/>
 
 </beans:beans>

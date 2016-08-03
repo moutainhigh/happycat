@@ -1,5 +1,6 @@
 package com.woniu.sncp.ploy.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.woniu.sncp.ploy.dto.LargessPropDTO;
@@ -13,7 +14,15 @@ import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
  * @author chenyx
  *
  */
-public class PloyTypeStat {
+public class PloyTypeStatDTO implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	private State state;
+	
+	public enum State {
+		NEXT, OVER
+	}
 	
 	//活动类型
 	private PresentsPloyDTO presentsPloy;
@@ -24,7 +33,7 @@ public class PloyTypeStat {
 	//赠送明细信息
 	private List<LargessPropDTO> largessProps;
 
-	public PloyTypeStat(PresentsPloyDTO presentsPloy) {
+	public PloyTypeStatDTO(PresentsPloyDTO presentsPloy) {
 		this.presentsPloy = presentsPloy;
 	}
 	
@@ -59,6 +68,13 @@ public class PloyTypeStat {
 	public void addPolyProp(PloyPropDTO ployProp) {
 		this.ployProps.add(ployProp);
 	}
-	
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
 
 }

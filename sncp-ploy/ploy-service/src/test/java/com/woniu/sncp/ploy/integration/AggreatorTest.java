@@ -2,24 +2,24 @@ package com.woniu.sncp.ploy.integration;
 
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.PollableChannel;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.woniu.sncp.ploy.PloyApplication;
 import com.woniu.sncp.ploy.domain.PloyParticipator;
 import com.woniu.sncp.ploy.entity.PresentsPloy;
 
-@ContextConfiguration(locations = {"/META-INF/spring/persents-ploy-integration.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(PloyApplication.class)
 public class AggreatorTest {
 	
 	@Autowired
