@@ -63,4 +63,9 @@ public class PassportCacheableServiceImpl implements PassportService {
 		return entity;
 	}
 
+	@Override
+	public PassportDto findIsFreeCardUser(Long aid) throws SystemException {
+		return passportService.findIsFreeCardUser(aid);
+	}
+
 }
