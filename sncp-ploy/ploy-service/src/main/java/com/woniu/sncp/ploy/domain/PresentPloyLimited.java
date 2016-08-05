@@ -24,11 +24,12 @@ public class PresentPloyLimited {
 		if(logger.isDebugEnabled()) {
 			logger.debug("snailLimit: " + snailLimit);
 		}
-		if (StringUtils.isNotBlank(snailLimit) && "1".equals(snailLimit) && !isFreeCard(pp.getAliase())){
+	/*	if (StringUtils.isNotBlank(snailLimit) && "1".equals(snailLimit) && !isFreeCard(pp.getAliase())){
 			logger.debug("aliase is not 170, aliase is: " + pp.getAliase());
 			ployTypeStatDTO.setState(PloyTypeStatDTO.State.OVER);
 		} else {
 			ployTypeStatDTO.setState(PloyTypeStatDTO.State.NEXT);
-		}
+		}*/
+		return null;
 	}
 }

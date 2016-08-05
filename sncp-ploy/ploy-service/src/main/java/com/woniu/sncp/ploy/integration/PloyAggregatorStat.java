@@ -1,18 +1,15 @@
-package com.woniu.sncp.ploy.domain;
+package com.woniu.sncp.ploy.integration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
-import org.springframework.integration.annotation.ReleaseStrategy;
 import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.woniu.sncp.ploy.dto.PloyResponseDTO;
 import com.woniu.sncp.ploy.dto.PloyTypeStatDTO;
-import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
 
 /**
  * 赠送聚合统计
@@ -20,6 +17,7 @@ import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
  * @author chenyx
  *
  */
+@Component
 public class PloyAggregatorStat {
 
 	@CorrelationStrategy

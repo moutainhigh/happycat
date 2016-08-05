@@ -50,7 +50,7 @@
 			<mapping value="ploy_PP" channel="defaultPloy" />
 		</router>
 	</chain>
-
+	
 	<service-activator input-channel="ployH" ref="presentPloyTypeH"
 		output-channel="aggregatorStats" />
 	<service-activator input-channel="ployA1" ref="presentPloyTypeA1"

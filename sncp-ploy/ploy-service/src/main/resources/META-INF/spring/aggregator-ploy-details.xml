@@ -6,8 +6,6 @@
            http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
        ">
 
-	<beans:bean id="ployAggregatorStat" class="com.woniu.sncp.ploy.domain.PloyAggregatorStat"/>
-
     <aggregator
             id="ployAggregator"
             input-channel="aggregatorStats"

@@ -6,6 +6,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-           
-	<service-activator input-channel="ployRequest" ref="ployParticipatorFactory" method="create" output-channel="ployParticipator"/>
+    
+	<chain input-channel="ployRequest" output-channel="ployParticipator">
+		<header-enricher>
+			<header name="Passport" method="findPassport" ref="ployHeaderEnricher"/>
+			<header name="ImprestLog" method="findImprestLog" ref="ployHeaderEnricher"/>
+			<header name="ImprestCardType" method="findImprestCardType" ref="ployHeaderEnricher"/>
+			<header name="ImprestOrder" method="findImprestOrder" ref="ployHeaderEnricher"/>
+		</header-enricher>
+		<service-activator ref="ployParticipatorFactory" method="create" />
+	</chain>
+	
+	
 </beans:beans>

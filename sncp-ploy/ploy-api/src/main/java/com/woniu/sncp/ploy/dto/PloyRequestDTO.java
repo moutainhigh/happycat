@@ -13,21 +13,21 @@ public class PloyRequestDTO implements Serializable {
 
 	private static final long serialVersionUID = -2245186653016209105L;
 	
-	private String game;
+	private Long gameId;
 	
-	private String passport;
+	private Long aid;
 	
-	private String gameArea;
+	private Long gameAreaId;
 	
 	private BigDecimal amount;
 	
-	private String cardType;
+	private Long cardTypeId;
 	
-	private String imprestLog;
+	private Long imprestLogId;
 	
 	private Boolean isEaiQuery;
 	
-	private String impLogId;
+	private String impOrderNo;
 	
 	private String valueAmount;
 	
@@ -37,28 +37,28 @@ public class PloyRequestDTO implements Serializable {
 	
 	private Date eventTime;
 
-	public String getGame() {
-		return game;
+	public Long getGameId() {
+		return gameId;
 	}
 
-	public void setGame(String game) {
-		this.game = game;
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
 	}
 
-	public String getPassport() {
-		return passport;
+	public Long getAid() {
+		return aid;
 	}
 
-	public void setPassport(String passport) {
-		this.passport = passport;
+	public void setAid(Long aid) {
+		this.aid = aid;
 	}
 
-	public String getGameArea() {
-		return gameArea;
+	public Long getGameAreaId() {
+		return gameAreaId;
 	}
 
-	public void setGameArea(String gameArea) {
-		this.gameArea = gameArea;
+	public void setGameAreaId(Long gameAreaId) {
+		this.gameAreaId = gameAreaId;
 	}
 
 	public BigDecimal getAmount() {
@@ -69,20 +69,20 @@ public class PloyRequestDTO implements Serializable {
 		this.amount = amount;
 	}
 
-	public String getCardType() {
-		return cardType;
+	public Long getCardTypeId() {
+		return cardTypeId;
 	}
 
-	public void setCardType(String cardType) {
-		this.cardType = cardType;
+	public void setCardTypeId(Long cardTypeId) {
+		this.cardTypeId = cardTypeId;
 	}
 
-	public String getImprestLog() {
-		return imprestLog;
+	public Long getImprestLogId() {
+		return imprestLogId;
 	}
 
-	public void setImprestLog(String imprestLog) {
-		this.imprestLog = imprestLog;
+	public void setImprestLogId(Long imprestLogId) {
+		this.imprestLogId = imprestLogId;
 	}
 
 	public Boolean getIsEaiQuery() {
@@ -93,12 +93,12 @@ public class PloyRequestDTO implements Serializable {
 		this.isEaiQuery = isEaiQuery;
 	}
 
-	public String getImpLogId() {
-		return impLogId;
+	public String getImpOrderNo() {
+		return impOrderNo;
 	}
 
-	public void setImpLogId(String impLogId) {
-		this.impLogId = impLogId;
+	public void setImpOrderNo(String impOrderNo) {
+		this.impOrderNo = impOrderNo;
 	}
 
 	public String getValueAmount() {
@@ -132,50 +132,6 @@ public class PloyRequestDTO implements Serializable {
 	public void setEventTime(Date eventTime) {
 		this.eventTime = eventTime;
 	}
-
-	@Override
-	public String toString() {
-		return "PloyRequest [game=" + game + ", passport=" + passport + ", gameArea=" + gameArea + ", amount=" + amount
-				+ ", cardType=" + cardType + ", imprestLog=" + imprestLog + ", isEaiQuery=" + isEaiQuery + ", impLogId="
-				+ impLogId + ", valueAmount=" + valueAmount + ", imprestDate=" + imprestDate + ", presentLevel="
-				+ presentLevel + ", eventTime=" + eventTime + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((eventTime == null) ? 0 : eventTime.hashCode());
-		result = prime * result + ((game == null) ? 0 : game.hashCode());
-		result = prime * result + ((passport == null) ? 0 : passport.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PloyRequestDTO other = (PloyRequestDTO) obj;
-		if (eventTime == null) {
-			if (other.eventTime != null)
-				return false;
-		} else if (!eventTime.equals(other.eventTime))
-			return false;
-		if (game == null) {
-			if (other.game != null)
-				return false;
-		} else if (!game.equals(other.game))
-			return false;
-		if (passport == null) {
-			if (other.passport != null)
-				return false;
-		} else if (!passport.equals(other.passport))
-			return false;
-		return true;
-	}
+	
 	
 }

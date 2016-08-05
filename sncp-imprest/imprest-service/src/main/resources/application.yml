@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: imprest-service
+  profiles: 
+    active: dev    
+server:
+  port: 8041
+  tomcat:
+    max-threads: 1000
+    uri-encoding: UTF-8
+
+logging:
+  path: /usr/sncp/logs/micro/imprest
