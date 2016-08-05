@@ -254,14 +254,6 @@ public class AccessAuthorizeFilter implements Filter {
 					return;
 				}
 
-				if (requestAccess.getRequestDatas().getSecurityResource() != null
-						&& requestAccess.getRequestDatas().getSecurityResource().getNoteFirst().containsKey(NameFactory.default_constant.ISSETSECURITYRESOURCES.getValue())) {
-					// 8.重新封装业务数据将验证资源数据存入
-				} else {
-					requestAccess.getRequestDatas().setAccessSecurityInfo(null);
-					requestAccess.getRequestDatas().setSecurityResource(null);
-				}
-
 			} finally {
 				accessAuthorizeEndtime = new Date();
 			}
