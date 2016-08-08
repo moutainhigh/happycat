@@ -20,6 +20,19 @@ public class ImprestLogDao {
 	@Autowired
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
+	/**
+	 * 查询充值记录列表，根据充值时间排序
+	 * 
+	 * @param aid 通行证数字帐号
+	 * @param gameId 游戏id
+	 * @param areaId 分区id 可以为空，为空时不根据该条件查询
+	 * @param platformId 支付平台id 可以为空，为空时不根据该条件查询
+	 * @param startDate 开始时间
+	 * @param endDate 结束时间
+	 * @param speCards 特殊卡id列表 可以为空，为空时不根据该条件查询
+	 * @return
+	 * @throws DataAccessException
+	 */
 	public List<ImprestLogDTO> queryImprestLogs(Long aid, Long gameId, Long areaId, List<Long> platformIds,
 			Date startDate, Date endDate, List<Long> speCards) throws DataAccessException {
 		Map<String, Object> params = new HashMap<String, Object>();
