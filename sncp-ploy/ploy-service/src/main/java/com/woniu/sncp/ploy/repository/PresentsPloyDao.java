@@ -1,10 +1,10 @@
 package com.woniu.sncp.ploy.repository;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +15,7 @@ public class PresentsPloyDao {
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	public long queryJoinedPloyCount(Long ployId, Long gameId, Long gameAreaId, Long userId, Long impLogId)
-			throws SQLException {
+			throws DataAccessException {
 
 		String sql = "select count(*) from SN_IMPREST.IMP_LARGESS_INFO info where info.N_AID=:userId and info.N_GAME_ID=:gameId ";
 		
