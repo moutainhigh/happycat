@@ -20,3 +20,4 @@ target
 *.ipr
 *.iws
 /sncp-service/sncp-fcm/fcm-schedule/*.classpath
+/sncp-service/sncp-passport/passport-dubbo/.factorypath

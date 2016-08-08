@@ -31,7 +31,7 @@ public class PloyParticipatorFactory {
 	public PloyParticipator create(PloyRequestDTO ployRequest) throws Exception {
 		PloyParticipator participator = new PloyParticipator();
 		participator.setPloyRequest(ployRequest);
-		List<PresentsPloyDTO> presentsPloys = presentPloyService.findByGameId(ployRequest.getGame(), ployRequest.getEventTime());
+		List<PresentsPloyDTO> presentsPloys = presentPloyService.findByGameId(String.valueOf(ployRequest.getGameId()), ployRequest.getEventTime());
 		participator.setPresentsPloys(presentsPloys);
 		return participator;
 	}

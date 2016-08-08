@@ -19,16 +19,15 @@ passports:
     listOfServers: 192.168.1.128:12003,10.13.0.184:12003
     ConnectTimeout: 2000
     ReadTimeout: 2000
-    MaxAutoRetries: 0
-    MaxAutoRetriesNextServer: 0
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
     OkToRetryOnAllOperations: true  
     ServerListRefreshInterval: 2000
     EnablePrimeConnections: true
     EnableMarkingServerDownOnReachingFailureLimit: true
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
     MaxHttpConnectionsPerHost: 50
-    eureka:
-      enabled: false
+  
       
       
 niws:
@@ -39,6 +38,8 @@ niws:
       
 ribbon:
   EnableMarkingServerDownOnReachingFailureLimit: true
+  eureka:
+    enabled: false
   
   
 #Appliaction Trace
@@ -79,7 +80,7 @@ management:
 spring: 
   boot: 
     admin: 
-      url: http://10.103.4.137:2000
+      url: http://10.110.34.5:2000
   redis: 
     cluster: 
       nodes: 10.106.0.199:7000,10.106.0.199:7001,10.106.0.199:7002

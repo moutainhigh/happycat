@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
 
 @SpringBootApplication
-@ImportResource({"classpath*:META-INF/spring/main-ploy-flow.xml"})
+@ImportResource({"classpath*:META-INF/spring/main-ploy-flow.xml","classpath*:META-INF/spring/dubbo/dubbo*.xml"})
 public class PloyApplication {
 
 	public static void main(String[] args) {
