@@ -59,9 +59,29 @@ public class PloyParticipator implements Serializable {
 	        });
 	    }
 
-	
-	 
-	 
-	 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ployRequest == null) ? 0 : ployRequest.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PloyParticipator other = (PloyParticipator) obj;
+		if (ployRequest == null) {
+			if (other.ployRequest != null)
+				return false;
+		} else if (!ployRequest.equals(other.ployRequest))
+			return false;
+		return true;
+	}
 	 
 }

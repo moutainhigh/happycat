@@ -17,7 +17,6 @@
 	<!-- 查询匹配的活动 -->
 	<beans:import resource="find-present-ploy.xml" />
 	
-	
 	<!-- 拆分活动 -->
 	<channel id="ployParticipator" />
 	<beans:import resource="split-present-ploy.xml"/>

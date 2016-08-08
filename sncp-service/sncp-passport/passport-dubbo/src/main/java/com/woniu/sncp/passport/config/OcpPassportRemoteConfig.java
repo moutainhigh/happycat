@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.HttpMessageConverters;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,8 +54,14 @@ public class OcpPassportRemoteConfig {
 	public List<HttpMessageConverter<?>> messageConverterList() {
 		List<HttpMessageConverter<?>>  converters = new ArrayList<HttpMessageConverter<?>>();
 		converters.add(new StringHttpMessageConverter());
-		converters.add(new FormHttpMessageConverter());
+		converters.add(formHttpMessageConverter());
 		converters.add(mappingJackson2HttpMessageConverter());
+		return converters;
+	}
+	
+	@Bean
+	public HttpMessageConverters messageConverterObjectFactory() {
+		HttpMessageConverters converters = new HttpMessageConverters(messageConverterList());
 		return converters;
 	}
 	
@@ -72,6 +80,12 @@ public class OcpPassportRemoteConfig {
 		objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS"));
 		mappingJackson2HttpMessageConverter.setObjectMapper(objectMapper);
 		return mappingJackson2HttpMessageConverter;
+	}
+	
+	public FormHttpMessageConverter formHttpMessageConverter() {
+		FormHttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+		formHttpMessageConverter.setSupportedMediaTypes(mediaTypeList());
+		return formHttpMessageConverter;
 	}
 	
 	public List<MediaType> mediaTypeList() {

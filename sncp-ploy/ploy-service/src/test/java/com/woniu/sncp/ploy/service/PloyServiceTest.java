@@ -22,9 +22,10 @@ public class PloyServiceTest {
 	@Test
 	public void testQueryPloy() throws Exception {
 		PloyRequestDTO ployRequestDTO = new PloyRequestDTO();
-		ployRequestDTO.setGame("10");
+		ployRequestDTO.setAid(123456L);
+		ployRequestDTO.setGameId(10L);
 		ployRequestDTO.setEventTime(new Date());
 		PloyResponseDTO ployResponseDTO = ployService.queryPloy(ployRequestDTO);
-		System.out.println(ployResponseDTO);
+		System.out.println(ployResponseDTO.getPloyTypeStats().size());
 	}
 }

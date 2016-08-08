@@ -19,16 +19,15 @@ passports:
     listOfServers: 192.168.1.128:12003,10.13.0.184:12003
     ConnectTimeout: 2000
     ReadTimeout: 2000
-    MaxAutoRetries: 0
-    MaxAutoRetriesNextServer: 0
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 1
     OkToRetryOnAllOperations: true  
     ServerListRefreshInterval: 2000
     EnablePrimeConnections: true
     EnableMarkingServerDownOnReachingFailureLimit: true
     NFLoadBalancerRuleClassName: com.netflix.loadbalancer.WeightedResponseTimeRule
     MaxHttpConnectionsPerHost: 50
-    eureka:
-      enabled: false
+  
       
       
 niws:
@@ -39,6 +38,8 @@ niws:
       
 ribbon:
   EnableMarkingServerDownOnReachingFailureLimit: true
+  eureka:
+    enabled: false
   
   
 #Appliaction Trace

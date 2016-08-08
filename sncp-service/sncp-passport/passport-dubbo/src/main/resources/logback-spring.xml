@@ -73,7 +73,7 @@
 	<logger name="com.woniu.sncp.passport" level="INFO">
 		<appender-ref ref="FILE" />
 	</logger>
-
+	
 	<root level="INFO" />
 
 </configuration>  

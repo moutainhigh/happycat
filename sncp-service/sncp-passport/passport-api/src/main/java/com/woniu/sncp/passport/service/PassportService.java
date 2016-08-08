@@ -41,5 +41,14 @@ public interface PassportService {
 	 */
 	public PassportDto findPassportByAid(Long aid)
 			throws PassportNotFoundException, SystemException;
+	
+	
+	/**
+	 * 根据帐号ID查询免卡用户
+	 * @param aid
+	 * @return
+	 * @throws SystemException
+	 */
+	public PassportDto findIsFreeCardUser(Long aid) throws SystemException;
 
 }

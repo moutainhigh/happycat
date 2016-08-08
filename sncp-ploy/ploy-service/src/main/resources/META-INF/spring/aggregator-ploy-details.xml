@@ -6,8 +6,6 @@
            http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
        ">
 
-	<beans:bean id="ployAggregatorStat" class="com.woniu.sncp.ploy.domain.PloyAggregatorStat"/>
-
     <aggregator
             id="ployAggregator"
             input-channel="aggregatorStats"
@@ -15,8 +13,6 @@
             ref="ployAggregatorStat"
             method="preparePloyResponse"
             correlation-strategy="ployAggregatorStat"
-            correlation-strategy-method="correlatingPloyParticipatorFor"
-            release-strategy="ployAggregatorStat"
-            release-strategy-method="canRelease"/>
+            correlation-strategy-method="correlatingPloyParticipatorFor"/>
 
 </beans:beans>

@@ -47,6 +47,7 @@ public class RestControllerAspect {
 				tmp.setUuid(requestDatas.getSessionId());
 				tmp.setNextSignType(requestDatas.getSecurityResource().getSignType());
 				tmp.setAppRspTime(System.currentTimeMillis());
+				tmp.setUrl(requestDatas.getSecurityResource().getId().getUrl());
 				tmp.setServerState(Integer.parseInt(requestDatas.getSecurityResource().getState()));
 				tmp.setDomaneName(requestDatas.getSecurityResource().getDomaneName());
 				tmp.setFutureTime(requestDatas.getSecurityResource().getFutureTime());

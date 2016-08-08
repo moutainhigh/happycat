@@ -1,17 +1,15 @@
-package com.woniu.sncp.ploy.domain;
+package com.woniu.sncp.ploy.integration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.integration.annotation.Aggregator;
 import org.springframework.integration.annotation.CorrelationStrategy;
-import org.springframework.integration.annotation.ReleaseStrategy;
 import org.springframework.messaging.Message;
+import org.springframework.stereotype.Component;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.woniu.sncp.ploy.dto.PloyResponseDTO;
-import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
+import com.woniu.sncp.ploy.dto.PloyTypeStatDTO;
 
 /**
  * 赠送聚合统计
@@ -19,6 +17,7 @@ import com.woniu.sncp.ploy.dto.PresentsPloyDTO;
  * @author chenyx
  *
  */
+@Component
 public class PloyAggregatorStat {
 
 	@CorrelationStrategy
@@ -33,10 +32,12 @@ public class PloyAggregatorStat {
 			System.out.println(ployTypeStat.toString());
 			list.add(ployTypeStat.getPayload());
 		}
-		return new PloyResponseDTO();
+		PloyResponseDTO ployResponseDTO = new PloyResponseDTO();
+		ployResponseDTO.setPloyTypeStats(list);
+		return ployResponseDTO;
 	}
 
-	@ReleaseStrategy
+	/*@ReleaseStrategy
 	public boolean canRelease(List<Message<PloyTypeStatDTO>> ployTypeStats) {
 		PloyParticipator ployParticipator = (PloyParticipator) ployTypeStats.get(0).getHeaders()
 				.get("ployParticipator");
@@ -50,6 +51,6 @@ public class PloyAggregatorStat {
 						return ployTypeStat.getPayload().getPresentsPloy();
 					}
 				}));
-	}
+	}*/
 
 }
