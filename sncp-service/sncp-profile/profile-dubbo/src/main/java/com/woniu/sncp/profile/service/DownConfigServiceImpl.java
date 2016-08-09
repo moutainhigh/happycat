@@ -51,5 +51,33 @@ public class DownConfigServiceImpl implements DownConfigService{
 		log.info("params:"+paramMsg+",totalSize:"+to.getTotalSize()+",pageSize:"+to.getPageSize()+",pageNumber:"+to.getPageNumber());
 		return to;
 	}
+	
+	@Override
+	public PaginationTo query(String osType,int pageSize,int pageNumber) {
+		String paramMsg = "query - osType:"+osType+",pageSize:"+pageSize+",pageNumber:"+pageNumber;
+		log.info(paramMsg);
+		
+		if(StringUtils.isBlank(osType)){
+			log.error("params:"+paramMsg+",result: osType is null");
+			throw new MissingParamsException("osType is null");
+		}
+		
+		PageRequest pageable =  new PageRequest(pageNumber - 1, pageSize);
+		Page<DownConfigPo> result = repository.findByOsTypeAndStateOrderBySortAscCreateAsc(osType, "1",pageable);
+		
+		PaginationTo to = new PaginationTo();
+		
+		to.setDownConfigList(result.getContent()
+									.stream()
+									.map(o -> new DozerBeanMapper().map(o, DownConfigTo.class))
+									.collect(Collectors.toList()));
+		
+		to.setPageNumber(pageNumber);
+		to.setPageSize(pageSize);
+		to.setTotalSize(result.getTotalElements());
+		
+		log.info("params:"+paramMsg+",totalSize:"+to.getTotalSize()+",pageSize:"+to.getPageSize()+",pageNumber:"+to.getPageNumber());
+		return to;
+	}
 
 }
