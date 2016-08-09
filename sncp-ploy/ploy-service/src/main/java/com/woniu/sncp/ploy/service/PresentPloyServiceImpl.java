@@ -8,7 +8,6 @@ import org.dozer.DozerBeanMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +45,5 @@ public class PresentPloyServiceImpl implements PresentPloyService {
 				}));
 	}
 
-	@Override
-	public Long queryJoinedPloyCount(Long ployId, Long gameId, Long gameAreaId, Long userId, Long impLogId) throws SystemException {
-		return presentsPloyDao.queryJoinedPloyCount(ployId, gameId, gameAreaId, userId, impLogId);
-	}
 
 }
