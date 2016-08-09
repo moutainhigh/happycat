@@ -18,7 +18,7 @@ public interface DownConfigService {
 	PaginationTo query(String type,String osType,int pageSize,int pageNumber);
 	
 	/**
-	 * 根据应用分类和系统类型查询分页数据
+	 * 根据系统类型查询分页数据
 	 * 
 	 * 排序字段n_sort,d_create
 	 * 
