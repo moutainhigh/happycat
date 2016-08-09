@@ -9,9 +9,13 @@
     
 	<chain input-channel="ployRequest" output-channel="ployParticipator">
 		<header-enricher>
+			<!-- 帐号信息查询 -->
 			<header name="Passport" method="findPassport" ref="ployHeaderEnricher"/>
+			<!-- 充值日志查询 -->
 			<header name="ImprestLog" method="findImprestLog" ref="ployHeaderEnricher"/>
+			<!-- 充值卡查询 -->
 			<header name="ImprestCardType" method="findImprestCardType" ref="ployHeaderEnricher"/>
+			<!-- 充值订单查询 -->
 			<header name="ImprestOrder" method="findImprestOrder" ref="ployHeaderEnricher"/>
 		</header-enricher>
 		<service-activator ref="ployParticipatorFactory" method="create" />

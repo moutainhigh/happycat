@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PP_PRESENTS_PLOY_DETAIL", schema = "SN_PASSPORT")
 @SequenceGenerator(name = "SEQ_GEN", sequenceName = "SN_PASSPORT.PP_PASSPORT_PLOY_DETAIL_SQ")
-public class PassportPresentsPloyDetail implements Serializable {
+public class PresentsPloyDetail implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

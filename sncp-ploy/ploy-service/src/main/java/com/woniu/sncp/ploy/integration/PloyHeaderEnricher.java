@@ -40,7 +40,8 @@ public class PloyHeaderEnricher {
 		if (ployRequest.getImprestLogId() != null) {
 			imprestLogDTO = imprestService.findImprestLogById(Long.valueOf(ployRequest.getImprestLogId()));
 		}
-		return imprestLogDTO;
+		throw new RuntimeException("Exception");
+		//return imprestLogDTO;
 	}
 
 	public ImprestCardTypeDTO findImprestCardType(PloyRequestDTO ployRequest) {

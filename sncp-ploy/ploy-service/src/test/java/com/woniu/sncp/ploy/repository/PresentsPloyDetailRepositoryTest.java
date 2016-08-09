@@ -11,24 +11,24 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.woniu.sncp.ploy.PloyApplication;
-import com.woniu.sncp.ploy.entity.PassportPresentsPloyDetail;
+import com.woniu.sncp.ploy.entity.PresentsPloyDetail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(PloyApplication.class)
-public class PassportPresentsPloyDetailRepositoryTest {
+public class PresentsPloyDetailRepositoryTest {
 	
 	@Autowired
-	private PassportPresentsPloyDetailRepository passportPresentsPloyDetailRepository;
+	private PresentsPloyDetailRepository presentsPloyDetailRepository;
 
 	@Test
 	public void testGetOne() {
-		PassportPresentsPloyDetail ployDetail = passportPresentsPloyDetailRepository.findOne(4946L);
+		PresentsPloyDetail ployDetail = presentsPloyDetailRepository.findOne(4946L);
 		assertNotNull(ployDetail);
 	}
 	
 	@Test
 	public void testFindByPloyId() {
-		List<PassportPresentsPloyDetail> passportPresentsPloyDetails = passportPresentsPloyDetailRepository.findByPloyId(782L);
+		List<PresentsPloyDetail> passportPresentsPloyDetails = presentsPloyDetailRepository.findByPloyId(782L);
 		assertNotNull(passportPresentsPloyDetails);
 	}
 

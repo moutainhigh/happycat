@@ -31,5 +31,61 @@ public class PloyPropsDTO implements Serializable {
 	
 	//限制条件
 	private String limitCondition;
+
+	public Long getPropsId() {
+		return propsId;
+	}
+
+	public void setPropsId(Long propsId) {
+		this.propsId = propsId;
+	}
+
+	public String getPropsCode() {
+		return propsCode;
+	}
+
+	public void setPropsCode(String propsCode) {
+		this.propsCode = propsCode;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+	public String getLimitCondition() {
+		return limitCondition;
+	}
+
+	public void setLimitCondition(String limitCondition) {
+		this.limitCondition = limitCondition;
+	}
 	
 }

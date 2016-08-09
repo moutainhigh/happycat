@@ -76,5 +76,15 @@ public class PloyTypeStatDTO implements Serializable {
 	public void setState(State state) {
 		this.state = state;
 	}
+	
+	public void clean() {
+		if(ployProps != null) {
+			ployProps.clear();
+		}
+		if(largessProps != null) {
+			largessProps.clear();
+		}
+		state = State.OVER;
+	}
 
 }
