@@ -35,7 +35,7 @@ public class DownConfigServiceImpl implements DownConfigService{
 		}
 		
 		PageRequest pageable =  new PageRequest(pageNumber - 1, pageSize);
-		Page<DownConfigPo> result = repository.findByTypeAndOsTypeOrderBySortAscCreateAsc(type, osType, pageable);
+		Page<DownConfigPo> result = repository.findByTypeAndOsTypeAndStateOrderBySortAscCreateAsc(type, osType, "1",pageable);
 		
 		PaginationTo to = new PaginationTo();
 		

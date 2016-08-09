@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.woniu.sncp.profile.po.DownConfigPo;
 
 public interface DownConfigRepository extends CrudRepository<DownConfigPo, Long> {//
-	Page<DownConfigPo> findByTypeAndOsTypeOrderBySortAscCreateAsc(String type,String osType,Pageable pageable);
+	Page<DownConfigPo> findByTypeAndOsTypeAndStateOrderBySortAscCreateAsc(String type,String osType,String state,Pageable pageable);
 }
