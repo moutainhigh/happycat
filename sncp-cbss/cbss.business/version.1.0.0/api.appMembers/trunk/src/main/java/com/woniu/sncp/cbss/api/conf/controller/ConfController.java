@@ -54,12 +54,17 @@ public class ConfController {
 		int pageSize = data.getPageSize();
 		int number = data.getPageNumber();
 
-		if (StringUtils.isBlank(type) || StringUtils.isBlank(osType)) {
+		if (StringUtils.isBlank(osType)) {
 			return errorCode.getErrorCode(1001, requestDatas.getSessionId());
 		}
 
 		try {
-			PaginationTo page = downConfigService.query(type, osType, pageSize, number);
+			PaginationTo page = null;
+			if(StringUtils.isBlank(type)){
+				page = downConfigService.query(osType, pageSize, number);
+			}else{
+				page = downConfigService.query(type, osType, pageSize, number);
+			}
 			if(page == null){
 				return errorCode.getErrorCode(10007, requestDatas.getSessionId());
 			}

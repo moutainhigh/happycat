@@ -72,10 +72,6 @@ public class AppConfRequestParam extends RequestParam {
 	@Override
 	public boolean checkParamValueIn()
 			throws ParamValueValidateException {
-		String type = getType();
-		if(StringUtils.isBlank(type)){
-			return false;
-		}
 		String osType = getOsType();
 		if(StringUtils.isBlank(osType)){
 			return false;
