@@ -36,6 +36,7 @@
 		<sncp-exception.version>1.0.3</sncp-exception.version>
 		<sncp-passport.version>1.0.4-SNAPSHOT</sncp-passport.version>
 		<sncp-imprest.version>1.0.0-SNAPSHOT</sncp-imprest.version>
+		<sncp-vip.version>1.0.0-SNAPSHOT</sncp-vip.version>
 	</properties>
 
 	<modules>

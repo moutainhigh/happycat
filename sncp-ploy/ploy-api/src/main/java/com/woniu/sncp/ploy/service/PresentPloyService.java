@@ -23,5 +23,4 @@ public interface PresentPloyService {
 	 */
 	public List<PresentsPloyDTO> findByGameId(String gameId, Date eventTime) throws Exception;
 	
-	public List<Present>
 }

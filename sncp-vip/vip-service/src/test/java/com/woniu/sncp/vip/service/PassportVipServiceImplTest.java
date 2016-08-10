@@ -9,6 +9,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.woniu.sncp.vip.VipApplication;
+import com.woniu.sncp.vip.dto.PassportVipDTO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(VipApplication.class)
@@ -19,7 +20,8 @@ public class PassportVipServiceImplTest {
 
 	@Test
 	public void testFindPassportVipByAidAndGameId() {
-		fail("Not yet implemented");
+		PassportVipDTO passportVipDTO = passportVipService.findPassportVipByAidAndGameId(1700858171L, 54L);
+		assertNotNull(passportVipDTO);
 	}
 
 }

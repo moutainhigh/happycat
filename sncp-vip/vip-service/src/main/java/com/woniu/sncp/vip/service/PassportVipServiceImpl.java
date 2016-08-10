@@ -38,19 +38,28 @@ public class PassportVipServiceImpl implements PassportVipService {
 		if (!passportVip.getState().equals("1")) {
 			return null;
 		}
-		Page<PassportVipPresents> passportVipPresents = passportVipPresentsRepository
-				.findBySendLevel(passportVip.getSendVipLevel(), new PageRequest(0, 1));
-		Date sendTime = DateUtils.addMonths(passportVip.getSendTime(),
-				passportVipPresents.getContent().get(0).getMonth());
-		if (Integer.valueOf(passportVip.getSendVipLevel()).intValue() > Integer.valueOf(passportVip.getVipLevel())
-				.intValue() && sendTime.after(new Date())) {
-			vipLevel = passportVip.getSendVipLevel();
+		if(passportVip.getSendVipLevel() != null) {
+			Page<PassportVipPresents> passportVipPresents = passportVipPresentsRepository
+					.findBySendLevel(passportVip.getSendVipLevel(), new PageRequest(0, 1));
+			Date sendTime = null;
+			if (passportVipPresents.getContent().get(0) != null
+					&& passportVipPresents.getContent().get(0).getMonth() != null) {
+				sendTime = DateUtils.addMonths(passportVip.getSendTime(),
+						passportVipPresents.getContent().get(0).getMonth());
+			}
+			if (Integer.valueOf(passportVip.getSendVipLevel()).intValue() > Integer.valueOf(passportVip.getVipLevel())
+					.intValue() && sendTime != null && sendTime.after(new Date())) {
+				vipLevel = passportVip.getSendVipLevel();
+			} else {
+				vipLevel = passportVip.getVipLevel();
+			}
 		} else {
 			vipLevel = passportVip.getVipLevel();
 		}
 		PassportVipDTO passportVipDTO = new PassportVipDTO();
 		passportVipDTO.setAid(aid);
 		passportVipDTO.setVipLevel(vipLevel);
+		passportVipDTO.setGameId(gameId);
 		return passportVipDTO;
 	}
 

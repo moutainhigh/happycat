@@ -14,6 +14,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
+			<artifactId>vip-api</artifactId>
+			<version>${sncp-vip.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
 			<artifactId>passport-api</artifactId>
 			<version>${sncp-passport.version}</version>
 		</dependency>

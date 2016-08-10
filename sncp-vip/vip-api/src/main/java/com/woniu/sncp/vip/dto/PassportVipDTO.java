@@ -8,6 +8,8 @@ public class PassportVipDTO implements Serializable {
 
 	private Long aid;
 	
+	private Long gameId;
+	
 	private String vipLevel;
 
 	public Long getAid() {
@@ -25,4 +27,13 @@ public class PassportVipDTO implements Serializable {
 	public void setVipLevel(String vipLevel) {
 		this.vipLevel = vipLevel;
 	}
+
+	public Long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
+	}
+	
 }
