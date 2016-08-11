@@ -3,9 +3,11 @@ package com.woniu.sncp.imprest.service;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.groovy.util.StringUtil;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.woniu.sncp.exception.SystemException;
 import com.woniu.sncp.imprest.dto.ImprestCardTypeDTO;
@@ -14,10 +16,12 @@ import com.woniu.sncp.imprest.dto.ImprestOrderDTO;
 import com.woniu.sncp.imprest.entity.ImprestCardType;
 import com.woniu.sncp.imprest.entity.ImprestLog;
 import com.woniu.sncp.imprest.entity.ImprestOrder;
+import com.woniu.sncp.imprest.entity.LargessPoints;
 import com.woniu.sncp.imprest.repository.ImprestCardTypeRepository;
 import com.woniu.sncp.imprest.repository.ImprestLogDao;
 import com.woniu.sncp.imprest.repository.ImprestLogRepository;
 import com.woniu.sncp.imprest.repository.ImprestOrderRepository;
+import com.woniu.sncp.imprest.repository.LargessPointsRepository;
 
 @Service
 public class ImprestServiceImpl implements ImprestService {
@@ -33,6 +37,9 @@ public class ImprestServiceImpl implements ImprestService {
 	
 	@Autowired
 	private ImprestCardTypeRepository imprestCardTypeRepository;
+	
+	@Autowired
+	private LargessPointsRepository largessPointsRepository;
 
 	@Override
 	public ImprestLogDTO findImprestLogById(Long implogId) throws SystemException {
@@ -63,6 +70,16 @@ public class ImprestServiceImpl implements ImprestService {
 		List<ImprestLogDTO> impLogList = imprestLogDao.queryImprestLogs(aid, gameId, areaId, platformIds, startDate, endDate, speCards);
 		
 		return impLogList;
+	}
+
+	@Override
+	public Long findSumLargessPoints(Long aid, Date start, Date end, String currency, String sourceType)
+			throws SystemException {
+		if(StringUtils.hasText(sourceType)) {
+			return largessPointsRepository.sumAmountByAidAndCreateDateAndCurrencyAndSourceType(aid, start, end, currency, sourceType);
+		} else {
+			return largessPointsRepository.sumAmountByAidAndCreateDateAndCurrency(aid, start, end, currency);
+		}
 	}
 
 }

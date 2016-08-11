@@ -54,5 +54,17 @@ public interface ImprestService {
 	public List<ImprestLogDTO> queryImprestLogs(Long aid, Long gameId, 
 			Long areaId, List<Long> platformIds, Date startDate, Date endDate,
 			List<Long> speCards)  throws SystemException;
+	
+	/**
+	 * 查询累计赠点
+	 * @param aid 帐号ID
+	 * @param start 开始时间
+	 * @param end 结束时间
+	 * @param currency 货币
+	 * @param sourceType 赠送来源 可以为空
+	 * @return
+	 * @throws SystemException
+	 */
+	public Long findSumLargessPoints(Long aid,  Date start, Date end,  String currency, String sourceType) throws SystemException;
 
 }
