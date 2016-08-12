@@ -38,7 +38,7 @@ public class PloyLimited {
 	 * @return
 	 */
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-	public Message<PloyTypeStatDTO> maxPloy(Message<PloyTypeStatDTO> input) {
+	public Message<PloyTypeStatDTO> maxPloyLimited(Message<PloyTypeStatDTO> input) {
 		String presentTimesLimit = StringUtils
 				.substringBetween(input.getPayload().getPresentsPloy().getLimitContent() + "|", "maxPloy:", "|");
 		// 限制赠送次数

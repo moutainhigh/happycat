@@ -66,5 +66,16 @@ public interface ImprestService {
 	 * @throws SystemException
 	 */
 	public Long findSumLargessPoints(Long aid,  Date start, Date end,  String currency, String sourceType) throws SystemException;
+	
+	/**
+	 * 查询充值总额
+	 * @param gameId 游戏ID
+	 * @param aid 帐号ID
+	 * @param start 开始时间
+	 * @param end 结束时间
+	 * @return
+	 * @throws SystemException
+	 */
+	public Long findSumImprestAmount(Long gameId,  Long aid, Date start, Date end) throws SystemException;
 
 }

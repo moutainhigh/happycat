@@ -3,7 +3,6 @@ package com.woniu.sncp.imprest.service;
 import java.util.Date;
 import java.util.List;
 
-import org.codehaus.groovy.util.StringUtil;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import com.woniu.sncp.imprest.dto.ImprestOrderDTO;
 import com.woniu.sncp.imprest.entity.ImprestCardType;
 import com.woniu.sncp.imprest.entity.ImprestLog;
 import com.woniu.sncp.imprest.entity.ImprestOrder;
-import com.woniu.sncp.imprest.entity.LargessPoints;
 import com.woniu.sncp.imprest.repository.ImprestCardTypeRepository;
 import com.woniu.sncp.imprest.repository.ImprestLogDao;
 import com.woniu.sncp.imprest.repository.ImprestLogRepository;
@@ -80,6 +78,11 @@ public class ImprestServiceImpl implements ImprestService {
 		} else {
 			return largessPointsRepository.sumAmountByAidAndCreateDateAndCurrency(aid, start, end, currency);
 		}
+	}
+
+	@Override
+	public Long findSumImprestAmount(Long gameId, Long aid, Date start, Date end) throws SystemException {
+		return imprestLogRepository.findSumAmountAndPriceByGameIdAndAidAndImprestDate(gameId, aid, start, end);
 	}
 
 }

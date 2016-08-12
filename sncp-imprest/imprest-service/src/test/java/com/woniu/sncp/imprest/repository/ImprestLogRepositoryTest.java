@@ -2,6 +2,8 @@ package com.woniu.sncp.imprest.repository;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,16 @@ public class ImprestLogRepositoryTest {
 	public void testGetOne() {
 		ImprestLog imprestLog = imprestLogRepository.findOne(21969L);
 		assertNotNull(imprestLog);
+	}
+	
+	@Test
+	public void testFindSumAmountAndPriceByGameIdAndAidAndImprestDate() {
+		Calendar start = Calendar.getInstance();
+		start.set(2016, 7, 12, 00,00,00);
+		Calendar end = Calendar.getInstance();
+		end.set(2016, 7, 12, 12,00,00);
+		Long sumMoney = imprestLogRepository.findSumAmountAndPriceByGameIdAndAidAndImprestDate(84L, 1436708L, start.getTime(), end.getTime());
+		assertTrue(sumMoney > 0);
 	}
 
 }
