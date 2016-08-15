@@ -26,6 +26,9 @@ import com.woniu.sncp.cbss.core.authorize.exception.AccessAuthorizeException;
 import com.woniu.sncp.cbss.core.authorize.exception.AccessLimitException;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.model.access.AccessSecurityInfo;
+import com.woniu.sncp.cbss.core.model.access.Limit;
+import com.woniu.sncp.cbss.core.model.access.LogicRule;
+import com.woniu.sncp.cbss.core.model.access.ParamLogic;
 import com.woniu.sncp.cbss.core.model.access.SecurityResource;
 import com.woniu.sncp.cbss.core.model.constant.NameFactory;
 import com.woniu.sncp.cbss.core.model.request.access.RequestAccess;
@@ -50,8 +53,6 @@ public class AccessAuthorize {
 	private RedisService redisService;
 	@Autowired
 	private Trace trace;
-
-	private Map<String, Long> userAccessTimes = new HashMap<String, Long>();
 
 	/**
 	 * 是否验证IP信息
@@ -196,6 +197,7 @@ public class AccessAuthorize {
 	 * @param requestAccess
 	 * @return false is pass; other will be Exception
 	 */
+	@SuppressWarnings("unchecked")
 	public boolean limit(RequestAccess requestAccess)
 			throws AccessLimitException {
 		long time = 0, time1 = 0, time2 = 0, time3 = 0, time4 = 0, time5 = 0;
@@ -565,10 +567,12 @@ public class AccessAuthorize {
 			String[] seconds = datas.containsKey("ACPTSEC") ? datas.getString("ACPTSEC").split(",") : null;
 			String[] cachs = datas.containsKey("ACPTCACH") ? datas.getString("ACPTCACH").split(",") : null;
 			String[] writeValue = datas.containsKey("ACPTVE") ? datas.getString("ACPTVE").split(",") : null;
+			String[] isignore = datas.containsKey("ACPTIGN") ? datas.getString("ACPTIGN").split(",") : null;
 			codetypes = resetArray(codetypes, size);
 			seconds = resetArray(seconds, size, "1000");
 			cachs = resetArray(cachs, size);
 			writeValue = resetArray(writeValue, size);
+			isignore = resetArray(isignore, size);
 
 			String[] arrays = datas.containsKey("ACPTL") ? datas.getString("ACPTL").split(",") : null;
 			Map<String, Object> paramnamevalue = null;
@@ -583,6 +587,25 @@ public class AccessAuthorize {
 					paramnamevalue = new HashMap<String, Object>();
 					for (String array : arrays) {
 						String[] paramnames = StringUtils.substringsBetween(array, "[", "]");
+						for (String paramname : paramnames) {
+							if (!paramnamevalue.containsKey(paramname)) {
+								paramnamevalue.put(paramname, "");
+							}
+						}
+					}
+				}
+			}
+
+			String acptRule = datas.containsKey("ACPTRU") ? datas.getString("ACPTRU") : "";
+			List<LogicRule> mixParamRule = null;
+			if (!StringUtils.isBlank(acptRule)) {
+				mixParamRule = JSONArray.parseArray(acptRule, LogicRule.class);
+				for (LogicRule logicRule : mixParamRule) {
+					List<ParamLogic> contiation = logicRule.getIF();
+					int contiationSize = contiation.size();
+					for (int z = 0; z < contiationSize; z++) {
+						ParamLogic paramLogic = contiation.get(z);
+						String[] paramnames = paramLogic.pnames();
 						for (String paramname : paramnames) {
 							if (!paramnamevalue.containsKey(paramname)) {
 								paramnamevalue.put(paramname, "");
@@ -636,12 +659,12 @@ public class AccessAuthorize {
 					String[] paramIdexstmp = StringUtils.split(paramIdex, '.');
 					Object object = paramsMap.get(paramIdexstmp[0]);
 					if (object instanceof List) {
-						Object obj = ((List) object).get(Integer.parseInt(paramIdexstmp[1]));
+						Object obj = ((List<?>) object).get(Integer.parseInt(paramIdexstmp[1]));
 						if (obj instanceof Map) {
-							paramValue = String.valueOf(((Map) obj).get(paramIdexstmp[2]));
+							paramValue = String.valueOf(((Map<?, ?>) obj).get(paramIdexstmp[2]));
 						}
 					} else if (object instanceof Map) {
-						paramValue = String.valueOf(((Map) object).get(paramIdexstmp[1]));
+						paramValue = String.valueOf(((Map<?, ?>) object).get(paramIdexstmp[1]));
 					}
 				} else {
 					Object object = paramsMap.get(paramIdex);
@@ -661,7 +684,7 @@ public class AccessAuthorize {
 				}
 
 				Integer is = checkRequestTime(writeValue[i], codetypes[i], seconds[i], cachs[i], paramValue, securityResource.getId().getId(), accessType, securityResource.getId().getUrl(),
-						securityResource.getId().getMethodName(), limitinfo);
+						securityResource.getId().getMethodName(), limitinfo, isignore[i]);
 				if (is != null) {
 					return is;
 				}
@@ -679,15 +702,50 @@ public class AccessAuthorize {
 						replacementListArray.add("s" + i);
 						i++;
 					}
-					String rule = StringUtils.replaceEachRepeatedly(array, paramnames, replacementListArray.toArray(new String[] {})).replaceAll("\\[", "").replaceAll("\\]", "");
-
+					String rule = StringUtils.replaceEachRepeatedly(array, paramnames, replacementListArray.toArray(new String[] {}));
+					rule = StringUtils.replaceChars(rule, "[", "");
+					rule = StringUtils.replaceChars(rule, "]", "");
 					if (!Boolean.parseBoolean(String.valueOf(engine.eval(rule)))) {
 						return 2016;
 					} else {
 						Integer is = checkRequestTime(null, null, seconds[seconds.length - 1], cachs[cachs.length - 1], MD5Encrypt.encrypt(array), securityResource.getId().getId(), accessType,
-								securityResource.getId().getUrl(), securityResource.getId().getMethodName(), limitinfo);
+								securityResource.getId().getUrl(), securityResource.getId().getMethodName(), limitinfo, isignore[isignore.length - 1]);
 						if (is != null) {
 							return is;
+						}
+					}
+				}
+			}
+
+			if (mixParamRule != null && !mixParamRule.isEmpty()) {
+				for (LogicRule logicRule : mixParamRule) {
+
+					List<ParamLogic> contiation = logicRule.getIF();
+					int contiationSize = contiation.size();
+					for (int z = 0; z < contiationSize; z++) {
+						ParamLogic paramLogic = contiation.get(z);
+						String[] paramnames = paramLogic.pnames();
+
+						ScriptEngine engine = new ScriptEngineManager().getEngineByName("js");
+						List<String> replacementListArray = new ArrayList<String>();
+						int i = 0;
+						for (String paramname : paramnames) {
+							engine.put("s" + i, paramnamevalue.get(paramname));
+							replacementListArray.add("s" + i);
+							i++;
+						}
+						String rule = StringUtils.replaceEachRepeatedly(paramLogic.getExpr(), paramnames, replacementListArray.toArray(new String[] {}));
+						rule = StringUtils.replaceChars(rule, "[", "");
+						rule = StringUtils.replaceChars(rule, "]", "");
+
+						if (Boolean.parseBoolean(String.valueOf(engine.eval(rule)))) {
+							Limit limitSrc = logicRule.getT().get(z);
+							Object value = paramnamevalue.get(limitSrc.getPnam());
+							Integer is = checkRequestTime("", "", seconds[seconds.length - 1], cachs[cachs.length - 1], MD5Encrypt.encrypt(rule) + String.valueOf(value), securityResource.getId()
+									.getId().longValue(), accessType, securityResource.getId().getUrl(), securityResource.getId().getMethodName(), limitSrc.convertTo(), isignore[isignore.length - 2]);
+							if (is != null) {
+								return is;
+							}
 						}
 					}
 				}
@@ -719,10 +777,10 @@ public class AccessAuthorize {
 	}
 
 	private Integer checkRequestTime(String writeValue, String codetype, String second, String cach, String paramValue, long accessId, String accessType, String uri, String methodName,
-			String limitInfo)
+			String limitInfo, String isignore)
 			throws Exception {
 
-		if (!StringUtils.isBlank(writeValue) && (!validateParamvalue(paramValue, writeValue))) {
+		if (!StringUtils.isBlank(writeValue) && (!validateParamvalue(paramValue, writeValue)) && (StringUtils.isBlank(isignore) || !"yes".equalsIgnoreCase(isignore))) {
 			return 2015;
 		}
 
@@ -748,24 +806,14 @@ public class AccessAuthorize {
 			if (hasLimitValueInfo(paramValue, limitInfo, uri, methodName, uri, accessId, accessType)) {
 				return 54061;
 			}
-		} else if ((!StringUtils.isEmpty(cach) && "M".equals(cach)) && redisService.isAlive()) {
-			String key = paramValue.toUpperCase() + "-" + accessId + "-" + accessType + "-" + uri + "-" + methodName;
-			if (userAccessTimes.containsKey(key)) {
-				Long lastTime = userAccessTimes.get(key);
-				if (lastTime >= System.currentTimeMillis()) {
-					return 2012;
-				} else {
-					userAccessTimes.put(key, System.currentTimeMillis() + Long.parseLong(second));
-				}
-			} else {
-				userAccessTimes.put(key, System.currentTimeMillis() + Long.parseLong(second));
-			}
 		} else {
-			String key = paramValue.toUpperCase() + "-" + accessId + "-" + accessType + "-" + uri + "-" + methodName;
-			if (redisService.get(key) == null) {
-				redisService.set(key, System.currentTimeMillis(), Integer.parseInt(second) / 1000);
-			} else {
-				return 2013;
+			if (redisService.isAlive()) {
+				String key = paramValue.toUpperCase() + "-" + accessId + "-" + accessType + "-" + uri + "-" + methodName;
+				if (redisService.get(key) == null) {
+					redisService.set(key, System.currentTimeMillis(), Integer.parseInt(second) / 1000);
+				} else {
+					return 2013;
+				}
 			}
 		}
 		return null;

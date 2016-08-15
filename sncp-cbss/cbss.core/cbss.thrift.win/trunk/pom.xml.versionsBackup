@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>cbss.core.thrift.linux</artifactId>
+	<artifactId>cbss.core.thrift.win</artifactId>
 	<packaging>jar</packaging>
 
 	<name>${project.artifactId}</name>
@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>com.woniu.cbss</groupId>
 		<artifactId>cbss.core.parent</artifactId>
-		<version>0.0.3</version>
+		<version>0.0.2</version>
 		<relativePath>../../cbss.parent/pom.xml</relativePath>
 	</parent>
 
@@ -40,6 +40,32 @@
 			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.thrift.tools</groupId>
+				<artifactId>maven-thrift-plugin</artifactId>
+				<version>0.1.11</version>
+				<configuration>
+					<thriftExecutable>${project.basedir}/src/main/thrift.exe</thriftExecutable>
+					<generator>java</generator>
+					<outputDirectory>${project.basedir}/src/main/java</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>thrift-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>thrift-test-sources</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>

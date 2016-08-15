@@ -155,7 +155,7 @@ public class RedisService {
 		return redisTemplate.opsForValue().get(key);
 	}
 
-	public boolean limitRule(String value, int limitCount, int limitMillis, int limitReleaseTime, String uri, String method, boolean isMillis) {
+	public boolean limitRule(String value, int limitCount, int limitMillis, int limitReleaseTime, String uri, String method, boolean isMillis) throws Exception {
 		boolean limit = false;
 		long starttime = Calendar.getInstance().getTimeInMillis();
 		String key = "";
@@ -211,7 +211,7 @@ public class RedisService {
 				}
 			}
 		} catch (Exception e) {
-			limit = false;
+			throw e;
 		} finally {
 			String output = "[CHECKIP-MEM-KEY-" + limitCount + "-" + limitMillis + "-" + limitReleaseTime + "-" + isMillis + "][" + key + "][" + valueLimit + "][" + valueRelease + "][" + count + "]["
 					+ isOk1 + "][" + isOk2 + "][" + limit + "]";
