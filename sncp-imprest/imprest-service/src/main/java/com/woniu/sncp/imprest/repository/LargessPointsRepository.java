@@ -1,5 +1,6 @@
 package com.woniu.sncp.imprest.repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,10 +20,10 @@ public interface LargessPointsRepository
 		extends JpaRepository<LargessPoints, Long>, QueryDslPredicateExecutor<LargessPoints> {
 
 	@Query("select sum(l.point + l.token) from LargessPoints l where l.aid = :aid and l.createDate between :start and :end and l.currency = :currency")
-	public Long sumAmountByAidAndCreateDateAndCurrency(@Param("aid") Long aid, @Param("start") Date start,
+	public BigDecimal sumAmountByAidAndCreateDateAndCurrency(@Param("aid") Long aid, @Param("start") Date start,
 			@Param("end") Date end, @Param("currency") String currency) throws SystemException;
 	
 	@Query("select sum(l.point + l.token) from LargessPoints l where l.aid = :aid and l.createDate between :start and :end and l.currency = :currency and l.sourceType = :sourceType")
-	public Long sumAmountByAidAndCreateDateAndCurrencyAndSourceType(@Param("aid") Long aid, @Param("start") Date start,
+	public BigDecimal sumAmountByAidAndCreateDateAndCurrencyAndSourceType(@Param("aid") Long aid, @Param("start") Date start,
 			@Param("end") Date end, @Param("currency") String currency, @Param("sourceType") String sourceType) throws SystemException;
 }

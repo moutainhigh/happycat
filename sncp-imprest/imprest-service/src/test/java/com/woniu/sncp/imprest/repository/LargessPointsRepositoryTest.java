@@ -2,6 +2,7 @@ package com.woniu.sncp.imprest.repository;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,8 +55,8 @@ public class LargessPointsRepositoryTest {
 		s.set(2012, 0, 4, 9, 30, 0);
 		Calendar e = Calendar.getInstance();
 		e.set(2012, 0, 4, 9, 40, 0);
-		Long sumAmount = largessPointsRepository.sumAmountByAidAndCreateDateAndCurrency(1502099031L, s.getTime(), e.getTime(), "D");
-		assertTrue(sumAmount > 0);
+		BigDecimal sumAmount = largessPointsRepository.sumAmountByAidAndCreateDateAndCurrency(1502099031L, s.getTime(), e.getTime(), "D");
+		assertTrue(sumAmount.longValue() > 0);
 	}
 	
 	@Test
@@ -64,8 +65,8 @@ public class LargessPointsRepositoryTest {
 		s.set(2012, 0, 4, 9, 30, 0);
 		Calendar e = Calendar.getInstance();
 		e.set(2012, 0, 4, 9, 40, 0);
-		Long sumAmount = largessPointsRepository.sumAmountByAidAndCreateDateAndCurrencyAndSourceType(1502099031L, s.getTime(), e.getTime(), "D", "e");
-		assertTrue(sumAmount > 0);
+		BigDecimal sumAmount = largessPointsRepository.sumAmountByAidAndCreateDateAndCurrencyAndSourceType(1502099031L, s.getTime(), e.getTime(), "D", "e");
+		assertTrue(sumAmount.longValue() > 0);
 	}
 
 }

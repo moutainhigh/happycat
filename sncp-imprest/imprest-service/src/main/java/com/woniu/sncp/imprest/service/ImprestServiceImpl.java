@@ -1,5 +1,6 @@
 package com.woniu.sncp.imprest.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class ImprestServiceImpl implements ImprestService {
 	}
 
 	@Override
-	public Long findSumLargessPoints(Long aid, Date start, Date end, String currency, String sourceType)
+	public BigDecimal findSumLargessPoints(Long aid, Date start, Date end, String currency, String sourceType)
 			throws SystemException {
 		if(StringUtils.hasText(sourceType)) {
 			return largessPointsRepository.sumAmountByAidAndCreateDateAndCurrencyAndSourceType(aid, start, end, currency, sourceType);
@@ -81,8 +82,16 @@ public class ImprestServiceImpl implements ImprestService {
 	}
 
 	@Override
-	public Long findSumImprestAmount(Long gameId, Long aid, Date start, Date end) throws SystemException {
+	public BigDecimal findSumImprestAmount(Long gameId, Long aid, Date start, Date end) throws SystemException {
 		return imprestLogRepository.findSumAmountAndPriceByGameIdAndAidAndImprestDate(gameId, aid, start, end);
 	}
+
+	@Override
+	public BigDecimal findSumImprestAmount(Long aid, Long gameId, List<Long> gAreaIds, String notImprestMode,
+			Date start, Date end) throws SystemException {
+		return imprestLogRepository.findSumAmountByAidAndGameIdAndGameAreaIdAndImprestDate(aid, gameId, gAreaIds, notImprestMode, start, end);
+	}
+	
+	
 
 }
