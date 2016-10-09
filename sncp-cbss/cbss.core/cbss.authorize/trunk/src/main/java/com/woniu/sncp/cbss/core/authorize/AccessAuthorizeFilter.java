@@ -117,7 +117,7 @@ public class AccessAuthorizeFilter implements Filter {
 				requestAccess.setBody(accessAuthorizeRequestWrapper.getBody());
 
 				// 3.校验请求头信息
-				String headAccessverify = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessverify.name());
+				String headAccessverify = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessVerify.name());
 				String headAccessId = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessId.name());
 				String headAccessType = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessType.name());
 				String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
