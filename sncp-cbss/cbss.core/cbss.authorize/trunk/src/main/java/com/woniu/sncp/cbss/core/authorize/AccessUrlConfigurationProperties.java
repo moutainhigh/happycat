@@ -55,6 +55,10 @@ public class AccessUrlConfigurationProperties {
 				}
 			}
 
+			if (urls == null) {
+				urls = new ArrayList<String>();
+			}
+			
 			for (Map.Entry<String, Object> niftyParam : applicationContext.getBeansWithAnnotation(NiftyParam.class).entrySet()) {
 				String name = niftyParam.getValue().toString();
 				urls.add(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@')));

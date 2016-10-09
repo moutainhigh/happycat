@@ -80,8 +80,13 @@ public class AccessAuthorizeData {
 	public void fromZookeeperData()
 			throws Exception {
 		String securityInfos = redisService.get(NameFactory.zookeeper_constant.accessSecurityInfoPath2.getValue());
-		List<AccessSecurityInfo> infos = JSONArray.parseArray(securityInfos, AccessSecurityInfo.class);
-		accessSecurityInfos.addAll(infos);
+		if (StringUtils.isBlank(securityInfos)) {
+			logger.error(String.format("***********zk-path[%s] value is empty", NameFactory.zookeeper_constant.accessSecurityInfoPath2.getValue()));
+		} else {
+			List<AccessSecurityInfo> infos = JSONArray.parseArray(securityInfos, AccessSecurityInfo.class);
+			accessSecurityInfos.addAll(infos);
+		}
+		
 		List<String> urls = accessUrlConfigurationProperties.getUrls();
 		try {
 			if (urls != null) {
@@ -99,7 +104,7 @@ public class AccessAuthorizeData {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("", e);
 		}
 
 		zooKeeperFactory.getData(NameFactory.zookeeper_constant.accessSecurityInfoPathAdd.getValue(), new ZookeeperConfValue() {
