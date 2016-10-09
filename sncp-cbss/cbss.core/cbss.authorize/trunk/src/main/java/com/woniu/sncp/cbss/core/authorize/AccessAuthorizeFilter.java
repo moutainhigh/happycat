@@ -37,7 +37,9 @@ import com.woniu.sncp.cbss.core.model.request.RequestClientInfo;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 import com.woniu.sncp.cbss.core.model.request.access.RequestAccess;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.ServletContainerApplicationListener;
 import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
+import com.woniu.sncp.cbss.core.trace.monitorlog.MonitorLog;
 import com.woniu.sncp.cbss.core.util.IpUtils;
 
 /**
@@ -78,6 +80,9 @@ public class AccessAuthorizeFilter implements Filter {
 	@Autowired
 	private IpUtils ipUtils;
 
+	@Autowired
+	private MonitorLog monitorlog;
+
 	@Override
 	public void destroy() {
 	}
@@ -101,6 +106,7 @@ public class AccessAuthorizeFilter implements Filter {
 		HttpServletResponseWrapper httpServletResponseWrapper = new HttpServletResponseWrapper((HttpServletResponse) servletResponse);
 
 		Date accessAuthorizeEndtime = null;
+		EchoInfo<Object> echoInfo = null;
 		try {
 			try {
 
@@ -117,19 +123,19 @@ public class AccessAuthorizeFilter implements Filter {
 				String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
 
 				if (StringUtils.isBlank(headAccessverify)) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessverify IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90001, requestAccess.getSessionId()).setData("HTTP HEADER accessverify IS MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessId)) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessId IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90002, requestAccess.getSessionId()).setData("HTTP HEADER accessId IS MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessType)) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessType IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90003, requestAccess.getSessionId()).setData("HTTP HEADER accessType IS MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessPasswd)) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER accessPasswd IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90004, requestAccess.getSessionId()).setData("HTTP HEADER accessPasswd IS MUST SET.")));
 					return;
 				}
 
@@ -140,13 +146,13 @@ public class AccessAuthorizeFilter implements Filter {
 				int index = accessUrlConfigurationProperties.getUrls().indexOf(accessAuthorizeRequestWrapper.getRequestURI());
 				if (accessUrlConfigurationProperties.getParamTypes() == null) {
 					echoInfo(httpServletResponseWrapper,
-							(errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
+							(echoInfo = errorCode.getErrorCode(-90005, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
 					return;
 				}
 				RequestDatas<RequestParam> paramType = accessUrlConfigurationProperties.getParamObjects().get(index);
 				if (null == paramType) {
 					echoInfo(httpServletResponseWrapper,
-							(errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
+							(echoInfo = errorCode.getErrorCode(-90006, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
 					return;
 				}
 
@@ -162,11 +168,12 @@ public class AccessAuthorizeFilter implements Filter {
 					if (paramdata instanceof Param) {
 						try {
 							if (!paramdata.checkParamValueIn()) {
-								echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR")));
+								echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90007, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR")));
 								return;
 							}
 						} catch (ParamValueValidateException e) {
-							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR").setErrorInfo(e.getMessage())));
+							echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90008, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR")
+									.setErrorInfo(e.getMessage())));
 							return;
 						}
 					}
@@ -178,11 +185,12 @@ public class AccessAuthorizeFilter implements Filter {
 						if (object instanceof Param) {
 							try {
 								if (!paramdata.checkParamValueIn()) {
-									echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP HEADER ACCESSVERIFY IS MUST SET.")));
+									echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90009, requestAccess.getSessionId()).setData("HTTP HEADER ACCESSVERIFY IS MUST SET.")));
 									return;
 								}
 							} catch (ParamValueValidateException e) {
-								echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR.").setErrorInfo(e.getMessage())));
+								echoInfo(httpServletResponseWrapper,
+										(echoInfo = errorCode.getErrorCode(-90010, requestAccess.getSessionId()).setData("HTTP PARAM CHECK ERROR.").setErrorInfo(e.getMessage())));
 								return;
 							}
 						}
@@ -193,31 +201,36 @@ public class AccessAuthorizeFilter implements Filter {
 				for (RequestClientInfo clientInfo : clientInfos) {
 					try {
 						if (clientInfo.getStartReqTime() <= 0) {
-							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")));
+							echoInfo(httpServletResponseWrapper,
+									(echoInfo = errorCode.getErrorCode(-90011, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")));
 							return;
 						}
 						if (StringUtils.isBlank(clientInfo.getClientUserIp())) {
-							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's clientUserIp Value is MUST SET.")));
+							echoInfo(httpServletResponseWrapper,
+									(echoInfo = errorCode.getErrorCode(-90012, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's clientUserIp Value is MUST SET.")));
 							return;
 						}
 						if (StringUtils.isBlank(clientInfo.getLocalReqIp())) {
-							echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's localReqIp Value is MUST SET.")));
+							echoInfo(httpServletResponseWrapper,
+									(echoInfo = errorCode.getErrorCode(-90013, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's localReqIp Value is MUST SET.")));
 							return;
 						}
 					} catch (Exception e) {
-						echoInfo(httpServletResponseWrapper,
-								(errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.").setErrorInfo(e.getMessage())));
+						echoInfo(
+								httpServletResponseWrapper,
+								(echoInfo = errorCode.getErrorCode(-90014, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")
+										.setErrorInfo(e.getMessage())));
 						return;
 					}
 				}
 
 				// 4.3
 				if (null != requestDatas.getAccessSecurityInfo()) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM TOO MORE.1")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90015, requestAccess.getSessionId()).setData("HTTP PARAM TOO MORE.1")));
 					return;
 				}
 				if (null != requestDatas.getSecurityResource()) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP PARAM TOO MORE.2")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90016, requestAccess.getSessionId()).setData("HTTP PARAM TOO MORE.2")));
 					return;
 				}
 
@@ -236,22 +249,23 @@ public class AccessAuthorizeFilter implements Filter {
 				// 6.访问权限认证
 				try {
 					if (!accessAuthorize.authorize(requestAccess)) {
-						echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestDatas.getSessionId()).setData("REQUEST AUTHORIZE FOBIDDEN.")));
+						echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90017, requestDatas.getSessionId()).setData("REQUEST AUTHORIZE FOBIDDEN.")));
 						return;
 					}
 				} catch (AccessAuthorizeException e) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestDatas.getSessionId()).setData("REQUEST AUTHORIZE FOBIDDEN.").setErrorInfo(e.getMessage())));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90018, requestDatas.getSessionId()).setData("REQUEST AUTHORIZE FOBIDDEN.").setErrorInfo(e.getMessage())));
 					return;
 				}
 
 				// 7.访问频率限制
 				try {
 					if (accessAuthorize.limit(requestAccess)) {
-						echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestDatas.getSessionId()).setData("REQUEST ACCESS FREQUENCY TOO MORE.")));
+						echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90019, requestDatas.getSessionId()).setData("REQUEST ACCESS FREQUENCY TOO MORE.")));
 						return;
 					}
 				} catch (AccessLimitException e) {
-					echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestDatas.getSessionId()).setData("REQUEST ACCESS FREQUENCY TOO MORE.").setErrorInfo(e.getMessage())));
+					echoInfo(httpServletResponseWrapper,
+							(echoInfo = errorCode.getErrorCode(-90020, requestDatas.getSessionId()).setData("REQUEST ACCESS FREQUENCY TOO MORE.").setErrorInfo(e.getMessage())));
 					return;
 				}
 
@@ -268,7 +282,7 @@ public class AccessAuthorizeFilter implements Filter {
 
 		} catch (Exception e) {
 			logger.error("doFilter", e);
-			echoInfo(httpServletResponseWrapper, (errorCode.getErrorCode(-1, requestAccess.getSessionId()).setData("HTTP REQUEST ERROR").setErrorInfo(e.getMessage())));
+			echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90021, requestAccess.getSessionId()).setData("HTTP REQUEST ERROR").setErrorInfo(e.getMessage())));
 			return;
 		} finally {
 			if (logger.isTraceEnabled()) {
@@ -277,6 +291,15 @@ public class AccessAuthorizeFilter implements Filter {
 						// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
 						List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
 						for (RequestClientInfo requestClientInfo : clinfos) {
+
+							RequestDatas requestDatas = requestAccess.getRequestDatas();
+							if (echoInfo != null) {
+								monitorlog.write(requestDatas.getSecurityResource().getId().getUrl(), requestDatas.getSecurityResource().getId().getMethodName(),
+										ObjectUtils.toString(requestDatas.getAccessId()), ObjectUtils.toString(requestDatas.getAccessType()), ServletContainerApplicationListener.port,
+										requestDatas.getRemoteIp(), requestClientInfo.getStartReqTime(), requestDatas.getReciveTime(), ObjectUtils.toString(echoInfo.getMsgcode()),
+										new Date().getTime(), requestDatas);
+							}
+							
 							trace.traceApiTime(accessAuthorizeRequestWrapper.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(),
 									accessAuthorizeEndtime, null);
 						}
