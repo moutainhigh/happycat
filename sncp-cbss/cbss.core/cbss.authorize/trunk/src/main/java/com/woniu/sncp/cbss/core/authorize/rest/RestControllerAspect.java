@@ -99,6 +99,11 @@ public class RestControllerAspect {
 								new Date(requestDatas.getAccessAuthorizeEndtime()), retValue);
 					}
 				} else {
+					if (retValue instanceof EchoInfo<?>) {
+						monitorlog.write(requestDatas.getSecurityResource().getId().getUrl(), requestDatas.getSecurityResource().getId().getMethodName(),
+								ObjectUtils.toString(requestDatas.getAccessId()), ObjectUtils.toString(requestDatas.getAccessType()), ServletContainerApplicationListener.port,
+								requestDatas.getRemoteIp(), 0, requestDatas.getReciveTime(), msgcode, new Date().getTime(), requestDatas);
+					}
 					trace.traceApiTime(requestDatas.getSecurityResource().getId().getUrl(), requestDatas, null, new Date(requestDatas.getReciveTime()), new Date(),
 							new Date(requestDatas.getAccessAuthorizeEndtime()), retValue);
 				}

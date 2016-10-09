@@ -127,6 +127,11 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 						trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, rtn);
 					}
 				} else {
+					RequestDatas requestDatas = requestAccess.getRequestDatas();
+					monitorlog.write(requestDatas.getSecurityResource().getId().getUrl(), requestDatas.getSecurityResource().getId().getMethodName(), ObjectUtils.toString(requestDatas.getAccessId()),
+							ObjectUtils.toString(requestDatas.getAccessType()), ServletContainerApplicationListener.port, requestDatas.getRemoteIp(), 0, requestDatas.getReciveTime(),
+							ObjectUtils.toString(((Echo) rtn).getMsgcode()), new Date().getTime(), requestDatas);
+
 					trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, null, requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, rtn);
 				}
 			} catch (Exception e) {
