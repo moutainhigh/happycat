@@ -123,19 +123,19 @@ public class AccessAuthorizeFilter implements Filter {
 				String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
 
 				if (StringUtils.isBlank(headAccessverify)) {
-					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90001, requestAccess.getSessionId()).setData("HTTP HEADER accessverify IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90001, requestAccess.getSessionId()).setData("HTTP HEADER accessverify MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessId)) {
-					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90002, requestAccess.getSessionId()).setData("HTTP HEADER accessId IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90002, requestAccess.getSessionId()).setData("HTTP HEADER accessId MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessType)) {
-					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90003, requestAccess.getSessionId()).setData("HTTP HEADER accessType IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90003, requestAccess.getSessionId()).setData("HTTP HEADER accessType MUST SET.")));
 					return;
 				}
 				if (StringUtils.isBlank(headAccessPasswd)) {
-					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90004, requestAccess.getSessionId()).setData("HTTP HEADER accessPasswd IS MUST SET.")));
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90004, requestAccess.getSessionId()).setData("HTTP HEADER accessPasswd MUST SET.")));
 					return;
 				}
 
@@ -156,7 +156,13 @@ public class AccessAuthorizeFilter implements Filter {
 					return;
 				}
 
-				RequestDatas<?> requestDatas = JSONObject.parseObject(accessAuthorizeRequestWrapper.getBody(), paramType.getClass());
+				String body = accessAuthorizeRequestWrapper.getBody();
+				if (StringUtils.isBlank(body)) {
+					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90022, requestAccess.getSessionId()).setData("HTTP body MUST SET.[Use ContentType:application/json]")));
+					return;
+				}
+
+				RequestDatas<?> requestDatas = JSONObject.parseObject(body, paramType.getClass());
 
 				// 4.1 业务参数值校验
 				requestDatas.setAccessId(Long.parseLong(headAccessId));
@@ -185,7 +191,7 @@ public class AccessAuthorizeFilter implements Filter {
 						if (object instanceof Param) {
 							try {
 								if (!paramdata.checkParamValueIn()) {
-									echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90009, requestAccess.getSessionId()).setData("HTTP HEADER ACCESSVERIFY IS MUST SET.")));
+									echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90009, requestAccess.getSessionId()).setData("HTTP HEADER ACCESSVERIFY MUST SET.")));
 									return;
 								}
 							} catch (ParamValueValidateException e) {
@@ -202,23 +208,23 @@ public class AccessAuthorizeFilter implements Filter {
 					try {
 						if (clientInfo.getStartReqTime() <= 0) {
 							echoInfo(httpServletResponseWrapper,
-									(echoInfo = errorCode.getErrorCode(-90011, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")));
+									(echoInfo = errorCode.getErrorCode(-90011, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value MUST SET.")));
 							return;
 						}
 						if (StringUtils.isBlank(clientInfo.getClientUserIp())) {
 							echoInfo(httpServletResponseWrapper,
-									(echoInfo = errorCode.getErrorCode(-90012, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's clientUserIp Value is MUST SET.")));
+									(echoInfo = errorCode.getErrorCode(-90012, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's clientUserIp Value MUST SET.")));
 							return;
 						}
 						if (StringUtils.isBlank(clientInfo.getLocalReqIp())) {
 							echoInfo(httpServletResponseWrapper,
-									(echoInfo = errorCode.getErrorCode(-90013, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's localReqIp Value is MUST SET.")));
+									(echoInfo = errorCode.getErrorCode(-90013, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's localReqIp Value MUST SET.")));
 							return;
 						}
 					} catch (Exception e) {
 						echoInfo(
 								httpServletResponseWrapper,
-								(echoInfo = errorCode.getErrorCode(-90014, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value is MUST SET.")
+								(echoInfo = errorCode.getErrorCode(-90014, requestAccess.getSessionId()).setData("HTTP PARAM RequestClientInfo's startReqTime Value MUST SET.")
 										.setErrorInfo(e.getMessage())));
 						return;
 					}
