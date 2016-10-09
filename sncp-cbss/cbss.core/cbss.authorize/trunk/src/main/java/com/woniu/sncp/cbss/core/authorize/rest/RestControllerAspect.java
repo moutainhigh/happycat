@@ -3,6 +3,7 @@ package com.woniu.sncp.cbss.core.authorize.rest;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,7 +15,9 @@ import org.springframework.stereotype.Component;
 import com.woniu.sncp.cbss.core.errorcode.EchoInfo;
 import com.woniu.sncp.cbss.core.model.request.RequestClientInfo;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.ServletContainerApplicationListener;
 import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
+import com.woniu.sncp.cbss.core.trace.monitorlog.MonitorLog;
 
 @Aspect
 @Component
@@ -23,6 +26,8 @@ public class RestControllerAspect {
 
 	@Autowired
 	private Trace trace;
+	@Autowired
+	private MonitorLog monitorlog;
 
 	@Around("@annotation(echoRestControllerAspectType)")
 	public Object around(ProceedingJoinPoint joinPoint, EchoRestControllerAspectType echoRestControllerAspectType)
@@ -31,6 +36,7 @@ public class RestControllerAspect {
 
 		RequestDatas<?> requestDatas = null;
 
+		String msgcode = "";
 		try {
 			Object[] args = joinPoint.getArgs();
 			for (Object arg : args) {
@@ -44,6 +50,7 @@ public class RestControllerAspect {
 
 			if (retValue instanceof EchoInfo<?>) {
 				EchoInfo<?> tmp = ((EchoInfo<?>) retValue);
+				msgcode = ObjectUtils.toString(tmp.getMsgcode());
 				tmp.setUuid(requestDatas.getSessionId());
 				tmp.setNextSignType(requestDatas.getSecurityResource().getSignType());
 				tmp.setAppRspTime(System.currentTimeMillis());
@@ -77,10 +84,17 @@ public class RestControllerAspect {
 
 		} finally {
 			try {
+
 				if (requestDatas != null && requestDatas.getClientInfo() != null) {
 					// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
 					List<RequestClientInfo> clinfos = requestDatas.getClientInfo();
 					for (RequestClientInfo requestClientInfo : clinfos) {
+
+						if (retValue instanceof EchoInfo<?>) {
+							monitorlog.write(requestDatas.getSecurityResource().getId().getUrl(), requestDatas.getSecurityResource().getId().getMethodName(),
+									ObjectUtils.toString(requestDatas.getAccessId()), ObjectUtils.toString(requestDatas.getAccessType()), ServletContainerApplicationListener.port,
+									requestDatas.getRemoteIp(), requestClientInfo.getStartReqTime(), requestDatas.getReciveTime(), msgcode, new Date().getTime(), requestDatas);
+						}
 						trace.traceApiTime(requestDatas.getSecurityResource().getId().getUrl(), requestDatas, requestClientInfo.getStartReqTime(), new Date(requestDatas.getReciveTime()), new Date(),
 								new Date(requestDatas.getAccessAuthorizeEndtime()), retValue);
 					}

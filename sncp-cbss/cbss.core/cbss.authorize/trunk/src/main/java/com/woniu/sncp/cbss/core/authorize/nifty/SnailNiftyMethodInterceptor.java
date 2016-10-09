@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
+import org.apache.commons.lang.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ import com.woniu.sncp.cbss.core.model.request.RequestClientInfo;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.access.RequestAccess;
 import com.woniu.sncp.cbss.core.model.request.nifty.SnailNiftyParam;
+import com.woniu.sncp.cbss.core.trace.aspect.listener.ServletContainerApplicationListener;
 import com.woniu.sncp.cbss.core.trace.aspect.listener.Trace;
+import com.woniu.sncp.cbss.core.trace.monitorlog.MonitorLog;
 
 @Component
 public class SnailNiftyMethodInterceptor implements MethodInterceptor {
@@ -42,6 +45,8 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 	private AccessAuthorize accessAuthorize;
 	@Autowired
 	private Trace trace;
+	@Autowired
+	private MonitorLog monitorlog;
 
 	@Override
 	public Object invoke(MethodInvocation mi)
@@ -92,7 +97,7 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 			} else {
 
 				logger.error("Nifty", e);
-				
+
 				Echo echo = new Echo();
 				echo.setMessage(e.getMessage() == null ? "E2" : e.getMessage());
 				echo.setUuid(requestAccess.getSessionId());
@@ -110,6 +115,15 @@ public class SnailNiftyMethodInterceptor implements MethodInterceptor {
 					// url,入参,请求时间,接到时间,接到前网络消耗时间,处理结束时间,接到到处理之间的时间
 					List<RequestClientInfo> clinfos = requestAccess.getRequestDatas().getClientInfo();
 					for (RequestClientInfo requestClientInfo : clinfos) {
+
+						if (rtn instanceof Echo) {
+							RequestDatas requestDatas = requestAccess.getRequestDatas();
+							monitorlog.write(requestDatas.getSecurityResource().getId().getUrl(), requestDatas.getSecurityResource().getId().getMethodName(),
+									ObjectUtils.toString(requestDatas.getAccessId()), ObjectUtils.toString(requestDatas.getAccessType()), ServletContainerApplicationListener.port,
+									requestDatas.getRemoteIp(), requestClientInfo.getStartReqTime(), requestDatas.getReciveTime(), ObjectUtils.toString(((Echo) rtn).getMsgcode()),
+									new Date().getTime(), requestDatas);
+						}
+
 						trace.traceApiTime(requestAccess.getRequestURI(), requestAccess, requestClientInfo.getStartReqTime(), requestAccess.getReciveTime(), new Date(), accessAuthorizeEndtime, rtn);
 					}
 				} else {

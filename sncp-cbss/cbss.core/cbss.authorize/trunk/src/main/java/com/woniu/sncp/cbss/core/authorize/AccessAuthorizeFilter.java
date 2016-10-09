@@ -224,6 +224,7 @@ public class AccessAuthorizeFilter implements Filter {
 				// 4.4
 				requestAccess.setRequestDatas(requestDatas);
 				requestDatas.setSessionId(requestAccess.getSessionId());
+				requestDatas.setRemoteIp(requestAccess.getRemoteIp());
 
 				// 5.封装校验数据
 				if (requestAccess.getRequestDatas().getOther() != null && requestAccess.getRequestDatas().getOther().getOtherFirst() != null) {
