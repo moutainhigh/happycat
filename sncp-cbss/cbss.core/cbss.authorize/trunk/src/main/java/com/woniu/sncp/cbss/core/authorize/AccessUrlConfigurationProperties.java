@@ -1,8 +1,12 @@
 package com.woniu.sncp.cbss.core.authorize;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -13,6 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.woniu.sncp.cbss.core.authorize.nifty.NiftyParam;
+import com.woniu.sncp.cbss.core.authorize.rest.WoniuRequestData;
 import com.woniu.sncp.cbss.core.model.request.RequestDatas;
 import com.woniu.sncp.cbss.core.model.request.RequestParam;
 
@@ -26,6 +31,8 @@ public class AccessUrlConfigurationProperties {
 	List<String> urls;
 	List<String> paramTypes;
 	List<RequestDatas<RequestParam>> paramObjects;
+
+	Map<String, RequestDatas<RequestParam>> url2ParamObject;
 
 	@Autowired
 	private ApplicationContext applicationContext;
@@ -45,6 +52,28 @@ public class AccessUrlConfigurationProperties {
 	@PostConstruct
 	public void buildParamObject() {
 		try {
+			if (url2ParamObject == null) {
+				url2ParamObject = new HashMap<String, RequestDatas<RequestParam>>();
+			}
+
+			for (Map.Entry<String, Object> niftyParam : applicationContext.getBeansWithAnnotation(NiftyParam.class).entrySet()) {
+				String name = niftyParam.getValue().toString();
+				url2ParamObject.put(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@')), null);
+			}
+
+			for (Map.Entry<String, Object> entry : applicationContext.getBeansWithAnnotation(WoniuRequestData.class).entrySet()) {
+				Annotation[] ans = entry.getValue().getClass().getAnnotations();
+				String name = entry.getValue().toString();
+				for (Annotation annotation : ans) {
+					if (annotation instanceof WoniuRequestData) {
+						Object object = Class.forName(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@'))).newInstance();
+						if (object instanceof RequestDatas<?>) {
+							url2ParamObject.put(((WoniuRequestData) annotation).uri(), (RequestDatas<RequestParam>) object);
+						}
+					}
+				}
+			}
+
 			if (paramTypes != null && !paramTypes.isEmpty()) {
 				paramObjects = new ArrayList<RequestDatas<RequestParam>>();
 				for (String paramType : paramTypes) {
@@ -58,10 +87,25 @@ public class AccessUrlConfigurationProperties {
 			if (urls == null) {
 				urls = new ArrayList<String>();
 			}
-			
-			for (Map.Entry<String, Object> niftyParam : applicationContext.getBeansWithAnnotation(NiftyParam.class).entrySet()) {
-				String name = niftyParam.getValue().toString();
-				urls.add(StringUtils.substring(name, 0, StringUtils.indexOf(name, '@')));
+			if (paramTypes == null) {
+				paramTypes = new ArrayList<String>();
+			}
+			if (paramObjects == null) {
+				paramObjects = new ArrayList<RequestDatas<RequestParam>>();
+			}
+
+			if (!url2ParamObject.isEmpty()) {
+				for (Entry<String, RequestDatas<RequestParam>> entry : url2ParamObject.entrySet()) {
+					urls.add(entry.getKey());
+					RequestDatas<RequestParam> entryValue = entry.getValue();
+					if (null == entryValue) {
+						paramTypes.add(RequestDatas.class.getClass().getName());
+						paramObjects.add(new RequestDatas<RequestParam>());
+					} else {
+						paramTypes.add(entryValue.getClass().getName());
+						paramObjects.add(entryValue);
+					}
+				}
 			}
 
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
