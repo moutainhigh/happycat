@@ -61,8 +61,8 @@ public class RequestDatas<T extends RequestParam> implements Serializable {
 
 	private Long reciveTime = null;
 	private Long accessAuthorizeEndtime = null;
-	private String remoteIp ;
-	
+	private String remoteIp;
+
 	public String getRemoteIp() {
 		return remoteIp;
 	}
@@ -109,6 +109,11 @@ public class RequestDatas<T extends RequestParam> implements Serializable {
 
 	public void setClientInfo(List<RequestClientInfo> clientInfo) {
 		this.clientInfo = clientInfo;
+	}
+
+	public void setClientInfo(RequestClientInfo clientInfo) {
+		this.clientInfo = new ArrayList<RequestClientInfo>(1);
+		this.clientInfo.add(clientInfo);
 	}
 
 	public Long getAccessId() {
