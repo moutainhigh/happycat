@@ -1,6 +1,7 @@
 package com.woniu.sncp.cbss.core.authorize;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -107,6 +108,8 @@ public class AccessAuthorizeFilter implements Filter {
 
 		Date accessAuthorizeEndtime = null;
 		EchoInfo<Object> echoInfo = null;
+
+		RequestDatas<RequestParam> paramType = null;
 		try {
 			try {
 
@@ -114,13 +117,14 @@ public class AccessAuthorizeFilter implements Filter {
 				requestAccess.setRequestParamData(buildLimitParamData(accessAuthorizeRequestWrapper));
 				requestAccess.setRequestURI(accessAuthorizeRequestWrapper.getRequestURI());
 				requestAccess.setRemoteIp(ipUtils.getRemoteAddr(accessAuthorizeRequestWrapper));
-				requestAccess.setBody(accessAuthorizeRequestWrapper.getBody());
 
 				// 3.校验请求头信息
 				String headAccessverify = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessVerify.name());
 				String headAccessId = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessId.name());
 				String headAccessType = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessType.name());
 				String headAccessPasswd = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.accessPasswd.name());
+
+				String headBodyEncode = accessAuthorizeRequestWrapper.getHeader(NameFactory.request_head.bodyEncode.name());
 
 				if (StringUtils.isBlank(headAccessverify)) {
 					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90001, requestAccess.getSessionId()).setData("HTTP HEADER accessverify MUST SET.")));
@@ -149,7 +153,7 @@ public class AccessAuthorizeFilter implements Filter {
 							(echoInfo = errorCode.getErrorCode(-90005, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
 					return;
 				}
-				RequestDatas<RequestParam> paramType = accessUrlConfigurationProperties.getParamObjects().get(index);
+				paramType = accessUrlConfigurationProperties.getParamObjects().get(index);
 				if (null == paramType) {
 					echoInfo(httpServletResponseWrapper,
 							(echoInfo = errorCode.getErrorCode(-90006, requestAccess.getSessionId()).setData("NOT FOUND PARAM-OBJECT URI:" + accessAuthorizeRequestWrapper.getRequestURI())));
@@ -161,6 +165,14 @@ public class AccessAuthorizeFilter implements Filter {
 					echoInfo(httpServletResponseWrapper, (echoInfo = errorCode.getErrorCode(-90022, requestAccess.getSessionId()).setData("HTTP body MUST SET.[Use ContentType:application/json]")));
 					return;
 				}
+
+				if (!StringUtils.isBlank(headBodyEncode)) {
+					if (headBodyEncode.startsWith("urlencode=")) {
+						body = URLDecoder.decode(body, headBodyEncode.substring(10));
+					}
+				}
+
+				requestAccess.setBody(body);
 
 				RequestDatas<?> requestDatas = JSONObject.parseObject(body, paramType.getClass());
 
@@ -282,7 +294,6 @@ public class AccessAuthorizeFilter implements Filter {
 			requestAccess.getRequestDatas().setReciveTime(requestAccess.getReciveTime().getTime());
 			requestAccess.getRequestDatas().setAccessAuthorizeEndtime(accessAuthorizeEndtime.getTime());
 			accessAuthorizeRequestWrapper.setBody(JSONObject.toJSONString(requestAccess.getRequestDatas()));
-
 			// 9.下一个过滤链
 			filterChain.doFilter(accessAuthorizeRequestWrapper, httpServletResponseWrapper);
 

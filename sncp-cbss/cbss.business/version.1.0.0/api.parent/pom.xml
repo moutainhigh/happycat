@@ -51,7 +51,7 @@
 		<jaxen.version>1.1.4</jaxen.version>
 		<fscontext.version>4.2</fscontext.version>
 		<jasypt.version>1.9.0</jasypt.version>
-		<fastjson.version>1.2.14</fastjson.version>
+		<fastjson.version>1.2.17</fastjson.version>
 		<velocity.version>1.7</velocity.version>
 		<commonsJexl.version>1.1</commonsJexl.version>
 		<commonsHttpClient.version>4.2.5</commonsHttpClient.version>

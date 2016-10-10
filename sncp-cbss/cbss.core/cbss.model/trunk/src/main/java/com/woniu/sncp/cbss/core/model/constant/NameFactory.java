@@ -2,7 +2,7 @@ package com.woniu.sncp.cbss.core.model.constant;
 
 public class NameFactory {
 	public enum request_head {
-		accessVerify("accessVerify"),accessId("accessId"),accessType("accessType"),accessPasswd("accessPasswd");
+		accessVerify("accessVerify"),accessId("accessId"),accessType("accessType"),accessPasswd("accessPasswd"), bodyEncode("bodyEncode");
 
 		private String value;
 
