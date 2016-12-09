@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:
+            - 10.13.0.194:9092
+          zk-nodes:
+            - 10.13.0.194:2181
+      bindings:
+        input: 
+          destination: TOPIC-ARK-AVATAR
+          content-type: text/plain
+          group: avatarGroup
+        output:
+          destination: TOPIC-ARK-AVATAR
+          content-type: text/plain
+            
