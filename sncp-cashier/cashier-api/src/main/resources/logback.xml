@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="30 minutes">
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<jmxConfigurator />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoder 默认配置为PatternLayoutEncoder -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 每天生成一个日志文件，保存30天 -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${server.port}/%d{yyyy-MM-dd}.${PID}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
+				%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="TRACE_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="MONITOR_LOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/${server.port}/monitor/%d{yyyy-MM-dd}.${PID}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<pattern>needLogToMonitorData:%msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="com.woniu.sncp.cbss.core.trace.monitorlog" level="TRACE">
+		<appender-ref ref="MONITOR_LOG" />
+	</logger>
+	
+	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
+		<appender-ref ref="TRACE_LOG" />
+	</logger>
+
+	<logger name="com.woniu.sncp.cbss.api.fcm.aspectj">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="com.woniu.sncp.cbss.api.fcm">
+		<level value="DEBUG" />
+	</logger>
+	<logger name="com.woniu.sncp.cbss.core">
+		<level value="DEBUG" />
+	</logger>
+
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>  

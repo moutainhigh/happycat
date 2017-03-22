@@ -1,0 +1,723 @@
+2017-03-21 17:58:58.299  INFO 16640 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 16640 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 17:58:58.306  INFO 16640 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 17:58:58.787  INFO 16640 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 17:58:58 CST 2017]; root of context hierarchy
+2017-03-21 17:59:01.058  INFO 16640 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 17:59:01.065  INFO 16640 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 17:59:02.046  INFO 16640 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 17:59:02.060  INFO 16640 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 17:59:02.094  INFO 16640 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 17:59:02.277  INFO 16640 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$113d9b9f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 17:59:02.941  INFO 16640 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 17:59:02.958  INFO 16640 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 17:59:02.959  INFO 16640 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 17:59:03.204  INFO 16640 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 17:59:03.205  INFO 16640 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4419 ms
+2017-03-21 17:59:03.859  INFO 16640 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 17:59:03.868  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 17:59:03.869  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 17:59:03.870  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 17:59:03.870  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 17:59:03.870  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 17:59:03.871  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 17:59:03.871  INFO 16640 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 17:59:04.187  WARN 16640 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 17:59:04.786  INFO 16640 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 17:59:04.829  INFO 16640 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 17:59:04.967  INFO 16640 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 17:59:04.971  INFO 16640 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 17:59:04.973  INFO 16640 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 17:59:05.527  INFO 16640 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 17:59:05.662  INFO 16640 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 17:59:05.851  INFO 16640 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 17:59:07.117  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 17:58:58 CST 2017]; root of context hierarchy
+2017-03-21 17:59:07.269  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 17:59:07.271  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 17:59:07.271  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.272  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.272  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.273  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.273  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 17:59:07.274  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 17:59:07.274  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 17:59:07.274  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.276  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 17:59:07.277  INFO 16640 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 17:59:07.316  INFO 16640 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 17:59:07.316  INFO 16640 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 17:59:07.364  INFO 16640 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 17:59:07.410  WARN 16640 --- [main] o.s.b.a.t.ThymeleafAutoConfiguration     : Cannot find template location: /view/ (please add some templates or check your Thymeleaf configuration)
+2017-03-21 17:59:07.953  INFO 16640 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 17:59:08.253  INFO 16640 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 17:59:08.309  INFO 16640 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 17:59:08.685  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.686  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.688  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.689  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 17:59:08.690  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.691  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 17:59:08.692  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.694  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 17:59:08.694  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.697  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 17:59:08.700  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.702  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 17:59:08.711  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.717  INFO 16640 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 17:59:08.984  INFO 16640 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 17:59:09.003  INFO 16640 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 17:59:09.124  INFO 16640 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 17:59:09.124  INFO 16640 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 17:59:09.125  INFO 16640 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 17:59:09.292  INFO 16640 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 17:59:09.343  INFO 16640 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 17:59:09.435  INFO 16640 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 17:59:09.436  INFO 16640 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.866 seconds (JVM running for 13.175)
+2017-03-21 18:36:12.093  INFO 16640 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:36:12.094  INFO 16640 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:36:12.146  INFO 16640 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 52 ms
+2017-03-21 18:38:19.794  INFO 10372 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 10372 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:38:19.798  INFO 10372 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:38:20.822  INFO 10372 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:38:20 CST 2017]; root of context hierarchy
+2017-03-21 18:38:22.675  INFO 10372 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:38:22.681  INFO 10372 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:38:23.442  INFO 10372 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:38:23.448  INFO 10372 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:38:23.468  INFO 10372 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:38:23.666  INFO 10372 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6a8e9807] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:38:24.592  INFO 10372 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:38:24.613  INFO 10372 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:38:24.615  INFO 10372 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:38:25.025  INFO 10372 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:38:25.026  INFO 10372 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4204 ms
+2017-03-21 18:38:25.697  INFO 10372 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:38:25.706  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:38:25.707  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:38:25.708  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:38:25.708  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:38:25.708  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:38:25.708  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:38:25.709  INFO 10372 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:38:26.123  WARN 10372 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:38:26.836  INFO 10372 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:38:26.953  INFO 10372 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:38:27.411  INFO 10372 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:38:27.432  INFO 10372 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:38:27.439  INFO 10372 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:38:28.203  INFO 10372 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:38:28.473  INFO 10372 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:38:28.854  INFO 10372 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:38:30.683  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:38:20 CST 2017]; root of context hierarchy
+2017-03-21 18:38:30.811  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:38:30.812  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:38:30.813  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.813  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.813  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.814  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.814  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:38:30.850  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:38:30.851  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:38:30.851  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.855  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:38:30.861  INFO 10372 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:38:30.934  INFO 10372 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:38:30.935  INFO 10372 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:38:31.049  INFO 10372 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:38:31.107  WARN 10372 --- [main] o.s.b.a.t.ThymeleafAutoConfiguration     : Cannot find template location: /templates/view/ (please add some templates or check your Thymeleaf configuration)
+2017-03-21 18:38:31.923  INFO 10372 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:38:32.277  INFO 10372 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:38:32.313  INFO 10372 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:38:32.769  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:38:32.770  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.770  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:38:32.771  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.772  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.773  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.773  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.774  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:38:32.807  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.810  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:38:32.814  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.823  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.824  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:38:32.831  INFO 10372 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:38:33.099  INFO 10372 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:38:33.116  INFO 10372 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:38:33.225  INFO 10372 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:38:33.225  INFO 10372 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:38:33.225  INFO 10372 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:38:33.331  INFO 10372 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:38:33.355  INFO 10372 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:38:33.460  INFO 10372 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:38:33.462  INFO 10372 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 14.237 seconds (JVM running for 15.662)
+2017-03-21 18:38:50.342  INFO 10372 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:38:50.343  INFO 10372 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:38:50.365  INFO 10372 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 22 ms
+2017-03-21 18:39:37.335  INFO 12224 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 12224 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:39:37.338  INFO 12224 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:39:37.853  INFO 12224 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:39:37 CST 2017]; root of context hierarchy
+2017-03-21 18:39:39.668  INFO 12224 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:39:39.673  INFO 12224 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:39:40.351  INFO 12224 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:39:40.359  INFO 12224 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:39:40.398  INFO 12224 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:39:40.565  INFO 12224 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6783a92a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:39:41.154  INFO 12224 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:39:41.174  INFO 12224 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:39:41.176  INFO 12224 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:39:41.423  INFO 12224 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:39:41.424  INFO 12224 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3571 ms
+2017-03-21 18:39:42.071  INFO 12224 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:39:42.079  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:39:42.080  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:39:42.081  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:39:42.081  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:39:42.081  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:39:42.082  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:39:42.082  INFO 12224 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:39:42.377  WARN 12224 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:39:42.944  INFO 12224 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:39:42.986  INFO 12224 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:39:43.117  INFO 12224 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:39:43.120  INFO 12224 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:39:43.122  INFO 12224 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:39:43.612  INFO 12224 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:39:43.733  INFO 12224 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:39:44.032  INFO 12224 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:39:45.212  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:39:37 CST 2017]; root of context hierarchy
+2017-03-21 18:39:45.329  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:39:45.331  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:39:45.332  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.334  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.334  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.337  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.338  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:39:45.340  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:39:45.340  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:39:45.341  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.344  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:39:45.348  INFO 12224 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:39:45.406  INFO 12224 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:39:45.407  INFO 12224 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:39:45.470  INFO 12224 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:39:45.532  WARN 12224 --- [main] o.s.b.a.t.ThymeleafAutoConfiguration     : Cannot find template location: /templates/ (please add some templates or check your Thymeleaf configuration)
+2017-03-21 18:39:46.163  INFO 12224 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:39:46.548  INFO 12224 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:39:46.588  INFO 12224 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:39:47.026  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:39:47.026  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.027  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:39:47.028  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.028  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.029  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.030  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.030  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:39:47.031  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.032  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.033  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:39:47.033  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.034  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:39:47.034  INFO 12224 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:39:47.270  INFO 12224 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:39:47.286  INFO 12224 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:39:47.399  INFO 12224 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:39:47.400  INFO 12224 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:39:47.400  INFO 12224 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:39:47.503  INFO 12224 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:39:47.532  INFO 12224 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:39:47.672  INFO 12224 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:39:47.680  INFO 12224 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.266 seconds (JVM running for 12.632)
+2017-03-21 18:39:54.768  INFO 12224 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:39:54.769  INFO 12224 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:39:54.796  INFO 12224 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 27 ms
+2017-03-21 18:40:10.233  INFO 17472 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 17472 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:40:10.266  INFO 17472 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:40:10.787  INFO 17472 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:40:10 CST 2017]; root of context hierarchy
+2017-03-21 18:40:12.604  INFO 17472 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:40:12.608  INFO 17472 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:40:13.452  INFO 17472 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:40:13.458  INFO 17472 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:40:13.494  INFO 17472 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:40:13.730  INFO 17472 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6783a92a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:40:14.372  INFO 17472 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:40:14.393  INFO 17472 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:40:14.395  INFO 17472 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:40:14.653  INFO 17472 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:40:14.653  INFO 17472 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3866 ms
+2017-03-21 18:40:15.271  INFO 17472 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:40:15.278  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:40:15.279  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:40:15.279  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:40:15.279  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:40:15.279  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:40:15.280  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:40:15.280  INFO 17472 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:40:15.532  WARN 17472 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:40:16.050  INFO 17472 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:40:16.089  INFO 17472 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:40:16.218  INFO 17472 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:40:16.222  INFO 17472 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:40:16.225  INFO 17472 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:40:16.795  INFO 17472 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:40:16.894  INFO 17472 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:40:17.204  INFO 17472 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:40:18.397  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:40:10 CST 2017]; root of context hierarchy
+2017-03-21 18:40:18.501  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:40:18.502  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.504  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.504  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.505  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.507  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:40:18.509  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:40:18.509  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:40:18.510  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.510  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:40:18.512  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:40:18.512  INFO 17472 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:40:18.553  INFO 17472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:40:18.553  INFO 17472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:40:18.605  INFO 17472 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:40:19.331  INFO 17472 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:40:19.630  INFO 17472 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:40:19.671  INFO 17472 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:40:20.098  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.100  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:40:20.100  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.101  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.103  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:40:20.105  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.106  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:40:20.108  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.113  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:40:20.114  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.114  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.115  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.115  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:40:20.116  INFO 17472 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:40:20.351  INFO 17472 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:40:20.367  INFO 17472 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:40:20.503  INFO 17472 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:40:20.503  INFO 17472 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:40:20.503  INFO 17472 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:40:20.631  INFO 17472 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:40:20.660  INFO 17472 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:40:20.768  INFO 17472 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:40:20.769  INFO 17472 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.509 seconds (JVM running for 12.781)
+2017-03-21 18:40:35.466  INFO 17472 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:40:35.466  INFO 17472 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:40:35.498  INFO 17472 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 32 ms
+2017-03-21 18:41:05.027  INFO 18128 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 18128 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:41:05.030  INFO 18128 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:41:05.715  INFO 18128 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:41:05 CST 2017]; root of context hierarchy
+2017-03-21 18:41:07.495  INFO 18128 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:41:07.500  INFO 18128 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:41:08.314  INFO 18128 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:41:08.322  INFO 18128 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:41:08.356  INFO 18128 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:41:08.602  INFO 18128 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6a8e9807] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:41:09.486  INFO 18128 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:41:09.504  INFO 18128 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:41:09.506  INFO 18128 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:41:09.768  INFO 18128 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:41:09.768  INFO 18128 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4053 ms
+2017-03-21 18:41:10.362  INFO 18128 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:41:10.369  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:41:10.370  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:41:10.370  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:41:10.370  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:41:10.370  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:41:10.371  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:41:10.371  INFO 18128 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:41:10.693  WARN 18128 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:41:11.285  INFO 18128 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:41:11.317  INFO 18128 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:41:11.467  INFO 18128 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:41:11.470  INFO 18128 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:41:11.472  INFO 18128 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:41:12.033  INFO 18128 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:41:12.139  INFO 18128 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:41:12.347  INFO 18128 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:41:13.626  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:41:05 CST 2017]; root of context hierarchy
+2017-03-21 18:41:13.739  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:41:13.741  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:41:13.743  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.743  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.743  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.745  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.745  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:41:13.746  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:41:13.746  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:41:13.747  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.750  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:41:13.751  INFO 18128 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:41:13.807  INFO 18128 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:41:13.808  INFO 18128 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:41:13.915  INFO 18128 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:41:14.584  INFO 18128 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:41:14.930  INFO 18128 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:41:14.967  INFO 18128 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:41:15.353  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:41:15.354  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.355  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:41:15.356  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.357  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:41:15.359  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.361  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.362  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:41:15.364  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:41:15.364  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.367  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.370  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.371  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.372  INFO 18128 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:41:15.652  INFO 18128 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:41:15.666  INFO 18128 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:41:15.742  INFO 18128 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:41:15.743  INFO 18128 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:41:15.743  INFO 18128 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:41:15.849  INFO 18128 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:41:15.878  INFO 18128 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:41:15.960  INFO 18128 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:41:15.961  INFO 18128 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.546 seconds (JVM running for 12.742)
+2017-03-21 18:41:21.331  INFO 18128 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:41:21.333  INFO 18128 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:41:21.358  INFO 18128 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 25 ms
+2017-03-21 18:41:22.035 ERROR 18128 --- [http-nio-80-exec-1] org.thymeleaf.TemplateEngine             : [THYMELEAF][http-nio-80-exec-1] Exception processing template "/payment_confirm": Error resolving template "/payment_confirm", template might not exist or might not be accessible by any of the configured Template Resolvers
+2017-03-21 18:41:22.057 ERROR 18128 --- [http-nio-80-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.thymeleaf.exceptions.TemplateInputException: Error resolving template "/payment_confirm", template might not exist or might not be accessible by any of the configured Template Resolvers] with root cause
+
+org.thymeleaf.exceptions.TemplateInputException: Error resolving template "/payment_confirm", template might not exist or might not be accessible by any of the configured Template Resolvers
+	at org.thymeleaf.TemplateRepository.getTemplate(TemplateRepository.java:246)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1104)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1060)
+	at org.thymeleaf.TemplateEngine.process(TemplateEngine.java:1011)
+	at org.thymeleaf.spring4.view.ThymeleafView.renderFragment(ThymeleafView.java:335)
+	at org.thymeleaf.spring4.view.ThymeleafView.render(ThymeleafView.java:190)
+	at org.springframework.web.servlet.DispatcherServlet.render(DispatcherServlet.java:1246)
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1029)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:973)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:895)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:292)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration$ApplicationContextHeaderFilter.doFilterInternal(EndpointWebMvcAutoConfiguration.java:261)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:115)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:87)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:77)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:121)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:103)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:212)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:141)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:522)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1095)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:672)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1502)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1458)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+2017-03-21 18:41:54.011  INFO 18128 --- [http-nio-80-exec-2] com.woniu.sncp.pay.IndexController       : 1:
+2017-03-21 18:41:54.012  INFO 18128 --- [http-nio-80-exec-2] com.woniu.sncp.pay.IndexController       : 2:/hello.html
+2017-03-21 18:41:54.012  INFO 18128 --- [http-nio-80-exec-2] com.woniu.sncp.pay.IndexController       : 3:/hello.html
+2017-03-21 18:42:12.762  INFO 14284 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 14284 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:42:12.770  INFO 14284 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:42:13.350  INFO 14284 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:42:13 CST 2017]; root of context hierarchy
+2017-03-21 18:42:15.379  INFO 14284 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:42:15.386  INFO 14284 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:42:16.221  INFO 14284 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:42:16.228  INFO 14284 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:42:16.253  INFO 14284 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:42:16.457  INFO 14284 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6783a92a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:42:17.155  INFO 14284 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:42:17.173  INFO 14284 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:42:17.176  INFO 14284 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:42:17.423  INFO 14284 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:42:17.423  INFO 14284 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 4073 ms
+2017-03-21 18:42:18.038  INFO 14284 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:42:18.046  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:42:18.047  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:42:18.047  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:42:18.047  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:42:18.048  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:42:18.048  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:42:18.048  INFO 14284 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:42:18.469  WARN 14284 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:42:18.967  INFO 14284 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:42:19.006  INFO 14284 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:42:19.127  INFO 14284 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:42:19.130  INFO 14284 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:42:19.136  INFO 14284 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:42:19.681  INFO 14284 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:42:19.771  INFO 14284 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:42:19.941  INFO 14284 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:42:21.151  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:42:13 CST 2017]; root of context hierarchy
+2017-03-21 18:42:21.253  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:42:21.255  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:42:21.256  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.257  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.257  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.259  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.268  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:42:21.268  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:42:21.268  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:42:21.269  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.271  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:42:21.271  INFO 14284 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:42:21.310  INFO 14284 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:42:21.311  INFO 14284 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:42:21.364  INFO 14284 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:42:22.123  INFO 14284 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:42:22.535  INFO 14284 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:42:22.570  INFO 14284 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:42:22.914  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:42:22.917  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:42:22.919  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.922  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:42:22.923  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.925  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:42:22.926  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.927  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.928  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.932  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.935  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.935  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:22.936  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:42:22.938  INFO 14284 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:42:23.250  INFO 14284 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:42:23.268  INFO 14284 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:42:23.388  INFO 14284 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:42:23.389  INFO 14284 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:42:23.389  INFO 14284 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:42:23.501  INFO 14284 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:42:23.529  INFO 14284 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:42:23.642  INFO 14284 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:42:23.644  INFO 14284 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.843 seconds (JVM running for 13.098)
+2017-03-21 18:42:57.162  INFO 14284 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:42:57.162  INFO 14284 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:42:57.189  INFO 14284 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 27 ms
+2017-03-21 18:42:57.383  WARN 14284 --- [http-nio-80-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: null
+2017-03-21 18:42:57.384 ERROR 14284 --- [http-nio-80-exec-1] o.h.engine.jdbc.spi.SqlExceptionHelper   : Failed to validate a newly established connection.
+2017-03-21 18:42:57.413 ERROR 14284 --- [http-nio-80-exec-1] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction; nested exception is javax.persistence.PersistenceException: org.hibernate.exception.GenericJDBCException: Could not open connection] with root cause
+
+java.sql.SQLException: Failed to validate a newly established connection.
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:811)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.borrowConnection(ConnectionPool.java:626)
+	at org.apache.tomcat.jdbc.pool.ConnectionPool.getConnection(ConnectionPool.java:185)
+	at org.apache.tomcat.jdbc.pool.DataSourceProxy.getConnection(DataSourceProxy.java:127)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:139)
+	at org.hibernate.internal.AbstractSessionImpl$NonContextualJdbcConnectionAccess.obtainConnection(AbstractSessionImpl.java:380)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.obtainConnection(LogicalConnectionImpl.java:228)
+	at org.hibernate.engine.jdbc.internal.LogicalConnectionImpl.getConnection(LogicalConnectionImpl.java:171)
+	at org.hibernate.engine.transaction.internal.jdbc.JdbcTransaction.doBegin(JdbcTransaction.java:67)
+	at org.hibernate.engine.transaction.spi.AbstractTransactionImpl.begin(AbstractTransactionImpl.java:162)
+	at org.hibernate.internal.SessionImpl.beginTransaction(SessionImpl.java:1471)
+	at org.hibernate.jpa.internal.TransactionImpl.begin(TransactionImpl.java:61)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.beginTransaction(HibernateJpaDialect.java:170)
+	at org.springframework.orm.jpa.JpaTransactionManager.doBegin(JpaTransactionManager.java:380)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:427)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:276)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:655)
+	at com.woniu.sncp.pay.dao.PaymentMerchantDao$$EnhancerBySpringCGLIB$$863d65d5.queryPaymentMerchantDtlById(<generated>)
+	at com.woniu.sncp.pay.core.service.PaymentMerchantService.queryPaymentMerchantDtl(PaymentMerchantService.java:29)
+	at com.woniu.sncp.pay.IndexController.paymentPage(IndexController.java:140)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:221)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:136)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:110)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:832)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:743)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:85)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:961)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:895)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:967)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:869)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:648)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:843)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:729)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:292)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.autoconfigure.EndpointWebMvcAutoConfiguration$ApplicationContextHeaderFilter.doFilterInternal(EndpointWebMvcAutoConfiguration.java:261)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.trace.WebRequestTraceFilter.doFilterInternal(WebRequestTraceFilter.java:115)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:87)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:77)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:121)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.springframework.boot.actuate.autoconfigure.MetricsFilter.doFilterInternal(MetricsFilter.java:103)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:240)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:207)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:212)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:106)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:502)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:141)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:79)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:88)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:522)
+	at org.apache.coyote.http11.AbstractHttp11Processor.process(AbstractHttp11Processor.java:1095)
+	at org.apache.coyote.AbstractProtocol$AbstractConnectionHandler.process(AbstractProtocol.java:672)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1502)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.run(NioEndpoint.java:1458)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:745)
+
+2017-03-21 18:44:04.441  INFO 11656 --- [main] com.woniu.sncp.pay.TestCashier           : Starting TestCashier on 付正亮 with PID 11656 (D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\master\sncp-cashier\cashier-api)
+2017-03-21 18:44:04.491  INFO 11656 --- [main] com.woniu.sncp.pay.TestCashier           : The following profiles are active: dev
+2017-03-21 18:44:04.951  INFO 11656 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:44:04 CST 2017]; root of context hierarchy
+2017-03-21 18:44:06.836  INFO 11656 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:44:06.840  INFO 11656 --- [main] o.s.i.config.IntegrationRegistrar        : No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2017-03-21 18:44:07.704  INFO 11656 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2017-03-21 18:44:07.711  INFO 11656 --- [main] faultConfiguringBeanFactoryPostProcessor : No bean named 'taskScheduler' has been explicitly defined. Therefore, a default ThreadPoolTaskScheduler will be created.
+2017-03-21 18:44:07.730  INFO 11656 --- [main] f.a.AutowiredAnnotationBeanPostProcessor : JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-21 18:44:07.862  INFO 11656 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6783a92a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-21 18:44:08.639  INFO 11656 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 80 (http)
+2017-03-21 18:44:08.659  INFO 11656 --- [main] o.apache.catalina.core.StandardService   : Starting service Tomcat
+2017-03-21 18:44:08.661  INFO 11656 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.0.33
+2017-03-21 18:44:08.914  INFO 11656 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-03-21 18:44:08.915  INFO 11656 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3964 ms
+2017-03-21 18:44:09.544  INFO 11656 --- [localhost-startStop-1] o.s.b.c.e.ServletRegistrationBean        : Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-21 18:44:09.552  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'metricFilter' to: [/*]
+2017-03-21 18:44:09.553  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-21 18:44:09.553  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-21 18:44:09.554  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-21 18:44:09.554  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-21 18:44:09.555  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-21 18:44:09.555  INFO 11656 --- [localhost-startStop-1] o.s.b.c.embedded.FilterRegistrationBean  : Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-21 18:44:09.846  WARN 11656 --- [main] o.a.tomcat.jdbc.pool.ConnectionPool      : maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-21 18:44:10.447  INFO 11656 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-03-21 18:44:10.486  INFO 11656 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-03-21 18:44:10.593  INFO 11656 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-21 18:44:10.597  INFO 11656 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-03-21 18:44:10.599  INFO 11656 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-03-21 18:44:11.132  INFO 11656 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-21 18:44:11.246  INFO 11656 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-21 18:44:11.442  INFO 11656 --- [main] o.h.h.i.ast.ASTQueryTranslatorFactory    : HHH000397: Using ASTQueryTranslatorFactory
+2017-03-21 18:44:12.659  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@306cf3ea: startup date [Tue Mar 21 18:44:04 CST 2017]; root of context hierarchy
+2017-03-21 18:44:12.789  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.home(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:44:12.790  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/wap]}" onto public void com.woniu.sncp.pay.IndexController.paymentWapApi(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.791  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payments/{paytype}]}" onto public void com.woniu.sncp.pay.IndexController.payments(java.lang.String,java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.791  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/app]}" onto public void com.woniu.sncp.pay.IndexController.paymentAppApi(java.lang.String,java.lang.Long,java.lang.String,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.791  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/stage/json]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryCreditStage(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:44:12.792  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/order/query]}" onto public com.woniu.sncp.web.response.ResultResponse com.woniu.sncp.pay.IndexController.queryOrder(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:44:12.792  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/trans]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.trans(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:44:12.792  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/callback/create]}" onto public void com.woniu.sncp.pay.IndexController.callbackCreate(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.794  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/hello]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.hello(javax.servlet.http.HttpServletRequest,java.util.Map<java.lang.String, java.lang.Object>)
+2017-03-21 18:44:12.795  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/payment/page]}" onto public java.lang.String com.woniu.sncp.pay.IndexController.paymentPage(java.lang.String,java.lang.Long,java.lang.Long,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.797  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-03-21 18:44:12.797  INFO 11656 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-03-21 18:44:12.834  INFO 11656 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:44:12.835  INFO 11656 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:44:12.882  INFO 11656 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-03-21 18:44:13.686  INFO 11656 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : jolokia: No access restrictor found, access to any MBean is allowed
+2017-03-21 18:44:13.985  INFO 11656 --- [main] o.s.b.f.config.PropertiesFactoryBean     : Loading properties file from URL [jar:file:/F:/.m2/repository/org/springframework/integration/spring-integration-core/4.2.5.RELEASE/spring-integration-core-4.2.5.RELEASE.jar!/META-INF/spring.integration.default.properties]
+2017-03-21 18:44:14.020  INFO 11656 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService  'taskScheduler'
+2017-03-21 18:44:14.519  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/health || /health.json],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(java.security.Principal)
+2017-03-21 18:44:14.523  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/logfile || /logfile.json],methods=[GET || HEAD]}" onto public void org.springframework.boot.actuate.endpoint.mvc.LogFileMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws javax.servlet.ServletException,java.io.IOException
+2017-03-21 18:44:14.525  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.526  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/jolokia/**]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.actuate.endpoint.mvc.JolokiaMvcEndpoint.handle(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-03-21 18:44:14.527  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.529  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2017-03-21 18:44:14.529  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/env || /env.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.530  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.532  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/info || /info.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.535  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.537  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.539  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.540  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2017-03-21 18:44:14.549  INFO 11656 --- [main] o.s.b.a.e.mvc.EndpointHandlerMapping     : Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2017-03-21 18:44:14.856  INFO 11656 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-03-21 18:44:14.873  INFO 11656 --- [main] o.s.c.support.DefaultLifecycleProcessor  : Starting beans in phase 0
+2017-03-21 18:44:14.941  INFO 11656 --- [main] o.s.i.endpoint.EventDrivenConsumer       : Adding {logging-channel-adapter:_org.springframework.integration.errorLogger} as a subscriber to the 'errorChannel' channel
+2017-03-21 18:44:14.942  INFO 11656 --- [main] o.s.i.channel.PublishSubscribeChannel    : Channel 'cashier-app:dev:80.errorChannel' has 1 subscriber(s).
+2017-03-21 18:44:14.942  INFO 11656 --- [main] o.s.i.endpoint.EventDrivenConsumer       : started _org.springframework.integration.errorLogger
+2017-03-21 18:44:15.046  INFO 11656 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 80 (http)
+2017-03-21 18:44:15.080  INFO 11656 --- [main] c.b.spring.boot.nifty.NiftyServerRunner  : Starting Nifty Server on port 8080
+2017-03-21 18:44:15.180  INFO 11656 --- [main] c.f.nifty.core.NettyServerTransport      : started transport nifty-1:8080
+2017-03-21 18:44:15.182  INFO 11656 --- [main] com.woniu.sncp.pay.TestCashier           : Started TestCashier in 11.791 seconds (JVM running for 13.014)
+2017-03-21 18:44:19.245  INFO 11656 --- [http-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+2017-03-21 18:44:19.246  INFO 11656 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+2017-03-21 18:44:19.283  INFO 11656 --- [http-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 37 ms
+2017-03-21 19:03:33.058  INFO 11656 --- [http-nio-80-exec-5] com.woniu.sncp.pay.IndexController       : 1:
+2017-03-21 19:03:33.058  INFO 11656 --- [http-nio-80-exec-5] com.woniu.sncp.pay.IndexController       : 2:/hello.html
+2017-03-21 19:03:33.058  INFO 11656 --- [http-nio-80-exec-5] com.woniu.sncp.pay.IndexController       : 3:/hello.html
+2017-03-21 19:03:33.955  INFO 11656 --- [http-nio-80-exec-6] com.woniu.sncp.pay.IndexController       : 1:
+2017-03-21 19:03:33.955  INFO 11656 --- [http-nio-80-exec-6] com.woniu.sncp.pay.IndexController       : 2:/hello.html
+2017-03-21 19:03:33.955  INFO 11656 --- [http-nio-80-exec-6] com.woniu.sncp.pay.IndexController       : 3:/hello.html
+2017-03-21 19:03:34.604  INFO 11656 --- [http-nio-80-exec-7] com.woniu.sncp.pay.IndexController       : 1:
+2017-03-21 19:03:34.604  INFO 11656 --- [http-nio-80-exec-7] com.woniu.sncp.pay.IndexController       : 2:/hello.html
+2017-03-21 19:03:34.604  INFO 11656 --- [http-nio-80-exec-7] com.woniu.sncp.pay.IndexController       : 3:/hello.html

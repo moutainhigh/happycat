@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.woniu.sncp</groupId>
+		<artifactId>sncp-cashier</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+
+	<artifactId>cashier-core</artifactId>
+	<name>cashier-core</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>cashier-common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu.sncp</groupId>
+			<artifactId>cashier-jpa</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<!-- 银联 app支付 新SDK -->
+		<dependency>
+			<groupId>com.unionpay.acp</groupId>
+			<artifactId>upacp_sdk</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>bouncycastle</groupId>
+			<artifactId>bcprov-jdk15</artifactId>
+			<version>133</version>
+		</dependency>
+		<!-- 盛付通查询接口用 -->
+		<dependency>
+			<groupId>com.sdo.mas.common</groupId>
+			<artifactId>masapi-query</artifactId>
+			<version>1.0.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.sdo.mas.common</groupId>
+			<artifactId>masapi-common</artifactId>
+			<version>1.0.2</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+		<!-- 宁波银行签名 -->
+		<dependency>
+			<groupId>com.infosec</groupId>
+			<artifactId>net-sign-server</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.com.infosec</groupId>
+			<artifactId>isfj-baisc-jdk14</artifactId>
+			<version>2.0.1.127.3</version>
+		</dependency>
+		<!-- 宁波银行签名 -->
+		<!-- 快钱人民币查询jar包,调Webservice生成代码，打包为jar -->
+		<dependency>
+			<groupId>com.billpay</groupId>
+			<artifactId>billpayrmb</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<!-- 工商银行 -->
+        <dependency>
+            <groupId>cn.com.infosec</groupId>
+            <artifactId>icbc</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.com.infosec</groupId>
+            <artifactId>isfj-baisc</artifactId>
+            <version>2.0.119.2</version>
+            <classifier>jdk14</classifier>
+        </dependency>
+        <!-- 银联电子支付 -->
+		<dependency>
+			<groupId>com.chinapay</groupId>
+			<artifactId>netpayclient</artifactId>
+			<version>20070129</version>
+		</dependency>
+		<!-- 中国银行 -->
+		<dependency>
+			<groupId>com.bocnet.common.security</groupId>
+  			<artifactId>pkcs7</artifactId>
+  			<version>1.0</version>
+		</dependency>
+		
+		<!-- jdom -->
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+</project>
