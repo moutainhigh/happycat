@@ -54,6 +54,17 @@ public class DataSourceConfig {
         return DataSourceBuilder.create().build();
     }
     
+    /**
+	 * 游戏使用数据源
+	 * @return
+	 */
+    @Bean(name = "gameDataSource")
+    @Qualifier("gameDataSource")
+    @ConfigurationProperties(prefix="spring.game-datasource")
+    public DataSource gameDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+    
     @Primary
     @Bean(name = "jdbcTemplate")
     public JdbcTemplate jdbcTemplate(
@@ -71,5 +82,11 @@ public class DataSourceConfig {
     public JdbcTemplate passportJdbcTemplate(
             @Qualifier("passportDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+    
+    @Bean(name = "gameJdbcTemplate")
+    public JdbcTemplate gameJdbcTemplate(
+    		@Qualifier("gameDataSource") DataSource dataSource) {
+    	return new JdbcTemplate(dataSource);
     }
 }

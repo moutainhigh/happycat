@@ -26,8 +26,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.pay.pojo.Platform;
-import com.woniu.sncp.jdbc.datasource.DataSourceConstants;
-import com.woniu.sncp.jdbc.datasource.DataSourceHolder;
 import com.woniu.sncp.ocp.utils.ProxoolUtil;
 import com.woniu.sncp.pay.common.exception.OrderIsRefundException;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
@@ -37,10 +35,10 @@ import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import com.woniu.sncp.pay.common.utils.http.IpUtils;
-import com.woniu.sncp.pay.core.payment.conf.PaymentProperties;
 import com.woniu.sncp.pay.core.service.m.MQueueService;
 import com.woniu.sncp.pay.core.service.monitor.MonitorMessageService;
 import com.woniu.sncp.pay.core.service.monitor.MonitorMessageTask;
+import com.woniu.sncp.pay.core.service.payment.conf.PaymentProperties;
 import com.woniu.sncp.pay.core.service.schedule.Schedule;
 import com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
@@ -86,7 +84,7 @@ public class PaymentOrderService{
 	
 	public void createOrder(PaymentOrder paymentOrder, long issuerId)
 			throws DataAccessException {
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 
 		Date now = Calendar.getInstance().getTime();
@@ -109,9 +107,9 @@ public class PaymentOrderService{
 	 */
 	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId)
 			throws DataAccessException {
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
-		final String orderSeqSql = "INSERT INTO SN_IMPREST.PAY_ORDER_SQ(N_ID) VALUES(NULL)";
+		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID) VALUES(NULL)";
 		Long sequence = mQueueService.getSequence(orderSeqSql);
 		
 
@@ -216,22 +214,22 @@ public class PaymentOrderService{
 
 	public PaymentOrder queryOrder(String orderNo) throws DataAccessException {
 		// 切换中心库
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
 //		return paymentOrderDao.findByProperty("orderNo", orderNo);
 		return paymentOrderRepository.findByOrderNo(orderNo);
 	}
 	
 	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo) throws DataAccessException {
 		// 切换中心库
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
 //		return paymentOrderDao.findByProperty("partnerOrderNo", pOrderNo);
 		return paymentOrderRepository.findByPartnerOrderNo(pOrderNo);
 	}
-
+	
 	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
 			throws DataAccessException {
 		// 切换中心库
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 //		return paymentOrderDao.findByProperty("payPlatformOrderId", oppositeOrderNo);
 		return paymentOrderRepository.findByPayPlatformOrderId(oppositeOrderNo);
 	}
@@ -250,7 +248,7 @@ public class PaymentOrderService{
 		if (StringUtils.isNotBlank(imprestState))
 			paymentOrder.setImprestState(imprestState);
 
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 //		paymentOrderDao.update(paymentOrder);
 		paymentOrderRepository.updateSS(paymentOrder.getId(), payedState,imprestState);
 	}
@@ -447,7 +445,7 @@ public class PaymentOrderService{
 	 * @throws DataAccessException
 	 */
 	public String genThirdPartyNo(String second,String third) throws DataAccessException {
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 		long sequence = sessionDao.findForLong("select sn_imprest.imp_thirdparty_order_sq.nextval from dual");
 
 		Date now = Calendar.getInstance().getTime();

@@ -29,9 +29,54 @@ spring:
      validation-query: select CURRENT_DATE;
      maxActive: 10
      maxIdle: 5
+  game-datasource: 
+     url: jdbc:mysql://10.200.0.161:3306/SN_GAME?characterEncoding=UTF-8&useSSL=false
+     username: SN_GAME
+     password: snailgame
+     driverClassName: com.mysql.jdbc.Driver
+     test-on-borrow: true
+     test-while-idle: true
+     validation-query: select CURRENT_DATE;
+     maxActive: 10
+     maxIdle: 5
   jpa:
     show-sql: true
+    hibernate: 
+     naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
   mvc:
    view:
     prefix: /WEB-INF/view
     suffix: .jsp
+#cas client config
+  cas: 
+    sign-out-filters: /logout
+    auth-filters: /*
+    validate-filters: /security/ttb/pay
+    request-wrapper-filters: /*
+    assertion-filters: /*
+    cas-server-login-url: /login
+    cas-server-m-login-url: /m/login
+    cas-server-url-prefix: https://sso.woniu.com
+    redirect-after-validation: true
+    use-session: true
+    server-name: http://cashier.woniu.com
+    
+# CAS服务地址
+cas:
+  server:
+    url: https://sso.woniu.com
+    # CAS服务登录地址
+    login_url: ${cas.server.url}/login
+    m_login_url: ${cas.server.url}/m/login
+    # CAS服务登出地址
+    logout_url: ${cas.server.url}/logout?service=${app.url}
+
+# 应用访问地址
+app:
+  url: http://cashier.woniu.com
+  # 应用登录地址
+  login_url: /login
+  # 应用登出地址
+  logout_url: /logout
+  
+  

@@ -1,10 +1,12 @@
 package com.woniu.sncp.pay;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 
 
@@ -15,7 +17,9 @@ import org.springframework.http.HttpStatus;
  * @date   2017年3月20日
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
+@ComponentScan(basePackages={"com.woniu.sncp.pay.core","com.woniu.sncp.pay","com.woniu.sncp.ocp.business.passport"})
 @SpringBootApplication
+@EnableAutoConfiguration
 public class CashierAppRun {
 	/**
 	 * @param args

@@ -13,18 +13,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
-  			<artifactId>cashier-core</artifactId>
-  			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>cashier-core</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
-  			<artifactId>cashier-common</artifactId>
-  			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>cashier-common</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
-  			<artifactId>cashier-jpa</artifactId>
-  			<version>1.0.0-SNAPSHOT</version>
+			<artifactId>cashier-jpa</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
@@ -49,9 +49,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,16 +63,22 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <!-- security 对CAS支持 -->  
+        <dependency>  
+            <groupId>org.springframework.security</groupId>  
+            <artifactId>spring-security-cas</artifactId>  
+        </dependency>
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>r09</version>
 		</dependency>
 		<!-- ORACLE -->
-		<!-- <dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>${oracle.client.version}</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> 
+			<version>${oracle.client.version}</version> </dependency> -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -104,9 +114,9 @@
 		</dependency>
 		<!-- CAS SSO -->
 		<dependency>
-		  <groupId>org.jasig.cas.client</groupId>
-		  <artifactId>cas-client-support-distributed-ehcache</artifactId>
-		  <version>${sso.cas.version}</version>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-support-distributed-ehcache</artifactId>
+			<version>${sso.cas.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.woniu</groupId>
@@ -117,31 +127,46 @@
 					<artifactId>validation-api</artifactId>
 					<groupId>javax.validation</groupId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+        			<artifactId>hibernate-core</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
-		
-		<!-- 想要兼容Jsp 必须要添加以下2个文件 -->  
-        <dependency>  
-            <groupId>org.apache.tomcat.embed</groupId>  
-            <artifactId>tomcat-embed-jasper</artifactId>  
-            <scope>provided</scope>  
-        </dependency>  
-  
-        <!-- JSTL（JSP Standard TagLibrary，JSP标准标签库)是一个不断完善的开放源代码的JSP标签库，是由apache的jakarta小组来维护的。JSTL只能运行在支持JSP1.2和Servlet2.3规范的容器上，如tomcat   
-            4.x。在JSP2.0中也是作为标准支持的。 不然报异常信息： javax.servlet.ServletException:Circular view   
-            path [/helloJsp]: would dispatch back to the current handler URL[/helloJsp]   
-            again. Check your ViewResolver setup! (Hint: This may be the resultof an   
-            unspecified view, due to default view name generation.) -->  
-        <dependency>  
-            <groupId>javax.servlet.jsp.jstl</groupId>  
-            <artifactId>jstl-api</artifactId>  
-            <version>1.2</version>  
-        </dependency>
-        <!--配置jsp jstl的支持-->  
-        <dependency>  
-            <groupId>javax.servlet</groupId>  
-            <artifactId>jstl</artifactId>  
-        </dependency>
+
+		<!-- 想要兼容Jsp 必须要添加以下2个文件 -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- JSTL（JSP Standard TagLibrary，JSP标准标签库)是一个不断完善的开放源代码的JSP标签库，是由apache的jakarta小组来维护的。JSTL只能运行在支持JSP1.2和Servlet2.3规范的容器上，如tomcat 
+			4.x。在JSP2.0中也是作为标准支持的。 不然报异常信息： javax.servlet.ServletException:Circular view 
+			path [/helloJsp]: would dispatch back to the current handler URL[/helloJsp] 
+			again. Check your ViewResolver setup! (Hint: This may be the resultof an 
+			unspecified view, due to default view name generation.) -->
+		<dependency>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>jstl-api</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<!--配置jsp jstl的支持 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+		<!-- no org.w3c.dom.ElementTraversal -->
+		<dependency>
+		    <groupId>xml-apis</groupId>
+		    <artifactId>xml-apis</artifactId>
+		    <version>1.4.01</version>
+		</dependency>
+		<!-- NoClassDefFoundError: org/apache/velocity/runtime/log/CommonsLogLogChute -->
+		<dependency>
+		    <groupId>org.apache.velocity</groupId>
+		    <artifactId>velocity</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -18,7 +18,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * <p>descrption: 账号相关数据源配置-JPA</p>
+ * <p>descrption: 游戏相关数据源配置-JPA</p>
  * 
  * @author fuzl
  * @date   2017年3月22日
@@ -27,27 +27,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        entityManagerFactoryRef="entityManagerFactoryPassport",
-        transactionManagerRef="transactionManagerPassport",
-        basePackages= { "com.woniu.sncp.pay.repository.passport" }) //设置Repository所在位置
-public class PassportJpaConfig {
+        entityManagerFactoryRef="entityManagerFactoryGame",
+        transactionManagerRef="transactionManagerGame",
+        basePackages= { "com.woniu.sncp.pay.repository.game" }) //设置Repository所在位置
+public class GameJpaConfig {
 
 	@Autowired 
-	@Qualifier("passportDataSource")
-    private DataSource passportDataSource;
+	@Qualifier("gameDataSource")
+    private DataSource gameDataSource;
 
-    @Bean(name = "entityManagerPassport")
+    @Bean(name = "entityManagerGame")
     public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
-        return entityManagerFactoryPassport(builder).getObject().createEntityManager();
+        return entityManagerFactoryGame(builder).getObject().createEntityManager();
     }
 
-    @Bean(name = "entityManagerFactoryPassport")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPassport (EntityManagerFactoryBuilder builder) {
+    @Bean(name = "entityManagerFactoryGame")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryGame (EntityManagerFactoryBuilder builder) {
         return builder
-                .dataSource(passportDataSource)
-                .properties(getVendorProperties(passportDataSource))
-                .packages("com.woniu.sncp.pay.repository.passport") //设置实体类所在位置
-                .persistenceUnit("passportPersistenceUnit")
+                .dataSource(gameDataSource)
+                .properties(getVendorProperties(gameDataSource))
+                .packages("com.woniu.sncp.pay.repository.game") //设置实体类所在位置
+                .persistenceUnit("gamePersistenceUnit")
                 .build();
     }
 
@@ -58,8 +58,8 @@ public class PassportJpaConfig {
         return jpaProperties.getHibernateProperties(dataSource);
     }
 
-    @Bean(name = "transactionManagerPassport")
-    PlatformTransactionManager transactionManagerPassport(EntityManagerFactoryBuilder builder) {
-        return new JpaTransactionManager(entityManagerFactoryPassport(builder).getObject());
+    @Bean(name = "transactionManagerGame")
+    PlatformTransactionManager transactionManagerGame(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactoryGame(builder).getObject());
     }
 }

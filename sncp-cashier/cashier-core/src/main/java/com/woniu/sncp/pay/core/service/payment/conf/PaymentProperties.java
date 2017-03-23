@@ -1,4 +1,4 @@
-package com.woniu.sncp.pay.core.payment.conf;
+package com.woniu.sncp.pay.core.service.payment.conf;
 
 import com.woniu.sncp.properties.ConfigurableConstants;
 
