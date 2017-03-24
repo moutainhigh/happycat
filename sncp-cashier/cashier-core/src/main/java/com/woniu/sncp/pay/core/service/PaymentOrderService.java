@@ -287,7 +287,7 @@ public class PaymentOrderService{
 			}
 			
 			String keyType = payemntMerchnt.getKeyType();
-			String key = payemntMerchnt.getKey();
+			String key = payemntMerchnt.getMerchantKey();
 			if(StringUtils.isBlank(key)){
 				logger.error("回调密钥为空,订单号:" + paymentOrder.getOrderNo()+",平台id:"+paymentOrder.getPlatformId());
 				throw new IllegalArgumentException("平台Id["+paymentOrder.getPlatformId()+"]回调密钥为空");
@@ -589,7 +589,7 @@ public class PaymentOrderService{
 					treeMap.put("partnerorderno", paymentOrder.getPartnerOrderNo());
 				}
 				String keyType = payemntMerchnt.getKeyType();
-				String key = payemntMerchnt.getKey();
+				String key = payemntMerchnt.getMerchantKey();
 				if(StringUtils.isBlank(key)){
 					logger.error("回调密钥为空,订单号:" + paymentOrder.getOrderNo()+",平台id:"+paymentOrder.getPlatformId());
 					throw new IllegalArgumentException("平台Id["+paymentOrder.getPlatformId()+"]回调密钥为空");

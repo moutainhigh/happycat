@@ -237,11 +237,49 @@ public class PaymentOrder implements SingleKeyPojo {
 	@Column(name = "S_MERCHANT_NO", nullable = true)
 	private String merchantNo;
 
+	/**
+//	 * 订单标题
+//	 */
+//	@Column(name = "S_SUBJECT", nullable = true)
+//	private String subject;
+//	/**
+//	 * 交易或商品的描述
+//	 */
+//	@Column(name = "S_BODY", nullable = true)
+//	private String body;
+//	/**
+//	 * 订单包含的商品列表信息.Json格式. 其它说明详见：“商品明细说明”
+//	 *    goods_id String 必填 32 商品的编号   apple-01
+//		└ wnpay_goods_id String 可选 32          蜗牛计费定义的统一商品编号 20010001
+//		└ goods_name String 必填 256                商品名称 ipad
+//		└ quantity Number 必填 10                       商品数量 1
+//		└ price Price 必填           9                         商品单价，单位为元 2000
+//		└ goods_category String 可选    24     商品类目 34543238
+//		└ body String 可选          1000                   商品描述信息 特价手机
+//		└ show_url String 可选    400                 商品的展示地址 http://www.alipay.com/xxx.jpg
+//	 */
+//	@Column(name = "S_GOODS_DETAIL", nullable = true)
+//	private String goodsDetail;
+//	
+//	/**
+//	 * 终端类型,未知=0;ios=1;Android=2;winphone=3;PC=4;
+//	 */
+//	@Column(name = "S_TERMINAL_TYPE", nullable = true)
+//	private String terminalType;
+//	
+//	/**
+//	 * 该笔订单允许的最晚付款时间，逾期将关闭交易。
+//	 * 取值范围：1m～15d。m-分钟，h-小时，d-天，1c-当天（1c-当天的情况下，无论交易何时创建，都在0点关闭）。 该参数数值不接受小数点， 如 1.5h，可转换为 90m。
+//	 */
+//	@Column(name = "S_TIMEOUT_EXPRESS", nullable = true)
+//	private String timeoutExpress;
+	
 	@Transient
 	private String imprestCardName;
 
 	@Transient
 	private String userName;
+	
 	
 
 	public Long getId() {

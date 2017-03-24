@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.snail.sms.threadpool.ThreadPool;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -20,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.woniu.sncp.json.JsonUtils;
+import com.woniu.sncp.pay.common.threadpool.ThreadPool;
 import com.woniu.sncp.pay.core.monitor.LogMonitorTask;
 import com.woniu.sncp.web.IpUtils;
 import com.woniu.sncp.web.response.ResultResponse;

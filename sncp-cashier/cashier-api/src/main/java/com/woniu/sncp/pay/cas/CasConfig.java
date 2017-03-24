@@ -11,6 +11,11 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
@@ -24,7 +29,8 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
 @Configuration
-public class CasConfig {
+@EnableWebSecurity
+public class CasConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	SpringCasAutoconfig autoconfig;
 
@@ -33,6 +39,40 @@ public class CasConfig {
 	public CasConfig() {
 	}
 
+	/*定义安全策略*/
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()//配置安全策略
+//                .antMatchers("/").permitAll()//定义/请求不需要验证
+//                //.antMatchers("/security/ttb/pay").authenticated()
+//                //.anyRequest().authenticated()//其余的所有请求都需要验证
+//                .and()
+//                .logout()
+//                .permitAll()//定义logout不需要验证
+//                //.and()
+//                //.formLogin()//使用form表单登录
+//                .addObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+//    				public <O extends FilterSecurityInterceptor> O postProcess(
+//    						O fsi) {
+//    					fsi.setPublishAuthorizationSuccess(true);
+//    					return fsi;
+//    				}
+//    			});
+
+//        http.exceptionHandling()
+//                .and()
+//                .addFilter(filter)
+//                .addFilterBefore(casLogoutFilter(), LogoutFilter.class)
+//                .addFilterBefore(singleSignOutFilter(), AuthenticationFilter.class);
+        		
+        		//pc  singleSignOutFilter,casAuthenticationFilter,casValidationFilter,casHttpServletRequestWrapperFilter,casAssertionThreadLocalFilter
+        
+        
+        		//m singleSignOutFilter,casAuthenticationFilterForMobile,casValidationFilter,casHttpServletRequestWrapperFilter,casAssertionThreadLocalFilter
+        		
+        http.csrf().disable(); //禁用CSRF
+    }
+	
 	@Bean
 	public SpringCasAutoconfig getSpringCasAutoconfig() {
 		return new SpringCasAutoconfig();

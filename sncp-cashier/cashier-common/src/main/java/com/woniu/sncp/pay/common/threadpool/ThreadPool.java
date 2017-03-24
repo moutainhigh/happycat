@@ -21,6 +21,8 @@ public class ThreadPool {
 
 	private static final Logger logger = LoggerFactory.getLogger(ThreadPool.class);
 
+	private static ThreadPool threadPool;
+	
 	private ThreadPoolExecutor threadPoolExecutor;
 
 	private int corePoolSize, maximumPoolSize;
@@ -73,6 +75,14 @@ public class ThreadPool {
 
 	public void setBlockingQueueNum(int blockingQueueNum) {
 		this.blockingQueueNum = blockingQueueNum;
+	}
+
+	public static ThreadPool getInstance(){
+		if(threadPool == null){
+			threadPool =  new ThreadPool();
+		}
+		
+		return threadPool;
 	}
 
 }

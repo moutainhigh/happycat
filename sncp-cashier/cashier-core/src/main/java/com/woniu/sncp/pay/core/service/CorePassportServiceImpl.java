@@ -1,8 +1,8 @@
 package com.woniu.sncp.pay.core.service;
 
 
-import javax.xml.rpc.ServiceException;
 
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

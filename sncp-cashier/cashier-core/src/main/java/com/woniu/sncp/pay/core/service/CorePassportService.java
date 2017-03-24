@@ -1,7 +1,6 @@
 package com.woniu.sncp.pay.core.service;
 
-import javax.xml.rpc.ServiceException;
-
+import org.hibernate.service.spi.ServiceException;
 import org.springframework.dao.DataAccessException;
 
 import com.woniu.sncp.ocp.exception.BusinessException;

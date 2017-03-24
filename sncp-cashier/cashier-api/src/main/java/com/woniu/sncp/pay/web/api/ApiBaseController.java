@@ -8,11 +8,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.validation.Assertion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -187,5 +189,23 @@ public class ApiBaseController {
 		}
 		
 		return CaptchaValidation.isGameCaptchaPass(captchValue, accountid);
+	}
+	
+	public static Long getLoginId(){
+		Assertion assertion = org.jasig.cas.client.util.AssertionHolder
+				.getAssertion();
+		if (assertion != null) {
+			AttributePrincipal ap = assertion.getPrincipal();
+			java.util.Map<String, Object> map = ap.getAttributes();
+			return Long.valueOf(String.valueOf(map.get("naid")));
+		}
+		return null;
+	}
+	
+	public  String shortMobile(String mobile) {
+		if(org.apache.commons.lang.StringUtils.isNotEmpty(mobile) && mobile.length() == 11) {
+			return mobile.substring(0, 3) + "******" + mobile.substring(9);
+		}
+		return mobile;
 	}
 }

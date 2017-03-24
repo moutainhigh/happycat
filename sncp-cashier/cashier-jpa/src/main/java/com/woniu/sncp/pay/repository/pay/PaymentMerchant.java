@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
 @Entity
-@Table(name = "pay_merchant", schema = "SN_PAY")
+@Table(name = "PAY_MERCHANT", schema = "SN_PAY")
 public class PaymentMerchant implements Serializable {
 	
 	/**
@@ -63,7 +63,7 @@ public class PaymentMerchant implements Serializable {
 	/**
 	 * Md5密钥或商户公钥或DES密钥串
 	 */
-	private String key;
+	private String merchantKey;
 	/**
 	 * 我方私钥（md5无私钥)
 	 */
@@ -131,11 +131,11 @@ public class PaymentMerchant implements Serializable {
 	public void setKeyType(String keyType) {
 		this.keyType = keyType;
 	}
-	public String getKey() {
-		return key;
+	public String getMerchantKey() {
+		return merchantKey;
 	}
-	public void setKey(String key) {
-		this.key = key;
+	public void setMerchantKey(String merchantKey) {
+		this.merchantKey = merchantKey;
 	}
 	public String getPrivateKey() {
 		return privateKey;

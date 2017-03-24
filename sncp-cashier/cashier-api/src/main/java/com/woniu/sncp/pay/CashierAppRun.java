@@ -17,7 +17,8 @@ import org.springframework.http.HttpStatus;
  * @date   2017年3月20日
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
-@ComponentScan(basePackages={"com.woniu.sncp.pay.core","com.woniu.sncp.pay","com.woniu.sncp.ocp.business.passport"})
+//"com.woniu.sncp.pay.core",
+@ComponentScan(basePackages={"com.woniu.sncp.pay","com.woniu.sncp.ocp.business.passport"})
 @SpringBootApplication
 @EnableAutoConfiguration
 public class CashierAppRun {

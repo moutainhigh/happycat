@@ -94,7 +94,7 @@ public class AuthenticationCommonFilter extends OncePerRequestFilter {
 			//获取签名类型
 			StringBuffer sbSource = genSignStr(request, treeMap);
 			String signgType = payemntMerchnt.getKeyType();
-			String signKey = payemntMerchnt.getKey();
+			String signKey = payemntMerchnt.getMerchantKey();
 			
 			//DES解密特殊处理
 			if("DES".equals(signgType)){

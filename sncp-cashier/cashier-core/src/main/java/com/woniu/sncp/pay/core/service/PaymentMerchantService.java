@@ -20,7 +20,7 @@ public class PaymentMerchantService {
 	PaymentMerchantDao paymentMerchantDao;
 	
 	public PaymentMerchant queryPayemntMerchnt(long merchantId){
-		return null;
+		return paymentMerchantDao.queryPayemntMerchnt(merchantId);
 	}
 	
 	public List<PaymentMerchantDetail> queryPaymentMerchantDtl(long merchantId){

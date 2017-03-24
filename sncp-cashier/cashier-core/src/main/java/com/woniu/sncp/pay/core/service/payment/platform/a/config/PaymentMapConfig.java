@@ -7,9 +7,11 @@ import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayDPPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.ttb.TtbPayment;
 
 /**
  * <p>descrption: </p>
@@ -26,6 +28,9 @@ public class PaymentMapConfig {
 	@Resource
 	AlipayPayment alipayPayment;
 	
+	@Resource
+	TtbPayment ttbPayment;
+	
 	@Bean(name={"paymentMap"})
 	public Map<String, AbstractPayment> getPaymentMap(){
 		Map<String,AbstractPayment> paymentMap = new HashMap<String,AbstractPayment>();
@@ -33,6 +38,10 @@ public class PaymentMapConfig {
 //		paymentMap.put("PAYMENT_1002", nbcbDPPayment);
 //		paymentMap.put("PAYMENT_1003", jdDPPayment);
 		paymentMap.put("PAYMENT_1004", alipayPayment);
+		
+		
+		
+		paymentMap.put("PAYMENT_4001", ttbPayment);//<!-- 兔兔币 -->
 		/**
 		 * 
 				<!-- 财付通即时支付 -->
@@ -104,8 +113,7 @@ public class PaymentMapConfig {
 				<!-- 新版本支付宝20160907 -->
 				<entry key="PAYMENT_3009" value-ref="alipayWapAppPayment" />
 				
-				<!-- 兔兔币 -->
-				<entry key="PAYMENT_4001" value-ref="ttbPayment" />
+				
 				<!-- 翡翠币web -->
 				<entry key="PAYMENT_4002" value-ref="fcbPayment" />
 				<!-- 翡翠币wap -->

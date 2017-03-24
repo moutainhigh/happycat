@@ -259,7 +259,7 @@ public class PaymentBackendController extends ApiBaseController{
 				String name = (String) iter.next();
 				sb.append(name).append(treeMap.get(name));
 			}
-			sb.append(payemntMerchnt.getKey());
+			sb.append(payemntMerchnt.getMerchantKey());
 			String localSign = MD5Encrypt.encrypt(sb.toString());
 			
 			if(localSign.equalsIgnoreCase(sign)){

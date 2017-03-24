@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ObjectUtils;
 
 import com.woniu.sncp.pay.dao.PaymentMerchantDao;
+import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchantDetail;
 
 /**
@@ -38,4 +40,15 @@ public class PaymentMerchantDao extends PayBaseDao{
 		return (List<PaymentMerchantDetail>) super.queryListEntity(sbf.toString(), params, PaymentMerchantDetail.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	public PaymentMerchant queryPayemntMerchnt(long merchantId){
+		if(ObjectUtils.isEmpty(merchantId)){
+			return null;
+		}
+		String querySql = "SELECT * FROM SN_PAY.PAY_MERCHANT M WHERE M.S_STATUS = '1' AND M.N_ID =:merchantId";
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("merchantId", merchantId);
+		List<PaymentMerchant> result = (List<PaymentMerchant>) super.queryListEntity(querySql.toString(), paramMap, PaymentMerchant.class);
+		return result.isEmpty()?null:result.get(0);
+	}
 }

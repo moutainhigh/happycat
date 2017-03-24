@@ -33,6 +33,14 @@ public interface OcpAccountService {
 	boolean isSmsCheck(String djj);
 	
 	/**
+	 * 验证代金卷是否需要发送验证码
+	 * @param djj 代金卷，参数格式：curr1,10#curr2,20
+	 * @param merchantId 收银台商户号
+	 * @return true 需要，false 不需要
+	 */
+	boolean isSmsCheck(String djj,String merchantId);
+	
+	/**
 	 * 增加余额
 	 * @param params
 	 * @return

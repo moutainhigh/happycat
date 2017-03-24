@@ -236,7 +236,7 @@ public class PaymentFacade {
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				
-				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,null);
+				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
 			}
 
 			// 4.封装支付
@@ -422,7 +422,7 @@ public class PaymentFacade {
 				//增加渠道商户号,
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				
-				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,null);
+				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
 				
 			}
 

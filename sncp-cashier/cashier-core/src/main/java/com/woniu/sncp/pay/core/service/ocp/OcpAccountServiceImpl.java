@@ -58,19 +58,19 @@ public class OcpAccountServiceImpl implements OcpAccountService {
 	@Value("${core.account.connect.timeout}")
 	private String connctTime;
 	
-	@Value("${app.url}")
+	@Value("${bussiness.app.url}")
 	private String url;
 	
-	@Value("${app.accessId}")
+	@Value("${bussiness.app.accessId}")
 	private String accessId;
 	
-	@Value("${app.accessPassword}")
+	@Value("${bussiness.app.accessPassword}")
 	private String accessPassword;
 	
-	@Value("${app.accessType}")
+	@Value("${bussiness.app.accessType}")
 	private String accessType;
 	
-	@Value("${app.key}")
+	@Value("${bussiness.app.key}")
 	private String key;
 	
 	@Override
@@ -351,6 +351,64 @@ public class OcpAccountServiceImpl implements OcpAccountService {
 								break;
 							}
 						}
+					}
+				}
+			}
+			
+		}
+		return isSms;
+	}
+	
+	public boolean isSmsCheck(String djj,String merchantid){
+		boolean isSms = false;
+		if(StringUtils.isBlank(djj)){
+			return false;
+		}
+		//查询代金卷
+		String resp = null;
+		try {
+			resp = queryDjj("36","");//写死gameId=36，type=5
+		} catch (Exception e) {
+			return false;
+		}
+		
+		List<Map<String, Object>> dList = null;
+		if(StringUtils.isNotBlank(resp)){
+			Map<String, Object> respMap = JsonUtils.jsonToMap(resp);
+			if("1".equals(ObjectUtils.toString(respMap.get("msgcode")))){
+    			dList = (List<Map<String, Object>>)respMap.get("data");
+    		}
+		}
+		
+		String[] djjArr =  djj.split("#");
+		if(djjArr !=null && ArrayUtil.isNotEmpty(djjArr)){
+			for(int i=0;i<djjArr.length;i++){
+				String[] currAndAmount = djjArr[i].split(",");
+				String curr = currAndAmount[0];
+				if(dList!=null && dList.size() >0){
+					for(int j=0;j<dList.size();j++){
+						Map<String, Object> qdjj = dList.get(j);
+						String currencyId = (String)qdjj.get("currencyId");
+						String payments = (String)qdjj.get("payments");
+						if(StringUtils.isBlank(payments)) continue;
+						String[] paymentArray = payments.split(","); 
+						String sms = (String)qdjj.get("sms");
+						if(curr.equals(currencyId)){
+							if(ArrayUtil.contains(paymentArray, merchantid)){
+								
+								if("1".equals(sms)){
+									isSms  =true;
+									break;
+								}
+							}
+						}
+//						if(curr.equals(currencyId)){
+//							String sms = (String)qdjj.get("sms");
+//							if("1".equals(sms)){
+//								isSms  =true;
+//								break;
+//							}
+//						}
 					}
 				}
 			}

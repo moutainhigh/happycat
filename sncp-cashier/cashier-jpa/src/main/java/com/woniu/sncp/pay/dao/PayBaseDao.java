@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,7 +18,6 @@ import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.CollectionUtils;  
 /**
  * <p>descrption: </p>
@@ -33,7 +31,7 @@ public class PayBaseDao {
 	@PersistenceContext(unitName="persistenceUnit")
 	@Autowired
     EntityManager entityManager;
-      
+    
     /** 
      * * 查询数据集合 
      * @param sql 查询sql sql中的参数用:name格式  
@@ -62,7 +60,7 @@ public class PayBaseDao {
             return entityList;  
         }  
         return result;  
-    }  
+    }
   
     /**
      * 实体和查询的数据进行转换
