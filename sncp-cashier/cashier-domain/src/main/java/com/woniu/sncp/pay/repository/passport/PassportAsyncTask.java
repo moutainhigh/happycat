@@ -4,13 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.woniu.sncp.pojo.IdEntity;
+import com.woniu.sncp.pojo.SingleKeyPojo;
 
 @Entity
 @Table(name = "PP_ASYNC_TASK", schema = "SN_PASSPORT")
-public class PassportAsyncTask extends IdEntity {
+public class PassportAsyncTask implements SingleKeyPojo{
 
 	/**
 	 * 
@@ -36,6 +38,18 @@ public class PassportAsyncTask extends IdEntity {
 	 * 状态 - 正在恢复 - 3
 	 */
 	public static String STATE_RECOVERING = "3";
+
+	@Id
+	@Column(name = "N_ID")
+	protected Long id;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	/**
 	 * 任务类型

@@ -45,7 +45,7 @@
 
 	<modules>
 		<module>cashier-api</module>
-		<module>cashier-jpa</module>
+		<module>cashier-domain</module>
 		<module>cashier-core</module>
 		<module>cashier-common</module>
 	</modules>

@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
-			<artifactId>cashier-jpa</artifactId>
+			<artifactId>cashier-domain</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 		<!-- 银联 app支付 新SDK -->
