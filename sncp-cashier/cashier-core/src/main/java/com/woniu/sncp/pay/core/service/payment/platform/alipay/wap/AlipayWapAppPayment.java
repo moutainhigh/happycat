@@ -64,7 +64,7 @@ import com.woniu.sncp.pay.common.utils.http.PayCheckUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipaySecurityRiskDetect;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.pojo.refund.PayRefundBatch;
 
 /**

@@ -13,7 +13,7 @@ import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptStringUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 /**
  * 支付宝 扫码支付

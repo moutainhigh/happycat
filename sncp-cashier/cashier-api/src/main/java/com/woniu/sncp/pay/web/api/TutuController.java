@@ -36,8 +36,8 @@ import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.ocp.OcpAccountService;
 import com.woniu.sncp.pay.core.service.payment.PaymentFacade;
 import com.woniu.sncp.pay.core.service.sms.SmsService;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
 import com.woniu.sncp.pojo.passport.Passport;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
 import com.woniu.sncp.web.response.ResultResponse;
 

@@ -36,7 +36,7 @@ import com.woniu.sncp.pay.core.service.PlatformService;
 import com.woniu.sncp.pay.core.service.fcb.FcbService;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
 
 @Service("standardPaymentProcess")

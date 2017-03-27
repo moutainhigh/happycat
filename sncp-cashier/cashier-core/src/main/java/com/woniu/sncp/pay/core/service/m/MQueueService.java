@@ -25,9 +25,9 @@ import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.ExchargeConstant;
 import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.dao.QueueBaseSessionDAO;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
 import com.woniu.sncp.pay.repository.queue.MessageQueue;
 import com.woniu.sncp.pay.repository.queue.MessageQueueLog;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 /**
  * 

@@ -61,22 +61,13 @@ spring:
     use-session: true
     server-name: http://cashier.woniu.com
     
-# CAS服务地址
-cas:
-  server:
-    url: https://sso.woniu.com
-    # CAS服务登录地址
-    login_url: ${cas.server.url}/login
-    m_login_url: ${cas.server.url}/m/login
-    # CAS服务登出地址
-    logout_url: ${cas.server.url}/logout?service=${app.url}
-
-# 应用访问地址
-app:
-  url: http://cashier.woniu.com
-  # 应用登录地址
-  login_url: /login
-  # 应用登出地址
-  logout_url: /logout
+#redis cluster
+  redis: 
+    cluster: 
+      nodes: 
+        - 10.106.0.199:7000
+        - 10.106.0.199:7001
+        - 10.106.0.199:7002
+      timeout: 3000
   
   

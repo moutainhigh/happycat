@@ -32,7 +32,6 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
-import org.springframework.beans.BeansException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +57,7 @@ import com.woniu.sncp.pay.common.utils.http.PayCheckUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
 import com.woniu.sncp.pay.core.transfer.model.TransferModel;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.pojo.payment.TransferOrder;
 import com.woniu.sncp.pojo.refund.PayRefundBatch;
 

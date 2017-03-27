@@ -1,0 +1,223 @@
+2017-03-27 18:40:06.906 [main] INFO  com.woniu.sncp.pay.CashierAppRun -
+				Starting CashierAppRun on 付正亮 with PID 18636 (D:\woniu-git-repository\woniu-microservices\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\sncp-cashier\cashier-api)
+2017-03-27 18:40:06.910 [main] INFO  com.woniu.sncp.pay.CashierAppRun -
+				The following profiles are active: dev
+2017-03-27 18:40:07.048 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext -
+				Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@48f278eb: startup date [Mon Mar 27 18:40:07 CST 2017]; root of context hierarchy
+2017-03-27 18:40:10.075 [main] INFO  o.s.b.f.s.DefaultListableBeanFactory -
+				Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=cashierWebAppConfig; factoryMethodName=encodingFilterRegistration; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [com/woniu/sncp/pay/CashierWebAppConfig.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/HttpEncodingAutoConfiguration.class]]
+2017-03-27 18:40:10.531 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -
+				JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-27 18:40:10.763 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -
+				Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$38385643] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-27 18:40:11.529 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer -
+				Tomcat initialized with port(s): 80 (http)
+2017-03-27 18:40:11.552 [main] INFO  o.a.catalina.core.StandardService -
+				Starting service Tomcat
+2017-03-27 18:40:11.554 [main] INFO  o.a.catalina.core.StandardEngine -
+				Starting Servlet Engine: Apache Tomcat/8.0.37
+2017-03-27 18:40:12.481 [localhost-startStop-1] INFO  org.apache.jasper.servlet.TldScanner -
+				At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2017-03-27 18:40:12.489 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -
+				Initializing Spring embedded WebApplicationContext
+2017-03-27 18:40:12.490 [localhost-startStop-1] INFO  o.s.web.context.ContextLoader -
+				Root WebApplicationContext: initialization completed in 5442 ms
+2017-03-27 18:40:13.682 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-27 18:40:13.683 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'metricsFilter' to: [/*]
+2017-03-27 18:40:13.683 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-27 18:40:13.684 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-27 18:40:13.684 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-27 18:40:13.686 [localhost-startStop-1] INFO  o.s.b.c.e.DelegatingFilterProxyRegistrationBean -
+				Mapping filter: 'springSecurityFilterChain' to: [/*]
+2017-03-27 18:40:13.687 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'logoutFilter' to urls: [/logout]
+2017-03-27 18:40:13.687 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'singleSignOutFilter' to urls: [/logout]
+2017-03-27 18:40:13.688 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'authenticationFilter' to urls: [/sso/**, /m/sso/**, /security/*, /security/ttb/pay]
+2017-03-27 18:40:13.689 [localhost-startStop-1] INFO  o.a.catalina.core.StandardContext -
+				Suspicious url pattern: "/sso/**" in context [] - see sections 12.1 and 12.2 of the Servlet specification
+2017-03-27 18:40:13.689 [localhost-startStop-1] INFO  o.a.catalina.core.StandardContext -
+				Suspicious url pattern: "/m/sso/**" in context [] - see sections 12.1 and 12.2 of the Servlet specification
+2017-03-27 18:40:13.689 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'cas20ProxyReceivingTicketValidationFilter' to urls: [/*]
+2017-03-27 18:40:13.690 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'httpServletRequestWrapperFilter' to urls: [/*]
+2017-03-27 18:40:13.690 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'assertionThreadLocalFilter' to urls: [/*]
+2017-03-27 18:40:13.690 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-27 18:40:13.691 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-27 18:40:13.692 [localhost-startStop-1] INFO  o.s.b.c.e.ServletRegistrationBean -
+				Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-27 18:40:13.738 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@78ea784f] loaded from FilterConfig.getInitParameter with value [https://sso.woniu.com]
+2017-03-27 18:40:13.935 [localhost-startStop-1] INFO  o.s.b.a.s.AuthenticationManagerConfiguration -
+				
+
+Using default security password: 66cc7df5-d609-4930-9903-2151ecb84497
+
+2017-03-27 18:40:14.007 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error']]], []
+2017-03-27 18:40:14.067 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@38eb509, org.springframework.security.web.context.SecurityContextPersistenceFilter@14b0ff2e, org.springframework.security.web.header.HeaderWriterFilter@4795b0ae, org.springframework.security.web.authentication.logout.LogoutFilter@649e37a5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@24bd56f8, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1ac96d6e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@163899c2, org.springframework.security.web.session.SessionManagementFilter@429108a, org.springframework.security.web.access.ExceptionTranslationFilter@4379a97d]
+2017-03-27 18:40:14.113 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@1c17fb55, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@cd94d27, org.springframework.security.web.context.SecurityContextPersistenceFilter@386e106, org.springframework.security.web.header.HeaderWriterFilter@2afc76c3, org.springframework.security.web.authentication.logout.LogoutFilter@3947cc6d, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@542b39b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3aaa6f9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4a299221, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@60c015c1, org.springframework.security.web.session.SessionManagementFilter@98f5243, org.springframework.security.web.access.ExceptionTranslationFilter@3ef7cb64, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@403cbfda]
+2017-03-27 18:40:14.128 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@33106e7f] loaded from FilterConfig.getInitParameter with value [http://cashier.woniu.com]
+2017-03-27 18:40:14.129 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@1a58bdbc] loaded from FilterConfig.getInitParameter with value [/login]
+2017-03-27 18:40:14.132 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@33106e7f] loaded from FilterConfig.getInitParameter with value [http://cashier.woniu.com]
+2017-03-27 18:40:14.135 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@78ea784f] loaded from FilterConfig.getInitParameter with value [https://sso.woniu.com]
+2017-03-27 18:40:14.581 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:40:15.538 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'gamePersistenceUnit'
+2017-03-27 18:40:15.585 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: gamePersistenceUnit
+	...]
+2017-03-27 18:40:15.697 [main] INFO  org.hibernate.Version -
+				HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-27 18:40:15.700 [main] INFO  org.hibernate.cfg.Environment -
+				HHH000206: hibernate.properties not found
+2017-03-27 18:40:15.702 [main] INFO  org.hibernate.cfg.Environment -
+				HHH000021: Bytecode provider name : javassist
+2017-03-27 18:40:15.921 [main] INFO  o.h.annotations.common.Version -
+				HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-27 18:40:16.027 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:40:16.178 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:40:16.631 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:40:16.892 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'passportPersistenceUnit'
+2017-03-27 18:40:16.892 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: passportPersistenceUnit
+	...]
+2017-03-27 18:40:16.922 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:40:16.935 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:40:16.986 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:40:17.233 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'persistenceUnit'
+2017-03-27 18:40:17.234 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: persistenceUnit
+	...]
+2017-03-27 18:40:17.311 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:40:17.335 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:40:17.426 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:40:17.598 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'queuePersistenceUnit'
+2017-03-27 18:40:17.598 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: queuePersistenceUnit
+	...]
+2017-03-27 18:40:17.626 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:40:17.639 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:40:18.012 [main] WARN  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext -
+				Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'indexController': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+2017-03-27 18:40:18.022 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'queuePersistenceUnit'
+2017-03-27 18:40:18.030 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'persistenceUnit'
+2017-03-27 18:40:18.031 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'passportPersistenceUnit'
+2017-03-27 18:40:18.031 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'gamePersistenceUnit'
+2017-03-27 18:40:18.047 [main] INFO  o.a.catalina.core.StandardService -
+				Stopping service Tomcat
+2017-03-27 18:40:18.055 [localhost-startStop-1] WARN  o.a.c.loader.WebappClassLoaderBase -
+				The web application [ROOT] appears to have started a thread named [Timer-0] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.util.TimerThread.mainLoop(Timer.java:552)
+ java.util.TimerThread.run(Timer.java:505)
+2017-03-27 18:40:18.067 [main] ERROR o.s.boot.SpringApplication -
+				Application startup failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'indexController': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:778)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:839)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:538)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:118)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.createAndRefreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1185)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1174)
+	at com.woniu.sncp.pay.CashierAppRun.main(CashierAppRun.java:30)
+Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:573)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+	... 17 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessPropertyValues(CommonAnnotationBeanPostProcessor.java:311)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1123)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1021)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:545)
+	... 19 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:545)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:512)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:486)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:615)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:169)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessPropertyValues(CommonAnnotationBeanPostProcessor.java:308)
+	... 30 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pojo.payment.PaymentOrder
+	at org.hibernate.jpa.internal.metamodel.MetamodelImpl.managedType(MetamodelImpl.java:219)
+	at org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation.<init>(JpaMetamodelEntityInformation.java:70)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:67)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:152)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:99)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:81)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:185)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:251)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:237)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:92)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1641)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1578)
+	... 42 common frames omitted
+2017-03-27 18:40:18.074 [main] WARN  o.s.boot.SpringApplication -
+				Error handling failed (Error creating bean with name 'delegatingApplicationListener' defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'org.springframework.context.annotation.ConfigurationClassPostProcessor.importRegistry' is defined)

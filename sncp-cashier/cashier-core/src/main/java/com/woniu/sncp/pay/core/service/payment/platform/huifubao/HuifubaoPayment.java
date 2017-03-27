@@ -37,7 +37,7 @@ import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.date.DateUtils;
 import com.woniu.sncp.pay.common.utils.encrypt.ThreeDES;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 @Service("huihubaoPayment")
 public class HuifubaoPayment extends AbstractPayment {

@@ -7,8 +7,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Service;
 
 import com.woniu.pay.pojo.Platform;
@@ -16,7 +14,7 @@ import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptStringUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 /**
  * <pre>

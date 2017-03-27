@@ -68,7 +68,7 @@ import com.woniu.sncp.pay.core.service.PlatformService;
 import com.woniu.sncp.pay.core.service.RefundmentOrderService;
 import com.woniu.sncp.pay.core.transfer.model.TransferModel;
 import com.woniu.sncp.pay.core.transfer.platform.Transfer;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.pojo.payment.TransferOrder;
 import com.woniu.sncp.pojo.refund.PayRefundBatch;
 import com.woniu.sncp.web.IpUtils;

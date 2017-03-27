@@ -35,7 +35,7 @@ import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
 import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

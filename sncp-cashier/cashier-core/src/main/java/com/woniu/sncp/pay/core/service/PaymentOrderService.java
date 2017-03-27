@@ -44,10 +44,10 @@ import com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
 import com.woniu.sncp.pay.repository.passport.PassportAsyncTask;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
 import com.woniu.sncp.pay.repository.pay.PaymentOrderRepository;
 import com.woniu.sncp.pay.repository.queue.MessageQueue;
 import com.woniu.sncp.pay.repository.queue.MessageQueueLog;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 
 @Service("paymentOrderService")

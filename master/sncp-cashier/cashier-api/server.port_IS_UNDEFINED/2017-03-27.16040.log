@@ -1,0 +1,237 @@
+2017-03-27 18:52:35.788 [main] INFO  com.woniu.sncp.pay.CashierAppRun -
+				Starting CashierAppRun on 付正亮 with PID 16040 (D:\woniu-git-repository\woniu-microservices\sncp-cashier\cashier-api\target\classes started by fuzl in D:\woniu-git-repository\woniu-microservices\sncp-cashier\cashier-api)
+2017-03-27 18:52:35.791 [main] INFO  com.woniu.sncp.pay.CashierAppRun -
+				The following profiles are active: dev
+2017-03-27 18:52:35.866 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext -
+				Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@48f278eb: startup date [Mon Mar 27 18:52:35 CST 2017]; root of context hierarchy
+2017-03-27 18:52:38.964 [main] INFO  o.s.b.f.s.DefaultListableBeanFactory -
+				Overriding bean definition for bean 'characterEncodingFilter' with a different definition: replacing [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=cashierWebAppConfig; factoryMethodName=encodingFilterRegistration; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [com/woniu/sncp/pay/CashierWebAppConfig.class]] with [Root bean: class [null]; scope=; abstract=false; lazyInit=false; autowireMode=3; dependencyCheck=0; autowireCandidate=true; primary=false; factoryBeanName=org.springframework.boot.autoconfigure.web.HttpEncodingAutoConfiguration; factoryMethodName=characterEncodingFilter; initMethodName=null; destroyMethodName=(inferred); defined in class path resource [org/springframework/boot/autoconfigure/web/HttpEncodingAutoConfiguration.class]]
+2017-03-27 18:52:39.426 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -
+				JSR-330 'javax.inject.Inject' annotation found and supported for autowiring
+2017-03-27 18:52:39.567 [main] INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker -
+				Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [class org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$75c2dfda] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2017-03-27 18:52:40.305 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer -
+				Tomcat initialized with port(s): 80 (http)
+2017-03-27 18:52:40.327 [main] INFO  o.a.catalina.core.StandardService -
+				Starting service Tomcat
+2017-03-27 18:52:40.334 [main] INFO  o.a.catalina.core.StandardEngine -
+				Starting Servlet Engine: Apache Tomcat/8.0.37
+2017-03-27 18:52:41.145 [localhost-startStop-1] INFO  org.apache.jasper.servlet.TldScanner -
+				At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2017-03-27 18:52:41.153 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -
+				Initializing Spring embedded WebApplicationContext
+2017-03-27 18:52:41.153 [localhost-startStop-1] INFO  o.s.web.context.ContextLoader -
+				Root WebApplicationContext: initialization completed in 5287 ms
+2017-03-27 18:52:42.219 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-03-27 18:52:42.219 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'metricsFilter' to: [/*]
+2017-03-27 18:52:42.220 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-03-27 18:52:42.220 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-03-27 18:52:42.220 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'requestContextFilter' to: [/*]
+2017-03-27 18:52:42.221 [localhost-startStop-1] INFO  o.s.b.c.e.DelegatingFilterProxyRegistrationBean -
+				Mapping filter: 'springSecurityFilterChain' to: [/*]
+2017-03-27 18:52:42.222 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'logoutFilter' to urls: [/logout]
+2017-03-27 18:52:42.222 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'singleSignOutFilter' to urls: [/logout]
+2017-03-27 18:52:42.223 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'authenticationFilter' to urls: [/sso/**, /m/sso/**, /security/*, /security/ttb/pay]
+2017-03-27 18:52:42.223 [localhost-startStop-1] INFO  o.a.catalina.core.StandardContext -
+				Suspicious url pattern: "/sso/**" in context [] - see sections 12.1 and 12.2 of the Servlet specification
+2017-03-27 18:52:42.223 [localhost-startStop-1] INFO  o.a.catalina.core.StandardContext -
+				Suspicious url pattern: "/m/sso/**" in context [] - see sections 12.1 and 12.2 of the Servlet specification
+2017-03-27 18:52:42.224 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'cas20ProxyReceivingTicketValidationFilter' to urls: [/*]
+2017-03-27 18:52:42.224 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'httpServletRequestWrapperFilter' to urls: [/*]
+2017-03-27 18:52:42.225 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'assertionThreadLocalFilter' to urls: [/*]
+2017-03-27 18:52:42.237 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2017-03-27 18:52:42.238 [localhost-startStop-1] INFO  o.s.b.c.e.FilterRegistrationBean -
+				Mapping filter: 'applicationContextIdFilter' to: [/*]
+2017-03-27 18:52:42.239 [localhost-startStop-1] INFO  o.s.b.c.e.ServletRegistrationBean -
+				Mapping servlet: 'dispatcherServlet' to [/]
+2017-03-27 18:52:42.371 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@ec81d52] loaded from FilterConfig.getInitParameter with value [https://sso.woniu.com]
+2017-03-27 18:52:42.596 [localhost-startStop-1] INFO  o.s.b.a.s.AuthenticationManagerConfiguration -
+				
+
+Using default security password: 866c2e1f-c02c-4ecb-a5e0-e9fbff414270
+
+2017-03-27 18:52:42.678 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: OrRequestMatcher [requestMatchers=[Ant [pattern='/css/**'], Ant [pattern='/js/**'], Ant [pattern='/images/**'], Ant [pattern='/**/favicon.ico'], Ant [pattern='/error']]], []
+2017-03-27 18:52:42.749 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: org.springframework.security.web.util.matcher.AnyRequestMatcher@1, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5bc0321b, org.springframework.security.web.context.SecurityContextPersistenceFilter@552038db, org.springframework.security.web.header.HeaderWriterFilter@633a2a59, org.springframework.security.web.authentication.logout.LogoutFilter@dd0f23b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1e41602a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@48aef3a8, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@518b5272, org.springframework.security.web.session.SessionManagementFilter@5100dc0, org.springframework.security.web.access.ExceptionTranslationFilter@605f45cb]
+2017-03-27 18:52:42.801 [localhost-startStop-1] INFO  o.s.s.web.DefaultSecurityFilterChain -
+				Creating filter chain: org.springframework.boot.actuate.autoconfigure.ManagementWebSecurityAutoConfiguration$LazyEndpointPathRequestMatcher@7c533f3a, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7794d5eb, org.springframework.security.web.context.SecurityContextPersistenceFilter@7fb900cc, org.springframework.security.web.header.HeaderWriterFilter@7bf736c4, org.springframework.security.web.authentication.logout.LogoutFilter@32bc825a, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@128339f2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@b13cec9, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@49108879, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@515a4ee, org.springframework.security.web.session.SessionManagementFilter@50356c45, org.springframework.security.web.access.ExceptionTranslationFilter@5be5f76d, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@54e579c9]
+2017-03-27 18:52:42.832 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@4c7508ab] loaded from FilterConfig.getInitParameter with value [http://cashier.woniu.com]
+2017-03-27 18:52:42.833 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@7dd1d747] loaded from FilterConfig.getInitParameter with value [/login]
+2017-03-27 18:52:42.836 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@4c7508ab] loaded from FilterConfig.getInitParameter with value [http://cashier.woniu.com]
+2017-03-27 18:52:42.840 [localhost-startStop-1] INFO  o.j.c.c.c.WebXmlConfigurationStrategyImpl -
+				Property [org.jasig.cas.client.configuration.ConfigurationKey@ec81d52] loaded from FilterConfig.getInitParameter with value [https://sso.woniu.com]
+2017-03-27 18:52:43.263 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:52:45.388 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'gamePersistenceUnit'
+2017-03-27 18:52:45.429 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: gamePersistenceUnit
+	...]
+2017-03-27 18:52:45.569 [main] INFO  org.hibernate.Version -
+				HHH000412: Hibernate Core {4.3.11.Final}
+2017-03-27 18:52:45.572 [main] INFO  org.hibernate.cfg.Environment -
+				HHH000206: hibernate.properties not found
+2017-03-27 18:52:45.573 [main] INFO  org.hibernate.cfg.Environment -
+				HHH000021: Bytecode provider name : javassist
+2017-03-27 18:52:45.853 [main] INFO  o.h.annotations.common.Version -
+				HCANN000001: Hibernate Commons Annotations {4.0.5.Final}
+2017-03-27 18:52:45.953 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:52:46.166 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:52:46.779 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:52:46.941 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'passportPersistenceUnit'
+2017-03-27 18:52:46.941 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: passportPersistenceUnit
+	...]
+2017-03-27 18:52:46.962 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:52:46.977 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:52:47.013 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:52:47.207 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'persistenceUnit'
+2017-03-27 18:52:47.207 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: persistenceUnit
+	...]
+2017-03-27 18:52:47.243 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:52:47.256 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:52:47.316 [main] WARN  o.a.tomcat.jdbc.pool.ConnectionPool -
+				maxIdle is smaller than minIdle, setting maxIdle to: 10
+2017-03-27 18:52:47.874 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Building JPA container EntityManagerFactory for persistence unit 'queuePersistenceUnit'
+2017-03-27 18:52:47.875 [main] INFO  o.h.jpa.internal.util.LogHelper -
+				HHH000204: Processing PersistenceUnitInfo [
+	name: queuePersistenceUnit
+	...]
+2017-03-27 18:52:47.887 [main] INFO  org.hibernate.dialect.Dialect -
+				HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2017-03-27 18:52:47.900 [main] INFO  o.h.h.i.a.ASTQueryTranslatorFactory -
+				HHH000397: Using ASTQueryTranslatorFactory
+2017-03-27 18:52:48.536 [main] WARN  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext -
+				Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'indexController': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'syncTaskSchedule': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+2017-03-27 18:52:48.538 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'queuePersistenceUnit'
+2017-03-27 18:52:48.554 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'persistenceUnit'
+2017-03-27 18:52:48.555 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'passportPersistenceUnit'
+2017-03-27 18:52:48.555 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean -
+				Closing JPA EntityManagerFactory for persistence unit 'gamePersistenceUnit'
+2017-03-27 18:52:48.601 [main] INFO  o.a.catalina.core.StandardService -
+				Stopping service Tomcat
+2017-03-27 18:52:48.619 [main] ERROR o.s.boot.SpringApplication -
+				Application startup failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'indexController': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'syncTaskSchedule': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:778)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:839)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:538)
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:118)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:760)
+	at org.springframework.boot.SpringApplication.createAndRefreshContext(SpringApplication.java:360)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:306)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1185)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1174)
+	at com.woniu.sncp.pay.CashierAppRun.main(CashierAppRun.java:32)
+Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.core.service.PaymentOrderService com.woniu.sncp.pay.IndexController.paymentOrderService; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'syncTaskSchedule': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:573)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+	... 17 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'paymentOrderService': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'syncTaskSchedule': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessPropertyValues(CommonAnnotationBeanPostProcessor.java:311)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1123)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1021)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:545)
+	... 19 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'syncTaskSchedule': Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:334)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1218)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:543)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.autowireResource(CommonAnnotationBeanPostProcessor.java:512)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.getResource(CommonAnnotationBeanPostProcessor.java:486)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor$ResourceElement.getResourceToInject(CommonAnnotationBeanPostProcessor.java:615)
+	at org.springframework.beans.factory.annotation.InjectionMetadata$InjectedElement.inject(InjectionMetadata.java:169)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.context.annotation.CommonAnnotationBeanPostProcessor.postProcessPropertyValues(CommonAnnotationBeanPostProcessor.java:308)
+	... 30 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.woniu.sncp.pay.repository.queue.MessageQueueRepository com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule.messageQueueRepository; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:573)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:88)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:331)
+	... 43 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'messageQueueRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1582)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:545)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:482)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1123)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1021)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:545)
+	... 45 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Not an managed type: class com.woniu.sncp.pay.repository.queue.MessageQueue
+	at org.hibernate.jpa.internal.metamodel.MetamodelImpl.managedType(MetamodelImpl.java:219)
+	at org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation.<init>(JpaMetamodelEntityInformation.java:70)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:67)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:152)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:99)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:81)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:185)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.initAndReturn(RepositoryFactoryBeanSupport.java:251)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:237)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:92)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1641)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1578)
+	... 55 common frames omitted
+2017-03-27 18:52:48.623 [main] WARN  o.s.boot.SpringApplication -
+				Error handling failed (Error creating bean with name 'delegatingApplicationListener' defined in class path resource [org/springframework/security/config/annotation/web/configuration/WebSecurityConfiguration.class]: BeanPostProcessor before instantiation of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': Initialization of bean failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'org.springframework.context.annotation.ConfigurationClassPostProcessor.importRegistry' is defined)

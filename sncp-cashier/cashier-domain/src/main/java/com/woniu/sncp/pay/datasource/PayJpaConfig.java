@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,7 +49,7 @@ public class PayJpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory (EntityManagerFactoryBuilder builder) {
         return builder.dataSource(dataSource)
                 .properties(getVendorProperties(dataSource))
-                .packages("com.woniu.sncp.pay.repository.pay") //设置实体类所在位置
+                .packages("com.woniu.sncp.pay.repository.pay","com.woniu.sncp.pojo.payment") //设置实体类所在位置
                 .persistenceUnit("persistenceUnit")
                 .build();
     }

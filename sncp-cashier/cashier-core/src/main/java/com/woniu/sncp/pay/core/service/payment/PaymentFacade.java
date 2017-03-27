@@ -30,8 +30,8 @@ import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.wap.AlipayWapAppPayment;
 import com.woniu.sncp.pay.core.service.payment.process.PaymentProcess;
 import com.woniu.sncp.pay.repository.game.Game;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
 import com.woniu.sncp.pojo.passport.Passport;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
 
 /**

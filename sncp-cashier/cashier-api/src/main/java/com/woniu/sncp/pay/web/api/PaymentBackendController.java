@@ -30,7 +30,7 @@ import com.woniu.sncp.pay.core.service.payment.PaymentFacade;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.process.PaymentProcess;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
 import com.woniu.sncp.web.response.ResultResponse;
 

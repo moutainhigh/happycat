@@ -28,7 +28,7 @@ import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.security.SecuritySSOAuth;
 import com.woniu.sncp.pay.core.service.ocp.OcpAccountService;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
-import com.woniu.sncp.pay.repository.pay.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 @Service("ttbPayment")
 public class TtbPayment extends AbstractPayment {
