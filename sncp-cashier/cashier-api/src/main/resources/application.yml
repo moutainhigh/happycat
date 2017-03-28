@@ -10,4 +10,4 @@ server:
     uri-encoding: UTF-8
 
 logging:
-  path: D://woniu-git-repository//woniu-microservices//master//sncp-cashier//cashier-api//
+  path: D://woniu-git-repository//woniu-microservices//sncp-cashier//cashier-api//
