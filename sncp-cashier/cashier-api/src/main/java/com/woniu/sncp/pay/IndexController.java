@@ -120,6 +120,10 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="fontendurl",required=false) String fontendurl,
 			@RequestParam(value="sign") String sign,
 			@RequestParam(value="ext",required=false) String ext,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response) {
     	if(StringUtils.isBlank(orderNo) || orderNo.length() >60){
     		logger.error("订单号为空或长度超出,account:"+account);
@@ -255,6 +259,10 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="account",required=false) String account,
 			@RequestParam(value="callback",required=false) String callback,
 			@RequestParam(value="ext",required=false) String ext,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response) {
     	
     	Map<String,Object> retMap = new HashMap<String,Object>();
@@ -372,6 +380,10 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="account",required=false) String account,
 			@RequestParam(value="callback",required=false) String callback,
 			@RequestParam(value="ext",required=false) String ext,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response) {
     	
     	logRequestParams("(" + request.getMethod() + ")"
@@ -558,6 +570,10 @@ public class IndexController extends ApiBaseController{
 		retMap.put("fontendurl", req.getAttribute("fontendurl"));
 		retMap.put("sign", req.getAttribute("security"));
 		retMap.put("ext", ObjectUtils.toString(req.getAttribute("ext")).replaceAll("\"", "'"));
+		retMap.put("body", req.getAttribute("body"));
+		retMap.put("goodsDetail", ObjectUtils.toString(req.getAttribute("goodsDetail")).replaceAll("\"", "'"));
+		retMap.put("terminalType", req.getAttribute("terminalType"));
+		retMap.put("timeoutExpress", req.getAttribute("timeoutExpress"));
 		req.setAttribute("ret", retMap);
 		return "/payment/payment_trans";
     }
@@ -588,6 +604,10 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="account",required=false) String account,
 			@RequestParam(value="callback",required=false) String callback,
 			@RequestParam(value="ext",required=false) String ext,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response) {
     	
     	logRequestParams("(" + request.getMethod() + ")"

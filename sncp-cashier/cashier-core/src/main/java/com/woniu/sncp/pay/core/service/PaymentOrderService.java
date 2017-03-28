@@ -25,13 +25,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.ocp.utils.ProxoolUtil;
 import com.woniu.sncp.pay.common.exception.OrderIsRefundException;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.threadpool.ThreadPool;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
+import com.woniu.sncp.pay.common.utils.date.DateUtils;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import com.woniu.sncp.pay.common.utils.http.IpUtils;
@@ -42,11 +43,11 @@ import com.woniu.sncp.pay.core.service.payment.conf.PaymentProperties;
 import com.woniu.sncp.pay.core.service.schedule.Schedule;
 import com.woniu.sncp.pay.core.service.schedule.SyncTaskSchedule;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
-import com.woniu.sncp.pay.repository.passport.PassportAsyncTask;
+import com.woniu.sncp.pay.repository.pay.MessageQueue;
+import com.woniu.sncp.pay.repository.pay.MessageQueueLog;
+import com.woniu.sncp.pay.repository.pay.PassportAsyncTask;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pay.repository.pay.PaymentOrderRepository;
-import com.woniu.sncp.pay.repository.queue.MessageQueue;
-import com.woniu.sncp.pay.repository.queue.MessageQueueLog;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 
@@ -105,7 +106,7 @@ public class PaymentOrderService{
 	 * @param issuerId
 	 * @throws DataAccessException
 	 */
-	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId)
+	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
 			throws DataAccessException {
 //		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
@@ -143,7 +144,22 @@ public class PaymentOrderService{
 			paymentOrder.setPayPlatformOrderId(orderNo);
 		}
 		
-//		paymentOrderDao.save(paymentOrder);
+		Date __timeoutExpress = null;
+		if(StringUtils.isNotBlank(timeoutExpress)){
+			//设置最晚付款时间
+			String _timeoutExpress = DateUtils.format(
+					org.apache.commons.lang.time.DateUtils.addMinutes(
+							paymentOrder.getCreateDate(), Integer.parseInt(timeoutExpress)), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			__timeoutExpress = DateUtils.parseDate(_timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			paymentOrder.setTimeoutExpress(__timeoutExpress);
+		}else{
+			// 默认最晚付款时间24小时
+			String _timeoutExpress = DateUtils.format(
+					org.apache.commons.lang.time.DateUtils.addMinutes(now, PaymentConstant.DEFAULT_TIMEOUTEXPRESS), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			__timeoutExpress = DateUtils.parseDate(_timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			paymentOrder.setTimeoutExpress(__timeoutExpress);
+		}
+		
 		paymentOrderRepository.save(paymentOrder);
 
 		if (logger.isInfoEnabled())

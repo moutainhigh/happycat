@@ -19,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
@@ -27,7 +28,6 @@ import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.service.MemcachedService;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;

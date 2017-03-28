@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;

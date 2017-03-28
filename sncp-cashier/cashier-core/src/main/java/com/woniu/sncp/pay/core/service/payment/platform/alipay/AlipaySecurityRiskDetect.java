@@ -27,10 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.net.NetServiceException;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pojo.game.Game;
 import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;

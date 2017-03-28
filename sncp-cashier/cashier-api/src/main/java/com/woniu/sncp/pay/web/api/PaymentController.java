@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.lang.DateUtil;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.service.GameManagerService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.payment.PaymentFacade;
@@ -101,6 +101,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String smscode,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -172,12 +176,12 @@ public class PaymentController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    			
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -237,6 +241,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="stagePlan",required=false) String stagePlan,
 			@RequestParam(value="stageNum",required=false) String stageNum,
 			@RequestParam(value="payexpired",required=false) String payExpired,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -281,7 +289,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 		}
@@ -335,6 +343,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="cardNo",required=true) String cardNo,
 			@RequestParam(value="cardPwd",required=true) String cardPwd,
 			@RequestParam(value="captchaValue",required=true) String captchaValue,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -430,7 +442,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 			retMap = ErrorCode.getErrorCode(56099);
@@ -515,6 +527,11 @@ public class PaymentController extends ApiBaseController{
     	String cardNo = request.getParameter("cardNo");
     	String cardPwd = request.getParameter("cardPwd");
     	String captchaValue = request.getParameter("captchaValue");
+    	
+    	String body = request.getParameter("body");
+    	String goodsDetail = request.getParameter("goodsDetail");
+    	String terminalType = request.getParameter("terminalType");
+    	String timeoutExpress = request.getParameter("timeoutExpress");
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
     	
@@ -622,7 +639,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 			retMap = ErrorCode.getErrorCode(56099);
@@ -723,6 +740,11 @@ public class PaymentController extends ApiBaseController{
     	String cardNo = request.getParameter("cardNo");
     	String cardPwd = request.getParameter("cardPwd");
     	String captchaValue = request.getParameter("captchaValue");
+    	
+    	String body = request.getParameter("body");
+    	String goodsDetail = request.getParameter("goodsDetail");
+    	String terminalType = request.getParameter("terminalType");
+    	String timeoutExpress = request.getParameter("timeoutExpress");
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
     	
@@ -847,7 +869,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 			retMap = ErrorCode.getErrorCode(56099);
@@ -944,6 +966,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="cardNo",required=true) String cardNo,
 			@RequestParam(value="cardPwd",required=true) String cardPwd,
 			@RequestParam(value="captchaValue",required=true) String captchaValue,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1036,7 +1062,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 			retMap = ErrorCode.getErrorCode(56099);
@@ -1121,6 +1147,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="cardNo",required=true) String cardNo,
 			@RequestParam(value="cardPwd",required=true) String cardPwd,
 			@RequestParam(value="captchaValue",required=true) String captchaValue,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request,HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1234,7 +1264,7 @@ public class PaymentController extends ApiBaseController{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 														StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-														mode, clientIp, exMap);
+														mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
 			retMap = ErrorCode.getErrorCode(56099);
@@ -1322,6 +1352,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String smscode,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1383,12 +1417,12 @@ public class PaymentController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    			
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 			
 		} catch (Exception e){
@@ -1446,6 +1480,10 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1512,11 +1550,11 @@ public class PaymentController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						yueMoney,yueCurrency,StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),account,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 			
 		} catch (Exception e){

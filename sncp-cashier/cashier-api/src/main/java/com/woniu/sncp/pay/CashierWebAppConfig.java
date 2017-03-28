@@ -18,8 +18,8 @@ import com.snail.ocp.client.http.connection.SpringRestTemplateDelegate;
 import com.snail.ocp.client.http.pojo.HttpOption;
 import com.snail.ocp.client.pojo.DefaultHeader;
 import com.snail.ocp.sdk.http.account.service.AccountInterfaceImpl;
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.threadpool.ThreadPool;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 
 import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 

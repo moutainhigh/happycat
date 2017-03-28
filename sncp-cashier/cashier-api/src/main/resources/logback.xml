@@ -1,85 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="true" scanPeriod="30 minutes">
-	<include resource="org/springframework/boot/logging/logback/base.xml" />
-	<jmxConfigurator />
 
-	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-		<!-- encoder 默认配置为PatternLayoutEncoder -->
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+<configuration debug="false">
+	<substitutionProperty name="log.base" value="/usr/sncp/logs/uc/" />
+	<timestamp key="bySecond" datePattern="yyyyMMddHHmmss" />
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{1}:%L - %m%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<!-- 每天生成一个日志文件，保存30天 -->
-	<appender name="FILE"
+	<!-- 所有log -->
+	<appender name="logs_cashier_all"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-
+		<File>${log.base}/cashier.woniu.com/logs-cashier-${bySecond}.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/${server.port}/%d{yyyy-MM-dd}.${PID}.log
-			</fileNamePattern>
-			<maxHistory>30</maxHistory>
+			<FileNamePattern>${log.base}/cashier.woniu.com/logs-cashier-${bySecond}-%d{yyyy-MM-dd}.log.zip
+			</FileNamePattern>
 		</rollingPolicy>
-
-		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -
-				%msg%n
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{1}:%L - %m%n
 			</pattern>
 		</encoder>
 	</appender>
 
-	<appender name="TRACE_LOG"
+	<!-- 访问日志 -->
+	<appender name="logs-record"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/${server.port}/trace/%d{yyyy-MM-dd}.${PID}.log
-			</fileNamePattern>
-			<maxHistory>30</maxHistory>
+			<FileNamePattern>${log.base}/cashier.woniu.com/monitor/monitor-%d{yyyy-MM-dd-HH}.log.zip
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
 		</rollingPolicy>
-
-		<encoder>
-			<pattern>%msg%n
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%d{MM-dd HH:mm:ss}\t%5p\t%c{1}\t%m%n
+			</pattern>
+		</layout>
+	</appender>
+	
+	<!-- >>>>>>>>>log-monitor-format>>>>>>>>> -->
+	<appender name="logs_monitor_format"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${log.base}/cashier.woniu.com/logs-monitor-format-${bySecond}.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${log.base}/cashier.woniu.com/logs-monitor-format-${bySecond}-%d{yyyy-MM-dd}.log.zip
+			</FileNamePattern>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{1}:%L - %m%n
 			</pattern>
 		</encoder>
 	</appender>
 	
-	<appender name="MONITOR_LOG"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/${server.port}/monitor/%d{yyyy-MM-dd}.${PID}.log
-			</fileNamePattern>
-			<maxHistory>30</maxHistory>
-		</rollingPolicy>
-
-		<encoder>
-			<pattern>needLogToMonitorData:%msg%n
-			</pattern>
-		</encoder>
-	</appender>
-	
-	<logger name="com.woniu.sncp.cbss.core.trace.monitorlog" level="TRACE">
-		<appender-ref ref="MONITOR_LOG" />
+	<logger name="com.woniu.sncp.tools.Log4jFormat">
+		<level value="INFO" />
+		<appender-ref ref="logs-record" />
 	</logger>
 	
-	<logger name="com.woniu.sncp.cbss.core.trace.aspect.listener" level="TRACE">
-		<appender-ref ref="TRACE_LOG" />
+	<logger name="com.woniu.kaptcha">
+		<level value="DEBUG" />
+		<appender-ref ref="logs_cashier_all" />
+		<appender-ref ref="stdout" />
+	</logger>
+	
+	<logger name="com.woniu.pay">
+		<level value="DEBUG" />
+		<appender-ref ref="logs_cashier_all" />
+		<appender-ref ref="stdout" />
+	</logger>
+	
+
+	<logger name="com.woniu.sncp">
+		<level value="INFO" />
+		<appender-ref ref="logs_cashier_all" />
 	</logger>
 
-	<logger name="com.woniu.sncp.cbss.api.fcm.aspectj">
-		<level value="DEBUG" />
-	</logger>
-	<logger name="com.woniu.sncp.cbss.api.fcm">
-		<level value="DEBUG" />
-	</logger>
-	<logger name="com.woniu.sncp.cbss.core">
-		<level value="DEBUG" />
+	<logger name="com.cm4j.common">
+		<level value="INFO" />
+		<appender-ref ref="logs_cashier_all" />
 	</logger>
 
-
+	<logger name="org.hibernate.cache">
+		<level value="ERROR" />
+		<appender-ref ref="logs_cashier_all" />
+	</logger>
+	
+	<!-- 监控日志格式化 -->
+	<logger name="com.woniu.sncp.pay.core.monitor">
+		<level value="DEBUG" />
+		<appender-ref ref="logs_monitor_format" />
+	</logger>
+	
 	<root>
 		<level value="info" />
-		<appender-ref ref="STDOUT" />
-		<appender-ref ref="FILE" />
+		<appender-ref ref="stdout" />
 	</root>
-</configuration>  
+</configuration>

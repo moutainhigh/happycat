@@ -2,8 +2,8 @@ package com.woniu.sncp.pay.core.service.schedule;
 
 import java.util.Map;
 
-import com.woniu.sncp.pay.repository.passport.PassportAsyncTask;
-import com.woniu.sncp.pay.repository.queue.MessageQueue;
+import com.woniu.sncp.pay.repository.pay.MessageQueue;
+import com.woniu.sncp.pay.repository.pay.PassportAsyncTask;
 
 
 /**

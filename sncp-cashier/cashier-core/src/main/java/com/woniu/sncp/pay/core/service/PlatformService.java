@@ -64,10 +64,11 @@ public class PlatformService {
 							",D.S_MERCHANT_NO,D.S_MANAGE_USER,D.S_BACKEND_KEY,D.S_PAY_KEY,D.S_QUERY_KEY,D.S_REFOUND_KEY "+
 							",D.S_PRIVATE_PWD,D.S_PUBLIC_PWD,D.S_QUERY_PWD,D.S_REFUND_PWD "+
 							",D.S_PRIVATE_URL,D.S_PUBLIC_URL,D.S_QUERY_PRI_URL,D.S_REFUND_PRI_URL,D.S_QUERY_PUB_URL,D.S_REFUND_PUB_URL "+
-							",D.S_STATUS,MP.S_OPERATOR_TYPE,D.N_TRANS_TIMEOUT,D.S_INFO,P.S_EXT "+
-							"FROM SN_PAY.PAY_PLATFORM P,SN_PAY.PAY_PLATFORM_DTL D,SN_PAY.PAY_MERCHANT_PLATFORM MP "+
+							",D.S_STATUS,MP.S_OPERATOR_TYPE,D.N_TRANS_TIMEOUT,D.S_INFO,P.S_EXT,M.S_NAME MERCHANT_NAME "+
+							"FROM SN_PAY.PAY_PLATFORM P,SN_PAY.PAY_PLATFORM_DTL D,SN_PAY.PAY_MERCHANT_PLATFORM MP,SN_PAY.PAY_MERCHANT M "+
 							"WHERE P.N_ID = D.N_PLATFORM_ID "+
 							"      AND D.N_ID = MP.N_PLATFORM_DTL_ID "+
+							"      AND M.N_ID = MP.N_MERCHANT_ID "+
 							"      AND P.S_STATUS = '1' "+
 							"      AND D.S_STATUS = '1' "+
 							"      AND MP.S_STATUS = '1' "+
@@ -116,6 +117,7 @@ public class PlatformService {
             	ret.setTransTimeout(rs.getLong("N_TRANS_TIMEOUT"));//订单支付超时时间
             	ret.setExtend(rs.getString("S_INFO"));//商户信息扩展字段
             	ret.setPlatformExt(rs.getString("S_EXT"));//渠道技术信息扩展字段
+            	ret.setMerchantName(rs.getString("MERCHANT_NAME"));//商户名称
                 return ret;
             }
         });

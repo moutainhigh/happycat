@@ -12,8 +12,8 @@ import redis.clients.jedis.JedisCluster;
 /**
  * Created by lujun.chen on 2017/3/3.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(com.woniu.sncp.pay.CashierAppRun.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringApplicationConfiguration(com.woniu.sncp.pay.CashierAppRun.class)
 public class RedisTest {
 
     @Autowired

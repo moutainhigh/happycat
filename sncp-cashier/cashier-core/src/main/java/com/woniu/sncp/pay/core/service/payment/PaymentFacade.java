@@ -16,11 +16,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
+import com.woniu.sncp.pay.common.utils.date.DateUtils;
 import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.GameManagerService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
@@ -29,10 +30,12 @@ import com.woniu.sncp.pay.core.service.PlatformService;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.wap.AlipayWapAppPayment;
 import com.woniu.sncp.pay.core.service.payment.process.PaymentProcess;
-import com.woniu.sncp.pay.repository.game.Game;
+import com.woniu.sncp.pay.repository.pay.Game;
 import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
+
+import cn.com.infosec.asn1.cms.Time;
 
 /**
  * 支付接口流程
@@ -43,7 +46,7 @@ import com.woniu.sncp.web.IpUtils;
 @Service("paymentFacade")
 public class PaymentFacade {
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-	
+
 	@Resource
 	private CorePassportService corePassportService;
 	
@@ -61,21 +64,26 @@ public class PaymentFacade {
 	
 	/**
 	 * 创建订单，保存第三方回调地址，第三方前台地址，第三方订单号
-	 * 
 	 * @param pOrderNo
-	 * @param gameId
-	 * @param account
-	 * @param money
+	 * @param merchantId
 	 * @param paymentId
+	 * @param money
 	 * @param productName
+	 * @param account
+	 * @param gameId
 	 * @param imprestMode
 	 * @param clientIp
-	 * @param extendParams
+	 * @param extendParams  
+	 * @param subject
+	 * @param body
+	 * @param goodsDetail
+	 * @param terminalType
+	 * @param timeoutExpress
 	 * @return
 	 */
 	public Map<String, Object> createOrder(String pOrderNo,long merchantId, long paymentId,
 			String money, String productName,String account, long gameId,
-			String imprestMode, String clientIp,Map<String, Object> extendParams) {
+			String imprestMode, String clientIp,Map<String, Object> extendParams,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
 		try {
@@ -161,6 +169,11 @@ public class PaymentFacade {
 				paymentOrder.setPartnerFrontUrl(fontendurl);
 				paymentOrder.setPartnerOrderNo(pOrderNo);
 				
+				paymentOrder.setProductname(productName);//产品名称,订单标题
+				paymentOrder.setBody(body);//交易说明
+				paymentOrder.setGoodsDetail(goodsDetail);//商品详细说明
+				paymentOrder.setTerminalType(StringUtils.isBlank(terminalType)?PaymentConstant.TERMINALTYPE_PC:terminalType);//终端类型
+				
 				//增加扩展参数,处理手游走消息推送逻辑,ext必须是json格式
 				String ext = ObjectUtils.toString(extendParams.get("ext"));
 				if(StringUtils.isNotBlank(ext)){
@@ -177,8 +190,9 @@ public class PaymentFacade {
 				
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
+				paymentOrder.setMerchantName(platform.getMerchantName());
 				
-				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L);
+				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress);
 			} else {
 				//modified by fuzl 充值方式无法切换问题解决
 				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf(money));
@@ -329,7 +343,7 @@ public class PaymentFacade {
 	 */
 	public Map<String, Object> createOrder(String pOrderNo,long merchantId, long paymentId,
 			String money, String yueCurrency,String yueMoney, String productName,String account, long gameId,
-			String imprestMode, String clientIp,Map<String, Object> extendParams) {
+			String imprestMode, String clientIp,Map<String, Object> extendParams,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
 		try {
@@ -405,10 +419,16 @@ public class PaymentFacade {
 				paymentOrder.setPartnerFrontUrl(fontendurl);
 				paymentOrder.setPartnerOrderNo(pOrderNo);
 				
+				paymentOrder.setProductname(productName);//产品名称,订单标题
+				paymentOrder.setBody(body);//交易说明
+				paymentOrder.setGoodsDetail(goodsDetail);//商品详细说明
+				paymentOrder.setTerminalType(StringUtils.isBlank(terminalType)?PaymentConstant.TERMINALTYPE_PC:terminalType);//终端类型
+	
 				//增加渠道商户号,
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
+				paymentOrder.setMerchantName(platform.getMerchantName());
 				
-				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L);
+				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress);
 			} else {
 				//modified by fuzl 充值方式无法切换问题解决
 				DecimalFormat decimalFormat = new DecimalFormat("0.00");

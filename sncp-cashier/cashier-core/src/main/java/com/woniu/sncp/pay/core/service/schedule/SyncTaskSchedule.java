@@ -35,10 +35,10 @@ import com.woniu.sncp.pay.common.utils.ExchargeConstant;
 import com.woniu.sncp.pay.common.utils.ExchargeUtils;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import com.woniu.sncp.pay.dao.PassportBaseSessionDAO;
-import com.woniu.sncp.pay.repository.passport.PassportAsyncTask;
-import com.woniu.sncp.pay.repository.passport.PassportAsyncTaskRepository;
-import com.woniu.sncp.pay.repository.queue.MessageQueue;
-import com.woniu.sncp.pay.repository.queue.MessageQueueRepository;
+import com.woniu.sncp.pay.repository.pay.MessageQueue;
+import com.woniu.sncp.pay.repository.pay.MessageQueueRepository;
+import com.woniu.sncp.pay.repository.pay.PassportAsyncTask;
+import com.woniu.sncp.pay.repository.pay.PassportAsyncTaskRepository;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 /**

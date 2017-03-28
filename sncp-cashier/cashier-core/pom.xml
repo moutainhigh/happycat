@@ -103,6 +103,12 @@
   			<artifactId>pkcs7</artifactId>
   			<version>1.0</version>
 		</dependency>
+		<!-- alipay -->
+		<dependency>
+		  <groupId>com.woniu</groupId>
+		  <artifactId>alipay-sdk-java20170307171631</artifactId>
+		  <version>java20170307171631</version>
+		</dependency>
 		
 		<!-- jdom -->
 		<dependency>

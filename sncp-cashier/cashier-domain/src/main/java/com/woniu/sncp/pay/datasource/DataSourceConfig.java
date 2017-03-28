@@ -32,38 +32,16 @@ public class DataSourceConfig {
         return DataSourceBuilder.create().build();
     }
 
-	/**
-	 * 队列使用数据源
-	 * @return
-	 */
-    @Bean(name = "queueDataSource")
-    @Qualifier("queueDataSource")
-    @ConfigurationProperties(prefix="spring.queue-datasource")
-    public DataSource queueDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-    
-    /**
-	 * 账号使用数据源
-	 * @return
-	 */
-    @Bean(name = "passportDataSource")
-    @Qualifier("passportDataSource")
-    @ConfigurationProperties(prefix="spring.passport-datasource")
-    public DataSource passportDataSource() {
-        return DataSourceBuilder.create().build();
-    }
-    
-    /**
-	 * 游戏使用数据源
-	 * @return
-	 */
-    @Bean(name = "gameDataSource")
-    @Qualifier("gameDataSource")
-    @ConfigurationProperties(prefix="spring.game-datasource")
-    public DataSource gameDataSource() {
-        return DataSourceBuilder.create().build();
-    }
+//	/**
+//	 * 队列使用数据源
+//	 * @return
+//	 */
+//    @Bean(name = "queueDataSource")
+//    @Qualifier("queueDataSource")
+//    @ConfigurationProperties(prefix="spring.queue-datasource")
+//    public DataSource queueDataSource() {
+//        return DataSourceBuilder.create().build();
+//    }
     
     @Primary
     @Bean(name = "jdbcTemplate")
@@ -72,21 +50,11 @@ public class DataSourceConfig {
         return new JdbcTemplate(dataSource);
     }
 
-    @Bean(name = "queueJdbcTemplate")
-    public JdbcTemplate queueJdbcTemplate(
-            @Qualifier("queueDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
+//    @Bean(name = "queueJdbcTemplate")
+//    public JdbcTemplate queueJdbcTemplate(
+//            @Qualifier("queueDataSource") DataSource dataSource) {
+//        return new JdbcTemplate(dataSource);
+//    }
     
-    @Bean(name = "passportJdbcTemplate")
-    public JdbcTemplate passportJdbcTemplate(
-            @Qualifier("passportDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
     
-    @Bean(name = "gameJdbcTemplate")
-    public JdbcTemplate gameJdbcTemplate(
-    		@Qualifier("gameDataSource") DataSource dataSource) {
-    	return new JdbcTemplate(dataSource);
-    }
 }

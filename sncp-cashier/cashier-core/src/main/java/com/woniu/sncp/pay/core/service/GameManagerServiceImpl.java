@@ -3,14 +3,15 @@ package com.woniu.sncp.pay.core.service;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.woniu.sncp.pay.repository.game.Game;
-import com.woniu.sncp.pay.repository.game.GameRepository;
+import com.woniu.sncp.pay.repository.pay.Game;
+import com.woniu.sncp.pay.repository.pay.GameRepository;
 import com.woniu.sncp.pojo.game.GameArea;
 import com.woniu.sncp.pojo.game.GameServer;
 

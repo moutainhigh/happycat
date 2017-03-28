@@ -8,8 +8,8 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptStringUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;

@@ -27,13 +27,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 

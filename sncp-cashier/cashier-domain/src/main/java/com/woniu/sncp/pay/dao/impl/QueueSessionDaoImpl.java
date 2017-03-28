@@ -64,7 +64,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 	// log4j日志
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	protected JdbcTemplate queueJdbcTemplate;
+	protected JdbcTemplate jdbcTemplate;
 	
 
 	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -112,7 +112,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 		Connection conn = null;
 		ResultSet rs = null;
 		try {
-			conn = queueJdbcTemplate.getDataSource().getConnection();
+			conn = jdbcTemplate.getDataSource().getConnection();
 			if (logger.isInfoEnabled())
 				logger.info("当前数据库：" + conn.getMetaData().getURL());
 		} catch (SQLException e) {
@@ -271,7 +271,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 				logger.info("当前数据库：" + conn.getMetaData().getURL());
 			if (conn.isClosed()) {
 				conn = null;
-				conn = queueJdbcTemplate.getDataSource().getConnection();
+				conn = jdbcTemplate.getDataSource().getConnection();
 				if (logger.isInfoEnabled())
 					logger.info("Closed Reconnection 当前数据库：" + conn.getMetaData().getURL());
 			}
@@ -430,7 +430,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 			Map<String, Integer> outParams, Map<String, Object> inOutParams, ArrayList<String> procParams,
 			String cursorName) throws DataAccessException {
 		try {
-			return executeWithResult(procName, queueJdbcTemplate.getDataSource().getConnection(), true, inParams, outParams,
+			return executeWithResult(procName, jdbcTemplate.getDataSource().getConnection(), true, inParams, outParams,
 					inOutParams, procParams, cursorName);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -489,7 +489,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 
 	@Override
 	public Long findForLong(String sql) throws DataAccessException {
-		return queueJdbcTemplate.queryForObject(sql,Long.class);
+		return jdbcTemplate.queryForObject(sql,Long.class);
 	}
 	
 	public synchronized Map<String, Object> jdbcOne(Connection connection, String sql, boolean isCloseConnect)
@@ -530,21 +530,23 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 	}
 	
 	public synchronized Map<String, Object> jdbcOne(String sql) throws Exception {
-		Connection connection = getQueueJdbcTemplate().getDataSource().getConnection();
+		Connection connection = getJdbcTemplate().getDataSource().getConnection();
 		return jdbcOne(connection, sql, true);
 	}
 	
-	
-	public JdbcTemplate getQueueJdbcTemplate() {
-		return queueJdbcTemplate;
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
 	}
 
-	public void setQueueJdbcTemplate(JdbcTemplate queueJdbcTemplate) {
-		this.queueJdbcTemplate = queueJdbcTemplate;
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
+
 
 	@Resource
-	private DataSource queueDataSource;
+	private DataSource dataSource;
 	
 	/**
 	 * Setter注入datasource，同时获得Template
@@ -553,12 +555,12 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 	 */
 	@Resource
 	public void setDataSource(DataSource dataSource) {
-		this.queueJdbcTemplate = new JdbcTemplate(queueDataSource);
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
     @Override
     public PreparedStatementResultSetHandle createPreparementResultSetHandle(String sql) throws Throwable {
-        return BatchHandle.resultSet(getQueueJdbcTemplate().getDataSource().getConnection(), sql);
+        return BatchHandle.resultSet(getJdbcTemplate().getDataSource().getConnection(), sql);
     }
     
 	public synchronized List<Map<String, Object>> jdbcList(Connection connection, String sql, boolean isClose)
@@ -567,7 +569,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 		PreparedStatement prepareStatement = null;
 		ResultSet rs = null;
 		try {
-			connection = getQueueJdbcTemplate().getDataSource().getConnection();
+			connection = getJdbcTemplate().getDataSource().getConnection();
 			prepareStatement = connection.prepareStatement(sql);
 			rs = prepareStatement.executeQuery();
 			return JdbcHelper.extractDatas(rs);
@@ -598,7 +600,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 	}
     
 	public synchronized List<Map<String, Object>> jdbcList(String sql) throws Exception {
-		return jdbcList(getQueueJdbcTemplate().getDataSource().getConnection(), sql, true);
+		return jdbcList(getJdbcTemplate().getDataSource().getConnection(), sql, true);
 	}
     
     /**
@@ -632,7 +634,7 @@ public class QueueSessionDaoImpl implements QueueBaseSessionDAO {
 		PreparedStatement prepareStatement = null;
 		ResultSet rs = null;
 		try {
-			connection = getQueueJdbcTemplate().getDataSource().getConnection();
+			connection = getJdbcTemplate().getDataSource().getConnection();
 			return jdbcUpdate(connection, sql, true, values);
 		} catch (Exception e) {
 			throw e;

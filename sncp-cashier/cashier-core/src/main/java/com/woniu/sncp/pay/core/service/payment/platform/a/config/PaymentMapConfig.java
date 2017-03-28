@@ -9,9 +9,42 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.CallPayPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayDPPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.app.AlipayAppPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.app.AlipayIosPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.qr.AlipayQRCodePayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.qr.AlipayQRCodeUrlPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.wap.AlipayWapAppPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.wap.AlipayWapPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.chinabank.ChinabankPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.chinapay.ChinaPayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.chinapay.ChinaPayPaymentNew;
+import com.woniu.sncp.pay.core.service.payment.platform.cmpay.CmPayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.fcb.FcbPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.huifubao.HuifubaoPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.icbc.ICBCINBSEPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.jd.JdDPPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.KuaiqianQuickPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.www.KuaiqianPCQuickPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.nbcb.NbcbDPPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.shengpay.ShengftpayBankDirectPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.shenzpay.ShenzpayDPPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.TenpayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.app.WeixinAppPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.app.WeixinIosPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.qr.TenpayWxPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.qr.WeixinPaymentForQrCode;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.wap.TenpayWapPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.tenpay.weixin.WeixinPublicPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.ttb.TtbPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.unionpay.UnionPayAppPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.unionpay.UnionPayIosPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.unionpay.UnionPayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.unionpay.UnionWapPayPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.unionpay.new1.UnionPayPaymentNew_1;
+import com.woniu.sncp.pay.core.service.payment.platform.woniu.WnMobileCardPayment;
 
 /**
  * <p>descrption: </p>
@@ -27,105 +60,140 @@ public class PaymentMapConfig {
 	AlipayDPPayment alipayDPPayment;
 	@Resource
 	AlipayPayment alipayPayment;
-	
+	@Resource
+	NbcbDPPayment nbcbDPPayment;
+	@Resource
+	JdDPPayment jdDPPayment;
+	@Resource
+	TenpayPayment tenpayPayment;
+	@Resource
+	UnionPayPayment unionPayPayment;
+	@Resource
+	AlipayQRCodePayment alipayQRCodePayment;
+	@Resource
+	ChinaPayPayment chinaPayPayment;
+	@Resource
+	TenpayWxPayment tenpayWxPayment;
 	@Resource
 	TtbPayment ttbPayment;
+	@Resource
+	CmPayPayment cmPayPayment;
+	@Resource
+	ChinabankPayment chinabankPayment;
+	@Resource
+	ShenzpayDPPayment shenzpayDPPayment;
+	@Resource
+	HuifubaoPayment huifubaoPayment;
+	@Resource
+	ICBCINBSEPayment icbcINBSEPayment;
+	@Resource
+	ShengftpayBankDirectPayment shengpayBankDirectPayment;
+	@Resource
+	KuaiqianPCQuickPayment kuaiqianPCQuickPayment;
+	@Resource
+	ChinaPayPaymentNew chinaPayPaymentNew;
+	@Resource
+	WnMobileCardPayment wnMobileCardPayment;
+	@Resource
+	UnionPayPaymentNew_1 unionPayPaymentNew_1;
+	@Resource
+	AlipayQRCodeUrlPayment alipayQRCodeUrlPayment;
+	@Resource
+	WeixinPaymentForQrCode weixinPaymentForQrCode;
+	
+	@Resource
+	AlipayAppPayment alipayAppPayment;
+	
+	
+	@Resource
+	WeixinAppPayment weixinAppPayment;
+	@Resource
+	AlipayIosPayment alipayIosPayment;
+	@Resource
+	UnionPayAppPayment unionPayAppPayment;
+	@Resource
+	WeixinIosPayment weixinIosPayment;
+	@Resource
+	UnionPayIosPayment unionPayIosPayment;
+	
+	@Resource
+	AlipayWapPayment alipayWapPayment;
+	@Resource
+	TenpayWapPayment tenpayWapPayment;
+	@Resource
+	WeixinPublicPayment weixinPublicPayment;
+	@Resource
+	KuaiqianQuickPayment kuaiqianQuickPayment;
+	@Resource
+	UnionWapPayPayment unionWapPayPayment;
+	@Resource
+	AlipayWapAppPayment alipayWapAppPayment;
+	
+	
+	@Resource
+	FcbPayment fcbPayment;
+	
+	@Resource
+	CallPayPayment callPayPayment;
 	
 	@Bean(name={"paymentMap"})
 	public Map<String, AbstractPayment> getPaymentMap(){
 		Map<String,AbstractPayment> paymentMap = new HashMap<String,AbstractPayment>();
+		//PC接入
 		paymentMap.put("PAYMENT_1001", alipayDPPayment);
-//		paymentMap.put("PAYMENT_1002", nbcbDPPayment);
-//		paymentMap.put("PAYMENT_1003", jdDPPayment);
+		paymentMap.put("PAYMENT_1002", nbcbDPPayment);
+		paymentMap.put("PAYMENT_1003", jdDPPayment);
 		paymentMap.put("PAYMENT_1004", alipayPayment);
+		paymentMap.put("PAYMENT_1005", tenpayPayment);//<!-- 财付通即时支付 -->
+		paymentMap.put("PAYMENT_1006", unionPayPayment);//<!-- 银联在线支付 -->
+		paymentMap.put("PAYMENT_1007", chinaPayPayment);//<!-- 银联电子支付 -->
+		paymentMap.put("PAYMENT_1008", alipayQRCodePayment);//<!-- 支付宝扫码支付 -->
+		paymentMap.put("PAYMENT_1009", tenpayWxPayment);//<!-- 微信扫码支付 -->
+		paymentMap.put("PAYMENT_1010", cmPayPayment);//<!-- 移动手机支付 -->
+		paymentMap.put("PAYMENT_1012", chinabankPayment);//<!-- 中国银行信用卡分期 支付-->
+		paymentMap.put("PAYMENT_1013", shenzpayDPPayment);//<!-- 神州付手机卡 支付-->
+		paymentMap.put("PAYMENT_1014", huifubaoPayment);//<!-- 汇付宝骏网卡支付 -->
+		paymentMap.put("PAYMENT_1018", icbcINBSEPayment);//<!-- 中国工商银行信用卡支付 -->
+		paymentMap.put("PAYMENT_1020", shengpayBankDirectPayment);//<!-- 盛付通网银直连 -->
+		paymentMap.put("PAYMENT_1021", kuaiqianPCQuickPayment);//<!-- PC快钱快捷支付 -->
+		paymentMap.put("PAYMENT_1032", chinaPayPaymentNew);//<!-- 新版银联电子支付 -->
+		paymentMap.put("PAYMENT_1036", wnMobileCardPayment);//<!-- 蜗牛移动充值卡 -->
+		paymentMap.put("PAYMENT_1038", unionPayPaymentNew_1);//<!-- 银联在线支付新版pc -->
+		paymentMap.put("PAYMENT_1039", alipayQRCodeUrlPayment);//<!-- 支付宝扫码新 -->
+		paymentMap.put("PAYMENT_1040", weixinPaymentForQrCode);//<!-- 微信扫码新 -->
 		
 		
+		//app
+		paymentMap.put("PAYMENT_2002", alipayAppPayment);//
+		paymentMap.put("PAYMENT_2003", weixinAppPayment);//
+		paymentMap.put("PAYMENT_2004", alipayIosPayment);//
+		paymentMap.put("PAYMENT_2005", unionPayAppPayment);//
+		paymentMap.put("PAYMENT_2006", weixinIosPayment);//
+		paymentMap.put("PAYMENT_2007", unionPayIosPayment);//
+		paymentMap.put("PAYMENT_2008", wnMobileCardPayment);//<!-- app-android蜗牛移动充值卡 -->
+		paymentMap.put("PAYMENT_2009", shenzpayDPPayment);//<!-- app-android蜗牛手机充值卡 -->
+		paymentMap.put("PAYMENT_2010", wnMobileCardPayment);//<!-- app-ios蜗牛移动充值卡 -->
+		paymentMap.put("PAYMENT_2011", shenzpayDPPayment);//<!-- app-ios蜗牛手机充值卡 -->
 		
+		//wap
+		paymentMap.put("PAYMENT_3001", alipayWapPayment);//
+		paymentMap.put("PAYMENT_3002", tenpayWapPayment);//
+		paymentMap.put("PAYMENT_3003", weixinPublicPayment);//<!-- 微信公众号支付 -->
+		paymentMap.put("PAYMENT_3004", kuaiqianQuickPayment);//<!-- 快钱快捷支付 -->
+		paymentMap.put("PAYMENT_3005", unionWapPayPayment);//
+		paymentMap.put("PAYMENT_3006", shenzpayDPPayment);//<!-- wap蜗牛手机充值卡 -->
+		paymentMap.put("PAYMENT_3007", wnMobileCardPayment);//<!-- wap蜗牛移动充值卡 -->
+		paymentMap.put("PAYMENT_3009", alipayWapAppPayment);//<!-- 新版本支付宝20160907 -->
+		paymentMap.put("PAYMENT_3010", unionPayPaymentNew_1);//<!-- 银联在线支付新版wap -->
+		
+		//兔兔币、余额支付
 		paymentMap.put("PAYMENT_4001", ttbPayment);//<!-- 兔兔币 -->
-		/**
-		 * 
-				<!-- 财付通即时支付 -->
-				<entry key="PAYMENT_1005" value-ref="tenpayPayment" />
-				<!-- 银联在线支付 -->
-				<entry key="PAYMENT_1006" value-ref="unionPayPayment" />
-				<!-- 银联电子支付 -->
-				<entry key="PAYMENT_1007" value-ref="chinaPayPayment" />
-				<!-- 支付宝扫码支付 -->
-				<entry key="PAYMENT_1008" value-ref="alipayQRCodePayment" />
-				<!-- 微信扫码支付 -->
-				<entry key="PAYMENT_1009" value-ref="tenpayWxPayment" />
-				<!-- 移动手机支付 -->
-				<entry key="PAYMENT_1010" value-ref="cmPayPayment" />
-				<!-- 中国银行信用卡分期 支付-->
-				<entry key="PAYMENT_1012" value-ref="chinabankPayment" />
-				<!-- 神州付手机卡 支付-->
-				<entry key="PAYMENT_1013" value-ref="shenzpayDPPayment" />
-				<!-- 汇付宝骏网卡支付 -->
-				<entry key="PAYMENT_1014" value-ref="huihubaoPayment" />
-				<!-- 中国工商银行信用卡支付 -->
-                <entry key="PAYMENT_1018" value-ref="icbcINBSEPayment" />
-                <!-- 盛付通网银直连 -->
-                <entry key="PAYMENT_1020" value-ref="shengpayBankDirectPayment" />
-                <!-- PC快钱快捷支付 -->
-                <entry key="PAYMENT_1021" value-ref="kuaiqianPCQuickPayment" />
-                <!-- 新版银联电子支付 -->
-				<entry key="PAYMENT_1032" value-ref="chinaPayPaymentNew" />
-				<!-- 蜗牛移动充值卡 -->
-				<entry key="PAYMENT_1036" value-ref="wnMobileCardPayment" />
-				<!-- 银联在线支付新版pc -->
-				<entry key="PAYMENT_1038" value-ref="unionPayPaymentNew_1" />
-				
-				
-				<!-- 2xxx  app 端 -->
-				<entry key="PAYMENT_2002" value-ref="alipayAppPayment" />
-				<entry key="PAYMENT_2003" value-ref="weixinAppPayment" />
-				<entry key="PAYMENT_2004" value-ref="alipayIosPayment" />
-				<entry key="PAYMENT_2005" value-ref="unionPayAppPayment" />
-				<entry key="PAYMENT_2006" value-ref="weixinIosPayment" />
-				<entry key="PAYMENT_2007" value-ref="unionPayIosPayment" />
-				
-				<!-- 3xxx wap 端  -->
-				<entry key="PAYMENT_3001" value-ref="alipayWapPayment" />
-				<entry key="PAYMENT_3002" value-ref="tenpayWapPayment" />
-				<entry key="PAYMENT_3005" value-ref="unionWapPayPayment" />
-				<!-- 微信公众号支付 -->
-				<entry key="PAYMENT_3003" value-ref="weixinPublicPayment" />
-				
-				<!-- app-android蜗牛移动充值卡 -->
-				<entry key="PAYMENT_2008" value-ref="wnMobileCardPayment" />
-				<!-- app-android蜗牛手机充值卡 -->
-				<entry key="PAYMENT_2009" value-ref="shenzpayDPPayment" />
-				
-				<!-- app-ios蜗牛移动充值卡 -->
-				<entry key="PAYMENT_2010" value-ref="wnMobileCardPayment" />
-				<!-- app-ios蜗牛手机充值卡 -->
-				<entry key="PAYMENT_2011" value-ref="shenzpayDPPayment" />
-				
-				<!-- 快钱快捷支付 -->
-				<entry key="PAYMENT_3004" value-ref="kuaiqianQuickPayment" />
-				<!-- wap蜗牛手机充值卡 -->
-				<entry key="PAYMENT_3006" value-ref="shenzpayDPPayment" />
-				<!-- wap蜗牛移动充值卡 -->
-				<entry key="PAYMENT_3007" value-ref="wnMobileCardPayment" />
-				<!-- 银联在线支付新版wap -->
-				<entry key="PAYMENT_3010" value-ref="unionPayPaymentNew_1" />
-				
-				<!-- 新版本支付宝20160907 -->
-				<entry key="PAYMENT_3009" value-ref="alipayWapAppPayment" />
-				
-				
-				<!-- 翡翠币web -->
-				<entry key="PAYMENT_4002" value-ref="fcbPayment" />
-				<!-- 翡翠币wap -->
-				<entry key="PAYMENT_4003" value-ref="fcbPayment" />
-				<!-- 翡翠币ios -->
-				<entry key="PAYMENT_4004" value-ref="fcbPayment" />
-				<!-- 翡翠币android -->
-				<entry key="PAYMENT_4005" value-ref="fcbPayment" />
-				
-				<!-- 远程调用 -->
-				<entry key="PAYMENT_9999" value-ref="callPayPayment" />
-		 */
+		paymentMap.put("PAYMENT_4002", fcbPayment);//<!-- 翡翠币web -->
+		paymentMap.put("PAYMENT_4003", fcbPayment);//<!-- 翡翠币wap -->
+		paymentMap.put("PAYMENT_4004", fcbPayment);//<!-- 翡翠币ios -->
+		paymentMap.put("PAYMENT_4005", fcbPayment);//<!-- 翡翠币android -->
+		paymentMap.put("PAYMENT_9999", callPayPayment);//<!-- 远程调用 -->
+		
 		return paymentMap;
 	}
 }

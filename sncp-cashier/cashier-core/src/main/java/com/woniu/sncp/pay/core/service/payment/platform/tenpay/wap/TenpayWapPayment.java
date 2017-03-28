@@ -1,0 +1,502 @@
+package com.woniu.sncp.pay.core.service.payment.platform.tenpay.wap;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Node;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+
+import com.woniu.pay.common.utils.PaymentConstant;
+import com.woniu.pay.pojo.Platform;
+import com.woniu.sncp.crypto.MD5Encrypt;
+import com.woniu.sncp.net.NetServiceException;
+import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
+import com.woniu.sncp.pay.common.exception.ValidationException;
+import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
+import com.woniu.sncp.pay.common.utils.encrypt.EncryptStringUtils;
+import com.woniu.sncp.pay.common.utils.encrypt.Md5;
+import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
+import com.woniu.sncp.pojo.payment.PaymentOrder;
+
+/**
+ * <pre>
+ * 财付通Wap支付平台 
+ * 
+ * 总金额：以分为单位
+ * 特殊：md5加密，有大写有小写，故比对时不区分大小写
+ * 支付url：由初始化请求接口url和Wap支付接口通过“|”拼接
+ * 生成订单和后台校验都是顺序排列，订单校验是参数按照a-z升序排列
+ * </pre>
+ * 
+ * @author luzz
+ * @since 2013-8-29
+ * 
+ */
+@Service("tenpayWapPayment")
+public class TenpayWapPayment extends AbstractPayment {
+	
+	/**
+	 * 财付通支付编码
+	 */
+	private final String _charset_encode = HTTP.UTF_8;
+
+	@Override
+	public String encode(Map<String, Object> inParams)
+			throws ValidationException {
+		String source = (String) inParams.get("source");
+		String encrypted = StringUtils.upperCase(MD5Encrypt.encrypt(source,_charset_encode));
+		if (logger.isInfoEnabled()) {
+			logger.info("=========财付通Wap支付加密开始=========");
+			logger.info("source：" + source);
+			logger.info("encrypted：" + encrypted);
+			logger.info("=========财付通Wap支付加密结束=========\n");
+		}
+		return encrypted;
+	}
+
+	@Override
+	public Map<String, Object> orderedParams(Map<String, Object> inParams)
+			throws ValidationException {
+		Map<String,Object> params = new HashMap<String,Object>();
+		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
+		
+		if(StringUtils.isEmpty(platform.getPayUrl()) || platform.getPayUrl().split("\\|").length != 2 ){
+			throw new ValidationException("财付通Wap支付Url配置不正确");
+		}
+		
+		//1.获取token_id
+		String tokenId = getRequestToken(inParams);
+		
+		//2.组装支付接口参数
+		params.put("token_id", tokenId);
+		params.put("bank_type", "0");
+		String payUrl = platform.getPayUrl().split("\\|")[1];
+		
+		params.put("payUrl", payUrl);
+		return params;
+	}
+
+	@Override
+	public Map<String, Object> validateBackParams(HttpServletRequest request,
+			Platform platform) throws ValidationException,
+			DataAccessException, PaymentRedirectException {
+		
+		String payResult = StringUtils.trim(request.getParameter("pay_result"));//支付结果：0—成功；其它—失败
+		String oppositeOrderNo = StringUtils.trim(request.getParameter("transaction_id"));//财付通订单号
+		String orderNo = StringUtils.trim(request.getParameter("sp_billno"));//我方订单号
+		String paymentMoney = StringUtils.trim(request.getParameter("total_fee"));//总金额，单位分
+		
+		//校验加密串
+		String sign = StringUtils.trim(request.getParameter("sign"));
+		String localSign = generateBackParamSign(request, platform);
+		if(!localSign.equalsIgnoreCase(sign)){
+			if (logger.isInfoEnabled()) {
+				logger.info("==============财付通Wap后台加密处理失败=================");
+				logger.info("我方加密串：" + localSign);
+				logger.info("对方加密串：" + sign);
+				logger.info("==============财付通Wap后台加密处理结束=================\n");
+			}
+			throw new ValidationException("财付通Wap支付平台加密校验失败");
+		}
+		
+		// 订单查询
+		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
+		Assert.notNull(paymentOrder, "财付通Wap支付订单查询为空,orderNo:" + orderNo);
+		
+		Map<String, Object> returned = new HashMap<String, Object>();
+		if ("0".equals(payResult)) { // 支付成功
+			logger.info("财付通Wap返回支付成功,orderNo:"+orderNo);
+			returned.put(PaymentConstant.PAYMENT_STATE, PaymentConstant.PAYMENT_STATE_PAYED);
+		} else { // 未支付 - 只有2个状态 0 和 非0
+			logger.info("财付通Wap返回未支付,orderNo:"+orderNo+",pay_info:" + request.getParameter("pay_info"));
+			returned.put(PaymentConstant.PAYMENT_STATE, PaymentConstant.PAYMENT_STATE_NOPAYED);
+		}
+		
+		// 设置充值类型 - 不传则默认1-网银支付
+		returned.put(PaymentConstant.PAYMENT_ORDER, paymentOrder);
+		returned.put(PaymentConstant.OPPOSITE_ORDERNO, oppositeOrderNo);
+		returned.put(PaymentConstant.OPPOSITE_MONEY, paymentMoney);
+		return returned;
+	}
+	
+	private String generateBackParamSign(HttpServletRequest request,Platform platform){
+		LinkedHashMap<String, Object> params = new LinkedHashMap<String, Object>();
+		Map<String, Object> requestParams = request.getParameterMap();
+		for (Iterator<Entry<String, Object>> keyValuePairs = requestParams.entrySet().iterator(); keyValuePairs
+				.hasNext();) {
+			Map.Entry<String, Object> entry = keyValuePairs.next();
+			if(!"sign".equalsIgnoreCase(entry.getKey())){
+				params.put(entry.getKey(),request.getParameter(entry.getKey()));
+			}
+		}
+//		params.put("ver", StringUtils.trim(request.getParameter("ver")));
+//		params.put("charset", StringUtils.trim(request.getParameter("charset")));
+//		params.put("pay_result", StringUtils.trim(request.getParameter("pay_result")));
+//		params.put("pay_info", StringUtils.trim(request.getParameter("pay_info")));
+//		params.put("transaction_id", StringUtils.trim(request.getParameter("transaction_id")));
+//		params.put("sp_billno", StringUtils.trim(request.getParameter("sp_billno")));
+//		params.put("total_fee", StringUtils.trim(request.getParameter("total_fee")));
+//		params.put("fee_type", StringUtils.trim(request.getParameter("total_fee")));
+//		params.put("attach", StringUtils.trim(request.getParameter("attach")));
+//		params.put("bank_type", StringUtils.trim(request.getParameter("bank_type")));
+//		params.put("bank_billno", StringUtils.trim(request.getParameter("bank_billno")));
+//		params.put("time_end", StringUtils.trim(request.getParameter("time_end")));
+//		params.put("purchase_alias", StringUtils.trim(request.getParameter("purchase_alias")));
+		//params.put("key", paymentPlatform.getAuthKey());
+		
+		LinkedHashMap<String, Object> sortSignMap = AlipayHelper.sortMap(params);
+		sortSignMap.put("key", platform.getPayKey());
+		// 空值不加入
+		String source = EncryptStringUtils.linkedHashMapToStringWithKey(sortSignMap, true);
+		// 2.参数加密
+		Map<String, Object> encodeParams = new HashMap<String, Object>();
+		encodeParams.put("source", source);
+		String encrypted = this.encode(encodeParams);
+		
+		return encrypted;
+	}
+
+	@Override
+	public void paymentReturn(Map<String, Object> inParams,
+			HttpServletResponse response, boolean isImprestedSuccess) {
+		if(isImprestedSuccess){
+			super.responseAndWrite(response, "success");
+		} else {
+			super.responseAndWrite(response, "fail");
+		}
+	}
+
+	@Override
+	public Map<String, Object> checkOrderIsPayed(Map<String, Object> inParams) {
+		PaymentOrder paymentOrder = (PaymentOrder) inParams.get(PaymentConstant.PAYMENT_ORDER);
+		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
+
+		// 1.组装查询接口参数
+		String attach = "";
+		try {
+			attach = EncryptFactory.getInstance(Md5.NAME).encrypt(paymentOrder.getOrderNo(), platform.getPayKey(),"");
+		} catch (Exception e1) {
+			logger.error("Md5密钥签名异常,"+e1.getMessage(),e1);
+		}
+//		String attach = super.encode(paymentOrder.getOrderNo(), paymentPlatform.getAuthKey());
+		String bargainorId = platform.getMerchantNo();
+		String spBillno = paymentOrder.getOrderNo();
+		
+		LinkedHashMap<String, Object> signParams = new LinkedHashMap<String, Object>();
+		signParams.put("ver", "2.0");
+		signParams.put("bargainor_id", bargainorId); // 商户ID
+		signParams.put("sp_billno", spBillno);
+		signParams.put("attach", attach);
+		signParams.put("charset", _charset_encode);
+
+		LinkedHashMap<String, Object> sortSignMap = AlipayHelper.sortMap(signParams);
+		sortSignMap.put("key", platform.getPayKey());
+
+		Map<String, Object> encodeParams = new HashMap<String, Object>();
+		encodeParams.put("source", EncryptStringUtils.linkedHashMapToStringWithKey(sortSignMap, true));
+		String sign = this.encode(encodeParams);
+		
+		// 2.向财付通查询订单信息
+		HttpClient httpclient = new DefaultHttpClient();
+		httpclient.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,"utf-8");
+		httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+		httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);
+		
+		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
+		formparams.add(new BasicNameValuePair("ver", "2.0"));
+		formparams.add(new BasicNameValuePair("bargainor_id", bargainorId));
+		formparams.add(new BasicNameValuePair("sp_billno", spBillno));
+		formparams.add(new BasicNameValuePair("attach", attach));
+		formparams.add(new BasicNameValuePair("charset", _charset_encode));
+		formparams.add(new BasicNameValuePair("sign", sign));
+		
+		String response = null;
+		HttpPost httpPost = null;
+		try {
+			httpPost = new HttpPost(platform.getPayCheckUrl());
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, _charset_encode);
+			httpPost.setEntity(entity);
+			
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+			response = httpclient.execute(httpPost,responseHandler);
+		} catch (ClientProtocolException e) {
+			logger.error(e.getMessage(),e);
+			throw new NetServiceException("财付通wap订单查询接口出错，请与客服联系", e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(),e);
+			throw new NetServiceException("财付通wap订单查询接口出错，请与客服联系", e);
+		}  finally {
+			logger.info("财付通wap手机 订单查询接口 url:{}",platform.getPayCheckUrl());
+			logger.info("财付通wap手机 订单查询接口返回:{}",response);
+			abortConnection(httpPost, httpclient);
+		}
+		
+		// 3.解析，校验及分析返回数据
+		String retVer = readXmlNode(response,"//root/ver");
+		String retCharset = readXmlNode(response,"//root/charset");
+		String retPayResult = readXmlNode(response,"//root/pay_result");
+		String retPayInfo = readXmlNode(response,"//root/pay_info");
+		String retTransactionId = readXmlNode(response,"//root/transaction_id");
+		String retSpBillno = readXmlNode(response,"//root/sp_billno");
+		String retTotalFee = readXmlNode(response,"//root/total_fee");
+		String retFeeType = readXmlNode(response,"//root/fee_type");
+		String retBargainorId = readXmlNode(response,"//root/bargainor_id");
+		String retAttach = readXmlNode(response,"//root/attach");
+		String retBankType = readXmlNode(response,"//root/bank_type");
+		String retBankBillno = readXmlNode(response,"//root/bank_billno");
+		String retTimeEnd = readXmlNode(response,"//root/time_end");
+		String retPurchaseAlias = readXmlNode(response,"//root/purchase_alias");
+		String retSign = readXmlNode(response,"//root/sign");
+		
+		Map<String, Object> outParams = new HashMap<String, Object>();
+		String payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
+		if (!"0".equals(retPayResult)) { // 支付不成功
+			payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
+			logger.info("财付通wap返回未成功支付，pay_info:" + retPayInfo + ",retmsg:" + response);
+			
+			// 设置充值类型 - 不传则默认1-网银支付
+			outParams.put(PaymentConstant.OPPOSITE_ORDERNO, retTransactionId); // 对方订单号
+			outParams.put(PaymentConstant.PAYMENT_STATE, payState);
+			outParams.put(PaymentConstant.OPPOSITE_MONEY, retTotalFee); // 总金额，对方传回的单位已经是分
+			return outParams;
+		}
+		
+		LinkedHashMap<String, Object> returnLinkedParams = new LinkedHashMap<String, Object>();
+		returnLinkedParams.put("ver", retVer);
+		returnLinkedParams.put("charset", retCharset);
+		returnLinkedParams.put("pay_result", retPayResult);
+		returnLinkedParams.put("pay_info", retPayInfo);
+		returnLinkedParams.put("transaction_id", retTransactionId);
+		returnLinkedParams.put("sp_billno", retSpBillno);
+		returnLinkedParams.put("total_fee", retTotalFee);
+		returnLinkedParams.put("fee_type", retFeeType);
+		returnLinkedParams.put("bargainor_id", retBargainorId);
+		returnLinkedParams.put("attach", retAttach);
+		returnLinkedParams.put("bank_type", retBankType);
+		returnLinkedParams.put("bank_billno", retBankBillno);
+		returnLinkedParams.put("time_end", retTimeEnd);
+		returnLinkedParams.put("purchase_alias", retPurchaseAlias);
+		
+		LinkedHashMap<String, Object> retSortSignMap = AlipayHelper.sortMap(returnLinkedParams);
+		retSortSignMap.put("key", platform.getPayKey());
+
+		Map<String, Object> retSortSignStrMap = new HashMap<String, Object>();
+		retSortSignStrMap.put("source", EncryptStringUtils.linkedHashMapToStringWithKey(retSortSignMap, true));
+		String localRetSign = this.encode(retSortSignStrMap);
+		
+		// 对方校验串校验 md5(参数排序 + key)
+		if (!localRetSign.equalsIgnoreCase(retSign)) {
+			if (logger.isInfoEnabled()) {
+				logger.info("==============财付通wap订单校验返回加密处理失败=================");
+				logger.info("我方加密串：" + localRetSign);
+				logger.info("对方加密串：" + retSign);
+				logger.info("==============财付通wap订单校验返回加密处理结束=================\n");
+			}
+			outParams.put(PaymentConstant.PAYMENT_STATE, PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+			return outParams;
+		}
+		
+		// 我方校验串校验 md5(orderNo + key)
+		String localAttach = "";
+		try {
+			localAttach = EncryptFactory.getInstance(Md5.NAME).encrypt(retSpBillno, platform.getPayKey(), "");
+		} catch (Exception e) {
+			logger.error("Md5密钥签名异常,"+e.getMessage(),e);
+		}
+//		String localAttach = super.encode(retSpBillno, paymentPlatform.getAuthKey());
+		if (!localAttach.equals(attach)) {
+			if (logger.isInfoEnabled()) {
+				logger.info("==============财付通wap订单orderNo + key校验失败=================");
+				logger.info("我方原文：" + retSpBillno + platform.getPayKey());
+				logger.info("我方扩展信息：" + localAttach);
+				logger.info("对方传回扩展信息：" + attach);
+				logger.info("==============财付通wap订单orderNo + key校验结束=================\n");
+			}
+			outParams.put(PaymentConstant.PAYMENT_STATE, PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+			return outParams;
+		}
+		
+		payState = PaymentConstant.PAYMENT_STATE_PAYED;
+		// 设置充值类型 - 不传则默认1-网银支付
+		outParams.put(PaymentConstant.OPPOSITE_ORDERNO, retTransactionId); // 对方订单号
+		outParams.put(PaymentConstant.PAYMENT_STATE, payState);
+		outParams.put(PaymentConstant.OPPOSITE_MONEY, retTotalFee); // 总金额，对方传回的单位已经是分
+		return outParams;
+	}
+
+	@Override
+	public String getOrderNoFromRequest(HttpServletRequest request) {
+		return request.getParameter("sp_billno");
+	}
+	
+	private String getRequestToken(Map<String, Object> inParams){
+		// 1.拼装参数
+		PaymentOrder paymentOrder = (PaymentOrder) inParams.get(PaymentConstant.PAYMENT_ORDER);
+		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
+
+		String outTradeNo = paymentOrder.getOrderNo();
+		
+		String initGgi = platform.getPayUrl().split("\\|")[0];
+
+		LinkedHashMap<String, Object> params = new LinkedHashMap<String, Object>();
+		params.put("ver", "2.0");
+		params.put("charset", "1");
+		params.put("bank_type", "0");//银行类型:财付通支付填0
+		try {
+			//商品描述，32个字符以内
+			params.put("desc", URLDecoder.decode((String)inParams.get("productName"), "utf-8"));
+		} catch (UnsupportedEncodingException e1) {
+		}
+		params.put("bargainor_id", platform.getMerchantNo());//商户号
+		params.put("sp_billno", outTradeNo);
+//		params.put("total_fee", (int)(paymentOrder.getMoney()*100));//单位为分
+		params.put("total_fee",(new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue());
+		params.put("fee_type", "1");//1:rmb
+		params.put("notify_url", platform.getBehindUrl(paymentOrder.getMerchantId()));
+		params.put("callback_url", platform.getFrontUrl(paymentOrder.getMerchantId()));
+		
+		// 2.参数加密
+		LinkedHashMap<String, Object> sortSignMap = AlipayHelper.sortMap(params);
+		sortSignMap.put("key", platform.getPayKey());
+
+		Map<String, Object> sortSignStrMap = new HashMap<String, Object>();
+		sortSignStrMap.put("source", EncryptStringUtils.linkedHashMapToStringWithKey(sortSignMap, true));
+		String encrypted = this.encode(sortSignStrMap);
+		
+		// 3.请求获取token
+		String response = null;
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = null;
+		String reqTokenUrl = null;
+		try {
+			//httpclient.getParams().setParameter(HttpMethodParams.HTTP_CONTENT_CHARSET,_charset_encode);
+			httpclient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000);
+			httpclient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);
+			
+			List<BasicNameValuePair> formparams = new ArrayList<BasicNameValuePair>();
+			formparams.add(new BasicNameValuePair("ver", "2.0"));
+			formparams.add(new BasicNameValuePair("charset", "1"));
+			formparams.add(new BasicNameValuePair("bank_type", "0"));
+			formparams.add(new BasicNameValuePair("desc", URLDecoder.decode((String)inParams.get("productName"), "utf-8")));
+			formparams.add(new BasicNameValuePair("bargainor_id", platform.getMerchantNo()));
+			formparams.add(new BasicNameValuePair("sp_billno", outTradeNo));
+//			formparams.add(new BasicNameValuePair("total_fee", String.valueOf((int)(paymentOrder.getMoney()*100))));
+			formparams.add(new BasicNameValuePair("total_fee", String.valueOf((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue())));
+			formparams.add(new BasicNameValuePair("fee_type", "1"));
+			formparams.add(new BasicNameValuePair("notify_url", platform.getBehindUrl(paymentOrder.getMerchantId())));
+			formparams.add(new BasicNameValuePair("callback_url", platform.getFrontUrl(paymentOrder.getMerchantId())));
+			formparams.add(new BasicNameValuePair("sign", encrypted));
+			
+			reqTokenUrl = initGgi;
+			
+			httppost = new HttpPost(reqTokenUrl);
+			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(formparams, _charset_encode);
+			httppost.setEntity(entity);
+			
+			ResponseHandler<String> responseHandler = new BasicResponseHandler();
+//			response = httpclient.execute(httppost,responseHandler);
+//			response = URLDecoder.decode(response, _charset_encode);
+			
+			HttpResponse res = httpclient.execute(httppost);
+			HttpEntity ent = res.getEntity();
+			response = EntityUtils.toString(ent , "UTF-8").trim();
+		} catch (ClientProtocolException e) {
+			logger.error(e.getMessage(),e);
+			throw new NetServiceException("财付通wap订单查询接口出错，请与客服联系", e);
+		} catch (IOException e) {
+			logger.error(e.getMessage(),e);
+			throw new NetServiceException("财付通wap订单查询接口出错，请与客服联系", e);
+		}  finally {
+			logger.info("手机支付获取token url:{}",reqTokenUrl);
+			logger.info("手机支付返回:{}",response);
+			abortConnection(httppost, httpclient);
+		}
+		/**
+		 * 成功示例:
+		 * <?xml version="1.0" encoding="GB2312" ?>
+		 * <root>
+		 * 		<token_id>20081113f9d49c20e8e5c8e40b6107ec42259e41</token_id>
+		 * </root>
+		 * 
+		 * 出错示例：
+		 * <?xml version="1.0" encoding="GB2312" ?>
+		 * <root>
+		 * 		<err_info>错误信息</err_info>
+		 * </root>
+		**/
+		
+		if(response.contains("err_info")){
+			String errorInfo = readXmlNode(response,"//root/err_info");
+			logger.error("订单号：" + outTradeNo + ",财付通Wap初始化后台接口获取Token异常,"+errorInfo);
+			throw new ValidationException("财付通Wap初始化后台接口获取Token异常,"+errorInfo);
+		}
+		// 调用成功
+		String requestToken = readXmlNode(response,"//root/token_id");
+		return requestToken;
+	}
+	
+	/**
+	 * 释放HttpClient连接
+	 * 
+	 * @param hrb
+	 *            请求对象
+	 * @param httpclient
+	 * 			  client对象
+	 */
+	private static void abortConnection(final HttpRequestBase hrb, final HttpClient httpclient){
+		if (hrb != null) {
+			hrb.abort();
+		}
+		if (httpclient != null) {
+			httpclient.getConnectionManager().shutdown();
+		}
+	}
+	
+	private String readXmlNode(String resData,String nodePath) {
+		Document doc = null;
+		try {
+			doc = DocumentHelper.parseText(resData);
+		} catch (DocumentException e) {
+			throw new ValidationException("财付通初始化接口返回xml转换异常");
+		}
+		Node _requestToken = doc.selectSingleNode(nodePath);
+		String requestToken = _requestToken.getText();
+		return requestToken;
+	}
+
+}

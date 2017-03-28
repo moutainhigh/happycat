@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 
-import com.woniu.sncp.pay.repository.game.Game;
+import com.woniu.sncp.pay.repository.pay.Game;
 import com.woniu.sncp.pojo.game.GameArea;
 import com.woniu.sncp.pojo.game.GameServer;
 

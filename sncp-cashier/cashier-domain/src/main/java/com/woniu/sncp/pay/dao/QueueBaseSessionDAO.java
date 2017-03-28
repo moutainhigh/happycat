@@ -82,7 +82,7 @@ public interface QueueBaseSessionDAO extends QueueBaseDao {
 	
 	public Map<String, Object> jdbcOne(String sql) throws Exception;
 	
-	public JdbcTemplate getQueueJdbcTemplate();
+	public JdbcTemplate getJdbcTemplate();
 
     PreparedStatementResultSetHandle createPreparementResultSetHandle(String sql) throws Throwable;
     

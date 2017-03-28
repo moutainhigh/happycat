@@ -27,9 +27,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.lang.DateUtil;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
@@ -173,6 +173,10 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -281,12 +285,12 @@ public class TutuController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),loginAccount,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    			
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),loginAccount,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -559,6 +563,10 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response){
     	
 		Map<String, Object> retMap = new HashMap<String,Object>();
@@ -669,11 +677,11 @@ public class TutuController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -710,6 +718,10 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response){
     	
 		Map<String, Object> retMap = new HashMap<String,Object>();
@@ -829,11 +841,11 @@ public class TutuController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -869,6 +881,10 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -987,11 +1003,11 @@ public class TutuController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -1082,6 +1098,10 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="body",required=false) String body,
+			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
+			@RequestParam(value="terminalType",required=false) String terminalType,
+			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1192,11 +1212,11 @@ public class TutuController extends ApiBaseController{
 	    		
     			retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
     					yueCurrency,yueMoney,StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap);
+						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());

@@ -21,12 +21,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.ExchargeConstant;
-import com.woniu.sncp.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.dao.QueueBaseSessionDAO;
-import com.woniu.sncp.pay.repository.queue.MessageQueue;
-import com.woniu.sncp.pay.repository.queue.MessageQueueLog;
+import com.woniu.sncp.pay.repository.pay.MessageQueue;
+import com.woniu.sncp.pay.repository.pay.MessageQueueLog;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 /**
@@ -57,11 +57,11 @@ public class MQueueService{
 		try {
 			String sql = "select count(0) from SN_QUEUE.QUE_MESSAGE_QUEUE where N_RELATION_ID=? and N_TYPE=?";
 			Object[] values = new Object[]{relationId,taskType};
-			result = queueSessionDao.getQueueJdbcTemplate().queryForObject(sql,values,Integer.class);
+			result = queueSessionDao.getJdbcTemplate().queryForObject(sql,values,Integer.class);
 			
 			if(result>0){
 				String _sql = "select N_ID id,N_TYPE taskType,N_SUBIDC_ID subdbId,N_RELATION_ID relationId,D_CREATE createDate,S_BUSINESS_DATA businessData,N_PIECE_ID pieceId,S_REMARK remark,N_MERCHANT_ID merchantId from SN_QUEUE.QUE_MESSAGE_QUEUE where N_RELATION_ID=? and N_TYPE=?";  
-				queue = queueSessionDao.getQueueJdbcTemplate().queryForObject(_sql,values, new BeanPropertyRowMapper<MessageQueue>(MessageQueue.class));
+				queue = queueSessionDao.getJdbcTemplate().queryForObject(_sql,values, new BeanPropertyRowMapper<MessageQueue>(MessageQueue.class));
 			}
 		} catch (Exception e) {
 			logger.error(this.getClass().getSimpleName(), e);
@@ -96,7 +96,7 @@ public class MQueueService{
 		pQuetask.setMerchantId(Long.parseLong(merchantId));
 		
 		String saveQueue = "INSERT INTO SN_QUEUE.QUE_MESSAGE_QUEUE(N_ID,N_TYPE,N_SUBIDC_ID,N_RELATION_ID,D_CREATE,S_BUSINESS_DATA,N_PIECE_ID,S_REMARK,N_MERCHANT_ID) values(?,?,?,?,?,?,?,?,?)";
-		return Long.valueOf(queueSessionDao.getQueueJdbcTemplate().update(saveQueue,pQuetask.getId(),pQuetask.getTaskType(),
+		return Long.valueOf(queueSessionDao.getJdbcTemplate().update(saveQueue,pQuetask.getId(),pQuetask.getTaskType(),
 				pQuetask.getSubdbId(),pQuetask.getRelationId(),pQuetask.getCreateDate(),pQuetask.getBusinessData(),pQuetask.getPieceId(),pQuetask.getRemark(),pQuetask.getMerchantId()));
 	}
 	
@@ -113,11 +113,11 @@ public class MQueueService{
 		try {
 			String sql = "select count(0) from SN_QUEUE.QUE_MESSAGE_LOG where N_RELATION_ID=? and N_TYPE=?";
 			Object[] values = new Object[]{relatedId,taskType};
-			result = queueSessionDao.getQueueJdbcTemplate().queryForObject(sql,values,Integer.class);
+			result = queueSessionDao.getJdbcTemplate().queryForObject(sql,values,Integer.class);
 			
 			if(result>0){
 				String _sql = "select N_ID id,N_AID accountId,N_TYPE type,N_RELATION_ID relatedId,S_BUSINESS_DATA taskObj,D_CREATE createDate,N_IP clientIP,N_MERCHANT_ID merchantId from SN_QUEUE.QUE_MESSAGE_LOG where N_RELATION_ID=? and N_TYPE=?";  
-				queueLog = queueSessionDao.getQueueJdbcTemplate().queryForObject(_sql,values, new BeanPropertyRowMapper<MessageQueueLog>(MessageQueueLog.class));
+				queueLog = queueSessionDao.getJdbcTemplate().queryForObject(_sql,values, new BeanPropertyRowMapper<MessageQueueLog>(MessageQueueLog.class));
 			}
 		} catch (Exception e) {
 			logger.error(this.getClass().getSimpleName(), e);
@@ -150,7 +150,7 @@ public class MQueueService{
 		queueLog.setType(Long.parseLong(taskType));
 		queueLog.setMerchantId(Long.parseLong(merchantId));
 		String saveQueueLog = "INSERT INTO SN_QUEUE.QUE_MESSAGE_LOG(N_ID,N_AID,N_TYPE,N_RELATION_ID,S_BUSINESS_DATA,D_CREATE,N_IP,N_MERCHANT_ID) values(?,?,?,?,?,?,?,?)";
-		return Long.valueOf(queueSessionDao.getQueueJdbcTemplate().update(saveQueueLog,queueLog.getId(),queueLog.getAccountId(),
+		return Long.valueOf(queueSessionDao.getJdbcTemplate().update(saveQueueLog,queueLog.getId(),queueLog.getAccountId(),
 				queueLog.getType(),queueLog.getRelatedId(),queueLog.getTaskObj(),queueLog.getCreateDate(),queueLog.getClientIP(),queueLog.getMerchantId()));
 	}
 	
@@ -161,7 +161,7 @@ public class MQueueService{
 	 */
 	public Long getSequence(final String getSeqSql){
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		queueSessionDao.getQueueJdbcTemplate().update(new PreparedStatementCreator() {  
+		queueSessionDao.getJdbcTemplate().update(new PreparedStatementCreator() {  
             public PreparedStatement createPreparedStatement(  
                     Connection connection) throws SQLException {  
                 PreparedStatement ps = connection.prepareStatement(getSeqSql,PreparedStatement.RETURN_GENERATED_KEYS);  
@@ -178,7 +178,7 @@ public class MQueueService{
 	 * @param params
 	 * @return
 	 */
-	@Transactional(propagation=Propagation.REQUIRED,value="transactionManagerQueue",rollbackFor = RuntimeException.class)
+	@Transactional(propagation=Propagation.REQUIRED,value="transactionManager",rollbackFor = RuntimeException.class)
 	public Long createQueueAndLog(Map<String, Object> params) {
 		Long result = 0L;
 		Long queueRet = 0L;
@@ -210,7 +210,7 @@ public class MQueueService{
 			pQuetask.setMerchantId(Long.parseLong(merchantId));
 			
 			String saveQueue = "INSERT INTO SN_QUEUE.QUE_MESSAGE_QUEUE(N_ID,N_TYPE,N_SUBIDC_ID,N_RELATION_ID,D_CREATE,S_BUSINESS_DATA,N_PIECE_ID,S_REMARK,N_MERCHANT_ID) values(?,?,?,?,?,?,?,?,?)";
-			queueRet = Long.valueOf(queueSessionDao.getQueueJdbcTemplate().update(saveQueue,pQuetask.getId(),pQuetask.getTaskType(),
+			queueRet = Long.valueOf(queueSessionDao.getJdbcTemplate().update(saveQueue,pQuetask.getId(),pQuetask.getTaskType(),
 					pQuetask.getSubdbId(),pQuetask.getRelationId(),pQuetask.getCreateDate(),pQuetask.getBusinessData(),pQuetask.getPieceId(),pQuetask.getRemark(),pQuetask.getMerchantId()));
 		
 			if(queueRet>0){
@@ -229,7 +229,7 @@ public class MQueueService{
 				queueLog.setMerchantId(Long.parseLong(merchantId));
 
 				String saveQueueLog = "INSERT INTO SN_QUEUE.QUE_MESSAGE_LOG(N_ID,N_AID,N_TYPE,N_RELATION_ID,S_BUSINESS_DATA,D_CREATE,N_IP,N_MERCHANT_ID) values(?,?,?,?,?,?,?,?)";
-				queueLogRet =  Long.valueOf(queueSessionDao.getQueueJdbcTemplate().update(saveQueueLog,queueLog.getId(),queueLog.getAccountId(),
+				queueLogRet =  Long.valueOf(queueSessionDao.getJdbcTemplate().update(saveQueueLog,queueLog.getId(),queueLog.getAccountId(),
 						queueLog.getType(),queueLog.getRelatedId(),queueLog.getTaskObj(),queueLog.getCreateDate(),queueLog.getClientIP(),queueLog.getMerchantId()));
 			}else{
 				throw new ValidationException("队列任务存储失败");
