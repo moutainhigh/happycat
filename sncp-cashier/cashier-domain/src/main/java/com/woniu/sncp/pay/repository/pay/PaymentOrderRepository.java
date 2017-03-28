@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.woniu.sncp.pojo.payment.PaymentOrder;
+import com.woniu.sncp.pojo.refund.PayRefundBatchDetail;
 
 
 /**
@@ -33,6 +34,11 @@ public interface PaymentOrderRepository extends JpaRepository<PaymentOrder, Long
 	@Query("update PaymentOrder paymentOrder set paymentOrder.paymentState =:paymentState,paymentOrder.imprestState =:imprestState where paymentOrder.id =:id")
 	void updateSS(@Param("id") Long id, @Param("paymentState") String paymentState, @Param("imprestState") String imprestState);
 	
+	@Modifying(clearAutomatically = true)
+	@Query("update PaymentOrder paymentOrder set paymentOrder.imprestState =:imprestState where paymentOrder.id =:id")
+	void updateIS(@Param("id") Long id, @Param("imprestState") String imprestState);
+	
+	
 	//第三方,合作方订单号
 	PaymentOrder findByPartnerOrderNo(String oppositeOrderNo);
 
@@ -41,4 +47,7 @@ public interface PaymentOrderRepository extends JpaRepository<PaymentOrder, Long
 	
 	//我方订单号
 	PaymentOrder findByOrderNo(String orderNo);
+	
+	//业务商户号,合作方订单号
+	PaymentOrder findByMerchantIdAndPartnerOrderNo (Long merchantId,String partnerOrderNo);
 }

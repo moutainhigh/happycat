@@ -229,24 +229,15 @@ public class PaymentOrderService{
 	}
 
 	public PaymentOrder queryOrder(String orderNo) throws DataAccessException {
-		// 切换中心库
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
-//		return paymentOrderDao.findByProperty("orderNo", orderNo);
 		return paymentOrderRepository.findByOrderNo(orderNo);
 	}
 	
 	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo) throws DataAccessException {
-		// 切换中心库
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);//网厅需要实时读，不接受延时，所以改到中心库
-//		return paymentOrderDao.findByProperty("partnerOrderNo", pOrderNo);
 		return paymentOrderRepository.findByPartnerOrderNo(pOrderNo);
 	}
 	
 	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
 			throws DataAccessException {
-		// 切换中心库
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		return paymentOrderDao.findByProperty("payPlatformOrderId", oppositeOrderNo);
 		return paymentOrderRepository.findByPayPlatformOrderId(oppositeOrderNo);
 	}
 
@@ -264,8 +255,6 @@ public class PaymentOrderService{
 		if (StringUtils.isNotBlank(imprestState))
 			paymentOrder.setImprestState(imprestState);
 
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		paymentOrderDao.update(paymentOrder);
 		paymentOrderRepository.updateSS(paymentOrder.getId(), payedState,imprestState);
 	}
 	
@@ -274,10 +263,15 @@ public class PaymentOrderService{
 		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：yuePayState:" + yuePayState );
 		if (StringUtils.isBlank(yuePayState))
 			throw new IllegalArgumentException("更新订单状态参数错误，yuePayState不能为空");
-
-		paymentOrder.setPaymentState(yuePayState);
-//		paymentOrderDao.update(paymentOrder);
 		paymentOrderRepository.updateS(paymentOrder.getId(), yuePayState);
+	}
+	
+	public void updateOrderImprestState(PaymentOrder paymentOrder, String imprestState) throws DataAccessException,
+			IllegalArgumentException {
+		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：imprestState:" + imprestState );
+		if (StringUtils.isBlank(imprestState))
+			throw new IllegalArgumentException("更新订单状态参数错误，imprestState不能为空");
+		paymentOrderRepository.updateIS(paymentOrder.getId(), imprestState);
 	}
 	
 	public String callback(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt){

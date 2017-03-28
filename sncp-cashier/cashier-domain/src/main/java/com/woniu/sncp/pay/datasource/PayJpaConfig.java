@@ -49,7 +49,7 @@ public class PayJpaConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory (EntityManagerFactoryBuilder builder) {
         return builder.dataSource(dataSource)
                 .properties(getVendorProperties(dataSource))
-                .packages("com.woniu.sncp.pay.repository.pay","com.woniu.sncp.pojo.payment") //设置实体类所在位置
+                .packages("com.woniu.sncp.pay.repository.pay","com.woniu.sncp.pojo.payment","com.woniu.sncp.pojo.refund") //设置实体类所在位置
                 .persistenceUnit("persistenceUnit")
                 .build();
     }

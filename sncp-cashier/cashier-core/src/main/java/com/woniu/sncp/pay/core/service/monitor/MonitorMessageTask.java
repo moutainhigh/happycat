@@ -18,23 +18,15 @@ public class MonitorMessageTask implements Runnable{
 
 	private Map<String,Object> bodyMap = new HashMap<String,Object>();
 	
-	@Value("${monitor.type}")
-	private String src;
-	
-	@Value("${monitor.url}")
-	private String monitorUrl;
-	
-	@Value("${monitor.timeout}")
-	private String monitorTimeout;
 	
 	public MonitorMessageTask(String message){
-		bodyMap.put("src", src);
+		bodyMap.put("src", MonitorUrlProperties.getProperty("monitor.type"));
 		bodyMap.put("content", message);
 		bodyMap.put("ctime", (new Date()).getTime()/1000);
 	}
 	
 	public MonitorMessageTask(String message,String type){
-		bodyMap.put("src", src);
+		bodyMap.put("src", MonitorUrlProperties.getProperty("monitor.type."+type));
 		bodyMap.put("content", message);
 		bodyMap.put("ctime", (new Date()).getTime()/1000);
 	}
@@ -43,7 +35,7 @@ public class MonitorMessageTask implements Runnable{
 	public void run() {
 		try{
 			
-			String postBodyRequst = PayCheckUtils.postRequst(monitorUrl, bodyMap, Integer.valueOf(monitorTimeout), "utf-8", "MonitorMessageTask");
+			String postBodyRequst = PayCheckUtils.postRequst(MonitorUrlProperties.getProperty("monitor.url"), bodyMap, Integer.valueOf(MonitorUrlProperties.getProperty("monitor.timeout")), "utf-8", "MonitorMessageTask");
 			logger.info("monitor-send-response "+postBodyRequst);
 			
 			String code = String.valueOf(JsonUtils.jsonToMap(postBodyRequst).get("code"));

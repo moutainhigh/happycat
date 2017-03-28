@@ -34,7 +34,7 @@ import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.utils.ExchargeConstant;
 import com.woniu.sncp.pay.common.utils.ExchargeUtils;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
-import com.woniu.sncp.pay.dao.PassportBaseSessionDAO;
+import com.woniu.sncp.pay.dao.BaseSessionDAO;
 import com.woniu.sncp.pay.repository.pay.MessageQueue;
 import com.woniu.sncp.pay.repository.pay.MessageQueueRepository;
 import com.woniu.sncp.pay.repository.pay.PassportAsyncTask;
@@ -60,7 +60,7 @@ public class SyncTaskSchedule implements Schedule{
 	public static final String SEHEDULE_STATE_COMPLETE = "1";
 	
 	@Resource
-	private PassportBaseSessionDAO sessionDao;
+	private BaseSessionDAO sessionDao;
 	
 	@Autowired
 	private MessageQueueRepository messageQueueRepository;
@@ -370,7 +370,7 @@ public class SyncTaskSchedule implements Schedule{
 	 */
 	public Long getSequence(final String getSeqSql){
 		KeyHolder keyHolder = new GeneratedKeyHolder();
-		sessionDao.getPassportJdbcTemplate().update(new PreparedStatementCreator() {  
+		sessionDao.getMyJdbcTemplate().update(new PreparedStatementCreator() {  
             public PreparedStatement createPreparedStatement(  
                     Connection connection) throws SQLException {  
                 PreparedStatement ps = connection.prepareStatement(getSeqSql,PreparedStatement.RETURN_GENERATED_KEYS);  
