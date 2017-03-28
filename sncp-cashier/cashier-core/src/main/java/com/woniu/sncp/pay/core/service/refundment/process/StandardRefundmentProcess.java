@@ -158,7 +158,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 								
 								// 收银台支付订单的充值状态改为  4 已退款,
-								paymentOrderService.updateOrder(refundOrder, null, PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+								paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							}else if(DIOrderNoRefundData.PAYMENT_STATE_REFUND_FAILED.equals(detail.getStatusCode())){
 								// 更改订单状态为退款失败
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -229,8 +229,6 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 			logger.info("++++++++++++++++退款批次单校验+++++++++++++++++");
 			logger.info("1.退款批次单校验进入：pBatchNo:" + pBatchNo);
 		}
-		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-		
 		String refundResult = RefundmentConstant.PAYMENT_STATE_REFUND_PRO;
 		Map<String, Object> refundResultMap = null;
 		Map<String, Object> resultMap = null;
@@ -313,7 +311,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 								
 								// 收银台支付订单的充值状态改为  4 已退款,
-								paymentOrderService.updateOrder(refundOrder, null, PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+								paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							}else if(DIOrderNoRefundData.PAYMENT_STATE_REFUND_FAILED.equals(detail.getStatusCode())){
 								// 更改订单状态为退款失败
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -632,7 +630,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 							refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 							
 							// 收银台支付订单的充值状态改为  4 已退款,
-							paymentOrderService.updateOrder(refundOrder, null, PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+							paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							
 							// 更新批次单
 							refundmentOrderService.updateRefundBatch(refundBatch, RefundmentConstant.PAYMENT_STATE_REFUNDED);

@@ -86,7 +86,7 @@ public abstract class AbstractPayment implements Payment,Transfer {
 	
 	@Resource
 	protected PaymentOrderService paymentOrderService;
-//	@Resource
+	@Resource
 	protected RefundmentOrderService refundmentOrderService;
 	@Resource
 	protected PaymentService paymentService;
