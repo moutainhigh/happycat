@@ -39,10 +39,6 @@
         	<input type="hidden" name="bankCardType" id="bankCardType"/>
         	<input type="hidden" name="sign" value="${ret.sign}"/>
         	<input type="hidden" name="ext" value="${ret.ext}"/>
-        	<input type="hidden" name="body" value="${ret.body}"/>
-        	<input type="hidden" name="goodsDetail" value="${ret.goodsDetail}"/>
-        	<input type="hidden" name="terminalType" value="${ret.terminalType}"/>
-        	<input type="hidden" name="timeoutExpress" value="${ret.timeoutExpress}"/>
         	<input type="hidden" id="cardtype" name="cardtype" value=""/>
         	<input type="hidden" id="refererId" name="referer" value="${referer}"/>
         	<!--信用卡分期参数  -->
@@ -359,6 +355,11 @@
 				
 			</iframe>
         </div>
+        <div style="width: 965px; margin: 25px auto;" name="wxQrCodeDv">
+				<div class="wxQrCodeDv" id="wxQrCodeDv" style="display:none;margin: 0 auto;width: 200px;"></div>
+				<div class="wxNoteDv"
+					style="font-size: 16px; color: #000000;"></div>
+		</div>
         <div class="pay_bottom">
             <p class="question_title">支付遇到问题</p>
             <p class="question">网银支付支持哪些银行？</p>
@@ -414,9 +415,10 @@
                  </div>
               </div>
              </div>
-           
-        <script src="//www3.woniu.com/includes/js/jquery-latest.js"></script>
+	
+	<script src="//www3.woniu.com/includes/js/jquery-latest.js"></script>
         <script src="//www3.woniu.com/pay/js/payment.js"></script>
         <script src="//www3.woniu.com/pay/js/md5.js"></script>
+        <script src="//www3.woniu.com/imp/script/qrcode/qrcode.js"></script>
     </body>
 </html>

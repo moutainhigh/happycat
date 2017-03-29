@@ -4,10 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -18,56 +20,79 @@ import com.snail.ocp.client.http.connection.SpringRestTemplateDelegate;
 import com.snail.ocp.client.http.pojo.HttpOption;
 import com.snail.ocp.client.pojo.DefaultHeader;
 import com.snail.ocp.sdk.http.account.service.AccountInterfaceImpl;
+import com.woniu.kaptcha.servlet.KaptchaServlet;
 import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.sncp.pay.common.threadpool.ThreadPool;
 
 import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 
 /**
- * <p>descrption: 收银台相关配置</p>
+ * <p>
+ * descrption: 收银台相关配置
+ * </p>
  * 
  * @author fuzl
- * @date   2017年3月22日
+ * @date 2017年3月22日
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
 @Configuration
-public class CashierWebAppConfig extends WebMvcConfigurerAdapter{
-	
+public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
+
 	private static final String ENCODING_CHARSET = "UTF-8";
-	
-	@Bean(name="characterEncodingFilter")
-    public FilterRegistrationBean encodingFilterRegistration() {
+
+	@Bean(name = "characterEncodingFilter")
+	public FilterRegistrationBean encodingFilterRegistration() {
 		CharacterEncodingFilter encodingFilter = new org.springframework.web.filter.CharacterEncodingFilter();
 		encodingFilter.setEncoding(ENCODING_CHARSET);
 		encodingFilter.setForceEncoding(true);
 		FilterRegistrationBean encodingFilterRegistration = new FilterRegistrationBean(encodingFilter);
 		encodingFilterRegistration.addUrlPatterns("/");
-        return encodingFilterRegistration;
-    }
-	
-//	@Bean
-//    public Filter springSecurityFilterChain() {
-//		Filter springSecurityFilterChain = new org.springframework.web.filter.DelegatingFilterProxy();
-//////		FilterRegistrationBean springSecurityFilterRegistration = new Filter(springSecurityFilterChain);
-//////		springSecurityFilterRegistration.setFilter(springSecurityFilterChain);
-//////		springSecurityFilterRegistration.addUrlPatterns("/");
-//        return springSecurityFilterChain;
-//    }
-	
+		return encodingFilterRegistration;
+	}
+
+	@Bean
+	public ServletRegistrationBean captchaServletRegistrationBean() {
+		ServletRegistrationBean registration = new ServletRegistrationBean(new KaptchaServlet());
+		registration.setEnabled(true);
+		registration.addUrlMappings("/Captcha.jpg");
+		registration.addInitParameter("kaptcha.border", "no");
+		registration.addInitParameter("kaptcha.image.width", "100");
+		registration.addInitParameter("kaptcha.image.height", "30");
+		registration.addInitParameter("kaptcha.textproducer.font.size", "25");
+		registration.addInitParameter("kaptcha.textproducer.char.space", "1");
+		registration.addInitParameter("kaptcha.textproducer.font.names", "宋体,宋体");
+		registration.addInitParameter("kaptcha.textproducer.char.length", "4");
+		registration.addInitParameter("kaptcha.textproducer.char.string", "acde234578gfhjkymnpstuvwx");
+		registration.addInitParameter("kaptcha.word.impl", "com.woniu.kaptcha.text.impl.ZHWordRenderer");//<!-- 设置字体不为粗体，默认是粗体 -->
+		registration.addInitParameter("kaptcha.textproducer.impl", "com.woniu.kaptcha.text.impl.DefaultTextCreator");//<!-- 设置验证码的文本，如果没有这个param，将显示默认的 -->
+		registration.addInitParameter("kaptcha.obscurificator.impl", "com.woniu.kaptcha.impl.ShadowGimpy");//<!-- 设置验证码水印效果，如果没有这个param，将显示默认的 -->
+		return registration;
+	}
+	// @Bean
+	// public Filter springSecurityFilterChain() {
+	// Filter springSecurityFilterChain = new
+	// org.springframework.web.filter.DelegatingFilterProxy();
+	////// FilterRegistrationBean springSecurityFilterRegistration = new
+	// Filter(springSecurityFilterChain);
+	////// springSecurityFilterRegistration.setFilter(springSecurityFilterChain);
+	////// springSecurityFilterRegistration.addUrlPatterns("/");
+	// return springSecurityFilterChain;
+	// }
+
 	/**
 	 * memcache 配置
 	 */
 	@Value("${memcached.servers}")
 	private String servers;
 
-	@Bean(name={"xmemcachedClient"})
-    public XMemcachedClientFactoryBean xmemcachedClient() {
+	@Bean(name = { "xmemcachedClient" })
+	public XMemcachedClientFactoryBean xmemcachedClient() {
 		XMemcachedClientFactoryBean xMemcachedClientFactoryBean = new net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean();
 		xMemcachedClientFactoryBean.setServers(servers);
 		xMemcachedClientFactoryBean.setFailureMode(true);
-        return xMemcachedClientFactoryBean;
-    }
-	
+		return xMemcachedClientFactoryBean;
+	}
+
 	/**
 	 * OCP 配置
 	 */
@@ -79,9 +104,9 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter{
 	private String version;
 	@Value("${core.account.cbc}")
 	private String clientBusinessCode;
-	
-	@Bean(name={"accountHeader"})
-	public DefaultHeader getDefaultHeader(){
+
+	@Bean(name = { "accountHeader" })
+	public DefaultHeader getDefaultHeader() {
 		DefaultHeader accountHeader = new com.snail.ocp.client.pojo.DefaultHeader();
 		accountHeader.setAppID(appID);
 		accountHeader.setAppPWD(appPWD);
@@ -89,40 +114,38 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter{
 		accountHeader.setClientBusinessCode(clientBusinessCode);
 		return accountHeader;
 	}
-	
+
 	@Value("${core.account.server}")
 	private String server;
-	
+
 	@Autowired
 	private RestHttpConnection accountRestHttpConnection;
-	
-	@Bean(name={"httpAccountService"})
-	public AccountInterfaceImpl getHttpAccountService(){
+
+	@Bean(name = { "httpAccountService" })
+	public AccountInterfaceImpl getHttpAccountService() {
 		AccountInterfaceImpl httpAccountService = new com.snail.ocp.sdk.http.account.service.AccountInterfaceImpl();
 		httpAccountService.setConn(accountRestHttpConnection);
 		httpAccountService.setServer(server);
 		return httpAccountService;
 	}
-	
-	
-	@Bean(name={"accountRestHttpConnection"})
-	public RestHttpConnection getAccountRestHttpConnection(){
+
+	@Bean(name = { "accountRestHttpConnection" })
+	public RestHttpConnection getAccountRestHttpConnection() {
 		RestHttpConnection accountRestHttpConnection = new com.snail.ocp.client.http.connection.RestHttpConnection();
 		accountRestHttpConnection.setRestTemplate(accountSpringRestTemplateDelegate);
 		return accountRestHttpConnection;
 	}
-	
-	
+
 	@Value("${core.account.connect.timeout}")
 	private String connectTimeout;
 	@Value("${core.account.read.timeout}")
 	private String readTimeout;
-	
+
 	@Autowired
 	private SpringRestTemplateDelegate accountSpringRestTemplateDelegate;
-	
-	@Bean(name={"accountSpringRestTemplateDelegate"})
-	public SpringRestTemplateDelegate getAccountSpringRestTemplateDelegate(){
+
+	@Bean(name = { "accountSpringRestTemplateDelegate" })
+	public SpringRestTemplateDelegate getAccountSpringRestTemplateDelegate() {
 		SpringRestTemplateDelegate accountSpringRestTemplateDelegate = new com.snail.ocp.client.http.connection.SpringRestTemplateDelegate();
 		HttpOption httpOption = new com.snail.ocp.client.http.pojo.HttpOption();
 		httpOption.setConnectTimeout(Integer.parseInt(connectTimeout));
@@ -130,58 +153,58 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter{
 		accountSpringRestTemplateDelegate.setHttpOption(httpOption);
 		return accountSpringRestTemplateDelegate;
 	}
-	
-	
+
 	/**
 	 * ThreadPool threadPool
-	 * */
-	@Bean(name={"threadPool"})
-	public ThreadPool getThreadPool(){
-		ThreadPool threadPool=  new ThreadPool();
+	 */
+	@Bean(name = { "threadPool" })
+	public ThreadPool getThreadPool() {
+		ThreadPool threadPool = new ThreadPool();
 		threadPool.setCorePoolSize(5);
 		threadPool.setMaximumPoolSize(50);
 		threadPool.setKeepAliveTime(8);
 		threadPool.setBlockingQueueNum(20);
 		return threadPool;
 	}
-	
-	
-	
+
 	/**
-	 * define Constants 
+	 * define Constants
 	 */
-	@Bean(name={"paymentConstant"})
-	public PaymentConstant getPaymentConstant(){
-		PaymentConstant paymentConstant =  new  PaymentConstant();
+	@Bean(name = { "paymentConstant" })
+	public PaymentConstant getPaymentConstant() {
+		PaymentConstant paymentConstant = new PaymentConstant();
 		paymentConstant.setJdCyberBankMap(jdCyberBankMap);
 		paymentConstant.setKqBankCodeMap(kqBankCodeMap);
 		paymentConstant.setWebBankMap(webBankMap);
 		return paymentConstant;
 	}
-	
+
 	@Resource
-	Map<String,String> kqBankCodeMap;
-	
+	Map<String, String> kqBankCodeMap;
+
 	@Resource
-	Map<String,Object> jdCyberBankMap;
-	
+	Map<String, Object> jdCyberBankMap;
+
 	@Resource
-	Map<String,String> webBankMap;
-//	
-	@Bean(name={"kqBankCodeMap"})
-	public Map<String,String> getKqBankCodeMap(){
-		Map<String,String> kqBankCodeMap = new HashMap<String,String>();
+	Map<String, String> webBankMap;
+
+	//
+	@Bean(name = { "kqBankCodeMap" })
+	public Map<String, String> getKqBankCodeMap() {
+		Map<String, String> kqBankCodeMap = new HashMap<String, String>();
 		return kqBankCodeMap;
 	}
-	@Bean(name={"jdCyberBankMap"})
-	public Map<String,Object> getJdCyberBankMap(){
-		Map<String,Object> jdCyberBankMap = new HashMap<String,Object>();
+
+	@Bean(name = { "jdCyberBankMap" })
+	public Map<String, Object> getJdCyberBankMap() {
+		Map<String, Object> jdCyberBankMap = new HashMap<String, Object>();
 		return jdCyberBankMap;
 	}
-	@Bean(name={"webBankMap"})
-	public Map<String,String> getWebBankMap(){
-		Map<String,String> webBankMap = new HashMap<String,String>();
+
+	@Bean(name = { "webBankMap" })
+	public Map<String, String> getWebBankMap() {
+		Map<String, String> webBankMap = new HashMap<String, String>();
 		return webBankMap;
 	}
-	
+
 }

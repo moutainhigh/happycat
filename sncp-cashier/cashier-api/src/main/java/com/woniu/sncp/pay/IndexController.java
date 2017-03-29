@@ -33,6 +33,7 @@ import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.lang.DateUtil;
 import com.woniu.sncp.lang.ObjectUtil;
 import com.woniu.sncp.pay.common.exception.ValidationException;
+import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.fcb.FcbService;
@@ -56,8 +57,8 @@ public class IndexController extends ApiBaseController{
 	private PaymentOrderService paymentOrderService;
 	@Autowired
 	private FcbService fcbService;
-//	@Autowired
-//	private CorePassportService corePassportService;
+	@Autowired
+	private CorePassportService corePassportService;
 	
 	private final static String ORDER_CONFIRM_PAGE = "/payment/payment_confirm";
 	private final static String ORDER_ERROR_PAGE = "/payment/error";
@@ -163,7 +164,7 @@ public class IndexController extends ApiBaseController{
 				paymentCreditList.add(paymentMerchantDetail);
 			} else if (PaymentMerchantDetail.TYPE_THIRD.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				paymentThirdList.add(paymentMerchantDetail);
-			} else if(PaymentMerchantDetail.TYPE_TTB.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if(PaymentMerchantDetail.TYPE_TTB_PC.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				paymentTtbList.add(paymentMerchantDetail);
 			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())) 
 					&& (!PaymentConstant.WN_GAME_CARD.equals(paymentMerchantDetail.getContent())) ){
@@ -283,7 +284,7 @@ public class IndexController extends ApiBaseController{
 			if(PaymentMerchantDetail.TYPE_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			} 
-			if(PaymentMerchantDetail.TYPE_TTB.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_TTB_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			}
 			//游戏充值卡wap
@@ -310,9 +311,9 @@ public class IndexController extends ApiBaseController{
 			if(PaymentMerchantDetail.TYPE_WAP_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				//如果含有余额支付，则要进行身份验证
 				String currencyId = paymentMerchantDetail.getContent();
-				GamePropsCurrency currency = null;//fcbService.queryById(Long.valueOf(currencyId));
+				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
 				//验证身份
-				Map<String, Object> tokenMap = null;//fcbService.validateToken(ext);
+				Map<String, Object> tokenMap = fcbService.validateToken(ext);
 				if(tokenMap == null)
 					continue;
 				String tokenCode = ObjectUtils.toString(tokenMap.get("code"));
@@ -350,7 +351,7 @@ public class IndexController extends ApiBaseController{
     	retMap.put("bankList",bankList);
     	retMap.put("fcbList",fcbList);
     	
-    	PaymentOrder order = null;//paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
     	retMap.put("order", order);
     	
     	writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"获取支付方式成功",retMap));
@@ -415,9 +416,9 @@ public class IndexController extends ApiBaseController{
 			if(bt.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				//如果含有余额支付，则要进行身份验证
 				String currencyId = paymentMerchantDetail.getContent();
-				GamePropsCurrency currency = null;//fcbService.queryById(Long.valueOf(currencyId));
+				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
 				//验证身份
-				Map<String, Object> tokenMap = null;//fcbService.validateToken(ext);
+				Map<String, Object> tokenMap = fcbService.validateToken(ext);
 				if(tokenMap == null)
 					continue;
 				String tokenCode = ObjectUtils.toString(tokenMap.get("code"));
@@ -430,7 +431,7 @@ public class IndexController extends ApiBaseController{
 				String fcbAccount = ObjectUtils.toString(dataMap.get("account"));
 				String fcbPhone = ObjectUtils.toString(dataMap.get("phone"));
 				//super.registFcbIdentity(request, fcbAccount, fcbPhone);
-//fcbService.registFcbIdentity(fcbAccount, fcbPhone);
+				fcbService.registFcbIdentity(fcbAccount, fcbPhone);
 				
 				//查询余额
 				Map<String, Object> fcbMap = null;
@@ -455,7 +456,7 @@ public class IndexController extends ApiBaseController{
     	retMap.put("payments", paymentList);
     	retMap.put("fcbList",fcbList);
     	
-    	PaymentOrder order = null;//paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
     	retMap.put("order", order);
     	
     	writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"获取支付方式成功",retMap));
@@ -488,8 +489,8 @@ public class IndexController extends ApiBaseController{
     	if(StringUtils.isBlank(bankCode)){
     		return new ResultResponse(ResultResponse.FAIL, "参数不能为空");
     	}
-    	List<CreditStage> list = null;
-//    	List<CreditStage> list = paymentMerchantService.queryCreditStage(bankCode);
+    	
+    	List<CreditStage> list = paymentMerchantService.queryCreditStage(bankCode);
     	if(list ==null || list.isEmpty()){
     		return new ResultResponse(ResultResponse.FAIL,"查询结果为空");
     	}
@@ -506,7 +507,7 @@ public class IndexController extends ApiBaseController{
     	if(StringUtils.isBlank(orderNo)){
     		return new ResultResponse(ResultResponse.FAIL, "参数不能为空");
     	}
-    	PaymentOrder paymentOrder = null;//paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
     	if(paymentOrder ==null){
     		return new ResultResponse(ResultResponse.FAIL, "订单查询为空");
     	}
@@ -523,7 +524,7 @@ public class IndexController extends ApiBaseController{
     		throw new ValidationException("缺少参数！");
     	}
     	
-		Passport passport = null;//corePassportService.queryPassport(account);
+		Passport passport = corePassportService.queryPassport(account);
 		if(passport == null){
 			logger.info("通行证不存在,account:" + account);
 			throw new ValidationException("通行证不存在！");
@@ -537,7 +538,7 @@ public class IndexController extends ApiBaseController{
 		params.put("payTypeId", "-1");
 		params.put("eventTimestamp", DateUtil.getCurDateTimeStr());
 		params.put("clientIp", clientIp);
-		Map<String, Object> fcbMap = null;//fcbService.queryAmount(params);
+		Map<String, Object> fcbMap = fcbService.queryAmount(params);
 		
 		if(!"1".equals(ObjectUtil.toString(fcbMap.get("msgcode")))){
 			logger.info("查询翡翠币余额异常，msgcode:" + fcbMap.get("msgcode") + ",message:" + fcbMap.get("message"));
@@ -642,7 +643,7 @@ public class IndexController extends ApiBaseController{
     				paymentCreditList.add(paymentMerchantDetail);
     			} else if (PaymentMerchantDetail.TYPE_THIRD.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				paymentThirdList.add(paymentMerchantDetail);
-    			} else if(PaymentMerchantDetail.TYPE_TTB.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if(PaymentMerchantDetail.TYPE_TTB_PC.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				paymentTtbList.add(paymentMerchantDetail);
     			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())) 
     					&& (!PaymentConstant.WN_GAME_CARD.equals(paymentMerchantDetail.getContent())) ){
@@ -652,9 +653,9 @@ public class IndexController extends ApiBaseController{
     			} else if(PaymentMerchantDetail.TYPE_WEB_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				//如果含有余额支付，则要进行身份验证
     				String currencyId = paymentMerchantDetail.getContent();
-    				GamePropsCurrency currency = null;//fcbService.queryById(Long.valueOf(currencyId));
+    				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
     				//验证身份
-    				Map<String, Object> tokenMap = null;//fcbService.validateToken(ext);
+    				Map<String, Object> tokenMap = fcbService.validateToken(ext);
     				if(tokenMap == null)
     					continue;
     				String tokenCode = ObjectUtils.toString(tokenMap.get("code"));
@@ -718,7 +719,7 @@ public class IndexController extends ApiBaseController{
     			if(PaymentMerchantDetail.TYPE_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			} 
-    			if(PaymentMerchantDetail.TYPE_TTB.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_TTB_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			}
     			//游戏充值卡wap
@@ -745,9 +746,9 @@ public class IndexController extends ApiBaseController{
     			if(PaymentMerchantDetail.TYPE_WAP_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				//如果含有余额支付，则要进行身份验证
     				String currencyId = paymentMerchantDetail.getContent();
-    				GamePropsCurrency currency = null;//fcbService.queryById(Long.valueOf(currencyId));
+    				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
     				//验证身份
-    				Map<String, Object> tokenMap = null;//fcbService.validateToken(ext);
+    				Map<String, Object> tokenMap = fcbService.validateToken(ext);
     				if(tokenMap == null)
     					continue;
     				String tokenCode = ObjectUtils.toString(tokenMap.get("code"));
@@ -798,7 +799,9 @@ public class IndexController extends ApiBaseController{
     		}
     		
         	for (PaymentMerchantDetail paymentMerchantDetail : merchantDtl) {
-    			if(PaymentMerchantDetail.TYPE_TTB.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_IOS) && (PaymentMerchantDetail.TYPE_TTB_IOS.equalsIgnoreCase(paymentMerchantDetail.getType()))) ){
+    				paymentList.add(paymentMerchantDetail);
+    			}else if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_ANDROID) && (PaymentMerchantDetail.TYPE_TTB_ANDROID.equalsIgnoreCase(paymentMerchantDetail.getType())) )){
     				paymentList.add(paymentMerchantDetail);
     			} else if( (paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_IOS))
     					&& (PaymentConstant.PAYMENT_TYPE_IOS.equalsIgnoreCase(paymentMerchantDetail.getType()) 
@@ -835,9 +838,9 @@ public class IndexController extends ApiBaseController{
     			if(bt.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				//如果含有余额支付，则要进行身份验证
     				String currencyId = paymentMerchantDetail.getContent();
-    				GamePropsCurrency currency = null;//fcbService.queryById(Long.valueOf(currencyId));
+    				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
     				//验证身份
-    				Map<String, Object> tokenMap = null;//fcbService.validateToken(ext);
+    				Map<String, Object> tokenMap = fcbService.validateToken(ext);
     				if(tokenMap == null)
     					continue;
     				String tokenCode = ObjectUtils.toString(tokenMap.get("code"));
@@ -850,7 +853,7 @@ public class IndexController extends ApiBaseController{
     				String fcbAccount = ObjectUtils.toString(dataMap.get("account"));
     				String fcbPhone = ObjectUtils.toString(dataMap.get("phone"));
     				//super.registFcbIdentity(request, fcbAccount, fcbPhone);
-//    				fcbService.registFcbIdentity(fcbAccount, fcbPhone);
+    				fcbService.registFcbIdentity(fcbAccount, fcbPhone);
     				
     				//查询余额
     				Map<String, Object> fcbMap = null;

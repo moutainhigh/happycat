@@ -150,6 +150,7 @@ public class PaymentBackendController extends ApiBaseController{
 		paymentFacade.processPaymentBack(standardPaymentProcess, inParams);
 	}
 	
+	@SuppressWarnings("unused")
 	@RequestMapping("/test")
 	public void testBackend(HttpServletRequest request, HttpServletResponse response) {
 		String sign = (String)request.getParameter("sign");	
@@ -292,5 +293,28 @@ public class PaymentBackendController extends ApiBaseController{
 				e.printStackTrace();
 			}
 		} 
+	}
+	
+	/**
+	 * gbk回调处理
+	 * @param merchantId
+	 * @param paymentId
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value = { "/common/gb/{merchantid}/{paymentid}" })
+	public void commonPaymentBackendGB(@PathVariable("merchantid") Long merchantId,@PathVariable("paymentid") Long paymentId,HttpServletRequest request, HttpServletResponse response) {
+
+		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
+		Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);
+		
+		Map<String, Object> inParams = new HashMap<String, Object>();
+		inParams.put("request", request);
+		inParams.put("response", response);
+		inParams.put("merchantid", merchantId);
+		inParams.put("paymentId", paymentId);
+		inParams.put("abstractPayment", actualPayment);
+		logRequestParams("commonPaymentBackend", request);
+		paymentFacade.processPaymentBack(standardPaymentProcess, inParams);
 	}
 }

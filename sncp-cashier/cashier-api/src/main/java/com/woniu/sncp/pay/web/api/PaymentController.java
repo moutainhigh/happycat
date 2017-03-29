@@ -435,8 +435,28 @@ public class PaymentController extends ApiBaseController{
 		exMap.put("cardNo", cardNo);
 		exMap.put("cardPwd", cardPwd);
 		String procductType = ShenzpayDPPayment.getCardType(cardNo, cardPwd);//获取手机充值卡是哪个运营商的
-		exMap.put("procductType", procductType);
 		exMap.put("ext", ext);
+		
+		//联通 - UNICOM  神州行 - SZX  电信 - TELECOM
+		if(cardtype.equals("YD") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_SZX)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+			 return ORDER_ERROR_PAGE;
+		}
+		if(cardtype.equals("DX") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_TELECOM)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+			 return ORDER_ERROR_PAGE;
+		}
+		if(cardtype.equals("LT") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_UNICOM)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+	        return ORDER_ERROR_PAGE;
+		}
+		exMap.put("procductType", procductType);
 		
 		try{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
@@ -540,7 +560,7 @@ public class PaymentController extends ApiBaseController{
 			retMap = ErrorCode.getErrorCode(56001);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -556,7 +576,7 @@ public class PaymentController extends ApiBaseController{
 	    		retMap = ErrorCode.getErrorCode(56002);
 	    		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
 	    		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-	    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+				writeJsonp(callback, response, retMap);
 		        return;
 		    }
 		}
@@ -566,7 +586,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56003);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -575,7 +595,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56004);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -584,7 +604,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56006);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
         }
     	
@@ -594,7 +614,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56007);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -604,7 +624,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56008);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -614,7 +634,7 @@ public class PaymentController extends ApiBaseController{
     		retMap = ErrorCode.getErrorCode(56009);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
     	}
     	
@@ -628,6 +648,28 @@ public class PaymentController extends ApiBaseController{
 		exMap.put("cardPwd", cardPwd);
 		exMap.put("ext", ext);
 		String procductType = ShenzpayDPPayment.getCardType(cardNo, cardPwd);//获取手机充值卡是哪个运营商的
+		//联通 - UNICOM  神州行 - SZX  电信 - TELECOM
+		if(cardtype.equals("YD") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_SZX)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+			writeJsonp(callback, response, retMap);
+	        return;
+		}
+		if(cardtype.equals("DX") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_TELECOM)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+			writeJsonp(callback, response, retMap);
+	        return;
+		}
+		if(cardtype.equals("LT") && !procductType.equals(PaymentConstant.PAYMENT_PRODUCTION_TYPE_UNICOM)){
+			retMap = ErrorCode.getErrorCode(56013);//56013=运营商不正确
+			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+			writeJsonp(callback, response, retMap);
+	        return;
+		}
 		exMap.put("procductType", procductType);
 		
 		try{
@@ -645,7 +687,7 @@ public class PaymentController extends ApiBaseController{
 			retMap = ErrorCode.getErrorCode(56099);
 			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-			writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+    		writeJsonp(callback, response, retMap);
 	        return;
 		}
 		
@@ -668,11 +710,14 @@ public class PaymentController extends ApiBaseController{
     			
     			retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
     			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
+    			reqmap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE).toString());
+    			reqmap.put("payPlatFormOrderNo", paymentOrder.getOrderNo());
     			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put("paymentPlatform", null);
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-    			writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"创建订单成功",retMap));
+        		retMap.put("paymentParams", reqmap);
+    			writeJsonp(callback, response, retMap);
     	        return;
         	}else{
         		//支付请求失败
@@ -688,7 +733,7 @@ public class PaymentController extends ApiBaseController{
             	retMap.put(ErrorCode.TIP_INFO, reqmap.get(ErrorCode.TIP_INFO));
             	request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-            	writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"创建订单失败",retMap));
+            	writeJsonp(callback, response, retMap);
                 return;
         	}
         }
@@ -903,6 +948,21 @@ public class PaymentController extends ApiBaseController{
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
     			writeJsonp(callback, response, retMap);
     			return;
+        	}else if("52004".equals(paycode)){
+        		//支付请求失败
+        		String errormsg = ObjectUtils.toString(reqmap.get("message"));
+        		if(StringUtils.isNotEmpty(errormsg)){
+        			request.setAttribute("msg", errormsg);
+        		}else{
+        			request.setAttribute("msg", "支付请求失败，失败码["+paycode+"]");
+        		}
+        		logger.info("订单号：" + ((PaymentOrder)retMap.get("paymentOrder")).getOrderNo()+",支付请求失败，失败码["+paycode+"]");
+            	request.setAttribute("referer", referer);
+        		retMap = ErrorCode.getErrorCode(56015);
+    			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+        		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+        		writeJsonp(callback, response, retMap);
+        		return;
         	}else{
         		//支付请求失败
         		String errormsg = ObjectUtils.toString(reqmap.get("message"));
@@ -913,8 +973,7 @@ public class PaymentController extends ApiBaseController{
         		}
         		logger.info("订单号：" + ((PaymentOrder)retMap.get("paymentOrder")).getOrderNo()+",支付请求失败，失败码["+paycode+"]");
             	request.setAttribute("referer", referer);
-            	retMap.put(ErrorCode.TIP_CODE, reqmap.get(ErrorCode.TIP_CODE));
-            	retMap.put(ErrorCode.TIP_INFO, reqmap.get(ErrorCode.TIP_INFO));
+            	retMap = ErrorCode.getErrorCode(56098);
             	request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
         		writeJsonp(callback, response, retMap);
@@ -1286,7 +1345,25 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
     			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
-    			retMap = ErrorCode.getErrorCode(1);
+    			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+        		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+        		retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
+    			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
+    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			retMap.put("paymentPlatform", null);
+    			writeJsonp(callback, response, retMap);
+    			return;
+        	}else if("52004".equals(paycode)){
+        		//支付请求失败
+        		String errormsg = ObjectUtils.toString(reqmap.get("message"));
+        		if(StringUtils.isNotEmpty(errormsg)){
+        			request.setAttribute("msg", errormsg);
+        		}else{
+        			request.setAttribute("msg", "支付请求失败，失败码["+paycode+"]");
+        		}
+        		logger.info("订单号：" + ((PaymentOrder)retMap.get("paymentOrder")).getOrderNo()+",支付请求失败，失败码["+paycode+"]");
+            	request.setAttribute("referer", referer);
+        		retMap = ErrorCode.getErrorCode(56015);
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
     			writeJsonp(callback, response, retMap);
