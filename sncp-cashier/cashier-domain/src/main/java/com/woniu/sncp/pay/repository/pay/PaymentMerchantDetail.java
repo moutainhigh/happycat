@@ -58,6 +58,7 @@ public class PaymentMerchantDetail implements Serializable{
 	/**
 	 * 兔兔币支付,pc/wap/android/ios
 	 */
+	public final static String TYPE_TTB = "Q";
 	public final static String TYPE_TTB_PC = "qp";
 	public final static String TYPE_TTB_WAP = "qi";
 	public final static String TYPE_TTB_ANDROID = "qa";

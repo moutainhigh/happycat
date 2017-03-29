@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +29,9 @@ import com.woniu.sncp.pay.core.service.payment.platform.icbc.ICBCINBSEPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.jd.JdDPPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.KuaiqianQuickPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.www.KuaiqianPCQuickPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.moneybookers.MoneyBookersPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.nbcb.NbcbDPPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.paypal.PaypalPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.shengpay.ShengftpayBankDirectPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.shenzpay.ShenzpayDPPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.tenpay.TenpayPayment;
@@ -100,6 +103,10 @@ public class PaymentMapConfig {
 	AlipayQRCodeUrlPayment alipayQRCodeUrlPayment;
 	@Resource
 	WeixinPaymentForQrCode weixinPaymentForQrCode;
+	@Resource
+	PaypalPayment paypalPayment;
+	@Resource
+	MoneyBookersPayment moneyBookersPayment;
 	
 	@Resource
 	AlipayAppPayment alipayAppPayment;
@@ -156,6 +163,9 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1018", icbcINBSEPayment);//<!-- 中国工商银行信用卡支付 -->
 		paymentMap.put("PAYMENT_1020", shengpayBankDirectPayment);//<!-- 盛付通网银直连 -->
 		paymentMap.put("PAYMENT_1021", kuaiqianPCQuickPayment);//<!-- PC快钱快捷支付 -->
+		paymentMap.put("PAYMENT_1026", paypalPayment);//<!-- Paypal -->
+		paymentMap.put("PAYMENT_1027", moneyBookersPayment);//<!-- MoneyBookers -->
+		
 		paymentMap.put("PAYMENT_1032", chinaPayPaymentNew);//<!-- 新版银联电子支付 -->
 		paymentMap.put("PAYMENT_1036", wnMobileCardPayment);//<!-- 蜗牛移动充值卡 -->
 		paymentMap.put("PAYMENT_1038", unionPayPaymentNew_1);//<!-- 银联在线支付新版pc -->
@@ -195,5 +205,54 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_9999", callPayPayment);//<!-- 远程调用 -->
 		
 		return paymentMap;
+	}
+	
+	
+	@Bean(name={"moneyBookersMethodMap"})
+	public Map<String, String> getMoneyBookersMethodMap(){
+		Map<String,String> moneyBookersMethodMap = new HashMap<String,String>();
+		moneyBookersMethodMap.put("WLT", "WLT");
+		moneyBookersMethodMap.put("VSA", "VSA");
+		moneyBookersMethodMap.put("MSC", "MSC");
+		moneyBookersMethodMap.put("AMX", "AMX");
+		moneyBookersMethodMap.put("JCB", "JCB");
+		moneyBookersMethodMap.put("MAE", "MAE");
+		moneyBookersMethodMap.put("DIN", "DIN");
+		return moneyBookersMethodMap;
+	}
+	
+	
+	@Value("${paypal.mode}")
+	private String paypalMode;
+	@Value("${paypal.clientId}")
+	private String paypalClientId;
+	@Value("${paypal.clientSecret}")
+	private String clientSecret;
+	
+	@Value("${paypal.acct1.UserName}")
+	private String paypalUserName;
+	
+	@Value("${paypal.acct1.Password}")
+	private String paypalPassword;
+	
+	@Value("${paypal.acct1.Signature}")
+	private String paypalSignature;
+	
+	@Bean(name={"paypalConfigurationMap"})
+	public Map<String, String> getPaypalConfigurationMap(){
+		Map<String,String> paypalConfigurationMap = new HashMap<String,String>();
+		paypalConfigurationMap.put("mode", paypalMode);//<!-- Endpoints are varied depending on whether sandbox OR live is chosen for mode -->
+		paypalConfigurationMap.put("sandbox.EmailAddress", "paypalsnail@snailgame.net");
+		paypalConfigurationMap.put("clientId", paypalClientId);//<!-- Credentials -->
+		paypalConfigurationMap.put("clientSecret", clientSecret);
+		paypalConfigurationMap.put("http.ConnectionTimeOut", "5000");//<!-- Connection Information -->
+		paypalConfigurationMap.put("http.Retry", "2");
+		paypalConfigurationMap.put("http.ReadTimeOut", "30000");
+		paypalConfigurationMap.put("http.MaxConnection", "100");
+		paypalConfigurationMap.put("http.GoogleAppEngine", "false");//<!-- Set this property to true if you are using the PayPal SDK within a Google App Engine java app -->
+		paypalConfigurationMap.put("acct1.UserName", paypalUserName);//<!-- Account Credential -->
+		paypalConfigurationMap.put("acct1.Password", paypalPassword);
+		paypalConfigurationMap.put("acct1.Signature", paypalSignature);
+		return paypalConfigurationMap;
 	}
 }

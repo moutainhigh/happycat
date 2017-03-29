@@ -158,20 +158,20 @@ public class IndexController extends ApiBaseController{
     	List<PaymentMerchantDetail> paymentWnMobileSpecCardList = new ArrayList<PaymentMerchantDetail>();//蜗牛移动全能充值卡
     	List<PaymentMerchantDetail> paymentFcbList = new ArrayList<PaymentMerchantDetail>();
     	for (PaymentMerchantDetail paymentMerchantDetail : merchantDtl) {
-			if(PaymentMerchantDetail.TYPE_BANK.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_BANK.equals(paymentMerchantDetail.getType())){
 				paymentDebitList.add(paymentMerchantDetail);
-			} else if (PaymentMerchantDetail.TYPE_CREDIT_STAGE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if (PaymentMerchantDetail.TYPE_CREDIT_STAGE.equals(paymentMerchantDetail.getType())){
 				paymentCreditList.add(paymentMerchantDetail);
-			} else if (PaymentMerchantDetail.TYPE_THIRD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if (PaymentMerchantDetail.TYPE_THIRD.equals(paymentMerchantDetail.getType())){
 				paymentThirdList.add(paymentMerchantDetail);
-			} else if(PaymentMerchantDetail.TYPE_TTB_PC.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if( (PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType())) || (PaymentMerchantDetail.TYPE_TTB_PC.equals(paymentMerchantDetail.getType()))){
 				paymentTtbList.add(paymentMerchantDetail);
-			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())) 
+			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equals(paymentMerchantDetail.getType())) 
 					&& (!PaymentConstant.WN_GAME_CARD.equals(paymentMerchantDetail.getContent())) ){
 				paymentYxCardList.add(paymentMerchantDetail);
-			} else if(PaymentMerchantDetail.TYPE_YX_MOBILE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if(PaymentMerchantDetail.TYPE_YX_MOBILE.equals(paymentMerchantDetail.getType())){
 				paymentMobileCardList.add(paymentMerchantDetail);
-			} else if(PaymentMerchantDetail.TYPE_WEB_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			} else if(PaymentMerchantDetail.TYPE_WEB_YUE.equals(paymentMerchantDetail.getType())){
 				//如果含有余额支付，则要进行身份验证
 				String currencyId = paymentMerchantDetail.getContent();
 				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
@@ -284,31 +284,31 @@ public class IndexController extends ApiBaseController{
 			if(PaymentMerchantDetail.TYPE_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			} 
-			if(PaymentMerchantDetail.TYPE_TTB_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if( (PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType())) || (PaymentMerchantDetail.TYPE_TTB_WAP.equals(paymentMerchantDetail.getType()))){
 				paymentList.add(paymentMerchantDetail);
 			}
 			//游戏充值卡wap
-			if(PaymentMerchantDetail.TYPE_WN_GAME_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_WN_GAME_WAP_CARD.equals(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			}
 			//手机充值卡wap
-			if(PaymentMerchantDetail.TYPE_WN_MOBILE_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_WN_MOBILE_WAP_CARD.equals(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			}
 			//蜗牛充值卡wap
-			if(PaymentMerchantDetail.TYPE_WN_QMOBILE_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_WN_QMOBILE_WAP_CARD.equals(paymentMerchantDetail.getType())){
 				paymentList.add(paymentMerchantDetail);
 			}
 			
 			//快钱快捷wap-借记卡
-			if(PaymentMerchantDetail.TYPE_QUICK_BANK_DEBIT.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_QUICK_BANK_DEBIT.equals(paymentMerchantDetail.getType())){
 				bankList.add(paymentMerchantDetail);
 			}
 			//快钱快捷wap-信用卡
-			if(PaymentMerchantDetail.TYPE_QUICK_BANK_CREDIT.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_QUICK_BANK_CREDIT.equals(paymentMerchantDetail.getType())){
 				bankList.add(paymentMerchantDetail);
 			}
-			if(PaymentMerchantDetail.TYPE_WAP_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+			if(PaymentMerchantDetail.TYPE_WAP_YUE.equals(paymentMerchantDetail.getType())){
 				//如果含有余额支付，则要进行身份验证
 				String currencyId = paymentMerchantDetail.getContent();
 				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
@@ -637,20 +637,20 @@ public class IndexController extends ApiBaseController{
         	List<PaymentMerchantDetail> paymentWnMobileSpecCardList = new ArrayList<PaymentMerchantDetail>();//蜗牛移动全能充值卡
         	List<PaymentMerchantDetail> paymentFcbList = new ArrayList<PaymentMerchantDetail>();
         	for (PaymentMerchantDetail paymentMerchantDetail : merchantDtl) {
-    			if(PaymentMerchantDetail.TYPE_BANK.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_BANK.equals(paymentMerchantDetail.getType())){
     				paymentDebitList.add(paymentMerchantDetail);
-    			} else if (PaymentMerchantDetail.TYPE_CREDIT_STAGE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if (PaymentMerchantDetail.TYPE_CREDIT_STAGE.equals(paymentMerchantDetail.getType())){
     				paymentCreditList.add(paymentMerchantDetail);
-    			} else if (PaymentMerchantDetail.TYPE_THIRD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if (PaymentMerchantDetail.TYPE_THIRD.equals(paymentMerchantDetail.getType())){
     				paymentThirdList.add(paymentMerchantDetail);
-    			} else if(PaymentMerchantDetail.TYPE_TTB_PC.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if( (PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType())) || (PaymentMerchantDetail.TYPE_TTB_PC.equals(paymentMerchantDetail.getType()))){
     				paymentTtbList.add(paymentMerchantDetail);
-    			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())) 
+    			} else if((PaymentMerchantDetail.TYPE_YX_CARD.equals(paymentMerchantDetail.getType())) 
     					&& (!PaymentConstant.WN_GAME_CARD.equals(paymentMerchantDetail.getContent())) ){
     				paymentYxCardList.add(paymentMerchantDetail);
-    			} else if(PaymentMerchantDetail.TYPE_YX_MOBILE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if(PaymentMerchantDetail.TYPE_YX_MOBILE.equals(paymentMerchantDetail.getType())){
     				paymentMobileCardList.add(paymentMerchantDetail);
-    			} else if(PaymentMerchantDetail.TYPE_WEB_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			} else if(PaymentMerchantDetail.TYPE_WEB_YUE.equals(paymentMerchantDetail.getType())){
     				//如果含有余额支付，则要进行身份验证
     				String currencyId = paymentMerchantDetail.getContent();
     				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
@@ -719,31 +719,31 @@ public class IndexController extends ApiBaseController{
     			if(PaymentMerchantDetail.TYPE_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			} 
-    			if(PaymentMerchantDetail.TYPE_TTB_WAP.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if((PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType())) || (PaymentMerchantDetail.TYPE_TTB_WAP.equals(paymentMerchantDetail.getType()))){
     				paymentList.add(paymentMerchantDetail);
     			}
     			//游戏充值卡wap
-    			if(PaymentMerchantDetail.TYPE_WN_GAME_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_WN_GAME_WAP_CARD.equals(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			}
     			//手机充值卡wap
-    			if(PaymentMerchantDetail.TYPE_WN_MOBILE_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_WN_MOBILE_WAP_CARD.equals(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			}
     			//蜗牛充值卡wap
-    			if(PaymentMerchantDetail.TYPE_WN_QMOBILE_WAP_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_WN_QMOBILE_WAP_CARD.equals(paymentMerchantDetail.getType())){
     				paymentList.add(paymentMerchantDetail);
     			}
     			
     			//快钱快捷wap-借记卡
-    			if(PaymentMerchantDetail.TYPE_QUICK_BANK_DEBIT.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_QUICK_BANK_DEBIT.equals(paymentMerchantDetail.getType())){
     				bankList.add(paymentMerchantDetail);
     			}
     			//快钱快捷wap-信用卡
-    			if(PaymentMerchantDetail.TYPE_QUICK_BANK_CREDIT.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_QUICK_BANK_CREDIT.equals(paymentMerchantDetail.getType())){
     				bankList.add(paymentMerchantDetail);
     			}
-    			if(PaymentMerchantDetail.TYPE_WAP_YUE.equalsIgnoreCase(paymentMerchantDetail.getType())){
+    			if(PaymentMerchantDetail.TYPE_WAP_YUE.equals(paymentMerchantDetail.getType())){
     				//如果含有余额支付，则要进行身份验证
     				String currencyId = paymentMerchantDetail.getContent();
     				GamePropsCurrency currency = fcbService.queryById(Long.valueOf(currencyId));
@@ -799,21 +799,21 @@ public class IndexController extends ApiBaseController{
     		}
     		
         	for (PaymentMerchantDetail paymentMerchantDetail : merchantDtl) {
-    			if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_IOS) && (PaymentMerchantDetail.TYPE_TTB_IOS.equalsIgnoreCase(paymentMerchantDetail.getType()))) ){
+    			if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_IOS) && (PaymentMerchantDetail.TYPE_TTB_IOS.equals(paymentMerchantDetail.getType()) || PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType()))) ){
     				paymentList.add(paymentMerchantDetail);
-    			}else if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_ANDROID) && (PaymentMerchantDetail.TYPE_TTB_ANDROID.equalsIgnoreCase(paymentMerchantDetail.getType())) )){
+    			}else if((paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_ANDROID) && (PaymentMerchantDetail.TYPE_TTB_ANDROID.equals(paymentMerchantDetail.getType()) || PaymentMerchantDetail.TYPE_TTB.equals(paymentMerchantDetail.getType())) )){
     				paymentList.add(paymentMerchantDetail);
     			} else if( (paytype.equalsIgnoreCase(PaymentConstant.PAYMENT_IOS))
-    					&& (PaymentConstant.PAYMENT_TYPE_IOS.equalsIgnoreCase(paymentMerchantDetail.getType()) 
-    							|| PaymentConstant.I_MOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType())
-    							|| PaymentConstant.I_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()))){
+    					&& (PaymentConstant.PAYMENT_TYPE_IOS.equals(paymentMerchantDetail.getType()) 
+    							|| PaymentConstant.I_MOBILE_CARD.equals(paymentMerchantDetail.getType())
+    							|| PaymentConstant.I_WNMOBILE_CARD.equals(paymentMerchantDetail.getType()))){
     				//app  ios的支付方式
     				//蜗牛移动充值卡
-    				if(PaymentConstant.I_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("WM")){
+    				if(PaymentConstant.I_WNMOBILE_CARD.equals(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("WM")){
     					paymentMerchantDetail.setName("蜗牛移动充值卡");
     				}
     				//蜗牛全能充值卡
-    				if(PaymentConstant.I_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("SM")){
+    				if(PaymentConstant.I_WNMOBILE_CARD.equals(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("SM")){
     					paymentMerchantDetail.setName("蜗牛全能充值卡");
     				}
     				
@@ -824,11 +824,11 @@ public class IndexController extends ApiBaseController{
     							|| PaymentConstant.A_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()))){
     				//app  android的支付方式
     				//蜗牛移动充值卡
-    				if(PaymentConstant.A_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("WM")){
+    				if(PaymentConstant.A_WNMOBILE_CARD.equals(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("WM")){
     					paymentMerchantDetail.setName("蜗牛移动充值卡");
     				}
     				//蜗牛全能充值卡
-    				if(PaymentConstant.A_WNMOBILE_CARD.equalsIgnoreCase(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("SM")){
+    				if(PaymentConstant.A_WNMOBILE_CARD.equals(paymentMerchantDetail.getType()) && StringUtils.isNotBlank(paymentMerchantDetail.getContent()) && paymentMerchantDetail.getContent().equals("SM")){
     					paymentMerchantDetail.setName("蜗牛全能充值卡");
     				}
     				paymentList.add(paymentMerchantDetail);

@@ -109,7 +109,12 @@
 		  <artifactId>alipay-sdk-java20170307171631</artifactId>
 		  <version>java20170307171631</version>
 		</dependency>
-		
+		<!-- paypal -->
+		<dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>paypal-core</artifactId>
+            <version>1.7.0</version>
+        </dependency>
 		<!-- jdom -->
 		<dependency>
 			<groupId>jdom</groupId>

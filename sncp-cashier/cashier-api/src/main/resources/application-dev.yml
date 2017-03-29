@@ -27,6 +27,11 @@ spring:
    view:
     prefix: /WEB-INF/view
     suffix: .jsp
+
+#i18n
+  messages: 
+   basename: message/i18n
+
 #cas client config
   cas: 
     sign-out-filters: /logout
