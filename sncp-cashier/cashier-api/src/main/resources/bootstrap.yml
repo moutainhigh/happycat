@@ -1,0 +1,30 @@
+spring: 
+  application:
+    name: micro-cloud-cashier
+  profiles:
+    active: dev
+  mvc:
+   view:
+    prefix: /WEB-INF/view
+    suffix: .jsp
+  #cas client config
+  cas: 
+    sign-out-filters: /logout
+    auth-filters: /sso/**,/m/sso/**,/security/*,/security/ttb/pay
+    validate-filters: /*
+    request-wrapper-filters: /*
+    assertion-filters: /*
+    cas-server-login-url: /login
+    cas-server-m-login-url: /m/login
+    cas-server-url-prefix: https://sso.woniu.com
+    redirect-after-validation: true
+    use-session: true
+    server-name: http://cashier.woniu.com
+
+logging:
+  path: D://woniu-git-repository//woniu-microservices//sncp-cashier//cashier-api//
+
+  jpa:
+    show-sql: true
+    hibernate: 
+     naming-strategy: org.hibernate.cfg.EJB3NamingStrategy

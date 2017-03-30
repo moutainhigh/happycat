@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
@@ -21,13 +24,15 @@ import org.springframework.http.HttpStatus;
 @ComponentScan(basePackages={"com.woniu.sncp.pojo","com.woniu.sncp.pay","com.woniu.sncp.ocp.business.passport"})
 @SpringBootApplication
 @EnableAutoConfiguration
-public class CashierAppRun {
+@EnableEurekaClient
+@EnableCircuitBreaker
+public class CashierApplication {
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		 SpringApplication.run(CashierAppRun.class, args);
+		 SpringApplication.run(CashierApplication.class, args);
 	}
 	@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer() {

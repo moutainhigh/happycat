@@ -1,13 +1,6 @@
 spring:
-  application:
-    name: cashier-app
-  profiles: 
-    active: dev    
 server:
   port: 80
   tomcat:
     max-threads: 1000
     uri-encoding: UTF-8
-
-logging:
-  path: D://woniu-git-repository//woniu-microservices//sncp-cashier//cashier-api//

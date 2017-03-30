@@ -10,6 +10,19 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>Brixton.SR5</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
@@ -58,15 +71,23 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <!-- security 对CAS支持 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>r09</version>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+		</dependency>
+		<!-- 服务注册所需环境 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
+		</dependency>
+		<!-- security 对CAS支持 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<!-- ORACLE -->
 		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> 
@@ -80,12 +101,6 @@
 			<groupId>com.101tec</groupId>
 			<artifactId>zkclient</artifactId>
 			<version>${zkclient.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>log4j</artifactId>
-					<groupId>log4j</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.jolokia</groupId>
@@ -150,65 +165,15 @@
 			<artifactId>jstl</artifactId>
 		</dependency>
 		<dependency>
-	        <groupId>org.codehaus.jackson</groupId>
-	        <artifactId>jackson-core-lgpl</artifactId>
-	        <version>1.9.6</version>
-	      </dependency>
-	      <dependency>
-	        <groupId>org.codehaus.jackson</groupId>
-	        <artifactId>jackson-mapper-lgpl</artifactId>
-	        <version>1.9.6</version>
-	      </dependency>
-	      <dependency>
-	      	<groupId>com.woniu</groupId>
-	      	<artifactId>sncp-base</artifactId>
-	      	<version>1.1.6-SNAPSHOT</version>
-	      	<exclusions>
-	      		<exclusion>
-	      			<artifactId>spring</artifactId>
-	      			<groupId>org.springframework</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>sncp-captcha</artifactId>
-	      			<groupId>com.woniu</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>sncp-business</artifactId>
-	      			<groupId>com.woniu</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>slf4j-simple</artifactId>
-	      			<groupId>org.slf4j</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>sncp-security</artifactId>
-	      			<groupId>com.woniu</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>httpclient</artifactId>
-	      			<groupId>org.apache.httpcomponents</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>sncp-sms</artifactId>
-	      			<groupId>net.snail</groupId>
-	      		</exclusion>
-	      		<exclusion>
-	      			<artifactId>log4j</artifactId>
-	      			<groupId>log4j</groupId>
-	      		</exclusion>
-	      	</exclusions>
-	      </dependency>
-	      <dependency>
-	      	<groupId>com.snail.ocp</groupId>
-	      	<artifactId>ocp-account-sdk-http</artifactId>
-	      	<version>${ocp.account.version}</version>
-	      	<exclusions>
-	      		<exclusion>
-	      			<artifactId>log4j</artifactId>
-	      			<groupId>log4j</groupId>
-	      		</exclusion>
-	      	</exclusions>
-	      </dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-lgpl</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-lgpl</artifactId>
+			<version>1.9.6</version>
+		</dependency>
 	</dependencies>
 
 	<build>
