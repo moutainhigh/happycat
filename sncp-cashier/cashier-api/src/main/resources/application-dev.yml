@@ -30,7 +30,7 @@ spring:
 
 #i18n
   messages: 
-   basename: message/i18n
+   basename: message/i18n/messages
 
 #cas client config
   cas: 

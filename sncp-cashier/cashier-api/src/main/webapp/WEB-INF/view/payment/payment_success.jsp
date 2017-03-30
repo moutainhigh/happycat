@@ -1,7 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%> 
 <spring:htmlEscape defaultHtmlEscape="true" />
 <%@page import="java.util.Map"%>
 <%
@@ -12,13 +13,13 @@
 %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>蜗牛收银台</title>
+	<title><spring:message code="payment.confirm.title"/></title>
 	<link href="//www3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
     <link href="//www3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
     <link href="//www3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />
     <link href="//www3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
     <link href="//www3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
-	<meta name="Copyright" content="Copyright (c) 2011 苏州蜗牛数字科技股份有限公司" />
+	<meta name="Copyright" content="Copyright (c) 2011 <spring:message code="payment.company.name"/>" />
 	<meta name="Keywords" content="提供最完善，最优质的游戏服务，了解蜗牛最及时的游戏资讯，拥有最真实的玩家互动社区" />
 </head>
 <body>
@@ -29,14 +30,14 @@
          </div>
     </div>
 	<div class="pay-result">
-            <h2><i class="tips-icon payOk"></i><span class="tips-msg">支付成功</span></h2>
+            <h2><i class="tips-icon payOk"></i><span class="tips-msg"><spring:message code="payment.confirm.msg.order.pay.success" /></span></h2>
            <!--  <h2><i class="tips-icon payError"></i><span class="tips-msg">充值失败</span></h2>
             <h2><i class="tips-icon"></i><span class="tips-msg">订单正在处理,请稍后...</span></h2> -->
             <ul>
-                <li><label>订单编号:</label><span id="orderno">${requestScope.paymentOrder.orderNo}</span></li>
+                <li><label><spring:message code="payment.confirm.lable.order.no" /></label><span id="orderno">${requestScope.paymentOrder.orderNo}</span></li>
                 <%-- <li><label>商品名称:</label><span id="productname">${productName}</span></li> --%>
-                <li><label>支付金额:</label><span id="money">${requestScope.paymentOrder.money}元</span></li>
-                <li><label>下单时间:</label><span id="time"><fmt:formatDate value="${requestScope.paymentOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/> </span></li>
+                <li><label><spring:message code="payment.confirm.lable.amount.pay1" /></label><span id="money">${requestScope.paymentOrder.money}<spring:message code="payment.confirm.lable.order.currency"/></span></li>
+                <li><label><spring:message code="payment.confirm.lable.amount.pay1" /></label><span id="time"><fmt:formatDate value="${requestScope.paymentOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/> </span></li>
             </ul>
             <button class="btn" id="close" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
    </div>

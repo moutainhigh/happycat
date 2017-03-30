@@ -2,6 +2,7 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <spring:htmlEscape defaultHtmlEscape="true" />
 <%
 	response.setHeader("Cache-Control","no-cache, no-store, must-revalidate"); //HTTP 1.1
@@ -18,8 +19,8 @@
 	    <link href="//www3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
 	    <link href="//www3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
 	    <script src="//www3.woniu.com/pay/js/wn_sso.js"></script>
-	    <title>蜗牛收银台</title>
-	    <meta name="Copyright" content="Copyright (c) 2011 苏州蜗牛数字科技股份有限公司" />
+	    <title><spring:message code="payment.confirm.title"/></title>
+	    <meta name="Copyright" content="Copyright (c) 2011 <spring:message code="payment.company.name"/>" />
 		<meta name="Keywords" content="提供最完善，最优质的游戏服务，了解蜗牛最及时的游戏资讯，拥有最真实的玩家互动社区" />
 	</head>
     <body>
@@ -71,26 +72,34 @@
             </div>
             <div class="order_detail">
                 <div class="status">
-                	<div class="total">应付金额：<span class="num">￥<em id="money-old">${ret.money}</em></span></div>
-                    <div class="total">订单金额：<span class="num">￥${ret.money}</span>&nbsp;&nbsp;</div>
-                    <div class="status_str">下单成功，请您尽快付款！订单号：<span id="order_no" class="order_no">${ret.orderno}</span></div>
+                	<div class="status_str">
+                    	<spring:message code="payment.confirm.msg.order.success.info"/>
+                    </div>
+                	<div class="total"><spring:message code="payment.confirm.lable.amount.pay"/><span class="num">￥<em id="money-old">${ret.money}</em></span></div>
+                    <div class="total"><spring:message code="payment.confirm.lable.order.amount"/><span class="num">${ret.money} <spring:message code="payment.confirm.lable.order.currency"/></span>&nbsp;&nbsp;</div>
+                    <div class="status_str"><spring:message code="payment.confirm.lable.order.no"/><span id="order_no" class="order_no">${ret.orderno}</span></div>
                     <div class="clear"></div>
                 </div>
                 <div class="order_info">
-                    <p>订单编号：${ret.orderno}</p>
-                    <p>商品名称：${ret.productname}</p>
-                    <p>交易金额：${ret.money}元</p>
-                    <p>下单时间：${ret.paydate}</p>
+                    <!-- 订单编号： -->
+                    <p><spring:message code="payment.confirm.lable.order.no"/>${ret.orderno}</p>
+                    <!-- 商品名称： -->
+                    <p><spring:message code="payment.confirm.lable.product.name"/>${ret.productname}</p>
+                    <!-- 交易金额： -->
+                    <p><spring:message code="payment.confirm.lable.order.amount1"/>${ret.money} 
+                    	<spring:message code="payment.confirm.lable.order.currency"/></p>
+                    <!-- 下单时间： -->
+                    <p><spring:message code="payment.confirm.lable.order.createtime"/>${ret.paydate}</p>
                 </div>
             </div>
-            <div class="toggle"><span>订单详情</span></div> 
+            <div class="toggle"><span><spring:message code="payment.confirm.msg.order.info"/></span></div> 
             <div class="clear"></div>
             <div class="navs">
             	<c:if test="${not empty ret.debitlist}">
-            		<a href="javascript:;" class="nav" tar="debit_card">银行卡支付</a>
+            		<a href="javascript:;" class="nav" tar="debit_card"><spring:message code="payment.confirm.tab.pay.bank.card"/></a>
             	</c:if>
             	<c:if test="${not empty ret.thirdlist}">
-            		<a href="javascript:;" class="nav" tar="thrid_platform">平台支付</a>
+            		<a href="javascript:;" class="nav" tar="thrid_platform"><spring:message code="payment.confirm.tab.pay.platform"/></a>
             	</c:if>
             	<c:if test="${not empty ret.creditlist}">
             		<a href="javascript:;" class="nav" tar="credit_card">信用卡分期</a>
@@ -348,7 +357,7 @@
             </c:if>
             
             
-            <a href="javascript:;" class="to_pay">支付</a>
+            <a href="javascript:;" class="to_pay"><spring:message code="payment.confirm.button.pay"/></a>
             
             <p id="tips" style="float:left;color:#999;padding:20px 0 10px 55px;display: none;">温馨提示：订单已提交，我们将为您保留订单24小时，请尽快完成支付。</p>	
 			<iframe id="qrCodeIframe" style="text-align: center;display: none;" frameborder="0" name="qrCodeIframe" width="600px" height="300px">

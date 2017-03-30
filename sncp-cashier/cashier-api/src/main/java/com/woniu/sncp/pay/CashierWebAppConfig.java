@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletConfig;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,6 +11,7 @@ import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -50,6 +50,10 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		return encodingFilterRegistration;
 	}
 
+	/**
+	 * 验证码
+	 * @return
+	 */
 	@Bean
 	public ServletRegistrationBean captchaServletRegistrationBean() {
 		ServletRegistrationBean registration = new ServletRegistrationBean(new KaptchaServlet());
@@ -68,16 +72,6 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		registration.addInitParameter("kaptcha.obscurificator.impl", "com.woniu.kaptcha.impl.ShadowGimpy");//<!-- 设置验证码水印效果，如果没有这个param，将显示默认的 -->
 		return registration;
 	}
-	// @Bean
-	// public Filter springSecurityFilterChain() {
-	// Filter springSecurityFilterChain = new
-	// org.springframework.web.filter.DelegatingFilterProxy();
-	////// FilterRegistrationBean springSecurityFilterRegistration = new
-	// Filter(springSecurityFilterChain);
-	////// springSecurityFilterRegistration.setFilter(springSecurityFilterChain);
-	////// springSecurityFilterRegistration.addUrlPatterns("/");
-	// return springSecurityFilterChain;
-	// }
 
 	/**
 	 * memcache 配置
@@ -188,23 +182,129 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 	@Resource
 	Map<String, String> webBankMap;
 
-	//
+	//<!-- PC快钱快捷支付银行编码映射 -->
 	@Bean(name = { "kqBankCodeMap" })
 	public Map<String, String> getKqBankCodeMap() {
 		Map<String, String> kqBankCodeMap = new HashMap<String, String>();
+		kqBankCodeMap.put("ABC","ABC");//<!-- 中国农业银行 -->
+		
+		kqBankCodeMap.put("COMM","BCOM");//<!-- 交通银行 -->
+		kqBankCodeMap.put("BJRCB","BJRCB");//<!-- 北京农村商业银行 -->
+		kqBankCodeMap.put("BJBANK","BOB");//<!-- 北京银行 -->
+		kqBankCodeMap.put("BOCB2C","BOC");//<!-- 中国银行 -->
+		kqBankCodeMap.put("CCB","CCB");//<!-- 中国建设银行 -->
+		kqBankCodeMap.put("CEBBANK","CEB");//<!-- 中国光大银行 -->
+		kqBankCodeMap.put("CIB","CIB");//<!-- 兴业银行 -->
+		kqBankCodeMap.put("CITIC","CITIC");//<!-- 中信银行 -->
+		kqBankCodeMap.put("CMB","CMB");//<!-- 招商银行 -->
+		kqBankCodeMap.put("CMBC","CMBC");//<!-- 中国民生银行 -->
+		
+		kqBankCodeMap.put("GDB","GDB");//<!-- 广东发展银行 -->
+		kqBankCodeMap.put("HXB","HXB");//<!-- 华夏银行 -->
+		kqBankCodeMap.put("HZCBB2C","HZB");//<!-- 杭州银行 -->
+		kqBankCodeMap.put("ICBCB2C","ICBC");//<!-- 中国工商银行 -->
+		kqBankCodeMap.put("NBBANK","NBCB");//<!-- 宁波银行 -->
+		kqBankCodeMap.put("NJCB","NJCB");//<!-- 南京银行 -->
+		kqBankCodeMap.put("SPABANK","PAB");//<!-- 平安银行 -->
+		kqBankCodeMap.put("POSTGC","PSBC");//<!-- 中国邮政储蓄银行 -->
+		kqBankCodeMap.put("SHBANK","SHB");//<!-- 上海银行 -->
+		kqBankCodeMap.put("SPDB","SPDB");//<!-- 上海浦东发展银行 -->
+		kqBankCodeMap.put("SHRCB","SRCB");//<!-- 上海农商银行 -->
 		return kqBankCodeMap;
 	}
 
+	//<!-- 京东网银直连 -->
 	@Bean(name = { "jdCyberBankMap" })
 	public Map<String, Object> getJdCyberBankMap() {
 		Map<String, Object> jdCyberBankMap = new HashMap<String, Object>();
+		jdCyberBankMap.put("BOCB2C_D","104");//<!-- 中国银行 -->
+		jdCyberBankMap.put("ICBCB2C_D","1025");//<!-- 中国工商银行 -->
+		jdCyberBankMap.put("CMB_D","3080");//<!-- 招商银行 -->
+		jdCyberBankMap.put("CCB_D","1051");//<!-- 中国建设银行 -->
+		jdCyberBankMap.put("ABC_D","103");//<!-- 中国农业银行 -->
+		jdCyberBankMap.put("SPDB_D","314");//<!-- 上海浦东发展银行 -->
+		jdCyberBankMap.put("CIB_D","309");//<!-- 兴业银行 -->
+		
+		jdCyberBankMap.put("GDB_D","3061");//<!-- 广东发展银行 -->
+		jdCyberBankMap.put("CMBC_D","305");//<!-- 中国民生银行 -->
+		jdCyberBankMap.put("COMM_D","301");//<!-- 交通银行 -->
+		jdCyberBankMap.put("CITIC_D","313");//<!-- 中信银行 -->
+		jdCyberBankMap.put("HZCBB2C_D","324");//<!-- 杭州银行 -->
+		jdCyberBankMap.put("CEBBANK_D","312");//<!-- 中国光大银行 -->
+		jdCyberBankMap.put("SHBANK_D","326");//<!-- 上海银行 -->
+		jdCyberBankMap.put("NBBANK_D","302");//<!-- 宁波银行 -->
+		jdCyberBankMap.put("SPABANK_D","307");//<!-- 平安银行 -->
+		jdCyberBankMap.put("BJRCB_D","335");//<!-- 北京农村商业银行 -->
+		jdCyberBankMap.put("POSTGC_D","3230");//<!-- 中国邮政储蓄银行 -->
+		jdCyberBankMap.put("BJBANK_D","310");//<!-- 北京银行 -->
+		jdCyberBankMap.put("BOCD_D","336");//<!-- 成都银行 -->
+		jdCyberBankMap.put("QDCCB_D","3341");//<!-- 青岛银行 -->
+		jdCyberBankMap.put("NJCB_D","316");//<!-- 南京银行 -->
+		jdCyberBankMap.put("HXB_D","311");//<!-- 华夏银行 -->
+		jdCyberBankMap.put("CQRCB_D","342");//<!-- 重庆农村商业银行 -->
+		jdCyberBankMap.put("SHRCB_D","343");//<!-- 上海农商银行 -->
+		jdCyberBankMap.put("EGBK_D","344");//<!-- 恒丰银行 -->
+		jdCyberBankMap.put("BOCB2C_C","106");//<!-- 中国银行 -->
+		jdCyberBankMap.put("ICBCB2C_C","1027");//<!-- 中国工商银行 -->
+		jdCyberBankMap.put("CMB_C","308");//<!-- 招商银行 -->
+		jdCyberBankMap.put("CCB_C","1054");//<!-- 中国建设银行 -->
+		jdCyberBankMap.put("ABC_C","1031");//<!-- 中国农业银行 -->
+		jdCyberBankMap.put("SPDB_C","3141");//<!-- 上海浦东发展银行 -->
+		jdCyberBankMap.put("CIB_C","3091");//<!-- 兴业银行 -->
+		jdCyberBankMap.put("GDB_C","306");//<!-- 广东发展银行 -->
+		jdCyberBankMap.put("CMBC_C","3051");//<!-- 中国民生银行 -->
+		jdCyberBankMap.put("COMM_C","301");//<!-- 交通银行 -->
+		jdCyberBankMap.put("CITIC_C","3131");//<!-- 中信银行 -->
+		jdCyberBankMap.put("HZCBB2C_C","3241");//<!-- 杭州银行 -->
+		jdCyberBankMap.put("CEBBANK_C","3121");//<!-- 中国光大银行 -->
+		jdCyberBankMap.put("SHBANK_C","3261");//<!-- 上海银行 -->
+		jdCyberBankMap.put("NBBANK_C","303");//<!-- 宁波银行 -->
+		jdCyberBankMap.put("SPABANK_C","3071");//<!-- 平安银行 -->
+		jdCyberBankMap.put("POSTGC_C","3231");//<!-- 中国邮政储蓄银行 -->
+		jdCyberBankMap.put("QDCCB_C","334");//<!-- 青岛银行 -->
+		jdCyberBankMap.put("HXB_C","3112");//<!-- 华夏银行 -->
 		return jdCyberBankMap;
 	}
 
+	//网银直充
 	@Bean(name = { "webBankMap" })
 	public Map<String, String> getWebBankMap() {
 		Map<String, String> webBankMap = new HashMap<String, String>();
+		webBankMap.put("ICBCB2C","a");
+		webBankMap.put("ABC","b");
+		webBankMap.put("BOCB2C","c");
+		webBankMap.put("CCB","d");
+		webBankMap.put("CMB","e");
+		webBankMap.put("SPDB","f");
+		webBankMap.put("COMM","g");
+		webBankMap.put("CITIC","h");
+		webBankMap.put("HZCBB2C","i");
+		webBankMap.put("CEBBANK","j");
+		webBankMap.put("CIB","k");
+		webBankMap.put("GDB","l");
+		webBankMap.put("SDB","m");
+		webBankMap.put("CMBC","n");
+		webBankMap.put("SHBANK","o");
+		webBankMap.put("NBBANK","p");
+		webBankMap.put("SPABANK","q");
+		webBankMap.put("BJRCB","r");
+		webBankMap.put("FDB","s");
+		webBankMap.put("POSTGC","G");
+		webBankMap.put("WZCBB2C-DEBIT","p");
 		return webBankMap;
 	}
 
+	
+	/**
+	 * 国际化加载
+	 */
+	@Value(value = "${spring.messages.basename}")
+    private String basename;
+
+    @Bean(name = "messageSource")
+    public ResourceBundleMessageSource getMessageResource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        messageSource.setBasename(basename);
+        return messageSource;
+    }
 }
