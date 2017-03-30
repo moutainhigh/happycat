@@ -12,6 +12,7 @@ import org.springframework.boot.context.embedded.ServletListenerRegistrationBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -28,13 +29,13 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
  */
 @Configuration
 @EnableWebSecurity
-public class CasConfig extends WebSecurityConfigurerAdapter{
+public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 	@Autowired
-	SpringCasAutoconfig autoconfig;
+	SecurityCasConfigure autoconfig;
 
 	private static boolean casEnabled = true;
-
-	public CasConfig() {
+	
+	public SpringSecurityChain() {
 	}
 
 	/*定义安全策略*/
@@ -72,8 +73,8 @@ public class CasConfig extends WebSecurityConfigurerAdapter{
     }
 	
 	@Bean
-	public SpringCasAutoconfig getSpringCasAutoconfig() {
-		return new SpringCasAutoconfig();
+	public SecurityCasConfigure getSpringCasAutoconfig() {
+		return new SecurityCasConfigure();
 	}
 
 	/**

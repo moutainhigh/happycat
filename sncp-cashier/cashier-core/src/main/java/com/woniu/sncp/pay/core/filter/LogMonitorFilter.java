@@ -12,10 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.woniu.sncp.json.JsonUtils;
@@ -32,14 +34,22 @@ import com.woniu.sncp.web.response.ResultResponse;
  * @date   2016年10月9日
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
+@Service("logMonitorFilter")
 public class LogMonitorFilter extends OncePerRequestFilter {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass().getName());
 	
+	@Autowired
+	@Qualifier(value="threadPool")
+	ThreadPool threadPool;
+	
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
 		Long requestTime = System.currentTimeMillis();
 		Long startTime = null;
 		Long endTime = null;
@@ -81,7 +91,7 @@ public class LogMonitorFilter extends OncePerRequestFilter {
 			if(retCode == null){
 				retCode = "";
 			}
-			ThreadPool.getInstance().executeTask(
+			threadPool.executeTask(
 					new LogMonitorTask(url.toString(), method, accessid,
 							accesstype, requestTime, startTime, endTime,retCode==null?"":retCode.toString(), retMsg==null?"未获取到响应描述":retMsg.toString(),IpUtils.getRemoteAddr(request),extMsg, true));
 			

@@ -7,6 +7,9 @@ spring:
    view:
     prefix: /WEB-INF/view
     suffix: .jsp
+  messages:
+    basename: message/i18n/messages
+    encoding: UTF-8
   #cas client config
   cas: 
     sign-out-filters: /logout
@@ -20,10 +23,7 @@ spring:
     redirect-after-validation: true
     use-session: true
     server-name: http://cashier.woniu.com
-
-logging:
-  path: D://woniu-git-repository//woniu-microservices//sncp-cashier//cashier-api//
-
+  #jpa config
   jpa:
     show-sql: true
     hibernate: 

@@ -6,9 +6,15 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.filter.DelegatingFilterProxy;
 
+import com.woniu.sncp.pay.common.threadpool.ThreadPool;
+import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
+import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.CallPayPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayDPPayment;
@@ -58,7 +64,7 @@ import com.woniu.sncp.pay.core.service.payment.platform.woniu.WnMobileCardPaymen
  */
 @Configuration
 public class PaymentMapConfig {
-
+	
 	@Resource
 	AlipayDPPayment alipayDPPayment;
 	@Resource

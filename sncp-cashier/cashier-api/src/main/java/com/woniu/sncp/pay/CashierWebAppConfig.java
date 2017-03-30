@@ -22,7 +22,9 @@ import com.snail.ocp.client.pojo.DefaultHeader;
 import com.snail.ocp.sdk.http.account.service.AccountInterfaceImpl;
 import com.woniu.kaptcha.servlet.KaptchaServlet;
 import com.woniu.pay.common.utils.PaymentConstant;
-import com.woniu.sncp.pay.common.threadpool.ThreadPool;
+import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
+import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
+import com.woniu.sncp.pay.core.filter.RequestClearFilter;
 
 import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 
@@ -49,7 +51,46 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		encodingFilterRegistration.addUrlPatterns("/");
 		return encodingFilterRegistration;
 	}
-
+	
+	
+	@Autowired
+	AuthenticationCommonFilter authenticationCommonFilter;
+	
+	@Autowired
+	LogMonitorFilter logMonitorFilter;
+	
+	@Bean(name = "logMonitorAuthFilterRegistration")
+	public FilterRegistrationBean logMonitorAuthFilterRegistration() {
+		FilterRegistrationBean logMonitorFilterRegistration = new FilterRegistrationBean();
+		logMonitorFilterRegistration.addUrlPatterns("/api/refundment/refund/**");
+		logMonitorFilterRegistration.addUrlPatterns("/payment/trans/**");
+		logMonitorFilterRegistration.addUrlPatterns("/api/excharge/order/**");
+		logMonitorFilterRegistration.addUrlPatterns("/fcb/pay/**");
+		logMonitorFilterRegistration.addUrlPatterns("/fcb/pay");
+		logMonitorFilterRegistration.addUrlPatterns("/cancel/api/json");
+		logMonitorFilterRegistration.addUrlPatterns("/payment/api/**");
+		logMonitorFilterRegistration.addUrlPatterns("/payment/api");
+		logMonitorFilterRegistration.addUrlPatterns("/wap/api/**");
+		logMonitorFilterRegistration.addUrlPatterns("/payment/api/jsonp");
+		logMonitorFilterRegistration.addUrlPatterns("/payment/api/dp/json");
+		logMonitorFilterRegistration.addUrlPatterns("/security/ttb/pay");
+		logMonitorFilterRegistration.addUrlPatterns("/api/tgt/ttb/pay/json");
+		logMonitorFilterRegistration.addUrlPatterns("/security/ttb/pay/json");
+		logMonitorFilterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
+	    logMonitorFilterRegistration.setFilter(logMonitorFilter);
+	    logMonitorFilterRegistration.setFilter(authenticationCommonFilter);
+		return logMonitorFilterRegistration;
+	}
+	
+	@Autowired
+	RequestClearFilter requestClearFilter;
+	@Bean(name = "requestClearFilterRegistration")
+	public FilterRegistrationBean requestClearFilterRegistration() {
+		FilterRegistrationBean requestClearFilterRegistration = new FilterRegistrationBean();
+		requestClearFilterRegistration.addUrlPatterns("/payment/backend/api/common/**");
+		requestClearFilterRegistration.setFilter(requestClearFilter);
+		return requestClearFilterRegistration;
+	}
 	/**
 	 * 验证码
 	 * @return
@@ -146,19 +187,6 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		httpOption.setReadTimeout(Integer.parseInt(readTimeout));
 		accountSpringRestTemplateDelegate.setHttpOption(httpOption);
 		return accountSpringRestTemplateDelegate;
-	}
-
-	/**
-	 * ThreadPool threadPool
-	 */
-	@Bean(name = { "threadPool" })
-	public ThreadPool getThreadPool() {
-		ThreadPool threadPool = new ThreadPool();
-		threadPool.setCorePoolSize(5);
-		threadPool.setMaximumPoolSize(50);
-		threadPool.setKeepAliveTime(8);
-		threadPool.setBlockingQueueNum(20);
-		return threadPool;
 	}
 
 	/**

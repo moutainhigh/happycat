@@ -15,7 +15,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
 @ConfigurationProperties(prefix = "spring.cas")
-public class SpringCasAutoconfig {
+public class SecurityCasConfigure {
 	static final String separator = ",";
 
 	private String validateFilters;

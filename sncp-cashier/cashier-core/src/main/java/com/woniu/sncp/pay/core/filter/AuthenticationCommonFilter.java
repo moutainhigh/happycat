@@ -7,13 +7,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.woniu.pay.pojo.Platform;
@@ -35,6 +37,7 @@ import com.woniu.sncp.web.IpUtils;
  * @date   2016年10月26日
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
+@Service("authenticationCommonFilter")
 public class AuthenticationCommonFilter extends OncePerRequestFilter {
 	
 	private static ThreadLocal<String> requestBody = new ThreadLocal<String>();
@@ -44,12 +47,15 @@ public class AuthenticationCommonFilter extends OncePerRequestFilter {
 	}
 	
 
-	@Resource
+	@Autowired
+    @Qualifier(value="paymentMerchantService")
 	private PaymentMerchantService paymentMerchantService;
 	
-	@Resource
+	@Autowired
+    @Qualifier(value="platformService")
 	private PlatformService platformService;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)

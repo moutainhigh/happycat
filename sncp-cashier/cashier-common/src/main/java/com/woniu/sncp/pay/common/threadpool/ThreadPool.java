@@ -9,6 +9,8 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
  * @author Yang Hao
  * 
  */
+@Service("threadPool")
 public class ThreadPool {
 
 	private static final Logger logger = LoggerFactory.getLogger(ThreadPool.class);
@@ -25,11 +28,16 @@ public class ThreadPool {
 	
 	private ThreadPoolExecutor threadPoolExecutor;
 
-	private int corePoolSize, maximumPoolSize;
-	private long keepAliveTime;
-	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-	private int blockingQueueNum;
+	@Value("${cashier.thread.core.poolsize}")
+	int corePoolSize;
+	@Value("${cashier.thread.maximum.poolsize}")
+	int maximumPoolSize;
+	@Value("${cashier.thread.keepalive.time}")
+	long keepAliveTime;
+	@Value("${cashier.thread.blockingqueue.num}")
+	int blockingQueueNum;
 
+	private TimeUnit timeUnit = TimeUnit.MILLISECONDS;
 	/**
 	 * 初始化 - 获取threadPoolExecutor
 	 */

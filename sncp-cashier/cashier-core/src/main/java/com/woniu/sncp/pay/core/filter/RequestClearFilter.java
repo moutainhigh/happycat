@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -19,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
  * @date   2016年10月26日
  * @Copyright 2015 Snail Soft, Inc. All rights reserved.
  */
+@Service("requestClearFilter")
 public class RequestClearFilter extends OncePerRequestFilter {
 	
 	private Logger logger = LoggerFactory.getLogger(RequestClearFilter.class);

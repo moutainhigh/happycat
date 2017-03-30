@@ -10,10 +10,7 @@ spring:
       username: micro-cloud-config-client-user
       password: 1@^&IuRE(VBGPoiuy
       profile: hystrixApp,dsSnPayDev
-  messages:
-    basename: message/i18n/messages
-    encoding: UTF-8
-    
+
 discover:
   hostname1: 10.206.2.253
   hostname2: 10.206.2.238
