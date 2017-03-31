@@ -98,12 +98,12 @@ public class PaymentFontController extends ApiBaseController{
 		
 		setAttributes(request, result);
 		
-		String orderNo = order.getPartnerOrderNo();
+		String orderNo = order.getPaypartnerOtherOrderNo();
 		if(StringUtils.isBlank(orderNo)){
 			orderNo = order.getOrderNo();
 		}
 		
-		String ext = order.getExtend();
+		String ext = order.getInfo();
 		String openId = "";
 		if(StringUtils.isNotBlank(ext)){
 			JSONObject extend = JSONObject.parseObject(ext);
@@ -162,7 +162,7 @@ public class PaymentFontController extends ApiBaseController{
 		request.setAttribute("msg", "已支付成功");
 		request.setAttribute("orderNo", orderNo);
 		request.setAttribute("money", paymentOrder.getMoney());
-		request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+		request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
 		request.setAttribute(PaymentConstant.PAYMENT_ORDER, paymentOrder);
 		request.setAttribute("infoMap", retMap);
 		request.setAttribute("retCode", ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
@@ -171,7 +171,7 @@ public class PaymentFontController extends ApiBaseController{
 	}
 	
 	private String getFrontUrl(PaymentOrder order) {
-		return order.getPartnerFrontUrl();
+		return order.getPaypartnerFrontCall();
 	}
 	
 	private void setAttributes(HttpServletRequest request,

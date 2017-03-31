@@ -146,7 +146,7 @@ public class AlipaySecurityRiskDetect {
 			signMap.put("terminal_type", terminalType);//终端类型
 			signMap.put("notify_url", platform.getBehindUrl(paymentOrder.getMerchantId()));//通知返回url
 			signMap.put("order_no", paymentOrder.getOrderNo());//商户订单唯一标识号
-			signMap.put("order_credate_time", sdf.format(paymentOrder.getCreateDate()));
+			signMap.put("order_credate_time", sdf.format(paymentOrder.getCreate()));
 			signMap.put("order_category", "虚拟^游戏^"+(game!=null?game.getName():""));
 			signMap.put("order_item_name", StringUtils.trim((String) inParams.get("productName")));
 			signMap.put("order_item_city", "苏州");//订单商品所在城市
@@ -158,7 +158,7 @@ public class AlipaySecurityRiskDetect {
 			signMap.put("buyer_account_no", String.valueOf(passport.getId()));//买家账户编号
 			sdf.applyPattern("yyyy-MM-dd");
 			signMap.put("buyer_reg_date", sdf.format(passport.getCreateDate()));//买家注册时间
-			signMap.put("env_client_ip", IpUtils.longToIp(paymentOrder.getClientIp()));//客户端ip
+			signMap.put("env_client_ip", IpUtils.longToIp(paymentOrder.getIp()));//客户端ip
 			
 			List<BasicNameValuePair> valuePair = new ArrayList<BasicNameValuePair>();
 			Iterator<String> iter = signMap.keySet().iterator();

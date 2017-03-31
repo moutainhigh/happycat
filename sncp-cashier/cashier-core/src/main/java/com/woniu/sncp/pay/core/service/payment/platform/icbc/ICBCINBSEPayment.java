@@ -245,7 +245,7 @@ public class ICBCINBSEPayment extends AbstractPayment {
 		
 		OrderInfo orderInfo = new OrderInfo();
 		orderInfo.setCurType("001");
-		orderInfo.setOrderDate(DateFormatUtils.format(paymentOrder.getCreateDate(), "yyyyMMddHHmmss"));
+		orderInfo.setOrderDate(DateFormatUtils.format(paymentOrder.getCreate(), "yyyyMMddHHmmss"));
 		orderInfo.setMerID(platform.getMerchantNo());
 		
 		SubOrderInfo subOrderInfo = new SubOrderInfo();
@@ -278,7 +278,7 @@ public class ICBCINBSEPayment extends AbstractPayment {
 			throw unchecked(e); 
 		}*/
 		message.setMerReference(merReference);
-		message.setMerCustomIp(IpUtils.longToIp(paymentOrder.getClientIp()));
+		message.setMerCustomIp(IpUtils.longToIp(paymentOrder.getIp()));
 		
 		message.setMerCustomID(StringUtils.defaultIfBlank(paymentOrder.getUserName(), ""));
 		message.setMerCustomPhone("");

@@ -74,7 +74,7 @@ public class CmPayPayment extends  AbstractPayment{
 		linkedParams.put("characterSet", "02");//字符集默认00-GBK，01-GB2312,02-UTF-8
 		linkedParams.put("callbackUrl", platform.getFrontUrl(paymentOrder.getMerchantId()));
 		linkedParams.put("notifyUrl", platform.getBehindUrl(paymentOrder.getMerchantId()));
-		linkedParams.put("ipAddress", paymentOrder.getClientIp());
+		linkedParams.put("ipAddress", paymentOrder.getIp());
 		linkedParams.put("merchantId", platform.getMerchantNo());
 		linkedParams.put("requestId", paymentOrder.getOrderNo());
 		linkedParams.put("signType", "MD5");//签名方式
@@ -84,9 +84,9 @@ public class CmPayPayment extends  AbstractPayment{
 		linkedParams.put("amount", m.multiply(new BigDecimal(100)).intValue());
 //		linkedParams.put("amount", (int) (paymentOrder.getMoney() * 100));
 		linkedParams.put("currency", "00");
-		linkedParams.put("orderDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), "yyyyMMdd"));
+		linkedParams.put("orderDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), "yyyyMMdd"));
 		linkedParams.put("orderId", paymentOrder.getOrderNo());
-		linkedParams.put("merAcDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), "yyyyMMdd"));
+		linkedParams.put("merAcDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), "yyyyMMdd"));
 		linkedParams.put("period", "9999");
 		linkedParams.put("periodUnit", "02");
 		linkedParams.put("productName", String.valueOf(inParams.get("productName")));
@@ -103,12 +103,12 @@ public class CmPayPayment extends  AbstractPayment{
 		//3.由于，中国移动-手机支付，需要先请求，才能取得支付地址用于重定向，所以这里先将参数请求
 		String buf = "characterSet=" + "02" + "&callbackUrl="
 				+ platform.getFrontUrl(paymentOrder.getMerchantId()) + "&notifyUrl=" + platform.getBehindUrl(paymentOrder.getMerchantId())
-				+ "&ipAddress=" + paymentOrder.getClientIp() + "&merchantId="
+				+ "&ipAddress=" + paymentOrder.getIp() + "&merchantId="
 				+ platform.getMerchantNo() + "&requestId=" + paymentOrder.getOrderNo() + "&signType="
 				+ "MD5" + "&type=" + "DirectPayConfirm" + "&version=" + "2.0.0"
 				+ "&amount=" + String.valueOf(m.multiply(new BigDecimal(100)).intValue()) + "&bankAbbr=" + ""
-				+ "&currency=" + "00" + "&orderDate=" + DateUtil.parseDate2Str(paymentOrder.getCreateDate(), "yyyyMMdd")
-				+ "&orderId=" + paymentOrder.getOrderNo() + "&merAcDate=" + DateUtil.parseDate2Str(paymentOrder.getCreateDate(), "yyyyMMdd")
+				+ "&currency=" + "00" + "&orderDate=" + DateUtil.parseDate2Str(paymentOrder.getCreate(), "yyyyMMdd")
+				+ "&orderId=" + paymentOrder.getOrderNo() + "&merAcDate=" + DateUtil.parseDate2Str(paymentOrder.getCreate(), "yyyyMMdd")
 				+ "&period=" + "9999" + "&periodUnit=" + "02"
 				+ "&merchantAbbr=" + "" + "&productDesc="
 				+ "" + "&productId=" + ""

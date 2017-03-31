@@ -91,7 +91,7 @@ public class TenpayPayment extends AbstractPayment {
 		LinkedHashMap<String, Object> linkedParams = new LinkedHashMap<String, Object>();
 		linkedParams.put("cmdno", 1);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String date = dateFormat.format(paymentOrder.getCreateDate());
+		String date = dateFormat.format(paymentOrder.getCreate());
 		linkedParams.put("date", date);
 
 		linkedParams.put("bargainor_id", platform.getMerchantNo()); // 商户ID
@@ -227,7 +227,7 @@ public class TenpayPayment extends AbstractPayment {
 		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		String date = dateFormat.format(paymentOrder.getCreateDate());
+		String date = dateFormat.format(paymentOrder.getCreate());
 
 		String attach = encode(paymentOrder.getOrderNo(), platform.getBackendKey());
 		String bargainor_id = platform.getMerchantNo();

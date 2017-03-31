@@ -77,7 +77,7 @@ public class ShengftpayPayment extends AbstractPayment {
 		params.put("SendTime", sdf.format(new Date()));
 		params.put("OrderNo", paymentOrder.getOrderNo());
 		params.put("OrderAmount", paymentOrder.getMoney());
-		params.put("OrderTime", sdf.format(paymentOrder.getCreateDate()));
+		params.put("OrderTime", sdf.format(paymentOrder.getCreate()));
 		params.put("PayType", "PT018,PT020");//支付类型: PT018 盛大一卡通,PT020 娱乐一卡通
 //		params.put("PayChannel", "");//支付渠道
 //		params.put("InstCode", "");//银行编码

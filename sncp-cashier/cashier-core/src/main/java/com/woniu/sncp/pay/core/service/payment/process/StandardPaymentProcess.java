@@ -125,9 +125,9 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				if("1".equals(ObjectUtils.toString(retMap.get("msgcode")))){
 					//充值成功
 					if(!paymentOrderService.orderIsPayed(paymentOrder)){
-						paymentOrder.setPayPlatformOrderId(oppositeOrderNo);
-						paymentOrder.setPayPlatformIp(IpUtils.ipToLong(payIp));
-						paymentOrder.setCompleteDate(new Date());
+						paymentOrder.setOtherOrderNo(oppositeOrderNo);
+						paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
+						paymentOrder.setPayEnd(new Date());
 						
 //						DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 						paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, PaymentOrder.IMPREST_STATE_COMPLETED);
@@ -163,7 +163,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				
 				//扣费
 				Map<String, Object> deductMap = fcbService.deductFcbAmount(paymentOrder.getAid(), 
-						paymentOrder.getOrderNo(), paymentOrder.getMoney() + paymentOrder.getYueMoney(), IpUtils.longToIp(paymentOrder.getClientIp()));
+						paymentOrder.getOrderNo(), paymentOrder.getMoney() + paymentOrder.getYueMoney(), IpUtils.longToIp(paymentOrder.getIp()));
 				
 				if("1".equals(ObjectUtils.toString(deductMap.get("msgcode")))){
 					//b.回调商户,如果失败应用通过验证接口补单
@@ -180,7 +180,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					}
 				}
 				
-			}else if( StringUtils.isNotBlank(paymentOrder.getPartnerBackendUrl()) && paymentOrder.getPartnerBackendUrl().endsWith(directImprestUrl)){
+			}else if( StringUtils.isNotBlank(paymentOrder.getPaypartnerBackendCall()) && paymentOrder.getPaypartnerBackendCall().endsWith(directImprestUrl)){
 				//判断是否需要回调充值中心的话费流量直充接口,非其他业务方
 				// 0.增加支付渠道商若返回支付成功,修改支付状态为支付成功,充值状态为未充值
 				String paymentState = (String) centerInfo.get(PaymentConstant.PAYMENT_STATE);
@@ -189,14 +189,14 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, null);
 				}
 				// 1. 查询商户号
-				Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPlatformId());
+				Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId());
 				// 2.回调商户,如果失败应用通过验证接口补单
 				returned = paymentOrderService.callbackByDirectImprest(paymentOrder,payemntMerchnt,platform);
 				// 3.更新支付成功
 				if(!paymentOrderService.orderIsPayed(paymentOrder) && "success".equals(returned)){
-					paymentOrder.setPayPlatformOrderId(oppositeOrderNo);
-					paymentOrder.setPayPlatformIp(IpUtils.ipToLong(payIp));
-					paymentOrder.setCompleteDate(new Date());
+					paymentOrder.setOtherOrderNo(oppositeOrderNo);
+					paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
+					paymentOrder.setPayEnd(new Date());
 					
 //					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 					paymentOrderService.updateOrder(paymentOrder, null, PaymentOrder.IMPREST_STATE_COMPLETED);
@@ -227,13 +227,13 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				
 				//a.更新支付成功
 				if(!paymentOrderService.orderIsPayed(paymentOrder) && "success".equals(returned)){
-					paymentOrder.setPayPlatformOrderId(oppositeOrderNo);
-					paymentOrder.setPayPlatformIp(IpUtils.ipToLong(payIp));
-					paymentOrder.setCompleteDate(new Date());
+					paymentOrder.setOtherOrderNo(oppositeOrderNo);
+					paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
+					paymentOrder.setPayEnd(new Date());
 					
 					//TODO 创建消息队列，推送游戏
 					//判断是否需要创建消息队列
-					if(paymentOrder.getPartnerBackendUrl().endsWith(messagePushUrl)){
+					if(paymentOrder.getPaypartnerBackendCall().endsWith(messagePushUrl)){
 						
 						//判断memcache是否已经存在此订单
 						Object t = memcachedService.get("^_^"+paymentOrder.getOrderNo());
@@ -406,10 +406,10 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			//b.回调商户,如果失败应用通过查询接口来更新
 			PaymentMerchant payemntMerchnt = paymentMerchantService.queryPayemntMerchnt(paymentOrder.getMerchantId());
 			String returned = "";
-			if( StringUtils.isNotBlank(paymentOrder.getPartnerBackendUrl()) && paymentOrder.getPartnerBackendUrl().endsWith(directImprestUrl)){
+			if( StringUtils.isNotBlank(paymentOrder.getPaypartnerBackendCall()) && paymentOrder.getPaypartnerBackendCall().endsWith(directImprestUrl)){
 				//判断是否需要回调充值中心的话费流量直充接口,非其他业务方
 				// 1. 查询商户号
-				Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPlatformId());
+				Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId());
 				// 2. 回调充值中心,如果失败应用通过验证接口补单
 				returned = paymentOrderService.callbackByDirectImprest(paymentOrder,payemntMerchnt,platform);
 			}else{
@@ -419,11 +419,12 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			
 			//a.更新支付成功
 			if(!paymentOrderService.orderIsPayed(paymentOrder) && "success".equals(returned)){
-				paymentOrder.setPayPlatformOrderId(oppositeOrderNo);
-				paymentOrder.setPayPlatformIp(IpUtils.ipToLong(payIp));
-				paymentOrder.setCompleteDate(new Date());
+				paymentOrder.setOtherOrderNo(oppositeOrderNo);
+				paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
+				paymentOrder.setPayEnd(new Date());
 				
-				if(paymentOrder.getPartnerBackendUrl().endsWith(messagePushUrl)){
+				
+				if(paymentOrder.getPaypartnerBackendCall().endsWith(messagePushUrl)){
 					//判断memcache是否已经存在此订单
 					Object t = memcachedService.get("^_^"+paymentOrder.getOrderNo());
 					if(null == t){
@@ -435,7 +436,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 							paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, PaymentOrder.IMPREST_STATE_COMPLETED);
 						}else{
 							//推送找不到或者创建失败
-							throw new ValidationException("订单消息推送创建失败或已推送["+paymentOrder.getId()+"],tasktype："+messagePushTaskType);
+							throw new ValidationException("订单消息推送创建失败或已推送["+paymentOrder.getOrderId()+"],tasktype："+messagePushTaskType);
 						}
 						//删除memcache保存的值
 						memcachedService.delete("^_^"+paymentOrder.getOrderNo());
@@ -450,7 +451,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					logger.info("订单已付款,订单号："+paymentOrder.getOrderNo());
 				}else{
 					logger.error("回调失败，订单号："+paymentOrder.getOrderNo());
-					throw new ValidationException("订单已付款,回调该地址["+paymentOrder.getPartnerBackendUrl()+"]失败返回："+returned);
+					throw new ValidationException("订单已付款,回调该地址["+paymentOrder.getPaypartnerBackendCall()+"]失败返回："+returned);
 				}
 			}
 
@@ -584,10 +585,10 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 
 		// 2.判断订单是否已处理
 		paymentOrderService.checkOrderIsProcessed(paymentOrder);
-		Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPlatformId(),paymentOrder.getMerchantNo());
+		Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId(),paymentOrder.getMerchantNo());
 		platformService.validatePaymentPlatform(platform);
 
-		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPlatformId());
+		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPayPlatformId());
 		Assert.notNull(actualPayment, "抽象支付平台查询为空，可能是配置不对");
 		
 		Map<String, Object> isPayedParams = new HashMap<String, Object>();
@@ -642,7 +643,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				return retMap;
 			}
 			
-			if(paymentOrder.getMerchantId() != merchantId || paymentOrder.getPlatformId() != platformId){
+			if(paymentOrder.getMerchantId() != merchantId || paymentOrder.getPayPlatformId() != platformId){
 				retMap = ErrorCode.getErrorCode(53101);
 				return retMap;
 			}
@@ -651,32 +652,32 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			return retMap;
 		}
 		
-		if(!PaymentOrder.PAYMENT_STATE_CREATED.equals(paymentOrder.getPaymentState()) && !PaymentConstant.PAYMENT_STATE_NOPAYED.equals(paymentOrder.getPaymentState())){
+		if(!PaymentOrder.PAYMENT_STATE_CREATED.equals(paymentOrder.getPayState()) && !PaymentConstant.PAYMENT_STATE_NOPAYED.equals(paymentOrder.getPayState())){
 			retMap = ErrorCode.getErrorCode(53102);
 			retMap.put("orderno", orderNo);
-			retMap.put("state", paymentOrder.getPaymentState());
-			logger.error("订单状态非未支付状态不可取消,orderNo:" + orderNo+",state:"+paymentOrder.getPaymentState());
+			retMap.put("state", paymentOrder.getPayState());
+			logger.error("订单状态非未支付状态不可取消,orderNo:" + orderNo+",state:"+paymentOrder.getPayState());
 			return retMap;
 		}
 		
-		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPlatformId());
+		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPayPlatformId());
 		if(actualPayment == null){
 			retMap = ErrorCode.getErrorCode(53103);
-			logger.error("XML抽象平台查询为空,orderNo:" + orderNo+",state:"+paymentOrder.getPaymentState());
+			logger.error("XML抽象平台查询为空,orderNo:" + orderNo+",state:"+paymentOrder.getPayState());
 			return retMap;
 		}
 		
 		Platform platform = null;
 		try{
-			platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPlatformId());
+			platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId());
 			if(platform == null || StringUtils.isBlank(platform.getType()) || (","+platform.getOperatorType()+",").indexOf(","+Platform.OPERATOR_TYPE_CANCEL+",") == -1){
 				retMap = ErrorCode.getErrorCode(53101);
-				logger.error("申请号无权限取消订单,orderNo:" + orderNo+",state:"+paymentOrder.getPaymentState());
+				logger.error("申请号无权限取消订单,orderNo:" + orderNo+",state:"+paymentOrder.getPayState());
 				return retMap;
 			}
 		} catch (Exception e){
 			retMap = ErrorCode.getErrorCode(53107);
-			logger.error("查询平台时数据库出错,orderNo:" + orderNo+",state:"+paymentOrder.getPaymentState());
+			logger.error("查询平台时数据库出错,orderNo:" + orderNo+",state:"+paymentOrder.getPayState());
 			return retMap;
 		}
 		
@@ -694,16 +695,16 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		
 		String state = String.valueOf(cancelRet.get(PaymentConstant.PAYMENT_STATE));
 		if(PaymentConstant.PAYMENT_STATE_CANCEL.equalsIgnoreCase(state)){
-			paymentOrder.setPaymentState(PaymentConstant.PAYMENT_STATE_CANCEL);
+			paymentOrder.setPayState(PaymentConstant.PAYMENT_STATE_CANCEL);
 		} else {
 			retMap = ErrorCode.getErrorCode(53104);
 			return retMap;
 		}
 		try{
-			paymentOrderService.updateOrder(paymentOrder, paymentOrder.getPaymentState(), null);
+			paymentOrderService.updateOrder(paymentOrder, paymentOrder.getPayState(), null);
 			retMap = ErrorCode.getErrorCode(1);
 			retMap.put("orderno", orderNo);
-			retMap.put("state", paymentOrder.getPaymentState());
+			retMap.put("state", paymentOrder.getPayState());
 		} catch (Exception e){
 			retMap = ErrorCode.getErrorCode(53105);
 		}

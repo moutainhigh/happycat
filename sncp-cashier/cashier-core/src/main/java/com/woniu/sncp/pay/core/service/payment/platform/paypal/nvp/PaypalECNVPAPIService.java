@@ -111,7 +111,7 @@ public class PaypalECNVPAPIService extends ExpressCheckoutService {
 		
 		Map<String, String> params = new LinkedHashMap<String, String>();
 		params.put("RETURNURL",  platform.getFrontUrl(paymentOrder.getMerchantId()));
-		params.put("CANCELURL", paymentOrder.getPartnerFrontUrl());
+		params.put("CANCELURL", paymentOrder.getPaypartnerFrontCall());
 		
 		params.put("PAYMENTREQUEST_0_PAYMENTACTION", PAYMENTACTION);
 		

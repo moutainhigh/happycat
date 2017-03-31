@@ -153,7 +153,7 @@ public class RefundmentOrderService{
 			throws OrderIsSuccessException, ValidationException {
 		// 1.已充值
 		// 2.未充值 + 支付失败
-		if (PaymentOrder.IMPREST_STATE_COMPLETED.equals(paymentOrder.getImprestState())) {
+		if (PaymentOrder.IMPREST_STATE_COMPLETED.equals(paymentOrder.getState())) {
 			String msg = "订单已成功支付，勿重复处理:" + paymentOrder.getOrderNo();
 			throw new OrderIsSuccessException(msg);
 		}
@@ -578,7 +578,7 @@ public class RefundmentOrderService{
 	 * @throws DataAccessException
 	 */
 	public PaymentOrder queryOrderByMidPartnerOrderNo(Long merchantid,String pOrderNo) throws DataAccessException {
-		return paymentOrderRepository.findByMerchantIdAndPartnerOrderNo(merchantid,pOrderNo);
+		return paymentOrderRepository.findByMerchantIdAndPaypartnerOtherOrderNo(merchantid,pOrderNo);
 	}
 	
 	private String signStr(TreeMap<String,String> treeMap,String key,String keyType) throws Exception{

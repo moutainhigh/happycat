@@ -89,14 +89,14 @@ public class PaymentBackendController extends ApiBaseController{
     	
     	results.put(ErrorCode.ERROR_INFO, retMap.get(ErrorCode.ERROR_INFO));
     	results.put(ErrorCode.TIP_INFO, retMap.get(ErrorCode.TIP_INFO));
-    	results.put("partnerorderno", queryOrder.getPartnerOrderNo());
+    	results.put("partnerorderno", queryOrder.getPaypartnerOtherOrderNo());
     	results.put("orderno", queryOrder.getOrderNo());
     	results.put("aid", queryOrder.getAid());
-    	results.put("platformid", queryOrder.getPlatformId());
+    	results.put("platformid", queryOrder.getPayPlatformId());
     	results.put("imprestmode", queryOrder.getImprestMode());
     	results.put("money", queryOrder.getMoney());
-    	results.put("paystate", queryOrder.getPaymentState());
-    	results.put("impreststate", queryOrder.getImprestState());
+    	results.put("paystate", queryOrder.getPayState());
+    	results.put("impreststate", queryOrder.getState());
     	
     	return new ResultResponse(ResultResponse.SUCCESS,"已发校验请求",results);
     }
@@ -135,7 +135,7 @@ public class PaymentBackendController extends ApiBaseController{
 		Assert.notNull(paymentOrder,"订单不存在,orderNo:" + orderNo);
 		
 		Long merchantId = paymentOrder.getMerchantId();
-		Long paymentId = paymentOrder.getPlatformId();
+		Long paymentId = paymentOrder.getPayPlatformId();
 		
 		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
 		Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);

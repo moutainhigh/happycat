@@ -92,7 +92,7 @@ public class UnionPayPayment extends AbstractPayment {
 		params.put("merId", platform.getMerchantNo());//商户代码
 		params.put("backEndUrl", platform.getBehindUrl(paymentOrder.getMerchantId()));
 		params.put("frontEndUrl", platform.getFrontUrl(paymentOrder.getMerchantId()));
-		params.put("orderTime", sdf.format(paymentOrder.getCreateDate()));
+		params.put("orderTime", sdf.format(paymentOrder.getCreate()));
 		params.put("orderNumber", paymentOrder.getOrderNo());
 		params.put("commodityName", StringUtils.trim((String) inParams.get("productName")));
 		BigDecimal money = new BigDecimal(paymentOrder.getMoney().toString());
@@ -105,12 +105,12 @@ public class UnionPayPayment extends AbstractPayment {
 			merReserved = new HashMap<String, Object>();
 			String payTimeout = DateUtils.format(
 					org.apache.commons.lang.time.DateUtils.addMinutes(
-							paymentOrder.getCreateDate(), platform.getTransTimeout().intValue()), DATE_FORMAT);
+							paymentOrder.getCreate(), platform.getTransTimeout().intValue()), DATE_FORMAT);
 			merReserved.put("orderTimeoutDate", payTimeout);
 			params.put("merReserved", merReserved);//单位YYYYMMDDhhmmss
 		}
 		
-		params.put("customerIp", IpUtils.longToIp(paymentOrder.getClientIp()));
+		params.put("customerIp", IpUtils.longToIp(paymentOrder.getIp()));
 		
 		params.put("priKey", platform.getPayKey());
 		params.put("signature", this.encode(params));
@@ -209,7 +209,7 @@ public class UnionPayPayment extends AbstractPayment {
 		params.put("transType", TRANS_TYPE_CONSUME);//交易类型
 		params.put("merId", platform.getMerchantNo());//商户代码
 		params.put("orderNumber", paymentOrder.getOrderNo());
-		params.put("orderTime", sdf.format(paymentOrder.getCreateDate()));
+		params.put("orderTime", sdf.format(paymentOrder.getCreate()));
 		params.put("merReserved", "");
 		
 		params.put("priKey", platform.getPayKey());

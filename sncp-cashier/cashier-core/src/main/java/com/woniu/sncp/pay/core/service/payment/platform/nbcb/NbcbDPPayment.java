@@ -232,7 +232,7 @@ public class NbcbDPPayment extends AbstractPayment {
 		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
 		
 		String out_trade_no = paymentOrder.getOrderNo();
-		String trade_no = out_trade_no.equals(paymentOrder.getPayPlatformOrderId())?"":paymentOrder.getPayPlatformOrderId();
+		String trade_no = out_trade_no.equals(paymentOrder.getOtherOrderNo())?"":paymentOrder.getOtherOrderNo();
 		String reqCustomerId = platform.getMerchantNo();
 		
 		Map<String, String> params = new HashMap<String, String>();

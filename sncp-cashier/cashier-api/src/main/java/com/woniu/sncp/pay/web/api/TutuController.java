@@ -312,7 +312,7 @@ public class TutuController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
         		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
     			return PAYMENT_SUCCESS_PAGE;
@@ -1236,11 +1236,11 @@ public class TutuController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			
     			retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
     			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
-    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put("paymentPlatform", null);
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
@@ -1301,7 +1301,7 @@ public class TutuController extends ApiBaseController{
 		request.setAttribute("orderNo", orderNo);
 		request.setAttribute("money", paymentOrder.getMoney());
 		request.setAttribute("productName", productName);
-		request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+		request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
 		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
 		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
 		return new ModelAndView(PAYMENT_SUCCESS_PAGE);

@@ -106,7 +106,7 @@ public class ChinabankPayment extends AbstractPayment {
 		params.put("orderAmount", money);//订单金额
 		params.put("planCode", (String)inParams.get("stagePlan"));
 		params.put("planNumber", (String)inParams.get("stageNum"));
-		String orderTime = DateUtils.format(paymentOrder.getCreateDate(), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+		String orderTime = DateUtils.format(paymentOrder.getCreate(), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
 		params.put("orderTime", orderTime);
 		params.put("orderNote", StringUtils.trim((String) inParams.get("productName")));
 		params.put("orderUrl", platform.getBehindUrl());

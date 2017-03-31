@@ -71,12 +71,12 @@
             <h2><i class="tips-icon payError"></i><span class="tips-msg">充值失败</span></h2>-->
             <h2><i class="tips-icon"></i><span class="tips-msg">订单正在处理,请稍后...</span></h2> 
             <ul>
-                <li><label>订单编号:</label><span id="orderno">${requestScope.infoMap.paymentOrder.partnerOrderNo}</span></li>
-                <c:if test="${requestScope.productName != null}">
-                <li><label>商品名称:</label><span id="productname">${requestScope.productName}</span></li>
+                <li><label>订单编号:</label><span id="orderno">${requestScope.infoMap.paymentOrder.paypartnerOtherOrderNo}</span></li>
+                <c:if test="${requestScope.infoMap.paymentOrder.productname != null}">
+                <li><label>商品名称:</label><span id="productname">${requestScope.infoMap.paymentOrder.productname}</span></li>
                 </c:if>
                 <li><label>支付金额:</label><span id="money">${requestScope.infoMap.paymentOrder.money}元</span></li>
-                <li><label>下单时间:</label><span id="time"><fmt:formatDate value="${requestScope.infoMap.paymentOrder.createDate}" type="both"/></span></li>
+                <li><label>下单时间:</label><span id="time"><fmt:formatDate value="${requestScope.infoMap.paymentOrder.create}" type="both"/></span></li>
             </ul>
             <button class="btn" id="close" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
    </div>

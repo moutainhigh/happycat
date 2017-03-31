@@ -154,7 +154,7 @@ public class RefundmentFacade {
 	    			paymentOrder = refundmentOrderService.queryOrderByMidPartnerOrderNo(merchantId,ObjectUtils.toString(jsonDetail.get("orderno")));
 	    			
 	    			// 2.查询支付平台信息
-	    			platform = platformService.queryPlatform(Long.valueOf(merchantId), paymentOrder.getPlatformId(),paymentOrder.getMerchantNo());
+	    			platform = platformService.queryPlatform(Long.valueOf(merchantId), paymentOrder.getPayPlatformId(),paymentOrder.getMerchantNo());
 	    			platformService.validatePaymentPlatform(platform);
 	    			
 	    			// 3.根据平台扩展判断是否需要调用远程服务
@@ -186,8 +186,8 @@ public class RefundmentFacade {
 	    				/*判断申请收银台的商户号是否一致*/
 	    				if(!paymentOrder.getMerchantId().equals(merchantId)){
 	    					// 不一致，直接返回
-	    					logger.info("支付平台号:"+paymentOrder.getPlatformId()+",退款平台号:"+paymentOrder.getPlatformId());
-	    					throw new IllegalArgumentException("该订单不支持退款,收银台申请业务商户号不匹配,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPartnerOrderNo());
+	    					logger.info("支付平台号:"+paymentOrder.getPayPlatformId()+",退款平台号:"+paymentOrder.getPayPlatformId());
+	    					throw new IllegalArgumentException("该订单不支持退款,收银台申请业务商户号不匹配,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
 	    				}
 //	    				if(!paymentOrder.getPlatformId().equals(paymentId)){
 //	    					// 不一致，直接返回
@@ -213,14 +213,14 @@ public class RefundmentFacade {
 	//            				jsonDetail.put("orderno", paymentOrder.getOrderNo());//业务方订单号转为计费侧订单号
 	    					//BigDecimal比较退款金额和订单金额
 	        				if(Float.parseFloat(StringUtils.trim(jsonDetail.getString("money"))) > paymentOrder.getMoney()){
-	            	    		logger.error("退款订单金额同原订单金额不符,account:"+account+",porderno:"+paymentOrder.getPartnerOrderNo());
-	            	    		throw new IllegalArgumentException("订单退款失败,退款金额同原订单金额不符,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPartnerOrderNo());
+	            	    		logger.error("退款订单金额同原订单金额不符,account:"+account+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
+	            	    		throw new IllegalArgumentException("订单退款失败,退款金额同原订单金额不符,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
 	            	    	}
-	        				if(!paymentOrder.getPaymentState().equals(PaymentConstant.PAYMENT_STATE_PAYED)){
-	        					throw new IllegalArgumentException("订单退款失败,订单未支付,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPartnerOrderNo());
+	        				if(!paymentOrder.getPayState().equals(PaymentConstant.PAYMENT_STATE_PAYED)){
+	        					throw new IllegalArgumentException("订单退款失败,订单未支付,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
 	        				}
 	    				}else{
-	    					throw new IllegalArgumentException("该订单不支持退款,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPartnerOrderNo());
+	    					throw new IllegalArgumentException("该订单不支持退款,orderNo:"+paymentOrder.getOrderNo()+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
 	    				}
 	    			}else{
 	    				logger.error("退款交易号找不到订单或订单不支持退款,porderno:"+ObjectUtils.toString(jsonDetail.get("orderno")));
@@ -241,7 +241,7 @@ public class RefundmentFacade {
 					payRefundBatch.setMerchantNo(platform.getMerchantNo());//退款时使用的第三方支付商户号
 					payRefundBatch.setPartnerBatchNo(pBatchNo);//商户批次号
 					payRefundBatch.setPartnerId(merchantId);//计费分配的商户号
-					payRefundBatch.setPlatformId(paymentOrder.getPlatformId());//渠道id
+					payRefundBatch.setPlatformId(paymentOrder.getPayPlatformId());//渠道id
 					payRefundBatch.setPartnerBackendUrl(backendurl);//异步回调业务方的地址
 					payRefundBatch.setPartnerVerifyUrl(verifyurl);//业务方实现订单校验地址
 					
@@ -282,12 +282,12 @@ public class RefundmentFacade {
         	    			payRefundBatchDetail.setBatchNo(payRefundBatch.getBatchNo());
         	    			payRefundBatchDetail.setMoney(Float.parseFloat(StringUtils.trim(jsonDetail.getString("money"))));
         	    			payRefundBatchDetail.setOrderNo(paymentOrder.getOrderNo());//业务方订单号转为计费侧订单号
-        	    			payRefundBatchDetail.setPayPlatformOrderNo(paymentOrder.getPayPlatformOrderId());//第三方支付平台交易号
+        	    			payRefundBatchDetail.setPayPlatformOrderNo(paymentOrder.getOtherOrderNo());//第三方支付平台交易号
         	    			JSONObject extNote = new JSONObject();
         	    			extNote.put("reason", StringUtils.trim(jsonDetail.getString("refundnote")));
         	    			payRefundBatchDetail.setRefundNote(extNote.toJSONString());
         	    			payRefundBatchDetail.setPartnerBatchNo(pBatchNo);//商户批次号
-        	    			payRefundBatchDetail.setPartnerOrderNo(paymentOrder.getPartnerOrderNo());//商户订单号
+        	    			payRefundBatchDetail.setPartnerOrderNo(paymentOrder.getPaypartnerOtherOrderNo());//商户订单号
         	    			payRefundBatchDetail.setPayPlatformBatchNo(payRefundBatch.getBatchNo());// 默认我方退款批次号
         	    			payRefundBatchDetail.setPartnerId(merchantId);//计费分配的商户号
         	    			refundmentOrderService.createRefundBatchDetail(payRefundBatchDetail);
@@ -316,8 +316,8 @@ public class RefundmentFacade {
     			Map<String, Object> refundmentOutParams = null;
     			Map<String, Object> refundResult = null;
     			// 4.获取实际退款平台对象
-    			AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPlatformId());
-    			Assert.notNull(actualPayment,"抽象退款平台配置不正确,查询平台为空,paymentId:" + paymentOrder.getPlatformId());
+    			AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentOrder.getPayPlatformId());
+    			Assert.notNull(actualPayment,"抽象退款平台配置不正确,查询平台为空,paymentId:" + paymentOrder.getPayPlatformId());
     			if(callRemoteFlag){
     				//5.请求远端服务,提交第三方平台处理退款
     				refundResult = actualPayment.callRefund(inParams);
@@ -381,7 +381,7 @@ public class RefundmentFacade {
 			logger.error("数据库操作异常", e);
 			refundmentService.monitorExcetpionToAlter(e);
 			resultMap = ErrorCode.getErrorCode(53208);
-			resultMap.put("platformid", paymentOrder.getPlatformId());//交易平台id
+			resultMap.put("platformid", paymentOrder.getPayPlatformId());//交易平台id
 			resultMap.put("partnerbatchno", pBatchNo);//业务商户方批次号
 			resultMap.put("batchno", "");//计费侧批次号
 			resultMap.put(RefundmentConstant.REFUNDMENT_STATE, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -390,7 +390,7 @@ public class RefundmentFacade {
 		} catch (RefundBatchIsSuccessException e) {
 			logger.error("批次单已处理", e);
 			resultMap = ErrorCode.getErrorCode(53211);
-			resultMap.put("platformid", paymentOrder.getPlatformId());//交易平台id
+			resultMap.put("platformid", paymentOrder.getPayPlatformId());//交易平台id
 			resultMap.put("partnerbatchno", pBatchNo);//业务商户方批次号
 			resultMap.put("batchno", "");//计费侧批次号
 			resultMap.put(RefundmentConstant.REFUNDMENT_STATE, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -400,7 +400,7 @@ public class RefundmentFacade {
 			logger.error("validation异常", e);
 			refundmentService.monitorExcetpionToAlter(e);
 			resultMap = ErrorCode.getErrorCode(53205);
-			resultMap.put("platformid", paymentOrder.getPlatformId());//交易平台id
+			resultMap.put("platformid", paymentOrder.getPayPlatformId());//交易平台id
 			resultMap.put("partnerbatchno", pBatchNo);//业务商户方批次号
 			resultMap.put("batchno", "");//计费侧批次号
 			resultMap.put(RefundmentConstant.REFUNDMENT_STATE, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -410,7 +410,7 @@ public class RefundmentFacade {
 			logger.error("illegalArgument异常", e);
 			refundmentService.monitorExcetpionToAlter(e);
 			resultMap = ErrorCode.getErrorCode(53209);
-			resultMap.put("platformid", paymentOrder.getPlatformId());//交易平台id
+			resultMap.put("platformid", paymentOrder.getPayPlatformId());//交易平台id
 			resultMap.put("partnerbatchno", pBatchNo);//业务商户方批次号
 			resultMap.put("batchno", "");//计费侧批次号
 			resultMap.put(RefundmentConstant.REFUNDMENT_STATE, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -420,7 +420,7 @@ public class RefundmentFacade {
 			logger.error("未知异常", e);
 			refundmentService.monitorExcetpionToAlter(e);
 			resultMap = ErrorCode.getErrorCode(53210);
-			resultMap.put("platformid", paymentOrder.getPlatformId());//交易平台id
+			resultMap.put("platformid", paymentOrder.getPayPlatformId());//交易平台id
 			resultMap.put("partnerbatchno", pBatchNo);//业务商户方批次号
 			resultMap.put("batchno", "");//计费侧批次号
 			resultMap.put(RefundmentConstant.REFUNDMENT_STATE, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);

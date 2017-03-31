@@ -87,7 +87,7 @@ public class MoneyBookersPayment extends AbstractPayment {
 		params.put("language", "en");
 		//params.put("logo_url", "");
 
-		params.put("cancel_url", paymentOrder.getPartnerFrontUrl());
+		params.put("cancel_url", paymentOrder.getPaypartnerFrontCall());
 		return params;
 	}
 

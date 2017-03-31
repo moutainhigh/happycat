@@ -129,9 +129,9 @@ public class FcbPayment extends AbstractPayment {
 	public Map<String, Object> checkOrderIsPayed(Map<String, Object> inParams) {
 		PaymentOrder paymentOrder = (PaymentOrder) inParams.get(PaymentConstant.PAYMENT_ORDER);
 		Map<String, Object> outParams = new HashMap<String, Object>();
-		outParams.put(PaymentConstant.OPPOSITE_ORDERNO, paymentOrder.getPayPlatformOrderId());// 订单号
+		outParams.put(PaymentConstant.OPPOSITE_ORDERNO, paymentOrder.getOtherOrderNo());// 订单号
 		outParams.put(PaymentConstant.OPPOSITE_MONEY, paymentOrder.getMoney());// 订单金额
-		outParams.put(PaymentConstant.PAYMENT_STATE, paymentOrder.getImprestState());
+		outParams.put(PaymentConstant.PAYMENT_STATE, paymentOrder.getState());
 		return outParams;
 	}
 

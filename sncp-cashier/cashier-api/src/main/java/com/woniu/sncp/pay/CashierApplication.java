@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -39,7 +38,7 @@ public class CashierApplication {
 
 	   return (container -> {
 	        
-		    ErrorPage error400Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/400");
+		    ErrorPage error400Page = new ErrorPage(HttpStatus.BAD_REQUEST, "/400");
 		    ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401");
 	        ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404");
 	        ErrorPage error405Page = new ErrorPage(HttpStatus.METHOD_NOT_ALLOWED, "/405");

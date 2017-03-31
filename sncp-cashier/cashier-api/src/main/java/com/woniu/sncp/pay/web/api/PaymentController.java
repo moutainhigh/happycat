@@ -483,7 +483,7 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
         		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
     			return PAYMENT_PROCESS_PAGE;
@@ -706,13 +706,13 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			
     			retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
     			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
     			reqmap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE).toString());
     			reqmap.put("payPlatFormOrderNo", paymentOrder.getOrderNo());
-    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put("paymentPlatform", null);
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
@@ -939,10 +939,10 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
     			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
-    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put("paymentPlatform", null);
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
@@ -1142,7 +1142,7 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
     			return PAYMENT_PROCESS_PAGE;
@@ -1344,12 +1344,12 @@ public class PaymentController extends ApiBaseController{
     			request.setAttribute("orderNo", orderNo);
     			request.setAttribute("money", paymentOrder.getMoney());
     			request.setAttribute("productName", productName);
-    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
         		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
         		retMap.put(ErrorCode.TIP_CODE, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE));
     			retMap.put(ErrorCode.TIP_INFO, ErrorCode.getErrorCode(1).get(ErrorCode.TIP_INFO));
-    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreateDate(), DateUtil.DATE_FORMAT_DATETIME));
+    			retMap.put("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
     			retMap.put("paymentPlatform", null);
     			writeJsonp(callback, response, retMap);
     			return;

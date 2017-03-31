@@ -250,8 +250,8 @@ public class ChinaPayPaymentNew extends AbstractPayment {
 		params.put("MerId", platform.getMerchantNo());//由ChinaPay分配的15位定长数字，用于确认商户身份
 		params.put("MerOrderNo", paymentOrder.getOrderNo().replaceAll("-", ""));//必填，变长 32位，同一商户同一交易日期内不可重复
 		
-		params.put("TranDate", sdf.format(paymentOrder.getCreateDate()));//商户提交交易的日期，例如交易日期为2015年1月2日，则值为20150102，必填
-		params.put("TranTime", _sdf.format(paymentOrder.getCreateDate()));//商户提交交易的时间，例如交易时间10点11分22秒，则值为101122，必填
+		params.put("TranDate", sdf.format(paymentOrder.getCreate()));//商户提交交易的日期，例如交易日期为2015年1月2日，则值为20150102，必填
+		params.put("TranTime", _sdf.format(paymentOrder.getCreate()));//商户提交交易的时间，例如交易时间10点11分22秒，则值为101122，必填
 		
 		params.put("OrderAmt", String.valueOf((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue()));//订单金额 单位：分
 		params.put("BusiType", "0001");//业务类型，固定值：0001，必填
@@ -474,7 +474,7 @@ public class ChinaPayPaymentNew extends AbstractPayment {
 		params.put("MerId", platform.getMerchantNo());//由ChinaPay分配的15位定长数字，用于确认商户身份
 		params.put("MerOrderNo",  paymentOrder.getOrderNo().replaceAll("-", ""));//商户订单号,替换掉-
 		
-		params.put("TranDate", sdf.format(paymentOrder.getCreateDate()));//格式：yyyyMMdd
+		params.put("TranDate", sdf.format(paymentOrder.getCreate()));//格式：yyyyMMdd
 		params.put("TranType", "0502");//交易类型
 		params.put("BusiType", "0001");//业务类型
 		

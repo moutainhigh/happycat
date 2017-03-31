@@ -52,7 +52,7 @@ public class UnionWapPayPayment extends AbstractPayment {
 		params.put("merId", platform.getMerchantNo());    //商户号码，请改成自己申请的商户号或者open上注册得来的777商户号测试
 		params.put("accessType", "0");                    //接入类型，商户接入填0 ，不需修改（0：直连商户， 1： 收单机构 2：平台商户）
 		params.put("orderId",convert2UnionOrderNo(paymentOrder.getOrderNo()));             //商户订单号，8-40位数字字母，不能含“-”或“_”，可以自行定制规则		
-		params.put("txnTime", new SimpleDateFormat("yyyyMMddHHmmss").format(paymentOrder.getCreateDate()));   //订单发送时间，取系统时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
+		params.put("txnTime", new SimpleDateFormat("yyyyMMddHHmmss").format(paymentOrder.getCreate()));   //订单发送时间，取系统时间，格式为YYYYMMDDhhmmss，必须取当前时间，否则会报txnTime无效
 		params.put("currencyCode", "156");         //交易币种（境内商户一般是156 人民币）		
 		BigDecimal money = new BigDecimal(paymentOrder.getMoney().toString());
 		params.put("txnAmt", money.multiply(new BigDecimal(100)).intValue());    //交易金额，单位分，不要带小数点
@@ -172,7 +172,7 @@ public class UnionWapPayPayment extends AbstractPayment {
 		
 		/***要调通交易以下字段必须修改***/
 		data.put("orderId", convert2UnionOrderNo(paymentOrder.getOrderNo()));                 //****商户订单号，每次发交易测试需修改为被查询的交易的订单号
-		data.put("txnTime", new SimpleDateFormat("yyyyMMddHHmmss").format(paymentOrder.getCreateDate()));                 //****订单发送时间，每次发交易测试需修改为被查询的交易的订单发送时间
+		data.put("txnTime", new SimpleDateFormat("yyyyMMddHHmmss").format(paymentOrder.getCreate()));                 //****订单发送时间，每次发交易测试需修改为被查询的交易的订单发送时间
 
 		/**请求参数设置完毕，以下对请求参数进行签名并发送http post请求，接收同步应答报文------------->**/
 		

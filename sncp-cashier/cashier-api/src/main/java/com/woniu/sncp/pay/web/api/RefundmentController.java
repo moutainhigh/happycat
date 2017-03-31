@@ -139,14 +139,14 @@ public class RefundmentController extends ApiBaseController {
 //        				jsonDetail.remove("orderno");
 //        				jsonDetail.put("orderno", paymentOrder.getOrderNo());//业务方订单号转为计费侧订单号
         				if(Float.parseFloat(StringUtils.trim(jsonDetail.getString("money"))) > paymentOrder.getMoney()){
-            	    		logger.error("退款订单金额大于原订单金额,account:"+account+",porderno:"+paymentOrder.getPartnerOrderNo());
-            	    		retMap.put("message", "退款订单金额大于原订单金额,porderno:"+paymentOrder.getPartnerOrderNo());
+            	    		logger.error("退款订单金额大于原订单金额,account:"+account+",porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
+            	    		retMap.put("message", "退款订单金额大于原订单金额,porderno:"+paymentOrder.getPaypartnerOtherOrderNo());
             	    		retMap = ErrorCode.getErrorCode(53209);
             	    		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
             	    		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
             	    		return new ResultResponse(ResultResponse.FAIL,"订单退款失败",retMap);
             	    	}
-        				if(!paymentOrder.getPaymentState().equals(PaymentConstant.PAYMENT_STATE_PAYED)){
+        				if(!paymentOrder.getPayState().equals(PaymentConstant.PAYMENT_STATE_PAYED)){
         					retMap = ErrorCode.getErrorCode(53202);
             	    		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
             	    		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));

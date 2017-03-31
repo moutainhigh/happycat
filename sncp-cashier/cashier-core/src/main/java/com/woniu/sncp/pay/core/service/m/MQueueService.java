@@ -89,8 +89,8 @@ public class MQueueService{
 		pQuetask.setId(sequence);
 		pQuetask.setBusinessData(taskObj);
 		pQuetask.setCreateDate(now);
-		pQuetask.setPieceId((paymentOrder.getId()%10));// mod(n_relation_id,10)
-		pQuetask.setRelationId(paymentOrder.getId());
+		pQuetask.setPieceId((paymentOrder.getOrderId()%10));// mod(n_relation_id,10)
+		pQuetask.setRelationId(paymentOrder.getOrderId());
 		pQuetask.setSubdbId(Long.parseLong(timeout));//  设置超时时间,毫秒
 		pQuetask.setTaskType(Long.parseLong(taskType));
 		pQuetask.setMerchantId(Long.parseLong(merchantId));
@@ -143,9 +143,9 @@ public class MQueueService{
 		MessageQueueLog queueLog = new MessageQueueLog();
 		queueLog.setId(sequence);
 		queueLog.setAccountId(paymentOrder.getAid());
-		queueLog.setClientIP(paymentOrder.getClientIp());
+		queueLog.setClientIP(paymentOrder.getIp());
 		queueLog.setCreateDate(now);
-		queueLog.setRelatedId(paymentOrder.getId());
+		queueLog.setRelatedId(paymentOrder.getOrderId());
 		queueLog.setTaskObj(taskObj);
 		queueLog.setType(Long.parseLong(taskType));
 		queueLog.setMerchantId(Long.parseLong(merchantId));
@@ -203,8 +203,8 @@ public class MQueueService{
 			pQuetask.setId(sequence);
 			pQuetask.setBusinessData(taskObj);
 			pQuetask.setCreateDate(now);
-			pQuetask.setPieceId((paymentOrder.getId()%10));// mod(n_relation_id,10)
-			pQuetask.setRelationId(paymentOrder.getId());
+			pQuetask.setPieceId((paymentOrder.getOrderId()%10));// mod(n_relation_id,10)
+			pQuetask.setRelationId(paymentOrder.getOrderId());
 			pQuetask.setSubdbId(Long.parseLong(timeout));//  设置超时时间,毫秒
 			pQuetask.setTaskType(Long.parseLong(taskType));
 			pQuetask.setMerchantId(Long.parseLong(merchantId));
@@ -221,9 +221,9 @@ public class MQueueService{
 				MessageQueueLog queueLog = new MessageQueueLog();
 				queueLog.setId(_sequence);
 				queueLog.setAccountId(paymentOrder.getAid());
-				queueLog.setClientIP(paymentOrder.getClientIp());
+				queueLog.setClientIP(paymentOrder.getIp());
 				queueLog.setCreateDate(now);
-				queueLog.setRelatedId(paymentOrder.getId());
+				queueLog.setRelatedId(paymentOrder.getOrderId());
 				queueLog.setTaskObj(taskObj);
 				queueLog.setType(Long.parseLong(taskType));
 				queueLog.setMerchantId(Long.parseLong(merchantId));

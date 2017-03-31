@@ -54,7 +54,7 @@ public class HuifubaoPayment extends AbstractPayment {
 		Map<String, Object> linkedParams = new LinkedHashMap<String, Object>();
 		linkedParams.put("agent_id", platform.getMerchantNo());
 		linkedParams.put("bill_id", paymentOrder.getOrderNo());
-		linkedParams.put("bill_time",DateUtils.format(paymentOrder.getCreateDate(), "yyyyMMddHHmmss"));
+		linkedParams.put("bill_time",DateUtils.format(paymentOrder.getCreate(), "yyyyMMddHHmmss"));
 		
 		//卡号，密码
 		String cardInfo = String.valueOf(inParams.get("cardNo"))+"="+String.valueOf(inParams.get("cardPwd"));
@@ -80,7 +80,7 @@ public class HuifubaoPayment extends AbstractPayment {
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		params.add(new BasicNameValuePair("agent_id", platform.getMerchantNo()));
 		params.add(new BasicNameValuePair("bill_id", paymentOrder.getOrderNo()));
-		params.add(new BasicNameValuePair("bill_time", DateUtils.format(paymentOrder.getCreateDate(), "yyyyMMddHHmmss")));
+		params.add(new BasicNameValuePair("bill_time", DateUtils.format(paymentOrder.getCreate(), "yyyyMMddHHmmss")));
 		params.add(new BasicNameValuePair("card_data",cardInfoDes));
 		params.add(new BasicNameValuePair("pay_jpoint", ObjectUtils.toString(paypoint)));
 		params.add(new BasicNameValuePair("client_ip",ObjectUtils.toString(inParams.get(PaymentConstant.CLIENT_IP))));

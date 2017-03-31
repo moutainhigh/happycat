@@ -212,7 +212,7 @@ public class JdDPPayment extends AbstractPayment {
 		httpPost(requestUrl,orderNo, merchantId, backendUrl,  md5info);
 		
 		String totalFee = paymentOrder.getMoney().toString();
-		logger.info("京东网银验证订单接口数据返回,orderNo:"+orderNo+",订单状态:"+paymentOrder.getPaymentState()+",金额:"+totalFee);
+		logger.info("京东网银验证订单接口数据返回,orderNo:"+orderNo+",订单状态:"+paymentOrder.getPayState()+",金额:"+totalFee);
 		
 		Map<String, Object> outParams = new HashMap<String, Object>();
 		outParams.put(PaymentConstant.OPPOSITE_ORDERNO, orderNo); // 对方订单号

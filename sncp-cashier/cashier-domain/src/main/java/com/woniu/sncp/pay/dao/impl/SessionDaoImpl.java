@@ -32,7 +32,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.woniu.sncp.jdbc.datasource.DataSourceConstants;
@@ -40,6 +42,7 @@ import com.woniu.sncp.jdbc.datasource.DataSourceHolder;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
 import com.woniu.sncp.pay.dao.JdbcHelper;
+import com.woniu.sncp.pay.dao.PayBaseDao;
 
 /**
  * <p>
@@ -528,6 +531,11 @@ public class SessionDaoImpl implements BaseSessionDAO {
 		return namedParameterJdbcTemplate.update(sql, inParams);
 	}
 	
+	@Override
+	public int update(String sql, SqlParameterSource paramSource) throws DataAccessException {
+		return namedParameterJdbcTemplate.update(sql, paramSource);
+	}
+	
 	public synchronized Map<String, Object> jdbcOne(Connection connection, String sql, boolean isCloseConnect)
 			throws Exception {
 		logger.info("SQL_:" + sql);
@@ -748,5 +756,15 @@ public class SessionDaoImpl implements BaseSessionDAO {
 	@Override
 	public JdbcTemplate getMyJdbcTemplate() {
 		return this.jdbcTemplate;
+	}
+
+	@Override
+	public <T> T queryForObject(String sql, SqlParameterSource paramSource, Class<T> requiredType) throws DataAccessException {
+		return namedParameterJdbcTemplate.queryForObject(sql, paramSource, requiredType);
+	}
+	
+	public <T> List<T> queryForList(String sql, Map<String, ?> paramMap, Class<T> elementType)
+			throws DataAccessException {
+		return namedParameterJdbcTemplate.queryForList(sql, new MapSqlParameterSource(paramMap), elementType);
 	}
 }

@@ -38,7 +38,7 @@ public class ShengftpayBankDirectPayment extends ShengftpayPayment{
 		params.put("SendTime", sdf.format(new Date()));
 		params.put("OrderNo", paymentOrder.getOrderNo());
 		params.put("OrderAmount", String.valueOf(paymentOrder.getMoney()));
-		params.put("OrderTime", sdf.format(paymentOrder.getCreateDate()));
+		params.put("OrderTime", sdf.format(paymentOrder.getCreate()));
 		params.put("PayType", "PT001");//支付类型: PT018 盛大一卡通,PT020 娱乐一卡通
 		String backCode = String.valueOf(inParams.get("defaultbank"));
 		String bankCardType = String.valueOf(inParams.get("bankCardType"));//收银台传递的银行卡类型,0储蓄 1信用

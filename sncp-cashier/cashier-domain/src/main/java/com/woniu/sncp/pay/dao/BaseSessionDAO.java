@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
 import com.woniu.sncp.jdbc.batch.PreparedStatementResultSetHandle;
 
@@ -96,4 +97,9 @@ public interface BaseSessionDAO extends BaseDao {
 
 	public int jdbcUpdate(Connection connection, String sql, boolean isCloseConnect, List<Object> values)
 			throws Exception;
+	
+	public int update(String sql, SqlParameterSource paramSource) throws DataAccessException;
+	
+	public <T> T queryForObject(String sql, SqlParameterSource paramSource, Class<T> requiredType)throws DataAccessException;
+	public <T> List<T> queryForList(String sql, Map<String, ?> paramMap, Class<T> elementType);
 }

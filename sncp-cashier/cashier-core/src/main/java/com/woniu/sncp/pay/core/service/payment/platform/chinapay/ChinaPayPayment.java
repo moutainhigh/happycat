@@ -135,7 +135,7 @@ public class ChinaPayPayment extends AbstractPayment {
 		params.put("TransAmt", String.format("%012d", (new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue()));//交易金额  长度为12个字节的数字串  单位为分
 		params.put("CuryId", "156");
 		
-		params.put("TransDate", sdf.format(paymentOrder.getCreateDate()));//订单交易日期，8 位长度，必填
+		params.put("TransDate", sdf.format(paymentOrder.getCreate()));//订单交易日期，8 位长度，必填
 		params.put("TransType", "0001");//交易类型，4 位长度，必填
 		params.put("Version", "20070129");//支付接入版本号，必填
 		params.put("BgRetUrl", platform.getBehindUrl(paymentOrder.getMerchantId()));
@@ -231,7 +231,7 @@ public class ChinaPayPayment extends AbstractPayment {
 		params.put("MerId", platform.getMerchantNo());
 		params.put("TransType", "0001");
 		params.put("OrdId", getChinaPayOrderId(paymentOrder.getOrderNo()));
-		params.put("TransDate", sdf.format(paymentOrder.getCreateDate()));
+		params.put("TransDate", sdf.format(paymentOrder.getCreate()));
 		params.put("Resv", paymentOrder.getOrderNo());
 		params.put("ChkValue", checkOrderIsPayedEncode(params,platform));
 		

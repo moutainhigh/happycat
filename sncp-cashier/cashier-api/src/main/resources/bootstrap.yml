@@ -4,9 +4,9 @@ spring:
   profiles:
     active: dev
   mvc:
-   view:
-    prefix: /WEB-INF/view
-    suffix: .jsp
+    view:
+      prefix: /WEB-INF/view
+      suffix: .jsp
   messages:
     basename: message/i18n/messages
     encoding: UTF-8

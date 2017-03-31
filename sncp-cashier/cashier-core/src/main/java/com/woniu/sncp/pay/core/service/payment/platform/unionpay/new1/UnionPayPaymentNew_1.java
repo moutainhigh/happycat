@@ -95,7 +95,7 @@ public class UnionPayPaymentNew_1 extends AbstractPayment {
 		// 商户订单号，8-40位数字字母
 		data.put("orderId", convert2UnionOrderNo(paymentOrder.getOrderNo()));
 		// 订单发送时间，取系统时间
-		data.put("txnTime", new SimpleDateFormat(DATE_FORMAT).format(paymentOrder.getCreateDate()));
+		data.put("txnTime", new SimpleDateFormat(DATE_FORMAT).format(paymentOrder.getCreate()));
 		// 交易币种
 		data.put("currencyCode", CURRENCY_RMB);
 		BigDecimal money = new BigDecimal(paymentOrder.getMoney().toString());
@@ -105,7 +105,7 @@ public class UnionPayPaymentNew_1 extends AbstractPayment {
 		if(null != platform.getTransTimeout() && platform.getTransTimeout() >0 ){
 			String payTimeout = DateUtils.format(
 					org.apache.commons.lang.time.DateUtils.addMinutes(
-							paymentOrder.getCreateDate(), platform.getTransTimeout().intValue()), DATE_FORMAT);
+							paymentOrder.getCreate(), platform.getTransTimeout().intValue()), DATE_FORMAT);
 			data.put("payTimeout", payTimeout);
 		}
 		
@@ -260,7 +260,7 @@ public class UnionPayPaymentNew_1 extends AbstractPayment {
 		// 商户订单号，请修改被查询的交易的订单号
 		data.put("orderId", convert2UnionOrderNo(paymentOrder.getOrderNo()));
 		// 订单发送时间，请修改被查询的交易的订单发送时间
-		data.put("txnTime", new SimpleDateFormat(DATE_FORMAT).format(paymentOrder.getCreateDate()));
+		data.put("txnTime", new SimpleDateFormat(DATE_FORMAT).format(paymentOrder.getCreate()));
 		
 		data.put("reqReserved", "");
 

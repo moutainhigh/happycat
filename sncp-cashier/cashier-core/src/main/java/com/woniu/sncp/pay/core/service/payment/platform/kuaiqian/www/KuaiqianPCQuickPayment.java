@@ -107,7 +107,7 @@ public class KuaiqianPCQuickPayment extends AbstractPayment {
 		//业务参数
 		linkedParams.put("orderId", paymentOrder.getOrderNo());//商户订单号
 		linkedParams.put("orderAmount", ObjectUtil.toString((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue()));//商户订单金额,以分为单位
-		linkedParams.put("orderTime", DateFormatUtils.format(paymentOrder.getCreateDate(), "yyyyMMddHHmmss"));//商户订单提交时间
+		linkedParams.put("orderTime", DateFormatUtils.format(paymentOrder.getCreate(), "yyyyMMddHHmmss"));//商户订单提交时间
 		linkedParams.put("productName", ObjectUtil.toString(inParams.get("productName")));
 		linkedParams.put("productNum", ObjectUtil.toString(paymentOrder.getAmount())); // 商品数量
 		
@@ -365,7 +365,7 @@ public class KuaiqianPCQuickPayment extends AbstractPayment {
 		HttpServletRequest request = (HttpServletRequest) inParams.get("request");
 		String orderNo = this.getOrderNoFromRequest(request);
 		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
-		long platformId = paymentOrder.getPlatformId();
+		long platformId = paymentOrder.getPayPlatformId();
 		long merchantId = paymentOrder.getMerchantId();
 		Platform platform = platformService.queryPlatform(merchantId, platformId);
 		Assert.notNull(platform);

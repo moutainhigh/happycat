@@ -164,7 +164,7 @@ public class AlipayWapAppPayment extends AbstractPayment {
 			reqParams.put("method", "alipay.trade.wap.pay");//接口名称
 			reqParams.put("charset", _charset_encode);//请求使用的编码格式，如utf-8,gbk,gb2312等
 			reqParams.put("sign_type", "RSA");
-			reqParams.put("timestamp", sdf.format(paymentOrder.getCreateDate()));//发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
+			reqParams.put("timestamp", sdf.format(paymentOrder.getCreate()));//发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
 			reqParams.put("version", "1.0");
 			reqParams.put("return_url", platform.getFrontUrl(paymentOrder.getMerchantId()));
 			reqParams.put("notify_url", platform.getBehindUrl(paymentOrder.getMerchantId()));
@@ -313,7 +313,7 @@ public class AlipayWapAppPayment extends AbstractPayment {
 			reqParams.put("method", "alipay.trade.query");//接口名称
 			reqParams.put("charset", _charset_encode);//请求使用的编码格式，如utf-8,gbk,gb2312等
 			reqParams.put("sign_type", "RSA");
-			reqParams.put("timestamp", sdf.format(paymentOrder.getCreateDate()));//发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
+			reqParams.put("timestamp", sdf.format(paymentOrder.getCreate()));//发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"
 			reqParams.put("version", "1.0");
 			reqParams.put("biz_content", ObjectUtils.toString(bdParams));//业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递，具体参照各产品快速接入文
 //			reqParams.put("biz_content", bizContent);//业务请求参数的集合，最大长度不限，除公共参数外所有请求参数都必须放在这个参数中传递，具体参照各产品快速接入文
@@ -519,9 +519,9 @@ public class AlipayWapAppPayment extends AbstractPayment {
     			String dataStr = "";
     			JSONObject jsonDetail = JSONObject.parseObject(detail.toString());
 
-    			PaymentOrder paymentOrder = null;//refundmentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
+    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
     			//单笔退款交易
-    			dataStr = ObjectUtils.toString(paymentOrder.getPayPlatformOrderId()) + "^" + StringUtils.trim(jsonDetail.getString("money")) + "^" +
+    			dataStr = ObjectUtils.toString(paymentOrder.getOtherOrderNo()) + "^" + StringUtils.trim(jsonDetail.getString("money")) + "^" +
     					StringUtils.trim(jsonDetail.getString("refundnote"));
     			//退款交易结果集
     			dataDetailList.add(dataStr);
@@ -688,11 +688,11 @@ public class AlipayWapAppPayment extends AbstractPayment {
 					DIOrderNoRefundQueryData orderNoRefundQueryData = new DIOrderNoRefundQueryData();
 					
 	    			JSONObject jsonDetail = JSONObject.parseObject(detail.toString());
-	    			PaymentOrder paymentOrder = null;//refundmentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
+	    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
 	    			
-	    			orderNoRefundQueryData.setResult("退款申请OK,支付宝订单号:"+paymentOrder.getPayPlatformOrderId()+",支付宝退款单号:"+paymentOrder.getPayPlatformOrderId()+",申请退款金额:"+paymentOrder.getMoney()+",退款渠道:"+",其他信息:"+is_success+","+result);
+	    			orderNoRefundQueryData.setResult("退款申请OK,支付宝订单号:"+paymentOrder.getOtherOrderNo()+",支付宝退款单号:"+paymentOrder.getOtherOrderNo()+",申请退款金额:"+paymentOrder.getMoney()+",退款渠道:"+",其他信息:"+is_success+","+result);
 	    			orderNoRefundQueryData.setStatusCode(refundState);
-	    			orderNoRefundQueryData.setPayplatformOrderNo(paymentOrder.getPayPlatformOrderId());// 对方支付单号
+	    			orderNoRefundQueryData.setPayplatformOrderNo(paymentOrder.getOtherOrderNo());// 对方支付单号
 	    			orderNoRefundQueryData.setPayplatformBatchNo(payRefundBatch.getBatchNo()); // 计费退款单号
 	    			orderNoRefundQueryData.setOrderNo(paymentOrder.getOrderNo());// 计费支付单号
 	    			orderNoRefundQueryData.setMoney(StringUtils.trim(jsonDetail.getString("money")));// 退款金额
@@ -747,7 +747,7 @@ public class AlipayWapAppPayment extends AbstractPayment {
 		String successNum = request.getParameter("success_num");//退款成功笔数
 		
 		// 2.退款批次单查询
-		PayRefundBatch refundBatch = null;//refundmentOrderService.queryRefundBatch(batchNo);
+		PayRefundBatch refundBatch = refundmentOrderService.queryRefundBatch(batchNo);
 		Assert.notNull(refundBatch, "支付退款批次单查询为空,batchNo:" + batchNo);
 
 		// 加密校验
@@ -800,7 +800,7 @@ public class AlipayWapAppPayment extends AbstractPayment {
 			logger.info("支付宝返回退款明细,returnDetail:"+detailStrs[i].toString());
 			//处理每一笔交易退款
 			//根据支付宝交易号，查询业务方订单
-			PaymentOrder paymentOrder = null;//refundmentOrderService.queyrOrderByOppositeOrderNo(ObjectUtils.toString(detailStr[0]));//原付款支付宝交易号
+			PaymentOrder paymentOrder = paymentOrderService.queyrOrderByOppositeOrderNo(ObjectUtils.toString(detailStr[0]));//原付款支付宝交易号
 			
 			orderNoRefundBackCallData.setPayplatformBatchNo(refundBatch.getBatchNo());//无退款单号,写我方
 			orderNoRefundBackCallData.setMoney(String.valueOf((new BigDecimal(detailStr[1])).multiply(new BigDecimal(100)).intValue()));//退款总金额*100,转为分

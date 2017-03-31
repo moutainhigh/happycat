@@ -27,27 +27,27 @@ public interface PaymentOrderRepository extends JpaRepository<PaymentOrder, Long
 	PaymentOrder save(PaymentOrder paymentOrder);
 	
 	@Modifying(clearAutomatically = true)
-	@Query("update PaymentOrder paymentOrder set paymentOrder.paymentState =:paymentState where paymentOrder.id =:id")
-	void updateS(@Param("id") Long id, @Param("paymentState") String paymentState);
+	@Query("update PaymentOrder paymentOrder set paymentOrder.payState =:payState where paymentOrder.orderId =:orderId")
+	void updateS(@Param("orderId") Long orderId, @Param("payState") String payState);
 	
 	@Modifying(clearAutomatically = true)
-	@Query("update PaymentOrder paymentOrder set paymentOrder.paymentState =:paymentState,paymentOrder.imprestState =:imprestState where paymentOrder.id =:id")
-	void updateSS(@Param("id") Long id, @Param("paymentState") String paymentState, @Param("imprestState") String imprestState);
+	@Query("update PaymentOrder paymentOrder set paymentOrder.payState =:payState,paymentOrder.state =:state where paymentOrder.orderId =:orderId")
+	void updateSS(@Param("orderId") Long orderId, @Param("payState") String payState, @Param("state") String state);
 	
 	@Modifying(clearAutomatically = true)
-	@Query("update PaymentOrder paymentOrder set paymentOrder.imprestState =:imprestState where paymentOrder.id =:id")
-	void updateIS(@Param("id") Long id, @Param("imprestState") String imprestState);
+	@Query("update PaymentOrder paymentOrder set paymentOrder.state =:state where paymentOrder.orderId =:orderId")
+	void updateIS(@Param("orderId") Long id, @Param("state") String state);
 	
 	
 	//第三方,合作方订单号
-	PaymentOrder findByPartnerOrderNo(String oppositeOrderNo);
+	PaymentOrder findByPaypartnerOtherOrderNo(String partnerOrderNo);
 
 	//对方渠道订单号
-	PaymentOrder findByPayPlatformOrderId(String pOrderNo);
+	PaymentOrder findByOtherOrderNo(String otherOrderN);
 	
 	//我方订单号
 	PaymentOrder findByOrderNo(String orderNo);
 	
 	//业务商户号,合作方订单号
-	PaymentOrder findByMerchantIdAndPartnerOrderNo (Long merchantId,String partnerOrderNo);
+	PaymentOrder findByMerchantIdAndPaypartnerOtherOrderNo (Long merchantId,String partnerOrderNo);
 }

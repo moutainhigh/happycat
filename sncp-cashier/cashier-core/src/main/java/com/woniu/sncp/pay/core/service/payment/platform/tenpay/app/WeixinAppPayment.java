@@ -253,7 +253,7 @@ public class WeixinAppPayment extends TenpayPayment {
 		packageParams.put("out_trade_no", paymentOrder.getOrderNo()); //商家订单号  
 //		packageParams.put("total_fee", String.valueOf((int)(paymentOrder.getMoney()*100))); //商品金额,以分为单位  
 		packageParams.put("total_fee", String.valueOf((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue())); //商品金额,以分为单位  
-		packageParams.put("spbill_create_ip", IpUtils.longToIp(paymentOrder.getClientIp())); //订单生成的机器IP，指用户浏览器端IP  
+		packageParams.put("spbill_create_ip", IpUtils.longToIp(paymentOrder.getIp())); //订单生成的机器IP，指用户浏览器端IP  
 		packageParams.put("fee_type", "1"); //币种，1人民币   66
 		packageParams.put("input_charset", this._charset_encode); //字符编码
 		

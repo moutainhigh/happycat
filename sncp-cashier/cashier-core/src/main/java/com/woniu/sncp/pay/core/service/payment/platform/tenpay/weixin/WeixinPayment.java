@@ -126,7 +126,7 @@ public class WeixinPayment extends AbstractPayment {
 		params.put("body", StringUtils.trim((String) inParams.get("productName")));//产品名称
 		params.put("out_trade_no", paymentOrder.getOrderNo());
 		params.put("total_fee", String.valueOf((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue()));//订单总金额，单位为分
-		params.put("spbill_create_ip", IpUtils.longToIp(paymentOrder.getClientIp()));
+		params.put("spbill_create_ip", IpUtils.longToIp(paymentOrder.getIp()));
 		params.put("notify_url", platform.getBehindUrl());
 		params.put("trade_type", tradeType);//二维码链接需要配置为Native,取值如下：JSAPI，NATIVE，APP，WAP,
 		

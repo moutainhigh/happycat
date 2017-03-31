@@ -21,7 +21,6 @@ import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.date.DateUtils;
 import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.GameManagerService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
@@ -35,7 +34,6 @@ import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
 
-import cn.com.infosec.asn1.cms.Time;
 
 /**
  * 支付接口流程
@@ -136,9 +134,9 @@ public class PaymentFacade {
 				}
 				
 				paymentOrder.setAmount(1);
-				paymentOrder.setPlatformId(platform.getPlatformId());
+				paymentOrder.setPayPlatformId(platform.getPlatformId());
 				paymentOrder.setCardTypeId(0L);
-				paymentOrder.setClientIp(IpUtils.ipToLong(clientIp));
+				paymentOrder.setIp(IpUtils.ipToLong(clientIp));
 				paymentOrder.setMerchantId(merchantId);
 
 				if(gameId != 0L){
@@ -155,19 +153,19 @@ public class PaymentFacade {
 					paymentOrder.setGameId(0L);
 				}
 				
-				paymentOrder.setGameAreaId(0L); // 表示充往中心
-				paymentOrder.setPresentGameAreaId(0L); // 道具送往分区
+				paymentOrder.setGareaId(0L); // 表示充往中心
+				paymentOrder.setGiftGareaId(0L); // 道具送往分区
 				paymentOrder.setMoney(Float.valueOf(money));
 
-				paymentOrder.setImprestState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
-				paymentOrder.setPaymentState(PaymentOrder.PAYMENT_STATE_CREATED);
+				paymentOrder.setState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
+				paymentOrder.setPayState(PaymentOrder.PAYMENT_STATE_CREATED);
 
 				paymentOrder.setMoneyCurrency(actualPayment.getMoneyCurrency()); // 实际支付币种
 				paymentOrder.setImprestMode(imprestMode); // 存储在订单中的支付模式
 				
-				paymentOrder.setPartnerBackendUrl(backendUrl);
-				paymentOrder.setPartnerFrontUrl(fontendurl);
-				paymentOrder.setPartnerOrderNo(pOrderNo);
+				paymentOrder.setPaypartnerBackendCall(backendUrl);
+				paymentOrder.setPaypartnerFrontCall(fontendurl);
+				paymentOrder.setPaypartnerOtherOrderNo(pOrderNo);
 				
 				paymentOrder.setProductname(productName);//产品名称,订单标题
 				paymentOrder.setBody(body);//交易说明
@@ -178,12 +176,12 @@ public class PaymentFacade {
 				String ext = ObjectUtils.toString(extendParams.get("ext"));
 				if(StringUtils.isNotBlank(ext)){
 					JSONObject extend = JSONObject.parseObject(ext);
-					paymentOrder.setExtend(ObjectUtils.toString(extend));
+					paymentOrder.setInfo(ObjectUtils.toString(extend));
 					
 					//增加设置分区id
 					if(extend.containsKey("serverId") && StringUtils.isNotBlank(ObjectUtils.toString(extend.get("serverId")))){
 						if(StringUtils.isNumeric(ObjectUtils.toString(extend.get("serverId")))){
-							paymentOrder.setGameAreaId(NumberUtils.toLong(ObjectUtils.toString(extend.get("serverId"))));
+							paymentOrder.setGareaId(NumberUtils.toLong(ObjectUtils.toString(extend.get("serverId"))));
 						}
 					}
 				}
@@ -197,9 +195,9 @@ public class PaymentFacade {
 				//modified by fuzl 充值方式无法切换问题解决
 				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf(money));
 //				Assert.assertEquals("支付平台ID与订单中平台ID不一致，请重新核对",paymentOrder.getPlatformId(), paymentId);
-				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPaymentState())){
+				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
 					throw new OrderIsSuccessException("订单已支付，请重新核对");
-				} else if(PaymentConstant.PAYMENT_STATE_CANCEL.equals(paymentOrder.getPaymentState())){
+				} else if(PaymentConstant.PAYMENT_STATE_CANCEL.equals(paymentOrder.getPayState())){
 					throw new IllegalArgumentException("订单已取消，请重新核对");
 				} 
 //				else if(PaymentConstant.PAYMENT_STATE_PROCESS.equals(paymentOrder.getPaymentState())){
@@ -232,7 +230,7 @@ public class PaymentFacade {
 					paymentOrder.setGameId(0L);
 				}
 				
-				if(paymentOrder.getPlatformId() != 4001 && paymentId == 4001){
+				if(paymentOrder.getPayPlatformId() != 4001 && paymentId == 4001){
 					//4001.兔兔币支付，4002.翡翠币web，4003.翡翠币wap
 					String newPattern = paymentOrder.getMerchantId().toString()+ "-" + ObjectUtils.toString(paymentId);
 					
@@ -246,9 +244,10 @@ public class PaymentFacade {
 					
 				}
 				
-				paymentOrder.setPlatformId(paymentId);//更换支付方式
+				paymentOrder.setPayPlatformId(paymentId);//更换支付方式
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
+				paymentOrder.setMerchantName(platform.getMerchantName());
 				
 				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
 			}
@@ -381,9 +380,9 @@ public class PaymentFacade {
 				}
 				
 				paymentOrder.setAmount(1);
-				paymentOrder.setPlatformId(platform.getPlatformId());
+				paymentOrder.setPayPlatformId(platform.getPlatformId());
 				paymentOrder.setCardTypeId(0L);
-				paymentOrder.setClientIp(IpUtils.ipToLong(clientIp));
+				paymentOrder.setIp(IpUtils.ipToLong(clientIp));
 				paymentOrder.setMerchantId(merchantId);
 
 				if(gameId != 0L){
@@ -400,8 +399,8 @@ public class PaymentFacade {
 					paymentOrder.setGameId(0L);
 				}
 				
-				paymentOrder.setGameAreaId(0L); // 表示充往中心
-				paymentOrder.setPresentGameAreaId(0L); // 道具送往分区
+				paymentOrder.setGareaId(0L); // 表示充往中心
+				paymentOrder.setGiftGareaId(0L); // 道具送往分区
 				DecimalFormat decimalFormat = new DecimalFormat("0.00");
 				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
 				paymentOrder.setMoney(orderMoney);
@@ -409,15 +408,15 @@ public class PaymentFacade {
 				paymentOrder.setYueCurrency(yueCurrency);//余额币种
 				paymentOrder.setYuePayState(PaymentOrder.PAYMENT_STATE_CREATED);//余额支付支付状态
 
-				paymentOrder.setImprestState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
-				paymentOrder.setPaymentState(PaymentOrder.PAYMENT_STATE_CREATED);
+				paymentOrder.setState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
+				paymentOrder.setPayState(PaymentOrder.PAYMENT_STATE_CREATED);
 
 				paymentOrder.setMoneyCurrency(actualPayment.getMoneyCurrency()); // 实际支付币种
 				paymentOrder.setImprestMode(imprestMode); // 存储在订单中的支付模式
 				
-				paymentOrder.setPartnerBackendUrl(backendUrl);
-				paymentOrder.setPartnerFrontUrl(fontendurl);
-				paymentOrder.setPartnerOrderNo(pOrderNo);
+				paymentOrder.setPaypartnerBackendCall(backendUrl);
+				paymentOrder.setPaypartnerFrontCall(fontendurl);
+				paymentOrder.setPaypartnerOtherOrderNo(pOrderNo);
 				
 				paymentOrder.setProductname(productName);//产品名称,订单标题
 				paymentOrder.setBody(body);//交易说明
@@ -435,10 +434,10 @@ public class PaymentFacade {
 				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
 				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), orderMoney);
 //				Assert.assertEquals("支付平台ID与订单中平台ID不一致，请重新核对",paymentOrder.getPlatformId(), paymentId);
-				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPaymentState())){
+				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
 					throw new IllegalArgumentException("订单已支付，请重新核对");
 				}
-				paymentOrder.setPlatformId(paymentId);//更换支付方式
+				paymentOrder.setPayPlatformId(paymentId);//更换支付方式
 				//增加渠道商户号,
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				

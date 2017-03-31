@@ -93,7 +93,7 @@ public class SyncTaskSchedule implements Schedule{
 		task.setCount(1);
 		task.setCreateDate(now);
 		task.setModifyDate(now);//增加修改时间
-		task.setOperationId(paymentOrder.getId());
+		task.setOperationId(paymentOrder.getOrderId());
 		task.setState(PassportAsyncTask.STATE_NO_OPERATE);
 		task.setTaskObj(taskObj);
 		task.setTaskType(taskType);
@@ -354,8 +354,8 @@ public class SyncTaskSchedule implements Schedule{
 		pQuetask.setId(sequence);
 		pQuetask.setBusinessData(taskObj);
 		pQuetask.setCreateDate(now);
-		pQuetask.setPieceId((paymentOrder.getId()%10));// mod(n_relation_id,10)
-		pQuetask.setRelationId(paymentOrder.getId());
+		pQuetask.setPieceId((paymentOrder.getOrderId()%10));// mod(n_relation_id,10)
+		pQuetask.setRelationId(paymentOrder.getOrderId());
 		pQuetask.setSubdbId(Long.parseLong(subdbId));
 		pQuetask.setTaskType(Long.parseLong(taskType));
 		

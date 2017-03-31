@@ -141,7 +141,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 				    	}
 						
 						// 通过批次号和业务方订单号查询批次明细
-						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPartnerOrderNo());
+						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
 						
 						// 校验批次明细是否已处理
 						if(refundmentOrderService.checkRefundBatchDetailIsProcessed(payRefundBatchDetail)){
@@ -158,7 +158,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 								
 								// 收银台支付订单的充值状态改为  4 已退款,
-								paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+								paymentOrderService.updateOrder(refundOrder, refundOrder.getPayState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							}else if(DIOrderNoRefundData.PAYMENT_STATE_REFUND_FAILED.equals(detail.getStatusCode())){
 								// 更改订单状态为退款失败
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -294,7 +294,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 				    	}
 						
 						// 通过批次号和业务方订单号查询批次明细
-						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPartnerOrderNo());
+						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
 						
 						// 校验批次明细是否已处理
 						if(refundmentOrderService.checkRefundBatchDetailIsProcessed(payRefundBatchDetail)){
@@ -311,7 +311,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 								
 								// 收银台支付订单的充值状态改为  4 已退款,
-								paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+								paymentOrderService.updateOrder(refundOrder, refundOrder.getPayState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							}else if(DIOrderNoRefundData.PAYMENT_STATE_REFUND_FAILED.equals(detail.getStatusCode())){
 								// 更改订单状态为退款失败
 								refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUND_FAILED);
@@ -346,7 +346,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 				    	}
 						
 						// 通过批次号和业务方订单号查询批次明细
-						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPartnerOrderNo());
+						PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
 						
 						// 校验批次明细是否已处理
 						if(refundmentOrderService.checkRefundBatchDetailIsProcessed(payRefundBatchDetail)){
@@ -616,7 +616,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
 					
 					// 通过计费分配商户id和业务方订单号查询批次明细
-					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPartnerOrderNo());
+					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
 					/*判断退款订单金额以及回调金额*/
 					if( !refundmentOrderService.checkRefundDetailMoney(payRefundBatchDetail,Integer.parseInt(detail.getMoney())) ){
 			    		throw new ValidationException("退款订单回调金额与请求退款金额不匹配");
@@ -630,7 +630,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 							refundmentOrderService.updateRefundBatchDetail(payRefundBatchDetail, RefundmentConstant.PAYMENT_STATE_REFUNDED);
 							
 							// 收银台支付订单的充值状态改为  4 已退款,
-							paymentOrderService.updateOrder(refundOrder, refundOrder.getPaymentState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
+							paymentOrderService.updateOrder(refundOrder, refundOrder.getPayState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);
 							
 							// 更新批次单
 							refundmentOrderService.updateRefundBatch(refundBatch, RefundmentConstant.PAYMENT_STATE_REFUNDED);
@@ -665,7 +665,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
 					
 					// 通过批次号和业务方订单号查询批次明细
-					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPartnerOrderNo());
+					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
 					/*判断退款订单金额以及回调金额*/
 					if( !refundmentOrderService.checkRefundDetailMoney(payRefundBatchDetail,Integer.parseInt(detail.getMoney())) ){
 			    		throw new ValidationException("退款订单回调金额与请求退款金额不匹配");
@@ -857,10 +857,10 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 
 		// 判断订单是否已处理
 		refundmentOrderService.checkOrderIsProcessed(paymentOrder);
-		Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPlatformId());
+		Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId());
 		platformService.validatePaymentPlatform(platform);
 
-		AbstractPayment actualPayment = (AbstractPayment) refundmentService.findPaymentById(paymentOrder.getPlatformId());
+		AbstractPayment actualPayment = (AbstractPayment) refundmentService.findPaymentById(paymentOrder.getPayPlatformId());
 		Assert.notNull(actualPayment, "抽象退款平台查询为空，可能是配置不对");
 
 		Map<String, Object> isPayedParams = new HashMap<String, Object>();

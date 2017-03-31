@@ -35,9 +35,9 @@
             <h2><i class="tips-icon"></i><span class="tips-msg">订单正在处理,请稍后...</span></h2> -->
             <ul>
                 <li><label><spring:message code="payment.confirm.lable.order.no" /></label><span id="orderno">${requestScope.paymentOrder.orderNo}</span></li>
-                <%-- <li><label>商品名称:</label><span id="productname">${productName}</span></li> --%>
+                <li><label>商品名称:</label><span id="productname">${requestScope.paymentOrder.productname}</span></li>
                 <li><label><spring:message code="payment.confirm.lable.amount.pay1" /></label><span id="money">${requestScope.paymentOrder.money}<spring:message code="payment.confirm.lable.order.currency"/></span></li>
-                <li><label><spring:message code="payment.confirm.lable.amount.pay1" /></label><span id="time"><fmt:formatDate value="${requestScope.paymentOrder.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/> </span></li>
+                <li><label><spring:message code="payment.confirm.lable.order.createtime" /></label><span id="time"><fmt:formatDate value="${requestScope.paymentOrder.create}" pattern="yyyy-MM-dd HH:mm:ss"/> </span></li>
             </ul>
             <button class="btn" id="close" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
    </div>
