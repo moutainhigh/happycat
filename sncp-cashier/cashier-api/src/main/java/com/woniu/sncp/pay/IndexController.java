@@ -351,7 +351,7 @@ public class IndexController extends ApiBaseController{
     	retMap.put("bankList",bankList);
     	retMap.put("fcbList",fcbList);
     	
-    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,merchantId);
     	retMap.put("order", order);
     	
     	writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"获取支付方式成功",retMap));
@@ -456,7 +456,7 @@ public class IndexController extends ApiBaseController{
     	retMap.put("payments", paymentList);
     	retMap.put("fcbList",fcbList);
     	
-    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,merchantId);
     	retMap.put("order", order);
     	
     	writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"获取支付方式成功",retMap));
@@ -504,10 +504,11 @@ public class IndexController extends ApiBaseController{
     @ResponseBody
     public ResultResponse queryOrder(HttpServletRequest request){
     	String orderNo = request.getParameter("orderNo");
-    	if(StringUtils.isBlank(orderNo)){
+    	String merchantId = request.getParameter("merchantid");
+    	if(StringUtils.isBlank(orderNo) || StringUtils.isBlank(merchantId) ){
     		return new ResultResponse(ResultResponse.FAIL, "参数不能为空");
     	}
-    	PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,Long.parseLong(merchantId));
     	if(paymentOrder ==null){
     		return new ResultResponse(ResultResponse.FAIL, "订单查询为空");
     	}
@@ -878,7 +879,7 @@ public class IndexController extends ApiBaseController{
         	retMap.put("payments", paymentList);
         	retMap.put("fcbList",fcbList);
     	}
-    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder order = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,merchantId);
     	retMap.put("order", order);
     	
     	writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"获取支付方式成功",retMap));

@@ -40,9 +40,9 @@
         	<input type="hidden" name="bankCardType" id="bankCardType"/>
         	<input type="hidden" name="sign" value="${ret.sign}"/>
         	<input type="hidden" name="ext" value="${ret.ext}"/>
-        	<input type="hidden" name="terminalType" value="${ret.terminalType}"/>
-        	<input type="hidden" name="timeoutExpress" value="${ret.timeoutExpress}"/>
-        	<input type="hidden" name="goodsDetail" value="${ret.goodsDetail}"/>
+        	<input type="hidden" name="terminalType" value="${ret.terminaltype}"/>
+        	<input type="hidden" name="timeoutExpress" value="${ret.timeoutexpress}"/>
+        	<input type="hidden" name="goodsDetail" value="${ret.goodsdetail}"/>
         	<input type="hidden" name="body" value="${ret.body}"/>
         	<input type="hidden" id="cardtype" name="cardtype" value=""/>
         	<input type="hidden" id="refererId" name="referer" value="${referer}"/>

@@ -74,9 +74,10 @@ public class PaymentBackendController extends ApiBaseController{
      * @return
      */
     @RequestMapping("/verify")
-    public @ResponseBody ResultResponse queryPaymentOrder(@RequestParam(value="orderno") String orderNo,HttpServletRequest request){
+    public @ResponseBody ResultResponse queryPaymentOrder(@RequestParam(value="orderno") String orderNo,
+    		@RequestParam(value="merchantid") String merchantId,HttpServletRequest request){
     	
-    	Map<String, Object> retMap = paymentFacade.checkOrder(paymentProcess,orderNo);
+    	Map<String, Object> retMap = paymentFacade.checkOrder(paymentProcess,orderNo,Long.parseLong(merchantId));
     	logger.info("订单验证返回结果:"+JsonUtils.toJson(retMap));
     	
     	PaymentOrder queryOrder = (PaymentOrder) retMap.get(PaymentConstant.PAYMENT_ORDER);
@@ -226,6 +227,7 @@ public class PaymentBackendController extends ApiBaseController{
 		try {
 			String sign = (String)request.getParameter("sign");
 			String partnerorderno = (String)request.getParameter("partnerorderno");
+			String merchantId = (String)request.getParameter("merchantid");
 			
 			Enumeration<String> requestParams = request.getParameterNames();
 			Map<String, String> treeMap = new TreeMap<String, String>();
@@ -245,7 +247,7 @@ public class PaymentBackendController extends ApiBaseController{
 			logStr.append("++++++参数 结束++++++");
 			logger.info(logStr.toString());
 			
-			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(partnerorderno);
+			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(partnerorderno,Long.parseLong(merchantId));
 			
 			PaymentMerchant payemntMerchnt = paymentMerchantService.queryPayemntMerchnt(paymentOrder.getMerchantId());
 			

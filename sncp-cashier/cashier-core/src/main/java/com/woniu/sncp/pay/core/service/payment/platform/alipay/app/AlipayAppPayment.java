@@ -371,7 +371,7 @@ public class AlipayAppPayment extends AbstractPayment {
     			String dataStr = "";
     			JSONObject jsonDetail = JSONObject.parseObject(detail.toString());
 
-    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
+    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),payRefundBatch.getPartnerId());
     			//单笔退款交易
     			dataStr = ObjectUtils.toString(paymentOrder.getOtherOrderNo()) + "^" + StringUtils.trim(jsonDetail.getString("money")) + "^" +
     					StringUtils.trim(jsonDetail.getString("refundnote"));
@@ -541,7 +541,7 @@ public class AlipayAppPayment extends AbstractPayment {
 					DIOrderNoRefundQueryData orderNoRefundQueryData = new DIOrderNoRefundQueryData();
 					
 	    			JSONObject jsonDetail = JSONObject.parseObject(detail.toString());
-	    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
+	    			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),payRefundBatch.getPartnerId());
 	    			
 	    			orderNoRefundQueryData.setResult("退款申请OK,支付宝订单号:"+paymentOrder.getOtherOrderNo()+",支付宝退款单号:"+paymentOrder.getOtherOrderNo()+",申请退款金额:"+paymentOrder.getMoney()+",退款渠道:"+",其他信息:"+is_success+","+result);
 	    			orderNoRefundQueryData.setStatusCode(refundState);

@@ -111,7 +111,7 @@ public class PaymentFacade {
 
 			// 4.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
-			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo);
+			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
 				String backendUrl = ObjectUtils.toString(extendParams.get("backendurl"));
 				String fontendurl = ObjectUtils.toString(extendParams.get("fontendurl"));
@@ -357,7 +357,7 @@ public class PaymentFacade {
 
 			// 3.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
-			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo);
+			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
 				String backendUrl = ObjectUtils.toString(extendParams.get("backendurl"));
 				String fontendurl = ObjectUtils.toString(extendParams.get("fontendurl"));
@@ -505,11 +505,11 @@ public class PaymentFacade {
 		paymentProcess.doPay(inParams);
 	}
 	
-	public Map<String,Object> checkOrder(PaymentProcess paymentProcess,String orderNo){
-		Map<String, Object> retMap = paymentProcess.doOrderCheck(orderNo);
+	public Map<String,Object> checkOrder(PaymentProcess paymentProcess,String orderNo,Long merchantId){
+		Map<String, Object> retMap = paymentProcess.doOrderCheck(orderNo,merchantId);
 		PaymentOrder queryOrder = (PaymentOrder) retMap.get(PaymentConstant.PAYMENT_ORDER);
 		if(queryOrder == null){
-			queryOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+			queryOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,merchantId);
 			if(queryOrder == null){
 				queryOrder = paymentOrderService.queryOrder(orderNo);
 			}

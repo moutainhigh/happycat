@@ -134,7 +134,7 @@ public class RefundmentController extends ApiBaseController {
         	    	}
         			
         			/*判断订单以及金额*/
-        			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")));
+        			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")) , Long.parseLong(partnerid));
         			if(null!=paymentOrder){
 //        				jsonDetail.remove("orderno");
 //        				jsonDetail.put("orderno", paymentOrder.getOrderNo());//业务方订单号转为计费侧订单号

@@ -357,7 +357,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 	 *         3 - {@link PaymentConstant#PAYMENT_STATE_NOPAYED} <br />
 	 *         4 - {@link PaymentConstant#PAYMENT_STATE_NOPAYED}
 	 */
-	public Map<String, Object> doOrderCheck(String orderNo) {
+	public Map<String, Object> doOrderCheck(String orderNo,Long merchantId) {
 		if (logger.isInfoEnabled()) {
 			logger.info("++++++++++++++++订单校验+++++++++++++++++");
 			logger.info("1.订单校验进入：orderNo:" + orderNo);
@@ -370,7 +370,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		Map<String, Object> resultMap = null;
 
 		try {
-			payResultMap = this.validateOrderCheckParams(orderNo);
+			payResultMap = this.validateOrderCheckParams(orderNo,merchantId);
 			if (logger.isInfoEnabled())
 				logger.info("验证订单返回：" + JsonUtils.toJson(payResultMap));
 
@@ -571,10 +571,10 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 	 * @throws OrderIsSuccessException
 	 * @throws OrderIsRefundException 
 	 */
-	public Map<String, Object> validateOrderCheckParams(String orderNo) throws DataAccessException,
+	public Map<String, Object> validateOrderCheckParams(String orderNo,Long merchantId) throws DataAccessException,
 			ValidationException, OrderIsSuccessException, OrderIsRefundException {
 		// 1. 订单查询
-		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,merchantId);
 		if(paymentOrder == null){
 			paymentOrder = paymentOrderService.queryOrder(orderNo);
 		}
@@ -632,7 +632,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		
 		PaymentOrder paymentOrder = null;
 		try{
-			paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+			paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,Long.valueOf(merchantId));
 			if(paymentOrder == null){
 				paymentOrder = paymentOrderService.queryOrder(orderNo);
 			}

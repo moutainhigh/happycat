@@ -279,9 +279,9 @@ public class PaymentOrderService{
 	}
 	
 	@SuppressWarnings("unchecked")
-	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo) throws DataAccessException {
+	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo,Long merchantId) throws DataAccessException {
 		//1.确认业务单号的seq
-		String selectOrderSeqsql = "select N_ID from SN_PAY.PAY_ORDER_SQ where S_PAYPARTNER_OTHER_ORDER_NO='"+pOrderNo+"'";
+		String selectOrderSeqsql = "select N_ID from SN_PAY.PAY_ORDER_SQ where S_PAYPARTNER_OTHER_ORDER_NO='"+pOrderNo+"'" + " and N_MERCHANT_ID="+merchantId;
 		List<Long> idList = sessionDao.queryForList(selectOrderSeqsql, null, Long.class);
 		if(idList.size()>0 && null != idList.get(0)){
 			Long id = idList.get(0);
@@ -305,6 +305,34 @@ public class PaymentOrderService{
 		
 		return null;
 	}
+	
+//	@SuppressWarnings("unchecked")
+//	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo) throws DataAccessException {
+//		//1.确认业务单号的seq
+//		String selectOrderSeqsql = "select N_ID from SN_PAY.PAY_ORDER_SQ where S_PAYPARTNER_OTHER_ORDER_NO='"+pOrderNo+"'";
+//		List<Long> idList = sessionDao.queryForList(selectOrderSeqsql, null, Long.class);
+//		if(idList.size()>0 && null != idList.get(0)){
+//			Long id = idList.get(0);
+//			StringBuffer selectOrdersql= new StringBuffer();
+//			selectOrdersql.setLength(0);
+//			selectOrdersql.append("select * from SN_PAY.PAY_ORDER");
+//			//判断数据在哪个表
+//			if(id<=60 && id>40){
+//				selectOrdersql.append("_T1 ");//添加表后缀
+//			}
+//			if(id>60){
+//				selectOrdersql.append("_T2 ");//添加表后缀
+//			}
+//			selectOrdersql.append("where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo");
+//			
+//			Map<String,Object> paramMap = new HashMap<String,Object>();
+//			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
+//			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), paramMap, PaymentOrder.class);
+//			return result.isEmpty()?null:result.get(0);
+//		}
+//		
+//		return null;
+//	}
 	
 	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
 			throws DataAccessException {

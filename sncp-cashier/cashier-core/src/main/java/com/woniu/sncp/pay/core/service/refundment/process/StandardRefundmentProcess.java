@@ -846,7 +846,7 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 	public Map<String, Object> validateOrderCheckParams(String orderNo) throws DataAccessException,
 			ValidationException, OrderIsSuccessException {
 		// 订单查询
-		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,0L);
 		if(paymentOrder == null){
 			paymentOrder = paymentOrderService.queryOrder(orderNo);
 		}

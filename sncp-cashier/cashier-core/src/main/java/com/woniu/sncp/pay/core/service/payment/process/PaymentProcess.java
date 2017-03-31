@@ -33,7 +33,7 @@ public interface PaymentProcess {
 	
 	void doPay(Map<String, Object> inParams);
 	
-	Map<String, Object> doOrderCheck(String orderNo);
+	Map<String, Object> doOrderCheck(String orderNo,Long merchantId);
 	
 	Map<String, Object> validateBackParams(AbstractPayment actualPayment,
 			Map<String, Object> inParams) throws DataAccessException, ValidationException, OrderIsSuccessException,PaymentRedirectException, OrderIsRefundException;

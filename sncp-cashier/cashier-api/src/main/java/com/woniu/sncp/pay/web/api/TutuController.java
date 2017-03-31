@@ -1273,7 +1273,8 @@ public class TutuController extends ApiBaseController{
 	@ResponseBody
 	public ModelAndView tutuPaySuccess(HttpServletRequest request,
 			@RequestParam(value = "orderno") String orderNo,
-			@RequestParam(value = "productname") String productName) {
+			@RequestParam(value = "productname") String productName,
+			@RequestParam(value = "merchantid") String merchantId) {
 		
 		Map<String,Object> retMap = new HashMap<String, Object>();
 		String loginAccount = (String)request.getSession().getAttribute("loginUser");
@@ -1285,7 +1286,7 @@ public class TutuController extends ApiBaseController{
 		if(StringUtils.isBlank(orderNo)){
 			return new ModelAndView(ORDER_ERROR_PAGE);
     	}
-    	PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo);
+    	PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,Long.parseLong(merchantId));
     	if(paymentOrder ==null){
     		return new ModelAndView(ORDER_ERROR_PAGE);
     	}
