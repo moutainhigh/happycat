@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -43,7 +44,9 @@ import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
 import com.woniu.sncp.pay.common.utils.encrypt.MD5Encrypt;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
+import com.woniu.sncp.pay.core.service.dataroute.PayConfigToute;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
+import com.woniu.sncp.pay.dao.PaymentOrderDao;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pay.repository.pay.PaymentOrderRepository;
 import com.woniu.sncp.pay.repository.pay.RefundBatchDetailRepository;
@@ -72,83 +75,13 @@ public class RefundmentOrderService{
 	
 	@Autowired
 	private PaymentMerchantService paymentMerchantService;
-//	
-//	@Resource
-//	private BaseHibernateDAO<PaymentOrder, Long> paymentOrderDao;
-//	
-//	@Resource
-//	private BaseHibernateDAO<PayRefundBatch, Long> refundBatchDao;
-//	
-//	@Resource
-//	private BaseHibernateDAO<PayRefundBatchDetail, Long> refundBatchDetailDao;
-//	
-//	@Resource
-//	private PaymentConstant paymentConstant;
-//	
-
-//	
-//	public void createOrder(PaymentOrder paymentOrder, long issuerId)
-//			throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		long sequence = sessionDao.findForLong("select sn_imprest.imp_order_sq.nextval from dual");
-//
-//		Date now = Calendar.getInstance().getTime();
-//		paymentOrder.setCreateDate(now); // 时间
-//		paymentOrder.setCompleteDate(now);
-//		paymentOrder.setId(sequence);
-//		
-//		paymentOrderDao.save(paymentOrder);
-//
-//		if (logger.isInfoEnabled())
-//			logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
-//	}
-//	
-//	/**
-//	 * 生成订单号并创建订单
-//	 * @param paymentOrder
-//	 * @param issuerId
-//	 * @throws DataAccessException
-//	 */
-//	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId)
-//			throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		long sequence = sessionDao.findForLong("select sn_imprest.imp_order_sq.nextval from dual");
-//
-//		Date now = Calendar.getInstance().getTime();
-//		paymentOrder.setCreateDate(now); // 时间
-//		paymentOrder.setCompleteDate(now);
-//		String today = DateFormatUtils.format(now, "yyyyMMdd");
-//		String orderNo = today + "-" + paymentOrder.getPlatformId() + "-"
-//				+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
-//				+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-//		
-//		if(paymentOrder.getPlatformId() == 4001){
-//			//兔兔币支付
-//			orderNo = today + "-" + paymentOrder.getMerchantId()+ '-' + paymentOrder.getPlatformId() + "-"
-//					+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
-//					+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-//			paymentOrder.setOrderNo(orderNo);
-//		}else if(paymentOrder.getPlatformId() == 1012){
-//			//中国银行信用卡分期支付平台id
-//			orderNo = today + StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-//			paymentOrder.setOrderNo(ObjectUtils.toString(orderNo));
-//		}else{
-//			paymentOrder.setOrderNo(orderNo);
-//		}
-//		paymentOrder.setCreateDate(now); // 时间
-//		paymentOrder.setCompleteDate(now);
-//		paymentOrder.setId(sequence);
-//		
-//		if (StringUtils.isBlank(paymentOrder.getPayPlatformOrderId())){
-//			paymentOrder.setPayPlatformOrderId(orderNo);
-//		}
-//		
-//		paymentOrderDao.save(paymentOrder);
-//
-//		if (logger.isInfoEnabled())
-//			logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
-//	}
-//
+	
+	@Resource
+	private PayConfigToute payConfigToute;
+	
+	@Resource 
+	PaymentOrderDao paymentOrderDao;
+	
 	public void checkOrderIsProcessed(PaymentOrder paymentOrder)
 			throws OrderIsSuccessException, ValidationException {
 		// 1.已充值
@@ -158,16 +91,7 @@ public class RefundmentOrderService{
 			throw new OrderIsSuccessException(msg);
 		}
 	}
-//	
-//	public boolean orderIsPayed(PaymentOrder paymentOrder){
-//		if (PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPaymentState())
-//				&& PaymentOrder.IMPREST_STATE_COMPLETED.equals(paymentOrder.getImprestState())) {
-//			return true;
-//		}
-//		
-//		return false;
-//	}
-//
+
 	public boolean checkOrderMoney(PaymentOrder paymentOrder, int paymentMoney) {
 		BigDecimal orderMoney = new BigDecimal(paymentOrder.getMoney().toString());
 		int iOrderMoney = orderMoney.multiply(new BigDecimal(100)).intValue();
@@ -191,139 +115,7 @@ public class RefundmentOrderService{
 		}
 		return true;
 	}
-//
-//	public PaymentOrder queryOrder(String orderNo) throws DataAccessException {
-//		// 切换中心库
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		return paymentOrderDao.findByProperty("orderNo", orderNo);
-//	}
-//	
 
-//	
-//
-//	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
-//			throws DataAccessException {
-//		// 切换中心库
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		return paymentOrderDao.findByProperty("payPlatformOrderId", oppositeOrderNo);
-//	}
-//
-//	public void updateOrder(PaymentOrder paymentOrder, String payedState,
-//			String imprestState) throws DataAccessException,
-//			IllegalArgumentException {
-//		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：payedState:" + payedState + ",imprestState:"
-//				+ imprestState);
-//		if (StringUtils.isBlank(payedState) && StringUtils.isBlank(imprestState))
-//			throw new IllegalArgumentException("更新订单状态参数错误，payedState和imprestState不能都为空");
-//
-//		if (StringUtils.isNotBlank(payedState))
-//			paymentOrder.setPaymentState(payedState);
-//
-//		if (StringUtils.isNotBlank(imprestState))
-//			paymentOrder.setImprestState(imprestState);
-//
-//		paymentOrderDao.update(paymentOrder);
-//	}
-//	
-////	public String callback(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt){
-////		
-////		Map<String,String> nameValuePair = new HashMap<String,String>();
-////		TreeMap<String,String> treeMap = new TreeMap<String,String>();
-////		
-////		try {
-////			treeMap.put("orderno", paymentOrder.getOrderNo());
-////			treeMap.put("aid", ObjectUtils.toString(paymentOrder.getAid()));
-////			treeMap.put("platformid", ObjectUtils.toString(paymentOrder.getPlatformId()));
-////			treeMap.put("imprestmode", ObjectUtils.toString(paymentOrder.getImprestMode()));
-////			treeMap.put("money", ObjectUtils.toString(paymentOrder.getMoney()));
-////			treeMap.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
-////			
-////			if(!StringUtils.isBlank(paymentOrder.getPartnerOrderNo())){
-////				treeMap.put("partnerorderno", paymentOrder.getPartnerOrderNo());
-////				nameValuePair.put("partnerorderno", paymentOrder.getPartnerOrderNo());
-////			}
-////			
-////			String keyType = payemntMerchnt.getKeyType();
-////			String key = payemntMerchnt.getKey();
-////			if(StringUtils.isBlank(key)){
-////				logger.error("回调密钥为空,订单号:" + paymentOrder.getOrderNo()+",平台id:"+paymentOrder.getPlatformId());
-////				throw new IllegalArgumentException("平台Id["+paymentOrder.getPlatformId()+"]回调密钥为空");
-////			}
-////			
-////			nameValuePair.put("orderno", paymentOrder.getOrderNo());
-////			nameValuePair.put("aid", ObjectUtils.toString(paymentOrder.getAid()));
-////			nameValuePair.put("platformid", ObjectUtils.toString(paymentOrder.getPlatformId()));
-////			nameValuePair.put("imprestmode", ObjectUtils.toString(paymentOrder.getImprestMode()));
-////			nameValuePair.put("money", ObjectUtils.toString(paymentOrder.getMoney()));
-////			nameValuePair.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
-////			nameValuePair.put("sign", ObjectUtils.toString(signStr(treeMap,key,keyType)));
-////			
-////			String backendUrl = paymentOrder.getPartnerBackendUrl();
-////			if(StringUtils.isBlank(backendUrl)){
-////				throw new IllegalArgumentException("["+ObjectUtils.toString(paymentOrder.getPlatformId())+"]回调地址为空，请检查配置文件[callback.properties]");
-////			}
-////			logger.info("订单号:" + paymentOrder.getOrderNo() + " 回调地址:"+backendUrl + " 参数:" + nameValuePair);
-////			String response = HttpUtils.post(backendUrl, nameValuePair);
-////			logger.info("该回调地址["+backendUrl+"],订单号："+paymentOrder.getOrderNo()+",返回值:"+response);
-////			return response;
-////		} catch (ClientProtocolException e) {
-////			logger.error("回调商户出错，"+e.getMessage(),e);
-////		} catch (IOException e) {
-////			logger.error("回调商户出错，"+e.getMessage(),e);
-////		} catch (Exception e){
-////			logger.error("回调商户出错，"+e.getMessage(),e);
-////		}
-////		
-////		return "failed";
-////	}
-//	
-
-//	
-//	
-//	
-//	/**
-//	 * 生成第三方订单号
-//	 * 
-//	 * @param paymentOrder
-//	 * @param issuerId
-//	 * @throws DataAccessException
-//	 */
-//	public String genThirdPartyNo(String second,String third) throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-//		long sequence = sessionDao.findForLong("select sn_imprest.imp_thirdparty_order_sq.nextval from dual");
-//
-//		Date now = Calendar.getInstance().getTime();
-//		String today = DateFormatUtils.format(now, "yyyyMMdd");
-//		String orderNo = today  + "-" + second  + "-"
-//				+ StringUtils.leftPad(String.valueOf(third), 3, '0') + "-"
-//				+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-//		
-//		return orderNo;
-//	}
-//	
-//	
-//	public String getOrderMode(String mode,String bankCd){
-//		String orderMode = StringUtils.isNotBlank(mode)?mode:"1";
-//		if(StringUtils.isNotBlank(bankCd)){
-//			orderMode = paymentConstant.getWebBankMap().get(bankCd);
-//		}
-//		
-//		return orderMode;
-//	}
-//	
-//	public String getOrderMode(String platformId){
-//		String paymentMode = PaymentProperties.getValue("PAYMENT_MODE_"+platformId);
-//		return (StringUtils.isBlank(paymentMode)) ? "1" :  paymentMode;
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
-//	
 	/**
 	 * 校验退款批次单处理状态
 	 * @param payRefundBatch
@@ -377,102 +169,7 @@ public class RefundmentOrderService{
 		}
 		return false;
 	}
-//	
-//	/**
-//	 * 退款回调业务商户
-//	 * @param paymentOrder
-//	 * @param payemntMerchnt
-//	 * @return
-//	 */
-//	public String callback(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt){
-//		
-//		Map<String,String> nameValuePair = new HashMap<String,String>();
-//		TreeMap<String,String> treeMap = new TreeMap<String,String>();
-//		
-//		try {
-//			treeMap.put("orderno", paymentOrder.getOrderNo());
-//			treeMap.put("aid", ObjectUtils.toString(paymentOrder.getAid()));
-//			treeMap.put("platformid", ObjectUtils.toString(paymentOrder.getPlatformId()));
-//			treeMap.put("imprestmode", ObjectUtils.toString(paymentOrder.getImprestMode()));
-//			treeMap.put("money", ObjectUtils.toString(paymentOrder.getMoney()));
-//			treeMap.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
-//			
-//			if(!StringUtils.isBlank(paymentOrder.getPartnerOrderNo())){
-//				treeMap.put("partnerorderno", paymentOrder.getPartnerOrderNo());
-//				nameValuePair.put("partnerorderno", paymentOrder.getPartnerOrderNo());
-//			}
-//			
-//			String keyType = payemntMerchnt.getKeyType();
-//			String key = payemntMerchnt.getKey();
-//			if(StringUtils.isBlank(key)){
-//				logger.error("回调密钥为空,订单号:" + paymentOrder.getOrderNo()+",平台id:"+paymentOrder.getPlatformId());
-//				throw new IllegalArgumentException("平台Id["+paymentOrder.getPlatformId()+"]回调密钥为空");
-//			}
-//			
-//			nameValuePair.put("orderno", paymentOrder.getOrderNo());
-//			nameValuePair.put("aid", ObjectUtils.toString(paymentOrder.getAid()));
-//			nameValuePair.put("platformid", ObjectUtils.toString(paymentOrder.getPlatformId()));
-//			nameValuePair.put("imprestmode", ObjectUtils.toString(paymentOrder.getImprestMode()));
-//			nameValuePair.put("money", ObjectUtils.toString(paymentOrder.getMoney()));
-//			nameValuePair.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
-//			nameValuePair.put("sign", ObjectUtils.toString(signStr(treeMap,key,keyType)));
-//			
-//			String backendUrl = paymentOrder.getPartnerBackendUrl();
-//			if(StringUtils.isBlank(backendUrl)){
-//				throw new IllegalArgumentException("["+ObjectUtils.toString(paymentOrder.getPlatformId())+"]回调地址为空，请检查配置文件[callback.properties]");
-//			}
-//			logger.info("订单号:" + paymentOrder.getOrderNo() + " 回调地址:"+backendUrl + " 参数:" + nameValuePair);
-//			String response = HttpUtils.post(backendUrl, nameValuePair);
-//			logger.info("该回调地址["+backendUrl+"],订单号："+paymentOrder.getOrderNo()+",返回值:"+response);
-//			return response;
-//		} catch (ClientProtocolException e) {
-//			logger.error("回调商户出错，"+e.getMessage(),e);
-//		} catch (IOException e) {
-//			logger.error("回调商户出错，"+e.getMessage(),e);
-//		} catch (Exception e){
-//			logger.error("回调商户出错，"+e.getMessage(),e);
-//		}
-//		
-//		return "failed";
-//	}
-//	
-//	
-//	public static void main(String[] args) throws ClientProtocolException, IOException {
-////		Map<String,String> nameValuePair = new HashMap<String,String>();
-////		
-////		nameValuePair.put("orderno", "20130829-141-028-0000010105");
-////		nameValuePair.put("aid", "1502527677");
-////		nameValuePair.put("platformid", "187");
-////		nameValuePair.put("imprestmode", "D");
-////		nameValuePair.put("money", "0.01");
-////		nameValuePair.put("paystate", "1");
-////		nameValuePair.put("sign", "2658F5F4AE76B28850F9F18068A03A78");
-////		
-////		PaymentOrderService pos = new PaymentOrderService();
-////		System.out.println(pos.httpPost("http://mobile.woniu.com/web/eshop/pay/return", nameValuePair));
-////		Date now = Calendar.getInstance().getTime();
-//////		System.out.println(now);
-//////		System.out.println(DateFormatUtils.format(now, "yyyyMMddHHmmss"));
-////		String today = DateFormatUtils.format(now, "yyyyMMddHHmmss");
-////		String sequence = "010";
-////		String batchNo = today + 419 + 
-////				StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-////		System.out.println(batchNo);
-//		RefundmentOrderService oService = new RefundmentOrderService();
-//		String verifyurl = "";
-//		String orderno = "20130829-141-028-0000010105";
-//		long productid = 10004;
-//		String amount = "0.01";
-//		Platform platform = new Platform();
-//		platform.setPayCheckUrl("http://localhost:85/api/refundment/test");
-//		platform.setMerchantNo("20541222");
-//		
-//		PaymentOrder paymentOrder = new PaymentOrder();
-//		paymentOrder.setAid(2000L);
-//		oService.checkOrder("",verifyurl,orderno,productid,amount,platform,paymentOrder);
-//	}
-//
-//	
+
 	/**
 	 * 根据批次号查询批次信息
 	 * @param batchNo
@@ -568,17 +265,6 @@ public class RefundmentOrderService{
 	 */
 	public PayRefundBatch queryRefundBatchByMidPartnerBatchNo(Long merchantid,String partnerBatchNo) {
 		return refundBatchRepository.findByPartnerIdAndPartnerBatchNo(merchantid,partnerBatchNo);
-	}
-	
-	/**
-	 * 通过
-	 * @param merchantid  商户id
-	 * @param pOrderNo    业务方订单号
-	 * @return
-	 * @throws DataAccessException
-	 */
-	public PaymentOrder queryOrderByMidPartnerOrderNo(Long merchantid,String pOrderNo) throws DataAccessException {
-		return paymentOrderRepository.findByMerchantIdAndPaypartnerOtherOrderNo(merchantid,pOrderNo);
 	}
 	
 	private String signStr(TreeMap<String,String> treeMap,String key,String keyType) throws Exception{

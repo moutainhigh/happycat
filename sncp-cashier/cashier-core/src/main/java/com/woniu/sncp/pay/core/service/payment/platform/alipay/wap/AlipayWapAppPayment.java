@@ -799,9 +799,11 @@ public class AlipayWapAppPayment extends AbstractPayment {
 			String[] detailStr = detailStrs[i].toString().split("\\^");//java开发需要转换^为\\^
 			logger.info("支付宝返回退款明细,returnDetail:"+detailStrs[i].toString());
 			//处理每一笔交易退款
-			//根据支付宝交易号，查询业务方订单
-			PaymentOrder paymentOrder = paymentOrderService.queyrOrderByOppositeOrderNo(ObjectUtils.toString(detailStr[0]));//原付款支付宝交易号
-			
+			JSONArray details = JSONArray.parseArray(ObjectUtils.toString(refundBatch.getDetails()));
+    		JSONObject jsonDetail = JSONObject.parseObject(details.get(0).toString());
+//			PaymentOrder paymentOrder = paymentOrderService.queyrOrderByOppositeOrderNo(ObjectUtils.toString(detailStr[0]));//原付款支付宝交易号
+			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),refundBatch.getPartnerId());//原付款业务单号
+
 			orderNoRefundBackCallData.setPayplatformBatchNo(refundBatch.getBatchNo());//无退款单号,写我方
 			orderNoRefundBackCallData.setMoney(String.valueOf((new BigDecimal(detailStr[1])).multiply(new BigDecimal(100)).intValue()));//退款总金额*100,转为分
 			orderNoRefundBackCallData.setPayplatformOrderNo(detailStr[0]);//支付平台支付单号

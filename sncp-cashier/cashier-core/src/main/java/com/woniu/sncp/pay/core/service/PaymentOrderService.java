@@ -285,11 +285,12 @@ public class PaymentOrderService{
 			
 			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
 			
-			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo ;");
-			
-			Map<String,Object> paramMap = new HashMap<String,Object>();
-			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
-			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), paramMap, PaymentOrder.class);
+			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = '"+pOrderNo+"';");
+//			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo ;");
+//			
+//			Map<String,Object> paramMap = new HashMap<String,Object>();
+//			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
+			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), null, PaymentOrder.class);
 			return result.isEmpty()?null:result.get(0);
 		}
 		
@@ -324,10 +325,10 @@ public class PaymentOrderService{
 //		return null;
 //	}
 	
-	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
-			throws DataAccessException {
-		return paymentOrderRepository.findByOtherOrderNo(oppositeOrderNo);
-	}
+//	public PaymentOrder queyrOrderByOppositeOrderNo(String oppositeOrderNo)
+//			throws DataAccessException {
+//		return paymentOrderRepository.findByOtherOrderNo(oppositeOrderNo);
+//	}
 
 	public void updateOrder(PaymentOrder paymentOrder, String payedState,
 			String imprestState) throws DataAccessException,
@@ -349,7 +350,7 @@ public class PaymentOrderService{
 		
 		updateOrderSql.append(payConfigToute.getSuffixBySeq(paymentOrder.getOrderId()));//添加表后缀
 		
-		updateOrderSql.append(" set S_ORDER_NO = :orderNo,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state");
+		updateOrderSql.append(" set S_ORDER_NO = :orderNo,S_OTHER_ORDER_NO = :otherOrderNo,N_PAY_IP = :payIp,D_PAY_END = :payEnd,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state");
 		updateOrderSql.append(" where N_ORDER_ID = :orderId;");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(updateOrderSql.toString(), paramSource);
@@ -358,21 +359,21 @@ public class PaymentOrderService{
 			logger.info("更改支付订单成功：" + paymentOrder.getOrderNo());
 	}
 	
-	public void updateOrder(PaymentOrder paymentOrder, String yuePayState) throws DataAccessException,
-			IllegalArgumentException {
-		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：yuePayState:" + yuePayState );
-		if (StringUtils.isBlank(yuePayState))
-			throw new IllegalArgumentException("更新订单状态参数错误，yuePayState不能为空");
-		paymentOrderRepository.updateS(paymentOrder.getOrderId(), yuePayState);
-	}
-	
-	public void updateOrderImprestState(PaymentOrder paymentOrder, String imprestState) throws DataAccessException,
-			IllegalArgumentException {
-		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：imprestState:" + imprestState );
-		if (StringUtils.isBlank(imprestState))
-			throw new IllegalArgumentException("更新订单状态参数错误，imprestState不能为空");
-		paymentOrderRepository.updateIS(paymentOrder.getOrderId(), imprestState);
-	}
+//	public void updateOrder(PaymentOrder paymentOrder, String yuePayState) throws DataAccessException,
+//			IllegalArgumentException {
+//		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：yuePayState:" + yuePayState );
+//		if (StringUtils.isBlank(yuePayState))
+//			throw new IllegalArgumentException("更新订单状态参数错误，yuePayState不能为空");
+//		paymentOrderRepository.updateS(paymentOrder.getOrderId(), yuePayState);
+//	}
+//	
+//	public void updateOrderImprestState(PaymentOrder paymentOrder, String imprestState) throws DataAccessException,
+//			IllegalArgumentException {
+//		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：imprestState:" + imprestState );
+//		if (StringUtils.isBlank(imprestState))
+//			throw new IllegalArgumentException("更新订单状态参数错误，imprestState不能为空");
+//		paymentOrderRepository.updateIS(paymentOrder.getOrderId(), imprestState);
+//	}
 	
 	public String callback(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt){
 		

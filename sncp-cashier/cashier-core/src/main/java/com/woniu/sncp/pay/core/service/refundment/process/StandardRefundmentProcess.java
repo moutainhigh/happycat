@@ -339,7 +339,12 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 				    		throw new ValidationException("退款订单金额不可以为空或零");
 				    	}
 						/*判断订单以及金额*/
-						PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
+						JSONArray _details = JSONArray.parseArray(ObjectUtils.toString(refundBatch.getDetails()));
+			    		JSONObject jsonDetail = JSONObject.parseObject(_details.get(0).toString());
+						PaymentOrder refundOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),refundBatch.getPartnerId());//原付款业务单号
+
+//						PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
+						
 						if( !refundmentOrderService.checkOrderMoney(refundOrder,Integer.parseInt(detail.getMoney())) ){
 							logger.info("订单查询验证==>退款订单金额与原支付订单金额不匹配");
 							throw new ValidationException("退款订单金额与原支付订单金额不匹配");
@@ -613,7 +618,11 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 			    		throw new ValidationException("退款订单金额不可以为空或零");
 			    	}
 					/*判断退款订单金额以及回调金额*/
-					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
+					JSONArray _details = JSONArray.parseArray(ObjectUtils.toString(refundBatch.getDetails()));
+		    		JSONObject jsonDetail = JSONObject.parseObject(_details.get(0).toString());
+					PaymentOrder refundOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),refundBatch.getPartnerId());//原付款业务单号
+
+//					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
 					
 					// 通过计费分配商户id和业务方订单号查询批次明细
 					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());
@@ -662,7 +671,11 @@ public class StandardRefundmentProcess extends AbstractRefundmentProcess{
 			    		throw new ValidationException("退款订单金额不可以为空或零");
 			    	}
 					
-					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
+					JSONArray _details = JSONArray.parseArray(ObjectUtils.toString(refundBatch.getDetails()));
+		    		JSONObject jsonDetail = JSONObject.parseObject(_details.get(0).toString());
+					PaymentOrder refundOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")),refundBatch.getPartnerId());//原付款业务单号
+//					PaymentOrder refundOrder = paymentOrderService.queyrOrderByOppositeOrderNo(detail.getPayplatformOrderNo());
+
 					
 					// 通过批次号和业务方订单号查询批次明细
 					PayRefundBatchDetail payRefundBatchDetail = refundmentOrderService.queryRefundBatchDetailByMidPno(refundBatch.getPartnerId(), refundOrder.getPaypartnerOtherOrderNo());

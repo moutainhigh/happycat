@@ -151,7 +151,7 @@ public class RefundmentFacade {
 	    	    	}
 	    			
 	    			/* 判断订单以及金额 */
-	    			paymentOrder = refundmentOrderService.queryOrderByMidPartnerOrderNo(merchantId,ObjectUtils.toString(jsonDetail.get("orderno")));
+	    			paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(ObjectUtils.toString(jsonDetail.get("orderno")), merchantId);
 	    			
 	    			// 2.查询支付平台信息
 	    			platform = platformService.queryPlatform(Long.valueOf(merchantId), paymentOrder.getPayPlatformId(),paymentOrder.getMerchantNo());
@@ -359,8 +359,8 @@ public class RefundmentFacade {
     						logger.info("退款回调业务商户订单返回:"+returned);
     						
     						//没有回调且是退款成功标识,增加修改订单表状态
-    						PaymentOrder refundOrder = refundmentOrderService.queryOrderByMidPartnerOrderNo(merchantId,orderno);
-        					paymentOrderService.updateOrderImprestState(refundOrder, PaymentConstant.PAYMENT_STATE_QUERY_ERR);//已退款
+    						PaymentOrder refundOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderno, merchantId);
+        					paymentOrderService.updateOrder(refundOrder,refundOrder.getPayState(), PaymentConstant.PAYMENT_STATE_QUERY_ERR);//已退款
         					
     					}
     				}

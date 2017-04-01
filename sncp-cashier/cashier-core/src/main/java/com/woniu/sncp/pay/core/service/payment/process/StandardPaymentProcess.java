@@ -170,8 +170,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					returned = paymentOrderService.callback(paymentOrder,payemntMerchnt);
 					if("success".equals(returned)){
 						paymentOrder.setYuePayState(PaymentOrder.PAYMENT_STATE_PAYED);
-//						DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-						paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED);
+						paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED ,paymentOrder.getState());
 					}else{
 						//TODO 不做处理 
 						logger.error("回调商户失败，returnd：" + returned);
@@ -186,7 +185,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				String paymentState = (String) centerInfo.get(PaymentConstant.PAYMENT_STATE);
 				if (PaymentConstant.PAYMENT_STATE_PAYED.equals(paymentState)){
 					// 更改订单状态为支付成功
-					paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, null);
+					paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, paymentOrder.getState());
 				}
 				// 1. 查询商户号
 				Platform platform = platformService.queryPlatform(paymentOrder.getMerchantId(), paymentOrder.getPayPlatformId());
@@ -198,8 +197,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
 					paymentOrder.setPayEnd(new Date());
 					
-//					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
-					paymentOrderService.updateOrder(paymentOrder, null, PaymentOrder.IMPREST_STATE_COMPLETED);
+					paymentOrderService.updateOrder(paymentOrder, paymentOrder.getPayState(), PaymentOrder.IMPREST_STATE_COMPLETED);
 					request.setAttribute("retCode", "1");
 					request.setAttribute("retMsg", "操作成功");
 					if(callPayRemoteFlag){
@@ -385,7 +383,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			// 0.增加支付渠道商若返回支付成功,修改支付状态为支付成功,充值状态为未充值
 			if (PaymentConstant.PAYMENT_STATE_PAYED.equals(payResult)){
 				// 更改订单状态为支付成功,充值状态为未充值
-				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, null);
+				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, paymentOrder.getState());
 			}
 			
 			// 订单金额校验 - 对方金额和我方金额比对
