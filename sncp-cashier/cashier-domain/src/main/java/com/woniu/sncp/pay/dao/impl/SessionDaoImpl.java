@@ -1,7 +1,10 @@
 package com.woniu.sncp.pay.dao.impl;
 
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.io.InputStream;
 import java.io.Reader;
+import java.lang.reflect.Method;
 import java.sql.Blob;
 import java.sql.CallableStatement;
 import java.sql.Clob;
@@ -23,6 +26,8 @@ import javax.sql.DataSource;
 
 import com.woniu.sncp.jdbc.batch.BatchHandle;
 import com.woniu.sncp.jdbc.batch.PreparedStatementResultSetHandle;
+
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -36,13 +41,13 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 import com.woniu.sncp.jdbc.datasource.DataSourceConstants;
 import com.woniu.sncp.jdbc.datasource.DataSourceHolder;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.dao.BaseSessionDAO;
 import com.woniu.sncp.pay.dao.JdbcHelper;
-import com.woniu.sncp.pay.dao.PayBaseDao;
 
 /**
  * <p>
@@ -767,4 +772,81 @@ public class SessionDaoImpl implements BaseSessionDAO {
 			throws DataAccessException {
 		return namedParameterJdbcTemplate.queryForList(sql, new MapSqlParameterSource(paramMap), elementType);
 	}
+	
+	@Override
+	public List<?> page(String queryString, Map<String, Object> paramValues, int pageRowCount,int pageNum, 
+			String orderBy, boolean isAsc,Class<?> clazz) throws DataAccessException {
+		if (MapUtils.isEmpty(paramValues)) {
+			//throw new Cm4jDaoException("查询参数不允许为空");
+		}
+		StringBuilder sqlBuilder = new StringBuilder(queryString).append(" ORDER BY ").append(orderBy)
+				.append(isAsc ? " ASC" : " DESC");
+		sqlBuilder.append(" limit "+(pageNum-1)*pageRowCount).append(","+pageRowCount);
+		
+		logger.debug("传入sql：" + sqlBuilder.toString());
+		logger.debug("传入键值对参数：" + paramValues);
+		
+        List<Map<String, Object>> result =  this.namedParameterJdbcTemplate.queryForList(sqlBuilder.toString(), paramValues);  
+        if (clazz != null) {
+            List<Object>  entityList = convert(clazz, result);  
+            return entityList;  
+        }  
+        return result;
+	}
+	
+	/**
+     * 实体和查询的数据进行转换
+     * @param clazz
+     * @param list
+     * @return
+     */
+    private List<Object> convert(Class<?> clazz, List<Map<String, Object>> list) {  
+        List<Object> result;  
+        if (CollectionUtils.isEmpty(list)) {  
+            return null;  
+        }  
+        result = new ArrayList<Object>();  
+        try {  
+             PropertyDescriptor[] props = Introspector.getBeanInfo(clazz).getPropertyDescriptors();  
+             for (Map<String, Object> map : list) {  
+                 Object obj = clazz.newInstance();  
+                 for (String key:map.keySet()) {  
+//                     String attrName = key.toLowerCase();
+                     String attrName = key;
+                     for (PropertyDescriptor prop : props) {  
+                         attrName = removeUnderLinePrifix(attrName);  
+                         if (!attrName.equalsIgnoreCase(prop.getName())) {  
+                             continue;  
+                         }  
+                         Method method = prop.getWriteMethod();  
+                         Object value = map.get(key);  
+                         if (value != null) {  
+                             value = ConvertUtils.convert(value,prop.getPropertyType());  
+                         }  
+                         method.invoke(obj,value);  
+                     }  
+                 }  
+                 result.add(obj);  
+             }  
+        } catch (Exception e) {  
+            throw new RuntimeException("数据转换错误");  
+        }  
+        return result;  
+    } 
+  
+    private String removeUnderLinePrifix(String attrName) {  
+        //去掉数据库字段的下划线以及前缀
+         if(attrName.contains("_")) {
+            String[] names = attrName.split("_");  
+            String firstPart = names[0];  
+            String otherPart = "";  
+            for (int i = 1; i < names.length; i++) {  
+                String word = names[i].replaceFirst(names[i].substring(0, 1), names[i].substring(0, 1).toUpperCase());  
+                otherPart += word;  
+            }  
+//            attrName = firstPart + otherPart;  
+            attrName =  otherPart;  
+         }  
+        return attrName;  
+    }
 }

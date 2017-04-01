@@ -148,7 +148,7 @@ public class PayBaseDao {
         }  
         BigInteger bigInteger  = (BigInteger) query.getSingleResult();  
         return bigInteger.intValue();  
-    }  
+    }
       
     /** 
      * 新增或者删除 

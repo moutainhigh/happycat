@@ -42,7 +42,7 @@ public class PayConfigToute {
 			}
 		}
 		if(logger.isInfoEnabled())
-			logger.info(this.getClass().getSimpleName()+" *_* 序列值[{}],表后缀[{}]",seq,tableIndex);
+			logger.info("获取配置,序列值[{}],表后缀[{}]",seq,tableIndex);
 		return tableIndex;
 	}
 	

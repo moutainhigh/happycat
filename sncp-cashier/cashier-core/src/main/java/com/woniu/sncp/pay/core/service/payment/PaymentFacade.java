@@ -118,9 +118,8 @@ public class PaymentFacade {
 				
 				paymentOrder = new PaymentOrder();
 				// a.查询帐号及判断
+				// 通过收银台申请商户号是否开启账号功能判断是否保存账号信息
 				if(StringUtils.isNotBlank(account)){
-					// 切换帐号库
-//					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_ACCOUNT_DB);
 					Passport passport = null;
 					try {
 						passport = corePassportService.queryPassport(account);
@@ -141,7 +140,6 @@ public class PaymentFacade {
 
 				if(gameId != 0L){
 					// b.查询游戏及判断
-//					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER_READ);
 					Game game = gameManagerService.queryGameById(gameId);
 					Assert.notNull(game, "充值所属游戏不存在");
 					Assert.assertEquals("充值游戏被禁用", Game.GAME_STATE_OPEN,game.getState());
@@ -208,8 +206,6 @@ public class PaymentFacade {
 				//fixed 切换平台账号无法保存,兔兔币支付单号格式修改
 				// a.查询帐号及判断
 				if(StringUtils.isNotBlank(account)){
-					// 切换帐号库
-//					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_ACCOUNT_DB);
 					Passport passport = corePassportService.queryPassport(account);
 					corePassportService.validatepassport(passport);
 					paymentOrder.setAid(passport.getId());

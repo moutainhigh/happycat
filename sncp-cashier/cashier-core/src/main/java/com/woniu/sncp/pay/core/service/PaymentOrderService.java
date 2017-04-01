@@ -98,7 +98,6 @@ public class PaymentOrderService{
 	
 	public void createOrder(PaymentOrder paymentOrder, long issuerId)
 			throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 
 		Date now = Calendar.getInstance().getTime();
@@ -173,21 +172,14 @@ public class PaymentOrderService{
 			paymentOrder.setTimeoutExpress(__timeoutExpress);
 		}
 		
-		//paymentOrderRepository.save(paymentOrder);
-
 		StringBuffer insertOrderSql = new StringBuffer();
 		insertOrderSql.setLength(0);
 		insertOrderSql.append("insert into SN_PAY.PAY_ORDER");
 		
 		insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
-//		if(sequence>40 && sequence <=60 ){
-//			insertOrderSql.append("_T1 ");//添加表后缀
-//		}
-//		if(sequence>60){
-//			insertOrderSql.append("_T2 ");//添加表后缀
-//		}
+		
 		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,S_TIMEOUT_EXPRESS) ");
-		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress) ");
+		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress);");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(insertOrderSql.toString(), paramSource);
 		
@@ -266,14 +258,9 @@ public class PaymentOrderService{
 			StringBuffer selectOrdersql= new StringBuffer();
 			selectOrdersql.setLength(0);
 			selectOrdersql.append("select * from SN_PAY.PAY_ORDER");
+			
 			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
-			//判断数据在哪个表
-//			if(id<=60 && id>40){
-//				selectOrdersql.append("_T1 ");//添加表后缀
-//			}
-//			if(id>60){
-//				selectOrdersql.append("_T2 ");//添加表后缀
-//			}
+			
 			selectOrdersql.append(" where S_ORDER_NO = :orderNo");
 			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
@@ -288,22 +275,17 @@ public class PaymentOrderService{
 	@SuppressWarnings("unchecked")
 	public PaymentOrder queryOrderByPartnerOrderNo(String pOrderNo,Long merchantId) throws DataAccessException {
 		//1.确认业务单号的seq
-		String selectOrderSeqsql = "select N_ID from SN_PAY.PAY_ORDER_SQ where S_PAYPARTNER_OTHER_ORDER_NO='"+pOrderNo+"'" + " and N_MERCHANT_ID="+merchantId;
+		String selectOrderSeqsql = "select N_ID from SN_PAY.PAY_ORDER_SQ where N_MERCHANT_ID = "+merchantId+" and S_PAYPARTNER_OTHER_ORDER_NO = '"+pOrderNo+"';";
 		List<Long> idList = sessionDao.queryForList(selectOrderSeqsql, null, Long.class);
 		if(idList.size()>0 && null != idList.get(0)){
 			Long id = idList.get(0);
 			StringBuffer selectOrdersql= new StringBuffer();
 			selectOrdersql.setLength(0);
 			selectOrdersql.append("select * from SN_PAY.PAY_ORDER");
+			
 			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
-			//判断数据在哪个表
-//			if(id<=60 && id>40){
-//				selectOrdersql.append("_T1 ");//添加表后缀
-//			}
-//			if(id>60){
-//				selectOrdersql.append("_T2 ");//添加表后缀
-//			}
-			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo");
+			
+			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo ;");
 			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
@@ -361,21 +343,14 @@ public class PaymentOrderService{
 		if (StringUtils.isNotBlank(imprestState))
 			paymentOrder.setState(imprestState);
 
-//		paymentOrderRepository.updateSS(paymentOrder.getId(), payedState,imprestState);
-		
 		StringBuffer updateOrderSql = new StringBuffer();
 		updateOrderSql.setLength(0);
 		updateOrderSql.append("update SN_PAY.PAY_ORDER");
+		
 		updateOrderSql.append(payConfigToute.getSuffixBySeq(paymentOrder.getOrderId()));//添加表后缀
 		
-//		if(paymentOrder.getOrderId()>40 && paymentOrder.getOrderId() <=60){
-//			updateOrderSql.append("_T1 ");//添加表后缀
-//		}
-//		if(paymentOrder.getOrderId()>60){
-//			updateOrderSql.append("_T2 ");//添加表后缀
-//		}
 		updateOrderSql.append(" set S_ORDER_NO = :orderNo,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state");
-		updateOrderSql.append(" where N_ORDER_ID = :orderId");
+		updateOrderSql.append(" where N_ORDER_ID = :orderId;");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(updateOrderSql.toString(), paramSource);
 		
@@ -471,7 +446,6 @@ public class PaymentOrderService{
 		String alertMsg = "所在应用:["+serverName+"],服务器:["+localIp +":"+ ProxoolUtil.getTomcatPort() + "@" + ProxoolUtil.getPid() +"],\n支付订单号：" + paymentOrder.getOrderNo() + ",回调商户地址：" + paymentOrder.getPaypartnerBackendCall()+ "失败";
 		logger.info(alertMsg);
 		threadPool.executeTask(new MonitorMessageTask(alertMsg));
-//		monitorMessageService.sendMsg(alertMsg);
 		return "failed";
 	}
 	
@@ -580,7 +554,6 @@ public class PaymentOrderService{
 	 * @throws DataAccessException
 	 */
 	public String genThirdPartyNo(String second,String third) throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 		long sequence = sessionDao.findForLong("select sn_imprest.imp_thirdparty_order_sq.nextval from dual");
 
 		Date now = Calendar.getInstance().getTime();
@@ -788,21 +761,4 @@ public class PaymentOrderService{
 		}
 		return "fail";
 	}
-	
-	/**
-	public static void main(String[] args) throws ClientProtocolException, IOException {
-		Map<String,String> nameValuePair = new HashMap<String,String>();
-		
-		nameValuePair.put("orderno", "20130829-141-028-0000010105");
-		nameValuePair.put("aid", "1502527677");
-		nameValuePair.put("platformid", "187");
-		nameValuePair.put("imprestmode", "D");
-		nameValuePair.put("money", "0.01");
-		nameValuePair.put("paystate", "1");
-		nameValuePair.put("sign", "2658F5F4AE76B28850F9F18068A03A78");
-		
-		PaymentOrderService pos = new PaymentOrderService();
-		System.out.println(pos.httpPost("http://mobile.woniu.com/web/eshop/pay/return", nameValuePair));
-	}
-	**/
 }

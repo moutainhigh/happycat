@@ -27,6 +27,22 @@ public interface BaseSessionDAO extends BaseDao {
 
 	/**
 	 * 根据条件分页查询记录，<b>（默认）第二排序：ID降序</b>
+	 * @param queryString
+	 * @param paramValues
+	 * @param firstRowNum
+	 * @param pageRowCount
+	 * @param orderBy
+	 * @param isAsc
+	 * @param limit   mysql使用
+	 * @param pageNum mysql使用
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<?> page(String queryString, Map<String, Object> paramValues, int pageRowCount,int pageNum, 
+			String orderBy, boolean isAsc,Class<?> elementType) throws DataAccessException;
+	
+	/**
+	 * 根据条件分页查询记录，<b>（默认）第二排序：ID降序</b>
 	 * 
 	 * @param queryString
 	 * @param paramValues
