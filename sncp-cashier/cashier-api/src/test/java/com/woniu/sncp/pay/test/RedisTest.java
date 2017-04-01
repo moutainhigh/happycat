@@ -16,10 +16,10 @@ import redis.clients.jedis.JedisCluster;
 //@SpringApplicationConfiguration(com.woniu.sncp.pay.CashierAppRun.class)
 public class RedisTest {
 
-    @Autowired
+//    @Autowired
     private JedisCluster jedisCluster;
 
-    @Test
+//    @Test
     public void get(){
     	jedisCluster.set("youqian-spread-sync-to-mysql-date", ""+System.currentTimeMillis());
        System.out.println("=============="+jedisCluster.get("youqian-spread-sync-to-mysql-date"));

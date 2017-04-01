@@ -2,6 +2,8 @@ package com.woniu.sncp.pay.core.service.dataroute;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +20,14 @@ import com.woniu.sncp.pay.repository.pay.ConfigInfo;
 @Service("payConfigToute")
 public class PayConfigToute {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	PayConfigRouteDao payConfigManageDao;
 	
 	
 	//1.确定当前seq路由到哪张表后缀
+	@SuppressWarnings("unchecked")
 	public String getSuffixBySeq(Long seq){
 		String tableIndex = "";
 		String selectCfgSql = "select * from CONFIG_INFO where N_ENABLE = 1";
@@ -36,6 +41,8 @@ public class PayConfigToute {
 				}
 			}
 		}
+		if(logger.isInfoEnabled())
+			logger.info(this.getClass().getSimpleName()+" *_* 序列值[{}],表后缀[{}]",seq,tableIndex);
 		return tableIndex;
 	}
 	
