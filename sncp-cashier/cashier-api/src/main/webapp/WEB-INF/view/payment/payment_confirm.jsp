@@ -421,8 +421,8 @@
                          <li>
                              <span>验证码：</span>
                              <input type="text" style="width:254px;" class="bind_verify" placeholder="请输入短信验证"/>
+                             <div class="sms_status"></div>
                          </li>
-                         <li class="error_msg" id="error_msg"></li>
                      </ul>
                      <a href="javascript:;" class="to_bind" id="smsSure">确定</a>
                  </div>

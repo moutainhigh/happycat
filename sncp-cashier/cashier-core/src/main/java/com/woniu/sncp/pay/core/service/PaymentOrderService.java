@@ -40,6 +40,7 @@ import com.woniu.sncp.pay.common.utils.date.DateUtils;
 import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
 import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import com.woniu.sncp.pay.common.utils.http.IpUtils;
+import com.woniu.sncp.pay.core.service.dataroute.PayConfigToute;
 import com.woniu.sncp.pay.core.service.m.MQueueService;
 import com.woniu.sncp.pay.core.service.monitor.MonitorMessageService;
 import com.woniu.sncp.pay.core.service.monitor.MonitorMessageTask;
@@ -92,6 +93,9 @@ public class PaymentOrderService{
 	@Resource
 	private ThreadPool threadPool;
 	
+	@Resource
+	private PayConfigToute payConfigToute;
+	
 	public void createOrder(PaymentOrder paymentOrder, long issuerId)
 			throws DataAccessException {
 //		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
@@ -117,8 +121,8 @@ public class PaymentOrderService{
 	 */
 	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
 			throws DataAccessException {
-//		DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
+//		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO,S_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"','"+paymentOrder.getOrderNo()+"')";
 		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"')";
 		Long sequence = mQueueService.getSequence(orderSeqSql);
 		
@@ -174,12 +178,14 @@ public class PaymentOrderService{
 		StringBuffer insertOrderSql = new StringBuffer();
 		insertOrderSql.setLength(0);
 		insertOrderSql.append("insert into SN_PAY.PAY_ORDER");
-		if(sequence>40 && sequence <=60 ){
-			insertOrderSql.append("_T1 ");//添加表后缀
-		}
-		if(sequence>60){
-			insertOrderSql.append("_T2 ");//添加表后缀
-		}
+		
+		insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
+//		if(sequence>40 && sequence <=60 ){
+//			insertOrderSql.append("_T1 ");//添加表后缀
+//		}
+//		if(sequence>60){
+//			insertOrderSql.append("_T2 ");//添加表后缀
+//		}
 		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,S_TIMEOUT_EXPRESS) ");
 		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress) ");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
@@ -260,14 +266,15 @@ public class PaymentOrderService{
 			StringBuffer selectOrdersql= new StringBuffer();
 			selectOrdersql.setLength(0);
 			selectOrdersql.append("select * from SN_PAY.PAY_ORDER");
+			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
 			//判断数据在哪个表
-			if(id<=60 && id>40){
-				selectOrdersql.append("_T1 ");//添加表后缀
-			}
-			if(id>60){
-				selectOrdersql.append("_T2 ");//添加表后缀
-			}
-			selectOrdersql.append("where S_ORDER_NO = :orderNo");
+//			if(id<=60 && id>40){
+//				selectOrdersql.append("_T1 ");//添加表后缀
+//			}
+//			if(id>60){
+//				selectOrdersql.append("_T2 ");//添加表后缀
+//			}
+			selectOrdersql.append(" where S_ORDER_NO = :orderNo");
 			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("orderNo", orderNo);
@@ -288,14 +295,15 @@ public class PaymentOrderService{
 			StringBuffer selectOrdersql= new StringBuffer();
 			selectOrdersql.setLength(0);
 			selectOrdersql.append("select * from SN_PAY.PAY_ORDER");
+			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
 			//判断数据在哪个表
-			if(id<=60 && id>40){
-				selectOrdersql.append("_T1 ");//添加表后缀
-			}
-			if(id>60){
-				selectOrdersql.append("_T2 ");//添加表后缀
-			}
-			selectOrdersql.append("where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo");
+//			if(id<=60 && id>40){
+//				selectOrdersql.append("_T1 ");//添加表后缀
+//			}
+//			if(id>60){
+//				selectOrdersql.append("_T2 ");//添加表后缀
+//			}
+			selectOrdersql.append(" where S_PAYPARTNER_OTHER_ORDER_NO = :paypartnerOtherOrderNo");
 			
 			Map<String,Object> paramMap = new HashMap<String,Object>();
 			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
@@ -358,12 +366,14 @@ public class PaymentOrderService{
 		StringBuffer updateOrderSql = new StringBuffer();
 		updateOrderSql.setLength(0);
 		updateOrderSql.append("update SN_PAY.PAY_ORDER");
-		if(paymentOrder.getOrderId()>40 && paymentOrder.getOrderId() <=60){
-			updateOrderSql.append("_T1 ");//添加表后缀
-		}
-		if(paymentOrder.getOrderId()>60){
-			updateOrderSql.append("_T2 ");//添加表后缀
-		}
+		updateOrderSql.append(payConfigToute.getSuffixBySeq(paymentOrder.getOrderId()));//添加表后缀
+		
+//		if(paymentOrder.getOrderId()>40 && paymentOrder.getOrderId() <=60){
+//			updateOrderSql.append("_T1 ");//添加表后缀
+//		}
+//		if(paymentOrder.getOrderId()>60){
+//			updateOrderSql.append("_T2 ");//添加表后缀
+//		}
 		updateOrderSql.append(" set S_ORDER_NO = :orderNo,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state");
 		updateOrderSql.append(" where N_ORDER_ID = :orderId");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);

@@ -1015,18 +1015,33 @@ public class TutuController extends ApiBaseController{
 		}
 		
 		logger.info("支付订单信息,"+retMap);
-		Map<String, Object> paymentParams = (Map<String, Object>) retMap.get("paymentParams");
-		if(null!=paymentParams.get(ErrorCode.TIP_CODE) && !paymentParams.get(ErrorCode.TIP_CODE).equals("1")){
-			retMap.put(ErrorCode.TIP_CODE, paymentParams.get(ErrorCode.TIP_CODE));
-			retMap.put(ErrorCode.TIP_INFO, paymentParams.get(ErrorCode.TIP_INFO));
-			request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
-			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-			writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"支付请求失败",retMap));
-			return;
-		}
-		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
-		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
-		writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"支付请求成功",retMap));
+		if (retMap != null && StringUtils.equalsIgnoreCase(ObjectUtils.toString(retMap.get(ErrorCode.TIP_CODE)), "1")) {
+    		//request.setAttribute("infoMap", retMap);
+    		Map<String, String> reqmap = (Map<String, String>)retMap.get("paymentParams");
+    		String paycode = ObjectUtils.toString(reqmap.get("msgcode"));
+    		if("1".equals(paycode)){
+        		//支付成功
+    			PaymentOrder paymentOrder = (PaymentOrder)retMap.get("paymentOrder");
+    			request.setAttribute(PaymentConstant.PAYMENT_ORDER, paymentOrder);
+    			request.setAttribute("orderNo", orderNo);
+    			request.setAttribute("money", paymentOrder.getMoney());
+    			request.setAttribute("productName", productName);
+    			request.setAttribute("createDate", DateUtil.parseDate2Str(paymentOrder.getCreate(), DateUtil.DATE_FORMAT_DATETIME));
+        		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+    			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+    			writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS,"支付请求成功",retMap));
+    			return;
+        	}else{
+        		//支付失败
+        		request.setAttribute("msg", ObjectUtils.toString(reqmap.get("message")));
+        		logger.info("订单号：" + ((PaymentOrder)retMap.get("paymentOrder")).getOrderNo()+",充值请求失败，失败码["+paycode+"]");
+        		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+    			request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+    			writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"支付请求失败",retMap));
+    			return;
+        	}
+        }
+		writeJsonp(callback, response, new ResultResponse(ResultResponse.FAIL,"支付请求失败",retMap));
 		return;
     }
 	
