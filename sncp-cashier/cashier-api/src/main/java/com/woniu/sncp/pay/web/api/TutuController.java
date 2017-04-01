@@ -1308,24 +1308,24 @@ public class TutuController extends ApiBaseController{
 		return new ModelAndView(PAYMENT_SUCCESS_PAGE);
 	}
 	
-	public static void main(String[] args) {
-		String cas_success = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>"+
-								"<cas:authenticationSuccess>"+
-									"<cas:user>testaaaa9</cas:user>"+
-									"<cas:attributes>"+
-										"<cas:naid>1502464977</cas:naid>"+
-										"<cas:SSOPrincipal>TESTAAAA9</cas:SSOPrincipal>"+
-										"<cas:snailPassport>TESTAAAA9</cas:snailPassport>"+
-									"</cas:attributes>"+
-								"</cas:authenticationSuccess>"+
-							"</cas:serviceResponse>";
-		
-		String cas = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>"+
-						"<cas:authenticationFailure code='INVALID_TICKET'>"+
-							"未能够识别出目标 &#039;abc&#039;票根"+
-						"</cas:authenticationFailure>"+
-					 "</cas:serviceResponse>";	
-		
-		System.out.println(readXmlNode(cas,"/serviceResponse/authenticationSuccess/attributes/naid"));
-	}
+//	public static void main(String[] args) {
+//		String cas_success = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>"+
+//								"<cas:authenticationSuccess>"+
+//									"<cas:user>testaaaa9</cas:user>"+
+//									"<cas:attributes>"+
+//										"<cas:naid>1502464977</cas:naid>"+
+//										"<cas:SSOPrincipal>TESTAAAA9</cas:SSOPrincipal>"+
+//										"<cas:snailPassport>TESTAAAA9</cas:snailPassport>"+
+//									"</cas:attributes>"+
+//								"</cas:authenticationSuccess>"+
+//							"</cas:serviceResponse>";
+//		
+//		String cas = "<cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>"+
+//						"<cas:authenticationFailure code='INVALID_TICKET'>"+
+//							"未能够识别出目标 &#039;abc&#039;票根"+
+//						"</cas:authenticationFailure>"+
+//					 "</cas:serviceResponse>";	
+//		
+//		System.out.println(readXmlNode(cas,"/serviceResponse/authenticationSuccess/attributes/naid"));
+//	}
 }
