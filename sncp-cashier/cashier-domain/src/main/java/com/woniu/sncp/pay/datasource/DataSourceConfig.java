@@ -20,22 +20,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class DataSourceConfig {
 
-	/**
-	 * 收银台默认使用此数据源
-	 * @return
-	 */
-	@Primary
-	@Bean(name = "dataSource")
+    /**
+     * 收银台默认使用此数据源
+     * @return
+     */
+    @Primary
+    @Bean(name = "dataSource")
     @Qualifier("dataSource")
     @ConfigurationProperties(prefix="spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
 
-//	/**
-//	 * 队列使用数据源
-//	 * @return
-//	 */
+//    /**
+//     * 队列使用数据源
+//     * @return
+//     */
 //    @Bean(name = "queueDataSource")
 //    @Qualifier("queueDataSource")
 //    @ConfigurationProperties(prefix="spring.queue-datasource")

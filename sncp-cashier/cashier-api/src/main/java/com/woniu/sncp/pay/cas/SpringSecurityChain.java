@@ -17,6 +17,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
+import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
+import com.woniu.sncp.pay.core.filter.RequestClearFilter;
+
 /**
  * <p>
  * descrption:
@@ -204,6 +208,53 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		else
 			filterRegistration.addUrlPatterns("/*");
 		filterRegistration.setOrder(7);
+		return filterRegistration;
+	}
+	
+	
+	
+	
+	/**
+	 * 自定义过滤器，包括通用验证、日志格式化输出、requestClear。
+	 */
+	@Autowired
+	AuthenticationCommonFilter authenticationCommonFilter;
+	
+	@Autowired
+	LogMonitorFilter logMonitorFilter;
+	
+	@Bean
+	public FilterRegistrationBean logMonitorAuthFilter() {
+		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+		filterRegistration.addUrlPatterns("/api/refundment/refund/*");
+		filterRegistration.addUrlPatterns("/payment/trans/*");
+		filterRegistration.addUrlPatterns("/api/excharge/order/*");
+		filterRegistration.addUrlPatterns("/fcb/pay/**");
+		filterRegistration.addUrlPatterns("/fcb/pay");
+		filterRegistration.addUrlPatterns("/cancel/api/json");
+		filterRegistration.addUrlPatterns("/payment/api/*");
+		filterRegistration.addUrlPatterns("/payment/api");
+		filterRegistration.addUrlPatterns("/wap/api/*");
+		filterRegistration.addUrlPatterns("/payment/api/jsonp");
+		filterRegistration.addUrlPatterns("/payment/api/dp/json");
+		filterRegistration.addUrlPatterns("/security/ttb/pay");
+		filterRegistration.addUrlPatterns("/api/tgt/ttb/pay/json");
+		filterRegistration.addUrlPatterns("/security/ttb/pay/json");
+		filterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
+		filterRegistration.setFilter(logMonitorFilter);
+	    filterRegistration.setFilter(authenticationCommonFilter);
+	    filterRegistration.setOrder(8);
+		return filterRegistration;
+	}
+	
+	@Autowired
+	RequestClearFilter requestClearFilter;
+	@Bean
+	public FilterRegistrationBean requestClearFilterRegistration() {
+		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+		filterRegistration.addUrlPatterns("/payment/backend/api/common/**");
+		filterRegistration.setFilter(requestClearFilter);
+		filterRegistration.setOrder(9);
 		return filterRegistration;
 	}
 }
