@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class PaymentMerchantService {
             @Override
             public CreditStage mapRow(ResultSet rs, int rowNum) throws SQLException {
             	CreditStage ret = new CreditStage();
+            	ret.setId(NumberUtils.toLong(rs.getString("N_ID")));
             	ret.setBankCode(rs.getString("BANK_CODE"));
             	ret.setStagePlan(rs.getString("STAGE_PLAN"));
             	ret.setStageNum(rs.getInt("STAGE_NUM"));
