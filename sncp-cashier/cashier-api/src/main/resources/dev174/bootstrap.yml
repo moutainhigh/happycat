@@ -2,13 +2,13 @@ spring:
   application:
     name: micro-cloud-cashier
   profiles:
-    active: dev172
+    active: dev174
   mvc:
     view:
       prefix: /WEB-INF/view
       suffix: .jsp
   messages:
-    basename: message/i18n/messages
+    basename: i18n/messages
     encoding: UTF-8
   #cas client config
   cas: 

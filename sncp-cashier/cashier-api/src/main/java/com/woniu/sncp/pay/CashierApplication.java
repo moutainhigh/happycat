@@ -1,10 +1,13 @@
 package com.woniu.sncp.pay;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.ErrorPage;
+import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +28,13 @@ import org.springframework.http.HttpStatus;
 @EnableAutoConfiguration
 @EnableEurekaClient
 @EnableCircuitBreaker
-public class CashierApplication {
+public class CashierApplication extends SpringBootServletInitializer {
+	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(CashierApplication.class);
+    }
+	
 	/**
 	 * @param args
 	 */

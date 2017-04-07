@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: micro-cloud-cashier-172
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: micro-cloud-config
+      fail-fast: true
+      username: micro-cloud-config-client-user
+      password: 1@^&IuRE(VBGPoiuy
+      profile: hystrixApp,dsSnPayDev172
+
+discover:
+  hostname1: 10.206.2.253
+  hostname2: 10.206.2.238
+  
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${discover.hostname1}:8761/eureka/,http://${discover.hostname2}:8761/eureka/
+  instance:
+    preferIpAddress: true

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>cashier-api</artifactId>
+	<artifactId>cashier.woniu.com</artifactId>
 	<packaging>war</packaging>
 
 	<parent>
@@ -21,8 +21,8 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-	
-	
+
+
 	<dependencies>
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
@@ -57,6 +57,11 @@
 					<groupId>org.hibernate</groupId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -96,34 +101,6 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>com.101tec</groupId>
-			<artifactId>zkclient</artifactId>
-			<version>${zkclient.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jolokia</groupId>
-			<artifactId>jolokia-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-jexl</groupId>
-			<artifactId>commons-jexl</artifactId>
-			<version>${jexl.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.dozer</groupId>
-			<artifactId>dozer</artifactId>
-			<version>${dozer.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.scala-lang</groupId>
-			<artifactId>scala-library</artifactId>
-			<version>2.11.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.hazelcast</groupId>
-			<artifactId>hazelcast</artifactId>
-		</dependency> -->
 		<!-- CAS SSO -->
 		<dependency>
 			<groupId>org.jasig.cas.client</groupId>
@@ -190,94 +167,92 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!--在用maven 编译，打包过程中回出现javax.servlet找不到的情况，所以需要在这里配置-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>com.woniu</groupId>
-        	<artifactId>sncp-base</artifactId>
-        	<version>1.1.6-SNAPSHOT</version>
-        	<exclusions>
-        		<exclusion>
-        			<artifactId>spring</artifactId>
-        			<groupId>org.springframework</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>sncp-captcha</artifactId>
-        			<groupId>com.woniu</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>sncp-business</artifactId>
-        			<groupId>com.woniu</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>slf4j-simple</artifactId>
-        			<groupId>org.slf4j</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>sncp-security</artifactId>
-        			<groupId>com.woniu</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>httpclient</artifactId>
-        			<groupId>org.apache.httpcomponents</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>sncp-sms</artifactId>
-        			<groupId>net.snail</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>servlet-api</artifactId>
-        			<groupId>javax.servlet</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>hibernate</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>spring-orm</artifactId>
-        			<groupId>org.springframework</groupId>
-        		</exclusion>
-        	</exclusions>
-        </dependency>
-        <!-- <dependency>
-        	<groupId>com.woniu</groupId>
-        	<artifactId>sncp-model</artifactId>
-        	<version>2.0.0-SNAPSHOT</version>
-        	<exclusions>
-        		<exclusion>
-        			<artifactId>validation-api</artifactId>
-        			<groupId>javax.validation</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>hibernate-core</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>hibernate-validator</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>
-        				hibernate-commons-annotations
-        			</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>ejb3-persistence</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        		<exclusion>
-        			<artifactId>hibernate-annotations</artifactId>
-        			<groupId>org.hibernate</groupId>
-        		</exclusion>
-        	</exclusions>
-        </dependency> -->
+		<!--在用maven 编译，打包过程中回出现javax.servlet找不到的情况，所以需要在这里配置 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.woniu</groupId>
+			<artifactId>sncp-base</artifactId>
+			<version>1.1.6-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>sncp-captcha</artifactId>
+					<groupId>com.woniu</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>sncp-business</artifactId>
+					<groupId>com.woniu</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-simple</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>sncp-security</artifactId>
+					<groupId>com.woniu</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>httpclient</artifactId>
+					<groupId>org.apache.httpcomponents</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>sncp-sms</artifactId>
+					<groupId>net.snail</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hibernate</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-orm</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
+
 	<build>
+		<finalName>cashier.woniu.com</finalName>
+		<!-- 资源配置 -->
+		<resources>
+			<resource>
+				<directory>src/main/resources/message</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*.xml</include>
+					<include>*.properties</include>
+				</includes>
+				<excludes>
+					<exclude>bootstrap.yml</exclude>
+					<exclude>bootstrap-dev.yml</exclude>
+					<exclude>bootstrap-dev172.yml</exclude>
+					<exclude>bootstrap-dev173.yml</exclude>
+					<exclude>bootstrap-dev174.yml</exclude>
+				</excludes>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources/${envi.type}</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -293,8 +268,56 @@
 					<executable>true</executable>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<warName>cashier.woniu.com</warName>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
+
+	<profiles>
+		<!-- 开发/封测环境 -->
+		<profile>
+			<id>dev172</id>
+			<activation>
+				<property>
+					<name>envi.type</name>
+					<value>dev172</value>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev173</id>
+			<activation>
+				<property>
+					<name>envi.type</name>
+					<value>dev173</value>
+				</property>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev174</id>
+			<activation>
+				<property>
+					<name>envi.type</name>
+					<value>dev174</value>
+				</property>
+			</activation>
+		</profile>
+		<!-- 公网环境 -->
+		<profile>
+			<id>production</id>
+			<activation>
+				<property>
+					<name>envi.type</name>
+					<value>prod</value>
+				</property>
+			</activation>
+		</profile>
+	</profiles>
 
 </project>
