@@ -228,6 +228,7 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources/message</directory>
+				<targetPath>/message</targetPath>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -237,10 +238,7 @@
 				</includes>
 				<excludes>
 					<exclude>bootstrap.yml</exclude>
-					<exclude>bootstrap-dev.yml</exclude>
 					<exclude>bootstrap-dev172.yml</exclude>
-					<exclude>bootstrap-dev173.yml</exclude>
-					<exclude>bootstrap-dev174.yml</exclude>
 				</excludes>
 				<filtering>true</filtering>
 			</resource>

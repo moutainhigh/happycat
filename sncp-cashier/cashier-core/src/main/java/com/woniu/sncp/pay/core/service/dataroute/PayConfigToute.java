@@ -30,7 +30,7 @@ public class PayConfigToute {
 	@SuppressWarnings("unchecked")
 	public String getSuffixBySeq(Long seq){
 		String tableIndex = "";
-		String selectCfgSql = "select * from CONFIG_INFO where N_ENABLE = 1";
+		String selectCfgSql = "select * from SN_PAY.CONFIG_INFO where N_ENABLE = 1";
 		List<ConfigInfo> configList = (List<ConfigInfo>) payConfigManageDao.queryListEntity(selectCfgSql, null, ConfigInfo.class);
 		if(null!=configList && configList.size()>0){
 			for(int i=0;i<configList.size();i++){
