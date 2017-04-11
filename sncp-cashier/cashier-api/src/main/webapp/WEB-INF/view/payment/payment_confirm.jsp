@@ -35,6 +35,7 @@
         	<input type="hidden" name="productname" value="${ret.productname}"/>
         	<input type="hidden" name="backendurl" value="${ret.backendurl}"/>
         	<input type="hidden" name="fontendurl" value="${ret.fontendurl}"/>
+        	<input type="hidden" name="aid" value="${ret.aid}"/>
         	<input type="hidden" name="platformid" id="platformId"/>
         	<input type="hidden" name="bankcd" id="bankcdId"/>
         	<input type="hidden" name="bankCardType" id="bankCardType"/>

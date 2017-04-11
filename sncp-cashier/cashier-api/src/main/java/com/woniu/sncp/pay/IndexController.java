@@ -1,7 +1,6 @@
 package com.woniu.sncp.pay;
 
 import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +41,6 @@ import com.woniu.sncp.pay.repository.pay.PaymentMerchantDetail;
 import com.woniu.sncp.pay.web.api.ApiBaseController;
 import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
-import com.woniu.sncp.web.CookieUtil;
 import com.woniu.sncp.web.IpUtils;
 import com.woniu.sncp.web.response.ResultResponse;
 
@@ -232,8 +230,8 @@ public class IndexController extends ApiBaseController{
     	request.setAttribute("ret", retMap);
     	
     	//错误页面返回首页
-    	String referer = request.getHeader("Referer");
-    	CookieUtil.addCookie(response, COOKIE_FROM_KEY, URLEncoder.encode(referer), 0);
+//    	String referer = request.getHeader("Referer");
+//    	CookieUtil.addCookie(response, COOKIE_FROM_KEY, URLEncoder.encode(referer), 0);
     	return ORDER_CONFIRM_PAGE;
     }
     

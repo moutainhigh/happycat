@@ -80,7 +80,7 @@ public class PaymentFacade {
 	 * @return
 	 */
 	public Map<String, Object> createOrder(String pOrderNo,long merchantId, long paymentId,
-			String money, String productName,String account, long gameId,
+			String money, String productName,long aid,String account,String loginAccount, long gameId,
 			String imprestMode, String clientIp,Map<String, Object> extendParams,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
@@ -119,17 +119,54 @@ public class PaymentFacade {
 				paymentOrder = new PaymentOrder();
 				// a.查询帐号及判断
 				// 通过收银台申请商户号是否开启账号功能判断是否保存账号信息
-				if(StringUtils.isNotBlank(account)){
+				if(StringUtils.isNotBlank(platform.getValidAccount()) &&
+						platform.getValidAccount().equals(Platform.VALID_ACCOUNT)){
+					if(aid>0){
+						paymentOrder.setAid(aid);
+					}else{
+						return ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+					}
+				}else{
+					if(StringUtils.isNotBlank(account)){
+						//不验证account
+						if(aid>0){
+							paymentOrder.setAid(aid);
+						}else{
+							paymentOrder.setAid(-1L);
+						}
+						String ext = ObjectUtils.toString(extendParams.get("ext"));
+						if(StringUtils.isNotBlank(ext)){
+							JSONObject extend = JSONObject.parseObject(ext);
+							extend.put("account", account);
+							extendParams.put("ext", extend);
+						}else{
+							JSONObject extend = new JSONObject();
+							extend.put("account", account);
+							extendParams.put("ext", extend);
+						}
+					}else{
+						//不验证account
+						if(aid>0){
+							paymentOrder.setAid(aid);
+						}else{
+							paymentOrder.setAid(-1L);
+						}
+					}
+				}
+				
+				//登录账号
+				if(StringUtils.isNotBlank(loginAccount) && !"0".equals(loginAccount)){
+					// 切换帐号库
 					Passport passport = null;
 					try {
-						passport = corePassportService.queryPassport(account);
+						passport = corePassportService.queryPassport(loginAccount);
 					} catch (Exception e) {
 						return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
 					}
 					corePassportService.validatepassport(passport);
-					paymentOrder.setAid(passport.getId());
-				} else {
-					paymentOrder.setAid(0L);
+					paymentOrder.setLoginAid(passport.getId());
+				}else{
+					paymentOrder.setLoginAid(0L);
 				}
 				
 				paymentOrder.setAmount(1);
@@ -205,13 +242,56 @@ public class PaymentFacade {
 				//modified by  fuzl 20161103
 				//fixed 切换平台账号无法保存,兔兔币支付单号格式修改
 				// a.查询帐号及判断
-				if(StringUtils.isNotBlank(account)){
-					Passport passport = corePassportService.queryPassport(account);
-					corePassportService.validatepassport(passport);
-					paymentOrder.setAid(passport.getId());
-				} else {
-					paymentOrder.setAid(0L);
+				if(StringUtils.isNotBlank(platform.getValidAccount()) &&
+						platform.getValidAccount().equals(Platform.VALID_ACCOUNT)){
+					if(aid>0){
+						paymentOrder.setAid(aid);
+					}else{
+						return ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+					}
+				}else{
+					if(StringUtils.isNotBlank(account)){
+						//不验证account
+						if(aid>0){
+							paymentOrder.setAid(aid);
+						}else{
+							paymentOrder.setAid(-1L);
+						}
+						String ext = ObjectUtils.toString(extendParams.get("ext"));
+						if(StringUtils.isNotBlank(ext)){
+							JSONObject extend = JSONObject.parseObject(ext);
+							extend.put("account", account);
+							extendParams.put("ext", extend);
+						}else{
+							JSONObject extend = new JSONObject();
+							extend.put("account", account);
+							extendParams.put("ext", extend);
+						}
+					}else{
+						//不验证account
+						if(aid>0){
+							paymentOrder.setAid(aid);
+						}else{
+							paymentOrder.setAid(-1L);
+						}
+					}
 				}
+				
+				//登录账号
+				if(StringUtils.isNotBlank(loginAccount) && !"0".equals(loginAccount)){
+					// 切换帐号库
+					Passport passport = null;
+					try {
+						passport = corePassportService.queryPassport(loginAccount);
+					} catch (Exception e) {
+						return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+					}
+					corePassportService.validatepassport(passport);
+					paymentOrder.setLoginAid(passport.getId());
+				}else{
+					paymentOrder.setLoginAid(0L);
+				}
+				
 				if(gameId != 0L){
 					// b.查询游戏及判断
 //					DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER_READ);
@@ -244,6 +324,20 @@ public class PaymentFacade {
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				paymentOrder.setMerchantName(platform.getMerchantName());
+				
+				//增加扩展参数,处理手游走消息推送逻辑,ext必须是json格式
+				String ext = ObjectUtils.toString(extendParams.get("ext"));
+				if(StringUtils.isNotBlank(ext)){
+					JSONObject extend = JSONObject.parseObject(ext);
+					paymentOrder.setInfo(ObjectUtils.toString(extend));
+					
+					//增加设置分区id
+					if(extend.containsKey("serverId") && StringUtils.isNotBlank(ObjectUtils.toString(extend.get("serverId")))){
+						if(StringUtils.isNumeric(ObjectUtils.toString(extend.get("serverId")))){
+							paymentOrder.setGareaId(NumberUtils.toLong(ObjectUtils.toString(extend.get("serverId"))));
+						}
+					}
+				}
 				
 				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
 			}

@@ -177,6 +177,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
+			@RequestParam(value="aid",required=false) String aid,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -289,7 +290,7 @@ public class TutuController extends ApiBaseController{
 	    			
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
-						StringUtils.trim(productName),loginAccount,NumberUtils.toLong(gameId),  
+						StringUtils.trim(productName),NumberUtils.toLong(aid),account,loginAccount,NumberUtils.toLong(gameId),  
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
@@ -567,6 +568,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
+			@RequestParam(value="aid",required=false) String aid,
 			HttpServletRequest request, HttpServletResponse response){
     	
 		Map<String, Object> retMap = new HashMap<String,Object>();
@@ -680,7 +682,7 @@ public class TutuController extends ApiBaseController{
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
-						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
+						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
@@ -722,6 +724,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
+			@RequestParam(value="aid",required=false) String aid,
 			HttpServletRequest request, HttpServletResponse response){
     	
 		Map<String, Object> retMap = new HashMap<String,Object>();
@@ -844,7 +847,7 @@ public class TutuController extends ApiBaseController{
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
-						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
+						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
@@ -885,6 +888,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
+			@RequestParam(value="aid",required=false) String aid,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1006,7 +1010,7 @@ public class TutuController extends ApiBaseController{
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
-						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
+						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
@@ -1117,6 +1121,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
+			@RequestParam(value="aid",required=false) String aid,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1230,7 +1235,7 @@ public class TutuController extends ApiBaseController{
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
-						StringUtils.trim(productName),passport.getAccount(),NumberUtils.toLong(gameId),  
+						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
 						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
