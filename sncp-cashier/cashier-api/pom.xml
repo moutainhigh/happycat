@@ -236,10 +236,6 @@
 					<include>*.xml</include>
 					<include>*.properties</include>
 				</includes>
-				<excludes>
-					<exclude>bootstrap.yml</exclude>
-					<exclude>bootstrap-dev172.yml</exclude>
-				</excludes>
 				<filtering>true</filtering>
 			</resource>
 			<resource>
