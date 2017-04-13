@@ -96,22 +96,6 @@ public class PaymentOrderService{
 	@Resource
 	private PayConfigToute payConfigToute;
 	
-	public void createOrder(PaymentOrder paymentOrder, long issuerId)
-			throws DataAccessException {
-		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
-
-		Date now = Calendar.getInstance().getTime();
-		paymentOrder.setCreate(now); // 时间
-		paymentOrder.setPayEnd(now);
-		paymentOrder.setOrderId(sequence);
-		
-//		paymentOrderDao.save(paymentOrder);
-		paymentOrderRepository.save(paymentOrder);
-
-		if (logger.isInfoEnabled())
-			logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
-	}
-	
 	/**
 	 * 生成订单号并创建订单
 	 * @param paymentOrder
@@ -123,7 +107,7 @@ public class PaymentOrderService{
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 //		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO,S_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"','"+paymentOrder.getOrderNo()+"')";
 		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"')";
-		Long sequence = mQueueService.getSequence(orderSeqSql);
+		Long sequence = mQueueService.createSequence(orderSeqSql);
 		
 
 		Date now = Calendar.getInstance().getTime();

@@ -68,12 +68,6 @@ public class SyncTaskSchedule implements Schedule{
 	@Autowired
 	PassportAsyncTaskRepository passportAsyncTaskRepository;
 	
-//	@Resource
-//	private BaseHibernateDAO<PassportAsyncTask, Long> ppAsyncTaskDao;
-	
-//	@Resource
-//	private BaseHibernateDAO<PassportQueue, Long> ppQueueTaskDao;
-	
 	/**
 	 * 创建消息推送任务队列
 	 */

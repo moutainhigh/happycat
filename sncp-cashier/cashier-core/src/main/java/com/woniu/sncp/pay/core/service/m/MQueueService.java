@@ -82,7 +82,7 @@ public class MQueueService{
 		String merchantId = ObjectUtils.toString(params.get(PaymentConstant.MERCHANT_ID));
 		
 		final String queSeqSql = "INSERT INTO SN_PAY.QUE_MSG_QUEUE_SQ(N_ID) VALUES(NULL)";
-		Long sequence = getSequence(queSeqSql);
+		Long sequence = createSequence(queSeqSql);
 		Date now = Calendar.getInstance().getTime();
 		
 		MessageQueue pQuetask = new MessageQueue();
@@ -137,7 +137,7 @@ public class MQueueService{
 		String merchantId = ObjectUtils.toString(params.get(PaymentConstant.MERCHANT_ID));
 		
 		final String queSeqSql = "INSERT INTO SN_PAY.QUE_MSG_QUEUE_LOG_SQ(N_ID) VALUES(NULL)";
-		Long sequence = getSequence(queSeqSql);
+		Long sequence = createSequence(queSeqSql);
 		Date now = Calendar.getInstance().getTime();
 		
 		MessageQueueLog queueLog = new MessageQueueLog();
@@ -159,7 +159,7 @@ public class MQueueService{
 	 * @param getSeqSql
 	 * @return
 	 */
-	public Long getSequence(final String getSeqSql){
+	public Long createSequence(final String getSeqSql){
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		queueSessionDao.getJdbcTemplate().update(new PreparedStatementCreator() {  
             public PreparedStatement createPreparedStatement(  
@@ -196,7 +196,7 @@ public class MQueueService{
 			String merchantId = ObjectUtils.toString(params.get(PaymentConstant.MERCHANT_ID));
 			
 			final String queSeqSql = "INSERT INTO SN_PAY.QUE_MSG_QUEUE_SQ(N_ID) VALUES(NULL)";
-			Long sequence = getSequence(queSeqSql);
+			Long sequence = createSequence(queSeqSql);
 			Date now = Calendar.getInstance().getTime();
 			
 			MessageQueue pQuetask = new MessageQueue();
@@ -216,7 +216,7 @@ public class MQueueService{
 			if(queueRet>0){
 				//保存队列日志
 				final String queLogSeqSql = "INSERT INTO SN_PAY.QUE_MSG_QUEUE_LOG_SQ(N_ID) VALUES(NULL)";
-				Long _sequence = getSequence(queLogSeqSql);
+				Long _sequence = createSequence(queLogSeqSql);
 				
 				MessageQueueLog queueLog = new MessageQueueLog();
 				queueLog.setId(_sequence);

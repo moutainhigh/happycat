@@ -1,15 +1,10 @@
 package com.woniu.sncp.pay.test;
 
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.woniu.sncp.pay.dao.BaseSessionDAO;
-import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 import redis.clients.jedis.JedisCluster;
 
@@ -34,9 +29,7 @@ public class RedisTest {
 		System.out.println("==============" + jedisCluster.get("youqian-spread-sync-to-mysql-date"));
 	}
 
-//	@Autowired
-//	BaseSessionDAO sessionDAO;
-//
+	
 //	@SuppressWarnings("unchecked")
 //	@Test
 //	public void page() {

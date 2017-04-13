@@ -132,7 +132,14 @@ public class PaymentFacade {
 						if(aid>0){
 							paymentOrder.setAid(aid);
 						}else{
-							paymentOrder.setAid(-1L);
+							Passport passport = null;
+							try {
+								passport = corePassportService.queryPassport(account);
+							} catch (Exception e) {
+								return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+							}
+							corePassportService.validatepassport(passport);
+							paymentOrder.setAid(passport.getId());
 						}
 						String ext = ObjectUtils.toString(extendParams.get("ext"));
 						if(StringUtils.isNotBlank(ext)){
@@ -255,7 +262,14 @@ public class PaymentFacade {
 						if(aid>0){
 							paymentOrder.setAid(aid);
 						}else{
-							paymentOrder.setAid(-1L);
+							Passport passport = null;
+							try {
+								passport = corePassportService.queryPassport(account);
+							} catch (Exception e) {
+								return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+							}
+							corePassportService.validatepassport(passport);
+							paymentOrder.setAid(passport.getId());
 						}
 						String ext = ObjectUtils.toString(extendParams.get("ext"));
 						if(StringUtils.isNotBlank(ext)){
