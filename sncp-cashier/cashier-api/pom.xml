@@ -221,7 +221,39 @@
 		</dependency>
 	</dependencies>
 
-
+	
+	<profiles>
+		<!-- 开发/封测环境 -->
+		<profile>
+			<id>dev172</id>
+			<properties>
+				<profileActive>dev172</profileActive>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev173</id>
+			<properties>
+				<profileActive>dev173</profileActive>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev174</id>
+			<properties>
+				<profileActive>dev174</profileActive>
+			</properties>
+		</profile>
+		<!-- 公网环境 -->
+		<profile>
+			<id>production</id>
+			<properties>
+				<profileActive>production</profileActive>
+			</properties>
+		</profile>
+	</profiles>
+	
 	<build>
 		<finalName>cashier.woniu.com</finalName>
 		<!-- 资源配置 -->
@@ -239,7 +271,7 @@
 				<filtering>true</filtering>
 			</resource>
 			<resource>
-				<directory>src/main/resources/${envi.type}</directory>
+				<directory>src/main/resources/${profileActive}</directory>
 				<includes>
 					<include>**/*</include>
 				</includes>
@@ -272,46 +304,5 @@
 		</plugins>
 	</build>
 
-
-	<profiles>
-		<!-- 开发/封测环境 -->
-		<profile>
-			<id>dev172</id>
-			<activation>
-				<property>
-					<name>envi.type</name>
-					<value>dev172</value>
-				</property>
-			</activation>
-		</profile>
-		<profile>
-			<id>dev173</id>
-			<activation>
-				<property>
-					<name>envi.type</name>
-					<value>dev173</value>
-				</property>
-			</activation>
-		</profile>
-		<profile>
-			<id>dev174</id>
-			<activation>
-				<property>
-					<name>envi.type</name>
-					<value>dev174</value>
-				</property>
-			</activation>
-		</profile>
-		<!-- 公网环境 -->
-		<profile>
-			<id>production</id>
-			<activation>
-				<property>
-					<name>envi.type</name>
-					<value>prod</value>
-				</property>
-			</activation>
-		</profile>
-	</profiles>
 
 </project>
