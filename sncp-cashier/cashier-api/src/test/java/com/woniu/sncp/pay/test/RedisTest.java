@@ -35,7 +35,7 @@ public class RedisTest {
 //	public void page() {
 //		String queryString = "select * from SN_PAY.PAY_ORDER";
 //		List<PaymentOrder> orderList =  (List<PaymentOrder>) sessionDAO.page(queryString, null, 6, 3, "N_ORDER_ID", true,PaymentOrder.class);
-//	    
+//	     
 //		for(PaymentOrder order:orderList){
 //			System.out.println(order.getOrderId()+","+order.getMoney()+","+order.getOrderNo());
 //		}

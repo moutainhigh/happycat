@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.woniu.sncp.pay.dao.BaseSessionDAO;
+import com.woniu.sncp.pay.core.service.CoreDbService;
 
 /**
  * <p>
@@ -33,17 +33,7 @@ public class DbStateIntercepter {
 
 	private static final Logger logger = LoggerFactory.getLogger(DbStateIntercepter.class);
 
-	/**
-	 * ONLINE:db机器正常
-	 */
-	private static final String DB_MACHINE_STATE_ONLINE = "ONLINE";
-	/**
-	 * 1 开启检查
-	 */
-	private static final String DB_OPEN_CHECK = "1";
 	
-	@Autowired
-	BaseSessionDAO sessionDAO;
 	
 	/** 
      * 定义拦截规则：拦截com.woniu.sncp.pay.core.service目录下的以及子目录下的所有类中，有create开头的方法。
@@ -55,6 +45,8 @@ public class DbStateIntercepter {
     		+ "|| execution(* com.woniu.sncp.pay.core.service.schedule.*.update*(..))")  
 	public void serviceAspect() {}
 
+    @Autowired
+    CoreDbService coreDbService;
     
     //是否开启检查db状态
     @Value(value = "${spring.db.open-check}")
@@ -71,30 +63,17 @@ public class DbStateIntercepter {
         	Method method = signature.getMethod();
         	logger.debug(this.getClass().getSimpleName()+"--->拦截检测方法:{}",method.getName());
         	// 1. 确认是否需要检查
-        	if(DB_OPEN_CHECK.equals(openCheck)){
+        	if(CoreDbService.DB_OPEN_CHECK.equals(openCheck)){
         		// 2. 查询当前db 主机状态
-            	StringBuffer queryString = new StringBuffer("SELECT * FROM performance_schema.replication_group_members ");
-        		if(StringUtils.isNotBlank(machineName)){
-        			queryString.append(" where MEMBER_HOST = '"+ machineName +"'");
-        		}
+        		String dbState = coreDbService.getDbState(machineName);
         		
-        		List<Map<String, Object>> maps = null;
-        		maps = sessionDAO.jdbcList(queryString.toString());
-        		
-        		if(null != maps && maps.size()>0){
-        			Map<String, Object> map = maps.get(0);
-        			if(map.containsKey("MEMBER_HOST") && map.get("MEMBER_HOST").equals(machineName)){
-        				logger.info("当前机器状态:{}",map.get("MEMBER_STATE"));
-        				if(!DB_MACHINE_STATE_ONLINE.equals(map.get("MEMBER_STATE"))){
-        					//状态不在线,终止操作
-        					logger.info("当前机器状态:{},{}",map.get("MEMBER_STATE"),"请求终止");
-        					return obj;
-        				}
-        				obj = pjp.proceed();
-        			}else{
-        				//获取不到db机器状态,终止操作
-        				return obj;
-        			}
+        		if(StringUtils.isNotBlank(dbState)){
+        			if(!CoreDbService.DB_MACHINE_STATE_ONLINE.equals(dbState)){
+    					//状态不在线,终止操作
+    					logger.info("当前机器状态:{},{}",dbState,"请求终止");
+    					return obj;
+    				}
+    				obj = pjp.proceed();
         		}else{
         			//获取不到db机器状态,终止操作
     				return obj;
