@@ -1,6 +1,7 @@
 package com.woniu.sncp.pay.core.filter;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
@@ -91,6 +92,9 @@ public class LogMonitorFilter extends OncePerRequestFilter {
 			if(retCode == null){
 				retCode = "";
 			}
+			if(endTime == null){
+				endTime = System.currentTimeMillis();
+			}
 			threadPool.executeTask(
 					new LogMonitorTask(url.toString(), method, accessid,
 							accesstype, requestTime, startTime, endTime,retCode==null?"":retCode.toString(), retMsg==null?"未获取到响应描述":retMsg.toString(),IpUtils.getRemoteAddr(request),extMsg, true));
@@ -140,17 +144,26 @@ public class LogMonitorFilter extends OncePerRequestFilter {
 	 */
 	protected void writeJsonp(String callback, HttpServletResponse response, Object result) {
 
-		PrintWriter out;
+		OutputStream out = null;
 		try {
-			out = response.getWriter();
+			out = response.getOutputStream();
+//			out = response.getWriter();
 			if (StringUtils.isEmpty(callback)) {
-				out.print(JsonUtils.toJson(result));
+				out.write(JsonUtils.toJson(result).getBytes());
 			} else {
 				response.setContentType("text/javascript; charset=UTF-8");
-				out.print(callback + "(" + JsonUtils.toJson(result) + ")");
+				out.write((callback + "(" + JsonUtils.toJson(result) + ")").getBytes());
 			}
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
+		} finally{
+//			if(out != null){
+//				try {
+//					out.close();
+//				} catch (IOException e) {
+//					logger.error(e.getMessage(), e);
+//				}
+//			}
 		}
 	}
 }

@@ -119,8 +119,11 @@ public class PaymentOrderService{
 				+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
 		
 		if(paymentOrder.getPayPlatformId() == 4001 || paymentOrder.getPayPlatformId() == 4002 
-				|| paymentOrder.getPayPlatformId() == 4003 ){
+				|| paymentOrder.getPayPlatformId() == 4003 || paymentOrder.getPayPlatformId() == 4011
+				|| paymentOrder.getPayPlatformId() == 4012 || paymentOrder.getPayPlatformId() == 4013
+				|| paymentOrder.getPayPlatformId() == 4014){
 			//4001.兔兔币支付，4002.翡翠币web，4003.翡翠币wap
+			//4011.PC兔兔币,4012.wap兔兔币,4013.android兔兔币,4014.ios兔兔币
 			orderNo = today + "-" + paymentOrder.getMerchantId()+ '-' + paymentOrder.getPayPlatformId() + "-"
 					+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
 					+ StringUtils.leftPad(String.valueOf(sequence), 20, '0');
@@ -162,7 +165,7 @@ public class PaymentOrderService{
 		
 		insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
 		
-		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,S_TIMEOUT_EXPRESS) ");
+		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,D_TIMEOUT_EXPRESS) ");
 		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress);");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(insertOrderSql.toString(), paramSource);
@@ -275,7 +278,9 @@ public class PaymentOrderService{
 //			Map<String,Object> paramMap = new HashMap<String,Object>();
 //			paramMap.put("paypartnerOtherOrderNo", pOrderNo);
 			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), null, PaymentOrder.class);
-			return result.isEmpty()?null:result.get(0);
+			if(result!=null){
+				return result.isEmpty()?null:result.get(0);
+			}
 		}
 		
 		return null;

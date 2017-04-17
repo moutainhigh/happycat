@@ -6,15 +6,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.web.filter.DelegatingFilterProxy;
 
-import com.woniu.sncp.pay.common.threadpool.ThreadPool;
-import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
-import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.CallPayPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.alipay.AlipayDPPayment;
@@ -56,7 +50,7 @@ import com.woniu.sncp.pay.core.service.payment.platform.unionpay.new1.UnionPayPa
 import com.woniu.sncp.pay.core.service.payment.platform.woniu.WnMobileCardPayment;
 
 /**
- * <p>descrption: </p>
+ * <p>descrption: 平台映射配置类</p>
  * 
  * @author fuzl
  * @date   2017年3月23日
@@ -208,6 +202,10 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_4003", fcbPayment);//<!-- 翡翠币wap -->
 		paymentMap.put("PAYMENT_4004", fcbPayment);//<!-- 翡翠币ios -->
 		paymentMap.put("PAYMENT_4005", fcbPayment);//<!-- 翡翠币android -->
+		paymentMap.put("PAYMENT_4011", ttbPayment);//<!-- PC兔兔币 -->
+		paymentMap.put("PAYMENT_4012", ttbPayment);//<!-- wap兔兔币 -->
+		paymentMap.put("PAYMENT_4013", ttbPayment);//<!-- android兔兔币 -->
+		paymentMap.put("PAYMENT_4014", ttbPayment);//<!-- ios兔兔币 -->
 		paymentMap.put("PAYMENT_9999", callPayPayment);//<!-- 远程调用 -->
 		
 		return paymentMap;

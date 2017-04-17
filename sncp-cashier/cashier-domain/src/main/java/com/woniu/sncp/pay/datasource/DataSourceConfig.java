@@ -17,17 +17,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
  * @date   2017年3月22日
  * @Copyright 2017 Snail Soft, Inc. All rights reserved.
  */
-@Configuration
+//@Configuration
 public class DataSourceConfig {
 
     /**
      * 收银台默认使用此数据源
      * @return
      */
-    @Primary
-    @Bean(name = "dataSource")
-    @Qualifier("dataSource")
-    @ConfigurationProperties(prefix="spring.datasource")
+//    @Primary
+//    @Bean(name = "dataSource")
+//    @Qualifier("dataSource")
+//    @ConfigurationProperties(prefix="spring.datasource")
     public DataSource dataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -43,8 +43,8 @@ public class DataSourceConfig {
 //        return DataSourceBuilder.create().build();
 //    }
     
-    @Primary
-    @Bean(name = "jdbcTemplate")
+//    @Primary
+//    @Bean(name = "jdbcTemplate")
     public JdbcTemplate jdbcTemplate(
             @Qualifier("dataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);

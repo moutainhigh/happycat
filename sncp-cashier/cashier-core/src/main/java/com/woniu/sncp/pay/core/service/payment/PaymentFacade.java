@@ -334,6 +334,17 @@ public class PaymentFacade {
 					
 				}
 				
+				if((paymentOrder.getPayPlatformId() != 4011 && paymentId == 4011) || (paymentOrder.getPayPlatformId() != 4012 && paymentId == 4012) 
+						|| (paymentOrder.getPayPlatformId() != 4013 && paymentId == 4013) || (paymentOrder.getPayPlatformId() != 4014 && paymentId == 4014)){
+					//4011.PC兔兔币支付,4012.wap兔兔币支付,4013.android兔兔币支付,4014.ios兔兔币支付
+					String newPattern = paymentOrder.getMerchantId().toString()+ "-" + ObjectUtils.toString(paymentId);
+					String oldOrderNo = paymentOrder.getOrderNo();
+					String oldPattern = oldOrderNo.substring(oldOrderNo.indexOf("-")+1, oldOrderNo.indexOf("-")+5);
+					// 新的订单号
+					String newOrderNo = org.springframework.util.StringUtils.replace(oldOrderNo, oldPattern, newPattern);
+					paymentOrder.setOrderNo(newOrderNo);
+				}
+				
 				paymentOrder.setPayPlatformId(paymentId);//更换支付方式
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
