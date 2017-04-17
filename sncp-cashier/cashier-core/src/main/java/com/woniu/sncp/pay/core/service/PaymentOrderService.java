@@ -165,8 +165,8 @@ public class PaymentOrderService{
 		
 		insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
 		
-		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,D_TIMEOUT_EXPRESS) ");
-		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress);");
+		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,D_TIMEOUT_EXPRESS,N_LOGIN_AID) ");
+		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress,:loginAid);");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(insertOrderSql.toString(), paramSource);
 		
@@ -348,21 +348,6 @@ public class PaymentOrderService{
 			logger.info("更改支付订单成功：" + paymentOrder.getOrderNo());
 	}
 	
-//	public void updateOrder(PaymentOrder paymentOrder, String yuePayState) throws DataAccessException,
-//			IllegalArgumentException {
-//		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：yuePayState:" + yuePayState );
-//		if (StringUtils.isBlank(yuePayState))
-//			throw new IllegalArgumentException("更新订单状态参数错误，yuePayState不能为空");
-//		paymentOrderRepository.updateS(paymentOrder.getOrderId(), yuePayState);
-//	}
-//	
-//	public void updateOrderImprestState(PaymentOrder paymentOrder, String imprestState) throws DataAccessException,
-//			IllegalArgumentException {
-//		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：imprestState:" + imprestState );
-//		if (StringUtils.isBlank(imprestState))
-//			throw new IllegalArgumentException("更新订单状态参数错误，imprestState不能为空");
-//		paymentOrderRepository.updateIS(paymentOrder.getOrderId(), imprestState);
-//	}
 	
 	public String callback(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt){
 		

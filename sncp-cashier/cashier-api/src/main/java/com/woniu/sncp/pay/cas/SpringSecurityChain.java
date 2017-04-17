@@ -1,5 +1,7 @@
 package com.woniu.sncp.pay.cas;
 
+import javax.annotation.Resource;
+
 import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
@@ -9,6 +11,7 @@ import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
+import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +20,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
+import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
 import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
 import com.woniu.sncp.pay.core.filter.RequestClearFilter;
@@ -217,14 +222,11 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 	/**
 	 * 自定义过滤器，包括通用验证、日志格式化输出、requestClear。
 	 */
-	@Autowired
+	@Resource
 	AuthenticationCommonFilter authenticationCommonFilter;
 	
-	@Autowired
-	LogMonitorFilter logMonitorFilter;
-	
 	@Bean
-	public FilterRegistrationBean logMonitorAuthFilter() {
+	public FilterRegistrationBean authenticationCommonFilterBean() {
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 		filterRegistration.addUrlPatterns("/api/refundment/refund/*");
 		filterRegistration.addUrlPatterns("/payment/trans/*");
@@ -241,9 +243,35 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistration.addUrlPatterns("/api/tgt/ttb/pay/json");
 		filterRegistration.addUrlPatterns("/security/ttb/pay/json");
 		filterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
-		filterRegistration.setFilter(logMonitorFilter);
 	    filterRegistration.setFilter(authenticationCommonFilter);
 	    filterRegistration.setOrder(8);
+		return filterRegistration;
+	}
+	
+	@Resource
+	LogMonitorFilter logMonitorFilter;
+	
+	@Bean
+	public FilterRegistrationBean logMonitorFilterBean() {
+		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+		filterRegistration.addUrlPatterns("/api/refundment/refund/*");
+		filterRegistration.addUrlPatterns("/payment/trans/*");
+		filterRegistration.addUrlPatterns("/api/excharge/order/*");
+		filterRegistration.addUrlPatterns("/fcb/pay/**");
+		filterRegistration.addUrlPatterns("/fcb/pay");
+		filterRegistration.addUrlPatterns("/cancel/api/json");
+		filterRegistration.addUrlPatterns("/payment/api/*");
+		filterRegistration.addUrlPatterns("/payment/api");
+		filterRegistration.addUrlPatterns("/wap/api/*");
+		filterRegistration.addUrlPatterns("/payment/api/jsonp");
+		filterRegistration.addUrlPatterns("/payment/api/dp/json");
+		filterRegistration.addUrlPatterns("/security/ttb/pay");
+		filterRegistration.addUrlPatterns("/api/tgt/ttb/pay/json");
+		filterRegistration.addUrlPatterns("/security/ttb/pay/json");
+		filterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
+		filterRegistration.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+		filterRegistration.setFilter(logMonitorFilter);
+	    filterRegistration.setOrder(9);
 		return filterRegistration;
 	}
 	
@@ -254,7 +282,51 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 		filterRegistration.addUrlPatterns("/payment/backend/api/common/**");
 		filterRegistration.setFilter(requestClearFilter);
-		filterRegistration.setOrder(9);
+		filterRegistration.setOrder(10);
 		return filterRegistration;
+	}
+	
+	/**
+	 * 
+	 * 注册一个StatViewServlet
+	 * @return
+	 */
+	@Bean
+	public ServletRegistrationBean DruidStatViewServlet() {
+		// org.springframework.boot.context.embedded.ServletRegistrationBean提供类的进行注册.
+		ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean(new StatViewServlet(),
+				"/druid/*");
+		// 添加初始化参数：initParams
+		// 白名单：
+		servletRegistrationBean.addInitParameter("allow", "127.0.0.1");
+		// IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not
+		// permitted to view this page.
+		servletRegistrationBean.addInitParameter("deny", "192.168.1.73");
+		// 登录查看信息的账号密码.
+		servletRegistrationBean.addInitParameter("loginUsername", "admin");
+		servletRegistrationBean.addInitParameter("loginPassword", "123456");
+
+		// 是否能够重置数据.
+		servletRegistrationBean.addInitParameter("resetEnable", "false");
+		
+		return servletRegistrationBean;
+
+	}
+
+	/**
+	 * 
+	 * 注册一个：filterRegistrationBean
+	 * @return
+	 */
+	@Bean(name="stat")
+	public FilterRegistrationBean druidStatFilter() {
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
+		// 添加过滤规则.
+		filterRegistrationBean.addUrlPatterns("/*");
+		// 添加不需要忽略的格式信息.
+		filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+		filterRegistrationBean.setOrder(11);
+		return filterRegistrationBean;
+
 	}
 }
