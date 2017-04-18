@@ -58,7 +58,7 @@ public class PayBaseDao {
         if (clazz != null) {
             List<Object>  entityList = convert(clazz, result);  
             return entityList;  
-        }  
+        }
         return result;  
     }
   

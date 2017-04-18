@@ -4,8 +4,6 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
-import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +13,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.support.http.StatViewServlet;
-import com.alibaba.druid.support.http.WebStatFilter;
 
 /**
  * <p>
@@ -52,7 +48,20 @@ public class DruidConfiguration implements EnvironmentAware{
         datasource.setMinIdle(Integer.valueOf(propertyResolver.getProperty("minIdle")));
         datasource.setMaxWait(Long.valueOf(propertyResolver.getProperty("maxWait")));
         datasource.setMaxActive(Integer.valueOf(propertyResolver.getProperty("maxActive")));
+        
+        datasource.setTestOnBorrow(Boolean.parseBoolean(propertyResolver.getProperty("testOnBorrow")));
+        datasource.setTestOnReturn(Boolean.parseBoolean(propertyResolver.getProperty("testOnReturn")));
+        datasource.setTestWhileIdle(Boolean.parseBoolean(propertyResolver.getProperty("testWhileIdle")));
+        datasource.setValidationQuery(propertyResolver.getProperty("validationQuery"));
+        
         datasource.setMinEvictableIdleTimeMillis(Long.valueOf(propertyResolver.getProperty("minEvictableIdleTimeMillis")));
+        datasource.setTimeBetweenEvictionRunsMillis(Long.valueOf(propertyResolver.getProperty("timeBetweenEvictionRunsMillis")));
+        datasource.setRemoveAbandoned(Boolean.parseBoolean(propertyResolver.getProperty("removeAbandoned")));
+        datasource.setRemoveAbandonedTimeoutMillis(Long.valueOf(propertyResolver.getProperty("removeAbandonedTimeout")));
+        datasource.setLogAbandoned(Boolean.parseBoolean(propertyResolver.getProperty("logAbandoned")));
+        
+        datasource.setPoolPreparedStatements(Boolean.parseBoolean(propertyResolver.getProperty("poolPreparedStatements")));
+        datasource.setMaxPoolPreparedStatementPerConnectionSize(Integer.parseInt(propertyResolver.getProperty("maxPoolPreparedStatementPerConnectionSize")));
         return datasource;
     }
 	

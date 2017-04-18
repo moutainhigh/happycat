@@ -38,7 +38,7 @@ public class DaoConfig{
 	@Bean
 	public LocalSessionFactoryBean sessionFactory() throws Exception {
 		LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
-		localSessionFactoryBean.setDataSource(this.dataSource());
+		localSessionFactoryBean.setDataSource(dataSource);
 		Properties properties1 = new Properties();
 		properties1.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		properties1.setProperty("hibernate.show_sql", "false");
@@ -53,18 +53,20 @@ public class DaoConfig{
 		return new DataSourceTransactionManager(dataSource);
 	}
 
-	@Bean
-	public DataSource dataSource() throws Exception {
-
-		String driverClassName = env.getProperty("driverClassName").toString();
-		String url = env.getProperty("url").toString();
-		String username = env.getProperty("username").toString();
-		String password = env.getProperty("password").toString();
-
-		DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(driverClassName).url(url)
-				.username(username).password(password);
-		return factory.build();
-	}
+	@Autowired
+	public DataSource dataSource;
+//	@Bean
+//	public DataSource dataSource() throws Exception {
+//
+//		String driverClassName = env.getProperty("driverClassName").toString();
+//		String url = env.getProperty("url").toString();
+//		String username = env.getProperty("username").toString();
+//		String password = env.getProperty("password").toString();
+//
+//		DataSourceBuilder factory = DataSourceBuilder.create().driverClassName(driverClassName).url(url)
+//				.username(username).password(password);
+//		return factory.build();
+//	}
 
 	@Bean(name = { "ppQueueTaskDao" })
 	public BaseHibernateDAO<PassportQueue, Serializable> getPpQueueTaskDao() {
