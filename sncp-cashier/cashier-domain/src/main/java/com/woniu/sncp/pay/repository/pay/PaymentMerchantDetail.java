@@ -60,9 +60,9 @@ public class PaymentMerchantDetail implements Serializable{
 	 */
 	public final static String TYPE_TTB = "Q";
 	public final static String TYPE_TTB_PC = "qp";
-	public final static String TYPE_TTB_WAP = "qi";
+	public final static String TYPE_TTB_WAP = "qw";
 	public final static String TYPE_TTB_ANDROID = "qa";
-	public final static String TYPE_TTB_IOS = "qw";
+	public final static String TYPE_TTB_IOS = "qi";
 	
 	/**
 	 * 游戏充值卡

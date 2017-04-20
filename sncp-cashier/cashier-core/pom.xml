@@ -38,11 +38,11 @@
 			<artifactId>upacp_sdk</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>bouncycastle</groupId>
 			<artifactId>bcprov-jdk15</artifactId>
 			<version>133</version>
-		</dependency>
+		</dependency> -->
 		<!-- 盛付通查询接口用 -->
 		<dependency>
 			<groupId>com.sdo.mas.common</groupId>

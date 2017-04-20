@@ -46,7 +46,8 @@ public class DataSourceConfig {
 //    @Primary
 //    @Bean(name = "jdbcTemplate")
     public JdbcTemplate jdbcTemplate(
-            @Qualifier("dataSource") DataSource dataSource) {
+//            @Qualifier("dataSource") 
+            DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
