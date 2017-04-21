@@ -614,7 +614,7 @@ public class SessionDaoImpl implements BaseSessionDAO {
 		PreparedStatement prepareStatement = null;
 		ResultSet rs = null;
 		try {
-			connection = getJdbcTemplate().getDataSource().getConnection();
+//			connection = getJdbcTemplate().getDataSource().getConnection();
 			prepareStatement = connection.prepareStatement(sql);
 			rs = prepareStatement.executeQuery();
 			return JdbcHelper.extractDatas(rs);

@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -288,13 +287,13 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		return filterRegistration;
 	}
 	
-	@Value("spring.druid.white.ips")
+	@Value(value = "${spring.druid.white.ips}")
 	private String whiteIps;
-	@Value("spring.druid.black.ips")
+	@Value(value = "${spring.druid.black.ips}")
 	private String blackIps;
-	@Value("spring.druid.username")
+	@Value(value = "${spring.druid.username}")
 	private String username;
-	@Value("spring.druid.pwd")
+	@Value(value = "${spring.druid.pwd}")
 	private String pwd;
 	/**
 	 * 
@@ -311,7 +310,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		servletRegistrationBean.addInitParameter("allow", whiteIps);
 		// IP黑名单 (存在共同时，deny优先于allow) : 如果满足deny的话提示:Sorry, you are not
 		// permitted to view this page.
-		servletRegistrationBean.addInitParameter("deny", blackIps);
+//		servletRegistrationBean.addInitParameter("deny", blackIps);
 		// 登录查看信息的账号密码.
 		servletRegistrationBean.addInitParameter("loginUsername", username);
 		servletRegistrationBean.addInitParameter("loginPassword", pwd);
