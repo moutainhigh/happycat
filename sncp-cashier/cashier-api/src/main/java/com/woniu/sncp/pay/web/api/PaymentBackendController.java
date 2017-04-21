@@ -74,7 +74,7 @@ public class PaymentBackendController extends ApiBaseController{
      * @return
      */
     @RequestMapping("/verify")
-    public @ResponseBody ResultResponse queryPaymentOrder(@RequestParam(value="orderno") String orderNo,
+    public @ResponseBody ResultResponse queryPaymentOrder(@RequestParam(value="orderNo") String orderNo,
     		@RequestParam(value="merchantid") String merchantId,HttpServletRequest request){
     	
     	Map<String, Object> retMap = paymentFacade.checkOrder(paymentProcess,orderNo,Long.parseLong(merchantId));
