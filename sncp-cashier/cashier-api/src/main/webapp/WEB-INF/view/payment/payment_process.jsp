@@ -88,7 +88,7 @@
        <p class="answer">答：帐户支付可以支持支付宝、财付通帐户进行支付。</p>
    </div>
    
-  	<form method="post" style="display: none" id="this_form" target="_top" name="form_bot" action="${requestScope.infoMap.paymentOrder.partnerFrontUrl}&orderNo=${requestScope.infoMap.paymentOrder.partnerOrderNo }&productName=${requestScope.productName }">
+  	<form method="post" style="display: none" id="this_form" target="_top" name="form_bot" action="${requestScope.infoMap.paymentOrder.paypartnerFrontCall}&orderNo=${requestScope.infoMap.paymentOrder.partnerOrderNo }&productName=${requestScope.productName }">
 		<!-- <input type="hidden" name="orderNo" value=""/>
 		<input type="hidden" name="productName" value=""/> -->
 	</form>

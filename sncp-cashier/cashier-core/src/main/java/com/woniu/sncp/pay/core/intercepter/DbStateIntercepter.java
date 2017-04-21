@@ -39,10 +39,11 @@ public class DbStateIntercepter {
      * 定义拦截规则：拦截com.woniu.sncp.pay.core.service目录下的以及子目录下的所有类中，有create开头的方法。
      * execution(* com.woniu.sncp.pay.core.service.*Service.create*(..)) ||
      */
-    @Pointcut("execution(* com.woniu.sncp.pay.core.service.*Service.create*(..)) || execution(* com.woniu.sncp.pay.core.service.*Service.update*(..))"
-    		+ "|| execution(* com.woniu.sncp.pay.core.service.*Impl.create*(..)) || execution(* com.woniu.sncp.pay.core.service.*Impl.update*(..))"
-    		+ "|| execution(* com.woniu.sncp.pay.core.service.m.*.create*(..)) || execution(* com.woniu.sncp.pay.core.service.schedule.*.create*(..))"
-    		+ "|| execution(* com.woniu.sncp.pay.core.service.schedule.*.update*(..))")  
+    @Pointcut("execution(* com.woniu.sncp.pay.core.service.*Service.create*(..)) || execution(* com.woniu.sncp.pay.core.service.*Service.update*(..)) || execution(* com.woniu.sncp.pay.core.service.*Service.query*(..)) "
+    		+ "|| execution(* com.woniu.sncp.pay.core.service.*Impl.create*(..)) || execution(* com.woniu.sncp.pay.core.service.*Impl.update*(..)) || execution(* com.woniu.sncp.pay.core.service.*Impl.query*(..))"
+    		+ "|| execution(* com.woniu.sncp.pay.core.service.m.*.create*(..)) || execution(* com.woniu.sncp.pay.core.service.m.*.query*(..))"
+    		+ "|| execution(* com.woniu.sncp.pay.core.service.schedule.*.create*(..)) || execution(* com.woniu.sncp.pay.core.service.schedule.*.update*(..)) || execution(* com.woniu.sncp.pay.core.service.schedule.*.query*(..)) "
+    		+ "|| execution(* com.woniu.sncp.pay.core.service.schedule.*.get*(..))")
 	public void serviceAspect() {}
 
     @Autowired
