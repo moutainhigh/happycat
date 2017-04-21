@@ -35,7 +35,7 @@
 					  success: function(data) {
 						  if(data.status =='success'){
 							  var imprestOrder = data.data.paymentOrder;
-							  if(imprestOrder.paymentState =='1' && imprestOrder.imprestState =='1'){
+							  if(imprestOrder.payState =='1' && imprestOrder.state =='1'){
 								  $('.tips-icon').addClass('payOk');
 								  $('.tips-msg').html('支付成功');
 							  }
