@@ -294,4 +294,51 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
         messageSource.setBasename(basename);
         return messageSource;
     }
+    
+    @Bean(name={"moneyBookersMethodMap"})
+	public Map<String, String> getMoneyBookersMethodMap(){
+		Map<String,String> moneyBookersMethodMap = new HashMap<String,String>();
+		moneyBookersMethodMap.put("WLT", "WLT");
+		moneyBookersMethodMap.put("VSA", "VSA");
+		moneyBookersMethodMap.put("MSC", "MSC");
+		moneyBookersMethodMap.put("AMX", "AMX");
+		moneyBookersMethodMap.put("JCB", "JCB");
+		moneyBookersMethodMap.put("MAE", "MAE");
+		moneyBookersMethodMap.put("DIN", "DIN");
+		return moneyBookersMethodMap;
+	}
+    
+    @Value(value = "${paypal.mode}")
+	private String paypalMode;
+	@Value(value = "${paypal.clientId}")
+	private String paypalClientId;
+	@Value(value = "${paypal.clientSecret}")
+	private String clientSecret;
+	
+	@Value(value = "${paypal.acct1.UserName}")
+	private String paypalUserName;
+	
+	@Value(value = "${paypal.acct1.Password}")
+	private String paypalPassword;
+	
+	@Value(value = "${paypal.acct1.Signature}")
+	private String paypalSignature;
+	
+	@Bean(name={"paypalConfigurationMap"})
+	public Map<String, String> getPaypalConfigurationMap(){
+		Map<String,String> paypalConfigurationMap = new HashMap<String,String>();
+		paypalConfigurationMap.put("mode", paypalMode);//<!-- Endpoints are varied depending on whether sandbox OR live is chosen for mode -->
+		paypalConfigurationMap.put("sandbox.EmailAddress", "paypalsnail@snailgame.net");
+		paypalConfigurationMap.put("clientId", paypalClientId);//<!-- Credentials -->
+		paypalConfigurationMap.put("clientSecret", clientSecret);
+		paypalConfigurationMap.put("http.ConnectionTimeOut", "5000");//<!-- Connection Information -->
+		paypalConfigurationMap.put("http.Retry", "2");
+		paypalConfigurationMap.put("http.ReadTimeOut", "30000");
+		paypalConfigurationMap.put("http.MaxConnection", "100");
+		paypalConfigurationMap.put("http.GoogleAppEngine", "false");//<!-- Set this property to true if you are using the PayPal SDK within a Google App Engine java app -->
+		paypalConfigurationMap.put("acct1.UserName", paypalUserName);//<!-- Account Credential -->
+		paypalConfigurationMap.put("acct1.Password", paypalPassword);
+		paypalConfigurationMap.put("acct1.Signature", paypalSignature);
+		return paypalConfigurationMap;
+	}
 }
