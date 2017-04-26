@@ -1,6 +1,7 @@
 package com.woniu.sncp.pay.core.service.payment.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,6 +104,20 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				}
 			}
 			
+			String platformExt = _platform.getPlatformExt();//平台扩展
+			// 是否校验金额,默认是校验
+			Boolean checkAmount = true;
+			if(StringUtils.isNotEmpty(platformExt)){
+				JSONObject extJson = JSONObject.parseObject(platformExt);
+				// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
+				if(extJson.containsKey("checkAmount") && StringUtils.isNotEmpty(extJson.getString("checkAmount"))){
+					if(extJson.getString("checkAmount").equals("0")){
+						checkAmount = false;
+					};
+				}
+			}
+			
+			
 			// 3. 每个平台单独处理
 			Map<String, Object> centerInfo = this.validateBackParams(actualPayment,inParams);
 			
@@ -110,6 +125,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			String oppositeOrderNo = (String) centerInfo.get(PaymentConstant.OPPOSITE_ORDERNO);
 			String payIp = (String) centerInfo.get(PaymentConstant.PAY_IP);
 			String oppositeCurrency = (String) centerInfo.get(PaymentConstant.OPPOSITE_CURRENCY);
+			String oppositeMoney = (String) centerInfo.get(PaymentConstant.OPPOSITE_MONEY);
 			
 			PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
 			
@@ -217,7 +233,92 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					}
 				}
 				
-			}else{
+			}else if(!checkAmount){
+				// 不校验渠道金额，直接修改数据，回调业务方成功，更新我方订单金额
+				logger.info("不校验渠道金额，订单号^_^{}",paymentOrder.getOrderNo());
+				BigDecimal opMoneyDecimal = new BigDecimal(oppositeMoney);
+				paymentOrder.setMoney(opMoneyDecimal.divide(new BigDecimal(100), 2 ,RoundingMode.HALF_UP).floatValue());
+				
+				// modified by fuzl@mysnail.com 回调业务方修改为异步队列来做
+				returned = paymentOrderService.createCallbackSyncTask(paymentOrder, payemntMerchnt, oppositeCurrency,oppositeOrderNo, callbackTaskType);
+				
+				//a.更新支付成功
+				if(!paymentOrderService.orderIsPayed(paymentOrder) && "success".equals(returned)){
+					paymentOrder.setOtherOrderNo(oppositeOrderNo);
+					paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
+					paymentOrder.setPayEnd(new Date());
+					if(StringUtils.isNotBlank(oppositeCurrency)){
+						if(!oppositeCurrency.equals(paymentOrder.getMoneyCurrency())){
+							paymentOrder.setMoneyCurrency(oppositeCurrency);// 设置回调回来的支付币种
+						}
+					}
+					//TODO 创建消息队列，推送游戏
+					//判断是否需要创建消息队列
+					if(paymentOrder.getPaypartnerBackendCall().endsWith(messagePushUrl)){
+						
+						//判断memcache是否已经存在此订单
+						Object t = memcachedService.get("^_^"+paymentOrder.getOrderNo());
+						if(null == t){
+							//memcache存放paymentOrder
+							memcachedService.set("^_^"+paymentOrder.getOrderNo(), 7000, paymentOrder);
+							Boolean cSyncResult = paymentOrderService.createSyncTask(paymentOrder,oppositeOrderNo,messagePushUrl,messagePushTaskType);
+							if(cSyncResult){
+								//推送任务已创建
+//								DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+								paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, PaymentOrder.IMPREST_STATE_COMPLETED);
+								request.setAttribute("retCode", "1");
+								request.setAttribute("retMsg", "操作成功");
+								if(callPayRemoteFlag){
+									actualPayment.callPayBackReturn(inParams, response, true);
+									logger.info("不校验渠道金额，推送任务已创建，订单号^_^{}",paymentOrder.getOrderNo());
+								}else{
+									actualPayment.paymentReturn(inParams, response, true);
+								}
+							}else{
+								logger.error("推送游戏任务创建失败，订单号*_*"+paymentOrder.getOrderNo());
+								request.setAttribute("retCode", "0");
+								request.setAttribute("retMsg", "推送游戏任务创建失败，订单号*_*"+paymentOrder.getOrderNo());
+								if(callPayRemoteFlag){
+									actualPayment.callPayBackReturn(inParams, response, false);
+								}else{
+									actualPayment.paymentReturn(inParams, response, false);
+								}
+							}
+							//删除memcache保存的值
+							memcachedService.delete("^_^"+paymentOrder.getOrderNo());
+						}else{
+							logger.info("推送游戏任务正在创建，订单号^_^"+paymentOrder.getOrderNo());
+							request.setAttribute("retCode", "0");
+							request.setAttribute("retMsg", "推送游戏任务正在创建，订单号^_^"+paymentOrder.getOrderNo());
+							if(callPayRemoteFlag){
+								actualPayment.callPayBackReturn(inParams, response, false);
+							}else{
+								actualPayment.paymentReturn(inParams, response, false);
+							}
+						}
+					}else{
+						//不需要走消息推送
+//						DataSourceHolder.setDataSourceType(DataSourceConstants.DS_CENTER);
+						paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, PaymentOrder.IMPREST_STATE_COMPLETED);
+						request.setAttribute("retCode", "1");
+						request.setAttribute("retMsg", "操作成功");
+						if(callPayRemoteFlag){
+							actualPayment.callPayBackReturn(inParams, response, true);
+						}else{
+							actualPayment.paymentReturn(inParams, response, true);
+						}
+					}
+				} else {
+					logger.error("回调失败，订单号："+paymentOrder.getOrderNo());
+					request.setAttribute("retCode", "0");
+					request.setAttribute("retMsg", "回调失败，订单号："+paymentOrder.getOrderNo());
+					if(callPayRemoteFlag){
+						actualPayment.callPayBackReturn(inParams, response, false);
+					}else{
+						actualPayment.paymentReturn(inParams, response, false);
+					}
+				}
+			}else {
 				//b.回调商户,如果失败应用通过验证接口补单
 //				returned = paymentOrderService.callback(paymentOrder,payemntMerchnt);
 				
@@ -250,6 +351,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 								paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_PAYED, PaymentOrder.IMPREST_STATE_COMPLETED);
 								request.setAttribute("retCode", "1");
 								request.setAttribute("retMsg", "操作成功");
+								logger.info("推送任务已创建，订单号^_^{}",paymentOrder.getOrderNo());
 								if(callPayRemoteFlag){
 									actualPayment.callPayBackReturn(inParams, response, true);
 								}else{
@@ -578,6 +680,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		validateParams.put(PaymentConstant.ORDER_NO, paymentOrder.getOrderNo());
 		validateParams.put(PaymentConstant.PAY_IP, remoteIp); // 第三方平台IP
 		validateParams.put(PaymentConstant.PAYMENT_PLATFORM, platform); 
+		validateParams.put(PaymentConstant.OPPOSITE_MONEY, oppositeMoney);
 		validateParams.put(PaymentConstant.OPPOSITE_CURRENCY, validateParams.get(PaymentConstant.OPPOSITE_CURRENCY));
 		return validateParams;
 	}

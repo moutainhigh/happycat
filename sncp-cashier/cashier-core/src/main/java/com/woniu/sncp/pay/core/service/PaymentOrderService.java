@@ -340,7 +340,7 @@ public class PaymentOrderService{
 		
 		updateOrderSql.append(payConfigToute.getSuffixBySeq(paymentOrder.getOrderId()));//添加表后缀
 		
-		updateOrderSql.append(" set S_ORDER_NO = :orderNo,S_OTHER_ORDER_NO = :otherOrderNo,N_PAY_IP = :payIp,D_PAY_END = :payEnd,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state,N_LOGIN_AID = :loginAid,S_MONEY_CURRENCY = :moneyCurrency");
+		updateOrderSql.append(" set S_ORDER_NO = :orderNo,S_OTHER_ORDER_NO = :otherOrderNo,N_PAY_IP = :payIp,D_PAY_END = :payEnd,N_PAY_PLATFORM_ID = :payPlatformId,N_AID = :aid,N_GAME_ID = :gameId,S_CURRENCY = :currency,S_MERCHANT_NO = :merchantNo,S_MERCHANT_NAME = :merchantName,S_PAY_STATE = :payState,S_STATE = :state,N_LOGIN_AID = :loginAid,S_MONEY_CURRENCY = :moneyCurrency,N_MONEY = :money");
 		updateOrderSql.append(" where N_ORDER_ID = :orderId;");
 		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 		int result = sessionDao.update(updateOrderSql.toString(), paramSource);
