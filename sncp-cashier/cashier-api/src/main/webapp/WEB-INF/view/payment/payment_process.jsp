@@ -30,7 +30,7 @@
 					url: "/payment/order/query",
 					  data: {
 					    orderNo: $('#orderno').html(),
-						merchantid: $('#merchantid').html()
+						merchantid: '${requestScope.infoMap.paymentOrder.merchantId}'
 					  },
 					  success: function(data) {
 						  if(data.status =='success'){
@@ -71,7 +71,7 @@
            <!--   <h2><i class="tips-icon payOk"></i><span class="tips-msg">支付成功</span></h2>
             <h2><i class="tips-icon payError"></i><span class="tips-msg">充值失败</span></h2>-->
             <h2><i class="tips-icon"></i><span class="tips-msg">订单正在处理,请稍后...</span></h2>
-            <span id="merchantid" style="display:none;">${requestScope.infoMap.paymentOrder.merchantId}</span>
+            <span id="merchantid" ></span>
             <ul>
                 <li><label>订单编号:</label><span id="orderno">${requestScope.infoMap.paymentOrder.paypartnerOtherOrderNo}</span></li>
                 <c:if test="${requestScope.infoMap.paymentOrder.productname != null}">
