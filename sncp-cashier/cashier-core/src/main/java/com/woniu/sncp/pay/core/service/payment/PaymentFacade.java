@@ -680,10 +680,10 @@ public class PaymentFacade {
 		
 		if (order != null) {
 			result.put(PaymentConstant.PAYMENT_ORDER,order);
-			Passport pp = corePassportService.queryPassport(order.getAid());
-			if (pp != null && pp.getAccount() != null) {
-				result.put("userName", pp.getAccount());
-			}
+//			Passport pp = corePassportService.queryPassport(order.getAid());
+//			if (pp != null && pp.getAccount() != null) {
+//				result.put("userName", pp.getAccount());
+//			}
 		} else {
 			result = ErrorCode.getErrorCode(14105);
 		}
