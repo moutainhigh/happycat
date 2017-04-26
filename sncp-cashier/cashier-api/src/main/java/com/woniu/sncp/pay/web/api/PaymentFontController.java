@@ -160,9 +160,10 @@ public class PaymentFontController extends ApiBaseController{
 	public String imprestProcessOrder(HttpServletRequest request){
 		String orderNo = request.getParameter("orderNo");
 		String merchantId = request.getParameter("merchantid");
+		String orderno = request.getParameter("orderno");
 		
 		Map<String,Object> retMap = new HashMap<String, Object>();
-		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,Long.parseLong(merchantId));
+		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderno,Long.parseLong(merchantId));
 		if(paymentOrder == null){
 			request.setAttribute("msg", "未查询到订单");
 			request.setAttribute("retCode", ErrorCode.getErrorCode(54208).get(ErrorCode.TIP_CODE));
