@@ -146,6 +146,7 @@ public class PaypalPayment extends AbstractPayment {
 		//发送GetExpressCheckoutDetails请求结束
 		Map<String, String> resuleMap = null;
 		Map<String, String> result = ecService.getExpressCheckoutDetails(token);
+		logger.info(this.getClass().getSimpleName()+",result-->{}",result);
 		if (result != null) {
 			if (!token.equals(result.get(ExpressCheckoutService.TOKEN)) 
 					|| !payerID.equals(result.get(ExpressCheckoutService.PAYER_ID))) {
@@ -157,6 +158,7 @@ public class PaypalPayment extends AbstractPayment {
 			String notifyURL = platform.getBehindUrl(merchantId);
 			resuleMap = ecService.doExpressCheckoutPayment(token, payerID, ExpressCheckoutService.PAYMENTACTION,
 					item, notifyURL);
+			logger.info(this.getClass().getSimpleName()+",resuleMap-->{}",resuleMap);
 		}
 		if (resuleMap == null) {
 			throw new PaypalPaymentException("check DoExpressCheckout resp error");

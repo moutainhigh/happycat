@@ -316,7 +316,7 @@ public class PaymentBackendController extends ApiBaseController{
 		inParams.put("merchantid", merchantId);
 		inParams.put("paymentId", paymentId);
 		inParams.put("abstractPayment", actualPayment);
-		logRequestParams("commonPaymentBackend", request);
+		logRequestParams("commonPaymentBackendGB", request);
 		paymentFacade.processPaymentBack(standardPaymentProcess, inParams);
 	}
 }

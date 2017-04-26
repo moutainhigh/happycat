@@ -248,12 +248,13 @@ public class PaymentOrderService{
 			
 			selectOrdersql.append(payConfigToute.getSuffixBySeq(id));//添加表后缀
 			
-			selectOrdersql.append(" where S_ORDER_NO = :orderNo");
-			
-			Map<String,Object> paramMap = new HashMap<String,Object>();
-			paramMap.put("orderNo", orderNo);
-			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), paramMap, PaymentOrder.class);
-			return result.isEmpty()?null:result.get(0);
+			selectOrdersql.append(" where S_ORDER_NO = '"+orderNo+"';");
+//			Map<String,Object> paramMap = new HashMap<String,Object>();
+//			paramMap.put("orderNo", orderNo);
+			List<PaymentOrder> result = (List<PaymentOrder>) paymentOrderDao.queryListEntity(selectOrdersql.toString(), null, PaymentOrder.class);
+			if(result!=null){
+				return result.isEmpty()?null:result.get(0);
+			}
 		}
 		
 		return null;

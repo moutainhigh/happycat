@@ -494,8 +494,9 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		String paymentId = String.valueOf(inParams.get("paymentId"));
 		Platform platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
 		
-		// 2.根据平台扩展判断是否需要调用远程服务,add by fuzl@mysnail.com
+		// 2.根据商户扩展判断是否需要调用远程服务,add by fuzl@mysnail.com
 		String merchantExt = platform.getExtend();
+		String platformExt = platform.getPlatformExt();//平台扩展
 		// 是否调用远端服务
 		Boolean callPayRemoteFlag = false;
 		if(StringUtils.isNotEmpty(merchantExt)){
@@ -507,6 +508,19 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				};
 			}
 		}
+		
+		// 是否校验金额,默认是校验
+		Boolean checkAmount = true;
+		if(StringUtils.isNotEmpty(platformExt)){
+			JSONObject extJson = JSONObject.parseObject(platformExt);
+			// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
+			if(extJson.containsKey("checkAmount") && StringUtils.isNotEmpty(extJson.getString("checkAmount"))){
+				if(extJson.getString("checkAmount").equals("0")){
+					checkAmount = false;
+				};
+			}
+		}
+		
 		
 		// 3.验证支付平台和IP校验
 		String remoteIp = IpUtils.getRemoteAddr(request);
@@ -533,10 +547,14 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		paymentOrderService.checkOrderIsProcessed(paymentOrder);
 		
 		// 6.订单金额校验
+		// 增加是否需要校验金额
 		String oppositeMoney = (String) validateParams.get(PaymentConstant.OPPOSITE_MONEY);
-		if (!paymentOrderService.checkOrderMoney(paymentOrder, (int) NumberUtils.toFloat(oppositeMoney)))
-			throw new ValidationException("订单["+paymentOrder.getOrderNo()+"]金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
-		
+		if(checkAmount){
+			if (!paymentOrderService.checkOrderMoney(paymentOrder, (int) NumberUtils.toFloat(oppositeMoney)))
+				throw new ValidationException("订单["+paymentOrder.getOrderNo()+"]金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
+		}else{
+			logger.info(this.getClass().getSimpleName()+"^_^渠道:{} 不校验金额,我方:{},对方:{}",platform.getPlatformId(),paymentOrder.getMoney() * 100,ObjectUtils.toString(oppositeMoney));
+		}
 		
 		// 7.设置订单状态（支付平台返回值判断） 
 		String paymentState = (String) validateParams.get(PaymentConstant.PAYMENT_STATE);

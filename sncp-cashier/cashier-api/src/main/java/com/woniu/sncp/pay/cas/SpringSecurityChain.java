@@ -44,6 +44,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 
 	private static boolean casEnabled = true;
 	
+	
 	public SpringSecurityChain() {
 	}
 
@@ -94,7 +95,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> listener = new ServletListenerRegistrationBean<>();
 		listener.setEnabled(casEnabled);
 		listener.setListener(new SingleSignOutHttpSessionListener());
-		listener.setOrder(1);
+		listener.setOrder(11);
 		return listener;
 	}
 
@@ -115,7 +116,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 			filterRegistration.addUrlPatterns("/logout");
 		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
 		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.setOrder(2);
+		filterRegistration.setOrder(12);
 		return filterRegistration;
 	}
 
@@ -133,7 +134,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 			filterRegistration.addUrlPatterns("/*");
 		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
 		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.setOrder(3);
+		filterRegistration.setOrder(13);
 		return filterRegistration;
 	}
 
@@ -156,7 +157,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistration.addInitParameter("useSession", autoconfig.isUseSession() ? "true" : "false");
 		filterRegistration.addInitParameter("redirectAfterValidation",
 				autoconfig.isRedirectAfterValidation() ? "true" : "false");
-		filterRegistration.setOrder(4);
+		filterRegistration.setOrder(14);
 		return filterRegistration;
 	}
 
@@ -177,7 +178,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 			filterRegistration.addUrlPatterns("/*");
 		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
 		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.setOrder(5);
+		filterRegistration.setOrder(15);
 		return filterRegistration;
 	}
 
@@ -186,7 +187,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 	 * 可通过HttpServletRequest的getRemoteUser()方法获得登录用户的登录名
 	 * 
 	 */
-	@Bean
+	//@Bean
 	public FilterRegistrationBean httpServletRequestWrapperFilter() {
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 		filterRegistration.setFilter(new HttpServletRequestWrapperFilter());
@@ -195,7 +196,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 			filterRegistration.setUrlPatterns(autoconfig.getRequestWrapperFilters());
 		else
 			filterRegistration.addUrlPatterns("/*");
-		filterRegistration.setOrder(6);
+		filterRegistration.setOrder(16);
 		return filterRegistration;
 	}
 
@@ -213,7 +214,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 			filterRegistration.setUrlPatterns(autoconfig.getAssertionFilters());
 		else
 			filterRegistration.addUrlPatterns("/*");
-		filterRegistration.setOrder(7);
+		filterRegistration.setOrder(17);
 		return filterRegistration;
 	}
 	
@@ -245,7 +246,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistration.addUrlPatterns("/security/ttb/pay/json");
 		filterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
 	    filterRegistration.setFilter(authenticationCommonFilter);
-	    filterRegistration.setOrder(8);
+	    filterRegistration.setOrder(18);
 		return filterRegistration;
 	}
 	
@@ -272,7 +273,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistration.addUrlPatterns("/wap/api/security/ttb/pay/json");
 		filterRegistration.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
 		filterRegistration.setFilter(logMonitorFilter);
-	    filterRegistration.setOrder(9);
+	    filterRegistration.setOrder(19);
 		return filterRegistration;
 	}
 	
@@ -283,7 +284,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
 		filterRegistration.addUrlPatterns("/payment/backend/api/common/**");
 		filterRegistration.setFilter(requestClearFilter);
-		filterRegistration.setOrder(10);
+		filterRegistration.setOrder(20);
 		return filterRegistration;
 	}
 	
@@ -333,7 +334,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistrationBean.addUrlPatterns("/*");
 		// 添加不需要忽略的格式信息.
 		filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
-		filterRegistrationBean.setOrder(11);
+		filterRegistrationBean.setOrder(21);
 		return filterRegistrationBean;
 
 	}

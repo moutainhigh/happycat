@@ -81,7 +81,7 @@ public class PaymentFacade {
 	 */
 	public Map<String, Object> createOrder(String pOrderNo,long merchantId, long paymentId,
 			String money, String productName,long aid,String account,String loginAccount, long gameId,
-			String imprestMode, String clientIp,Map<String, Object> extendParams,String body,String goodsDetail,String terminalType,String timeoutExpress) {
+			String imprestMode, String clientIp,Map<String, Object> extendParams,String moneyCurrency,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
 		try {
@@ -202,7 +202,8 @@ public class PaymentFacade {
 				paymentOrder.setState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
 				paymentOrder.setPayState(PaymentOrder.PAYMENT_STATE_CREATED);
 
-				paymentOrder.setMoneyCurrency(actualPayment.getMoneyCurrency()); // 实际支付币种
+//				paymentOrder.setMoneyCurrency(actualPayment.getMoneyCurrency()); // 实际支付币种
+				paymentOrder.setMoneyCurrency(moneyCurrency);
 				paymentOrder.setImprestMode(imprestMode); // 存储在订单中的支付模式
 				
 				paymentOrder.setPaypartnerBackendCall(backendUrl);
@@ -345,7 +346,9 @@ public class PaymentFacade {
 					paymentOrder.setOrderNo(newOrderNo);
 				}
 				
-				paymentOrder.setPayPlatformId(paymentId);//更换支付方式
+				paymentOrder.setMoneyCurrency(moneyCurrency); // 支付币种
+				
+				paymentOrder.setPayPlatformId(paymentId);// 更换支付方式
 				//增加渠道商户号
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				paymentOrder.setMerchantName(platform.getMerchantName());

@@ -255,6 +255,7 @@ public class ChinaPayPaymentNew extends AbstractPayment {
 		
 		params.put("OrderAmt", String.valueOf((new BigDecimal(paymentOrder.getMoney().toString())).multiply(new BigDecimal(100)).intValue()));//订单金额 单位：分
 		params.put("BusiType", "0001");//业务类型，固定值：0001，必填
+		params.put("TranType", "0001");//业务类型，固定值：0001，必填
 		
 		params.put("MerBgUrl", platform.getBehindUrl(paymentOrder.getMerchantId()));//商户后台通知地址
 		if(StringUtils.isNotEmpty(platform.getFrontUrl(paymentOrder.getMerchantId()))){

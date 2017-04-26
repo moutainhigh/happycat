@@ -24,6 +24,7 @@ import com.woniu.sncp.pay.core.service.PaymentService;
 import com.woniu.sncp.pay.core.service.PlatformService;
 import com.woniu.sncp.pay.core.service.payment.PaymentFacade;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.paypal.PaypalPayment;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 @Controller
@@ -69,6 +70,14 @@ public class PaymentFontController extends ApiBaseController{
 		
 		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
 		Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);
+		
+		if (actualPayment instanceof PaypalPayment) {
+			platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
+			platformService.validatePaymentPlatform(platform);
+			
+			request.setAttribute(PaymentConstant.PAYMENT_PLATFORM, platform);
+			request.setAttribute(PaymentConstant.MERCHANT_ID, merchantId);
+		}
 		
 		Map<String,Object> result = paymentFacade.processPaymentFont(actualPayment, request);
 		PaymentOrder order = (PaymentOrder) result.get(PaymentConstant.PAYMENT_ORDER);
@@ -150,9 +159,10 @@ public class PaymentFontController extends ApiBaseController{
 	@RequestMapping("/process")
 	public String imprestProcessOrder(HttpServletRequest request){
 		String orderNo = request.getParameter("orderNo");
+		String merchantId = request.getParameter("merchantid");
 		
 		Map<String,Object> retMap = new HashMap<String, Object>();
-		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
+		PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(orderNo,Long.parseLong(merchantId));
 		if(paymentOrder == null){
 			request.setAttribute("msg", "未查询到订单");
 			request.setAttribute("retCode", ErrorCode.getErrorCode(54208).get(ErrorCode.TIP_CODE));
