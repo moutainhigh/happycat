@@ -173,6 +173,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
+			@RequestParam(value="currency",required=false) String moneyCurrency,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
@@ -291,7 +292,7 @@ public class TutuController extends ApiBaseController{
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),NumberUtils.toLong(aid),account,loginAccount,NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
+						mode, clientIp, exMap,moneyCurrency,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -564,6 +565,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="currency",required=false) String moneyCurrency,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
@@ -683,7 +685,7 @@ public class TutuController extends ApiBaseController{
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
+						mode, clientIp, exMap,moneyCurrency,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -720,6 +722,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="currency",required=false) String moneyCurrency,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
@@ -848,7 +851,7 @@ public class TutuController extends ApiBaseController{
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
+						mode, clientIp, exMap,moneyCurrency,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -884,6 +887,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="currency",required=false) String moneyCurrency,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
@@ -1011,7 +1015,7 @@ public class TutuController extends ApiBaseController{
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
+						mode, clientIp, exMap,moneyCurrency,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
@@ -1117,6 +1121,7 @@ public class TutuController extends ApiBaseController{
 			@RequestParam(value="fcbsmscode",required=false) String fcbsmscode,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
+			@RequestParam(value="currency",required=false) String moneyCurrency,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
 			@RequestParam(value="terminalType",required=false) String terminalType,
@@ -1236,7 +1241,7 @@ public class TutuController extends ApiBaseController{
 	    	}else{
 	    		retMap = paymentFacade.createOrder(orderNo, NumberUtils.toLong(merchantId),NumberUtils.toLong(platformId),money,
 						StringUtils.trim(productName),NumberUtils.toLong(aid),account,passport.getAccount(),NumberUtils.toLong(gameId),  
-						mode, clientIp, exMap,body,goodsDetail,terminalType,timeoutExpress);
+						mode, clientIp, exMap,moneyCurrency,body,goodsDetail,terminalType,timeoutExpress);
 	    	}
 		} catch (Exception e){
 			request.setAttribute("msg", e.getMessage());
