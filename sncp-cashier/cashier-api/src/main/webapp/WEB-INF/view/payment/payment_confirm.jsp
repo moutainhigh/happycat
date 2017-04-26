@@ -35,6 +35,7 @@
         	<input type="hidden" name="productname" value="${ret.productname}"/>
         	<input type="hidden" name="backendurl" value="${ret.backendurl}"/>
         	<input type="hidden" name="fontendurl" value="${ret.fontendurl}"/>
+        	<input type="hidden" name="currency" value="${ret.currency}"/>
         	<input type="hidden" name="aid" value="${ret.aid}"/>
         	<input type="hidden" name="platformid" id="platformId"/>
         	<input type="hidden" name="bankcd" id="bankcdId"/>
@@ -45,6 +46,8 @@
         	<input type="hidden" name="timeoutExpress" value="${ret.timeoutexpress}"/>
         	<input type="hidden" name="goodsDetail" value="${ret.goodsdetail}"/>
         	<input type="hidden" name="body" value="${ret.body}"/>
+        	<!-- 获取验证码使用 -->
+        	<%-- <input type="hidden" id="accountid" name="accountid" value="${ret.accountid}"/> --%>
         	<input type="hidden" id="cardtype" name="cardtype" value=""/>
         	<input type="hidden" id="refererId" name="referer" value="${referer}"/>
         	<!--信用卡分期参数  -->
