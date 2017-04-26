@@ -468,6 +468,7 @@ public class CallPayPayment extends AbstractPayment {
 						// 直接支付参数,回调支付成功
 						logger.info(this.getClass().getSimpleName()+" 直接支付回调参数:{} ",response.getOrderPayBackResponseData().toString());
 						outParams.put(PaymentConstant.PAYMENT_STATE, response.getOrderPayBackResponseData().getStatusCode()); // 支付状态
+						outParams.put(PaymentConstant.OPPOSITE_CURRENCY, response.getOrderPayBackResponseData().getCurrency()); // 对方传来的交易币种
 						outParams.put(PaymentConstant.OPPOSITE_MONEY, response.getOrderPayBackResponseData().getMoney()); // 支付金额,分
 						outParams.put(PaymentConstant.PAYMENT_ORDER, response.getOrderPayBackResponseData().getPaymentOrder());
 						outParams.put(PaymentConstant.OPPOSITE_ORDERNO, response.getOrderPayBackResponseData().getPayplatformOrderNo());// 支付订单

@@ -953,7 +953,7 @@ public class IndexController extends ApiBaseController{
     		}
     		
     		if(PaymentConstant.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
-    			String result = paymentOrderService.createCallbackSyncTask(paymentOrder, payemntMerchnt, paymentOrder.getOtherOrderNo(), "174");
+    			String result = paymentOrderService.createCallbackSyncTask(paymentOrder, payemntMerchnt, "",paymentOrder.getOtherOrderNo(), "174");
     			message = result;
     			if (logger.isInfoEnabled())
     			logger.info("返回给支付平台的信息：" + result);

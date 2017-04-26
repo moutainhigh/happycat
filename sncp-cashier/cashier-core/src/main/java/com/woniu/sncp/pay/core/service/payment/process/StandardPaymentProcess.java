@@ -109,6 +109,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			String orderNo = (String) centerInfo.get(PaymentConstant.ORDER_NO);
 			String oppositeOrderNo = (String) centerInfo.get(PaymentConstant.OPPOSITE_ORDERNO);
 			String payIp = (String) centerInfo.get(PaymentConstant.PAY_IP);
+			String oppositeCurrency = (String) centerInfo.get(PaymentConstant.OPPOSITE_CURRENCY);
 			
 			PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
 			
@@ -221,14 +222,18 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 //				returned = paymentOrderService.callback(paymentOrder,payemntMerchnt);
 				
 				// modified by fuzl@mysnail.com 回调业务方修改为异步队列来做
-				returned = paymentOrderService.createCallbackSyncTask(paymentOrder, payemntMerchnt, oppositeOrderNo, callbackTaskType);
+				returned = paymentOrderService.createCallbackSyncTask(paymentOrder, payemntMerchnt, oppositeCurrency,oppositeOrderNo, callbackTaskType);
 				
 				//a.更新支付成功
 				if(!paymentOrderService.orderIsPayed(paymentOrder) && "success".equals(returned)){
 					paymentOrder.setOtherOrderNo(oppositeOrderNo);
 					paymentOrder.setPayIp(IpUtils.ipToLong(payIp));
 					paymentOrder.setPayEnd(new Date());
-					
+					if(StringUtils.isNotBlank(oppositeCurrency)){
+						if(!oppositeCurrency.equals(paymentOrder.getMoneyCurrency())){
+							paymentOrder.setMoneyCurrency(oppositeCurrency);// 设置回调回来的支付币种
+						}
+					}
 					//TODO 创建消息队列，推送游戏
 					//判断是否需要创建消息队列
 					if(paymentOrder.getPaypartnerBackendCall().endsWith(messagePushUrl)){
@@ -573,6 +578,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		validateParams.put(PaymentConstant.ORDER_NO, paymentOrder.getOrderNo());
 		validateParams.put(PaymentConstant.PAY_IP, remoteIp); // 第三方平台IP
 		validateParams.put(PaymentConstant.PAYMENT_PLATFORM, platform); 
+		validateParams.put(PaymentConstant.OPPOSITE_CURRENCY, validateParams.get(PaymentConstant.OPPOSITE_CURRENCY));
 		return validateParams;
 	}
 	

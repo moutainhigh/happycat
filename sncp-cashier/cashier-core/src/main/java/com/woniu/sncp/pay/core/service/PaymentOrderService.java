@@ -643,7 +643,7 @@ public class PaymentOrderService{
 	 * @param callbackTaskType    收银台回调业务方队列任务类型
 	 * @return
 	 */
-	public synchronized String createCallbackSyncTask(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt,String oppositeOrderNo,String callbackTaskType) {
+	public synchronized String createCallbackSyncTask(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt,String oppositeCurrency,String oppositeOrderNo,String callbackTaskType) {
 		try {
 			if (StringUtils.isBlank(callbackTaskType))
 				throw new IllegalArgumentException("创建收银台回调业务方队列任务参数错误，callbackTaskType不能为空");
@@ -667,6 +667,9 @@ public class PaymentOrderService{
 				}else{
 					treeMap.put("money", ObjectUtils.toString(paymentOrder.getMoney()));
 				}
+				if(StringUtils.isNotBlank(oppositeCurrency)){
+					treeMap.put("currency", oppositeCurrency);
+				}
 				treeMap.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
 				
 				if(!StringUtils.isBlank(paymentOrder.getPaypartnerOtherOrderNo())){
@@ -689,6 +692,9 @@ public class PaymentOrderService{
 					callbackObj.put("money", ObjectUtils.toString(paymentOrder.getMoney() + paymentOrder.getYueMoney()));
 				}else{
 					callbackObj.put("money", ObjectUtils.toString(paymentOrder.getMoney()));//订单支付金额
+				}
+				if(StringUtils.isNotBlank(oppositeCurrency)){
+					callbackObj.put("currency", oppositeCurrency);
 				}
 				callbackObj.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
 				if(!StringUtils.isBlank(paymentOrder.getPaypartnerOtherOrderNo())){
