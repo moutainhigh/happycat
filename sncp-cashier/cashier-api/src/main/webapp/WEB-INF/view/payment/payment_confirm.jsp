@@ -13,6 +13,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />    
+		<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />    
+		<link rel="bookmark" type="image/x-icon" href="/images/favicon.ico" />
 	    <link href="//www3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
 	    <link href="//www3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
 	    <link href="//www3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />

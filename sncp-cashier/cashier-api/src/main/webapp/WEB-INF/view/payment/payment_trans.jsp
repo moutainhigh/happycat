@@ -11,6 +11,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<link rel="icon" type="image/x-icon" href="/images/favicon.ico" />    
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />    
+<link rel="bookmark" type="image/x-icon" href="/images/favicon.ico" />
 <title>蜗牛支付跳转</title>
 </head>
 <body>

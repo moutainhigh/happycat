@@ -13,6 +13,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title><spring:message code="payment.confirm.title"/></title>
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico" />    
+	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />    
+	<link rel="bookmark" type="image/x-icon" href="/images/favicon.ico" />
 	<meta name="Copyright" content="Copyright (c) 2011 <spring:message code="payment.company.name"/>" />
 	<meta name="Keywords" content="提供最完善，最优质的游戏服务，了解蜗牛最及时的游戏资讯，拥有最真实的玩家互动社区" />
 </head>
