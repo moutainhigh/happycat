@@ -7,12 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.snail.ocp.client.http.connection.RestHttpConnection;
@@ -37,19 +35,6 @@ import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 @Configuration
 public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 
-	private static final String ENCODING_CHARSET = "UTF-8";
-
-	@Bean(name = "characterEncodingFilter")
-	public FilterRegistrationBean encodingFilterRegistration() {
-		CharacterEncodingFilter encodingFilter = new org.springframework.web.filter.CharacterEncodingFilter();
-		encodingFilter.setEncoding(ENCODING_CHARSET);
-		encodingFilter.setForceEncoding(true);
-		FilterRegistrationBean encodingFilterRegistration = new FilterRegistrationBean(encodingFilter);
-		encodingFilterRegistration.addUrlPatterns("/");
-		return encodingFilterRegistration;
-	}
-	
-	
 	/**
 	 * 验证码
 	 * @return

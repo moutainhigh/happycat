@@ -51,6 +51,10 @@
 					<artifactId>log4j-over-slf4j</artifactId>
 					<groupId>org.slf4j</groupId>
 				</exclusion>
+				<exclusion>
+					<artifactId>ojdbc6</artifactId>
+					<groupId>com.oracle</groupId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -221,6 +225,14 @@
 				<exclusion>
 					<groupId>org.bouncycastle</groupId>
   					<artifactId>bcpg-jdk16</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>xz</artifactId>
+					<groupId>org.tukaani</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>netty</artifactId>
+					<groupId>io.netty</groupId>
 				</exclusion>
 			</exclusions>
 		</dependency>
