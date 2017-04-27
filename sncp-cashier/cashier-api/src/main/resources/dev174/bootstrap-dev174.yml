@@ -9,7 +9,7 @@ spring:
       fail-fast: true
       username: micro-cloud-config-client-user
       password: 1@^&IuRE(VBGPoiuy
-      profile: hystrixApp,dsSnPayDev174,redisClusterDev
+      profile: hystrixApp,dsSnPayDev174
 
 discover:
   hostname1: 10.206.2.253
