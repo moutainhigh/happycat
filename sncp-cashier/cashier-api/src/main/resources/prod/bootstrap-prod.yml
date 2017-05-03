@@ -12,8 +12,8 @@ spring:
       profile: hystrixApp,dsSnPayProd
 
 discover:
-  hostname1: 10.206.2.253
-  hostname2: 10.206.2.238
+  hostname1: 172.16.2.120
+  hostname2: 172.16.2.121
   
 eureka:
   client:
