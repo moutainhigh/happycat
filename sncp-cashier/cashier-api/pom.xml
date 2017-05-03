@@ -270,9 +270,9 @@
 		</profile>
 		<!-- 公网环境 -->
 		<profile>
-			<id>production</id>
+			<id>prod</id>
 			<properties>
-				<profileActive>production</profileActive>
+				<profileActive>prod</profileActive>
 			</properties>
 		</profile>
 	</profiles>

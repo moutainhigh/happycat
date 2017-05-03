@@ -1,8 +1,6 @@
 package com.woniu.sncp.pay.core.intercepter;
 
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -79,6 +77,9 @@ public class DbStateIntercepter {
         			//获取不到db机器状态,终止操作
     				return obj;
         		}
+        	}else{
+        		// 不需要检查
+        		obj = pjp.proceed();
         	}
 		} catch (Exception e) {
 			//获取db机器状态异常,终止操作
