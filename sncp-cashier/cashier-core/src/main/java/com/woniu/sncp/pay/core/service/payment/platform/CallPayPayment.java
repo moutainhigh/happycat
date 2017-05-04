@@ -600,10 +600,15 @@ public class CallPayPayment extends AbstractPayment {
 			}else{
 				throw new ValidationException("$_$第三方服务payBackReturn$_$无响应," + orderPayBackReturnRequest.toString());
 			}
-			response.setStatus(d.value);
+			if((null != orderPayBackReturnResponse.getStatusCode() && orderPayBackReturnResponse.getStatusCode() != 200)){
+				response.setStatus(orderPayBackReturnResponse.getStatusCode());
+			}else{
+				response.setStatus(d.value);
+			}
 			response.setContentType(contentType);
 			responseAndWrite(response, result);
 		} catch (Exception e) {
+			response.setStatus(500);
 			throw new ValidationException("$_$第三方服务payBackReturn$_$调用出现异常");
 		}
 	}
