@@ -60,7 +60,7 @@
 		<dependency>
 			<groupId>com.woniu</groupId>
 			<artifactId>sncp-base</artifactId>
-			<version>1.1.6-SNAPSHOT</version>
+			<version>1.1.9-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>spring</artifactId>
