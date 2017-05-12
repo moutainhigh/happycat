@@ -145,11 +145,11 @@ public class PaymentOrderService{
 		
 		Date __timeoutExpress = null;
 		if(StringUtils.isNotBlank(timeoutExpress)){
-			//设置最晚付款时间
-			String _timeoutExpress = DateUtils.format(
-					org.apache.commons.lang.time.DateUtils.addMinutes(
-							paymentOrder.getCreate(), Integer.parseInt(timeoutExpress)), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
-			__timeoutExpress = DateUtils.parseDate(_timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			//设置最晚付款时间，yyyyMMddHHmmss
+//			String _timeoutExpress = DateUtils.format(
+//					org.apache.commons.lang.time.DateUtils.addMinutes(
+//							paymentOrder.getCreate(), Integer.parseInt(timeoutExpress)), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+			__timeoutExpress = DateUtils.parseDate(timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
 			paymentOrder.setTimeoutExpress(__timeoutExpress);
 		}else{
 			// 默认最晚付款时间24小时
