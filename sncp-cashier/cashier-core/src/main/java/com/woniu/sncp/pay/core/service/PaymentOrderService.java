@@ -671,6 +671,7 @@ public class PaymentOrderService{
 					treeMap.put("currency", oppositeCurrency);
 				}
 				treeMap.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
+				treeMap.put("merchantid", ObjectUtils.toString(paymentOrder.getMerchantId()));
 				
 				if(!StringUtils.isBlank(paymentOrder.getPaypartnerOtherOrderNo())){
 					treeMap.put("partnerorderno", paymentOrder.getPaypartnerOtherOrderNo());
@@ -697,6 +698,7 @@ public class PaymentOrderService{
 					callbackObj.put("currency", oppositeCurrency);
 				}
 				callbackObj.put("paystate", PaymentOrder.PAYMENT_STATE_PAYED);
+				callbackObj.put("merchantid", ObjectUtils.toString(paymentOrder.getMerchantId()));
 				if(!StringUtils.isBlank(paymentOrder.getPaypartnerOtherOrderNo())){
 					callbackObj.put("partnerorderno", paymentOrder.getPaypartnerOtherOrderNo());//业务方订单号
 				}
