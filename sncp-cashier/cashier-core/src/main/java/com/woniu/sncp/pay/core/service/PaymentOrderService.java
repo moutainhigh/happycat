@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -25,6 +24,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -58,7 +59,6 @@ import com.woniu.sncp.pojo.payment.PaymentOrder;
 
 
 @Service("paymentOrderService")
-@Transactional
 public class PaymentOrderService{
 	
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -102,76 +102,88 @@ public class PaymentOrderService{
 	 * @param issuerId
 	 * @throws DataAccessException
 	 */
+	@Transactional(propagation=Propagation.REQUIRED,value="transactionManager",rollbackFor = RuntimeException.class)
 	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
 			throws DataAccessException {
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 //		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO,S_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"','"+paymentOrder.getOrderNo()+"')";
-		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"')";
-		Long sequence = mQueueService.createSequence(orderSeqSql);
-		
+		try {
+			final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"')";
+			Long sequence = mQueueService.createSequence(orderSeqSql);
+			
+			if(null == sequence){
+				throw new ValidationException("订单序列创建失败["+sequence+"],payPartnerOtherOrderNo:"+paymentOrder.getPaypartnerOtherOrderNo());
+			}
 
-		Date now = Calendar.getInstance().getTime();
-		paymentOrder.setCreate(now); // 时间
-		paymentOrder.setPayEnd(now);
-		String today = DateFormatUtils.format(now, "yyyyMMdd");
-		String orderNo = today + "-" + paymentOrder.getPayPlatformId() + "-"
-				+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
-				+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
-		
-		if(paymentOrder.getPayPlatformId() == 4001 || paymentOrder.getPayPlatformId() == 4002 
-				|| paymentOrder.getPayPlatformId() == 4003 || paymentOrder.getPayPlatformId() == 4011
-				|| paymentOrder.getPayPlatformId() == 4012 || paymentOrder.getPayPlatformId() == 4013
-				|| paymentOrder.getPayPlatformId() == 4014){
-			//4001.兔兔币支付，4002.翡翠币web，4003.翡翠币wap
-			//4011.PC兔兔币,4012.wap兔兔币,4013.android兔兔币,4014.ios兔兔币
-			orderNo = today + "-" + paymentOrder.getMerchantId()+ '-' + paymentOrder.getPayPlatformId() + "-"
+			Date now = Calendar.getInstance().getTime();
+			paymentOrder.setCreate(now); // 时间
+			paymentOrder.setPayEnd(now);
+			String today = DateFormatUtils.format(now, "yyyyMMdd");
+			String orderNo = today + "-" + paymentOrder.getPayPlatformId() + "-"
 					+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
-					+ StringUtils.leftPad(String.valueOf(sequence), 20, '0');
-			paymentOrder.setOrderNo(orderNo);
-		}else if(paymentOrder.getPayPlatformId() == 1012){
-			//中国银行信用卡分期支付平台id
-			orderNo = today + StringUtils.leftPad(String.valueOf(sequence), 20, '0');
-			paymentOrder.setOrderNo(ObjectUtils.toString(orderNo));
-		}else{
-			paymentOrder.setOrderNo(orderNo);
+					+ StringUtils.leftPad(String.valueOf(sequence), 10, '0');
+			
+			if(paymentOrder.getPayPlatformId() == 4001 || paymentOrder.getPayPlatformId() == 4002 
+					|| paymentOrder.getPayPlatformId() == 4003 || paymentOrder.getPayPlatformId() == 4011
+					|| paymentOrder.getPayPlatformId() == 4012 || paymentOrder.getPayPlatformId() == 4013
+					|| paymentOrder.getPayPlatformId() == 4014){
+				//4001.兔兔币支付，4002.翡翠币web，4003.翡翠币wap
+				//4011.PC兔兔币,4012.wap兔兔币,4013.android兔兔币,4014.ios兔兔币
+				orderNo = today + "-" + paymentOrder.getMerchantId()+ '-' + paymentOrder.getPayPlatformId() + "-"
+						+ StringUtils.leftPad(String.valueOf(issuerId), 3, '0') + "-"
+						+ StringUtils.leftPad(String.valueOf(sequence), 20, '0');
+				paymentOrder.setOrderNo(orderNo);
+			}else if(paymentOrder.getPayPlatformId() == 1012){
+				//中国银行信用卡分期支付平台id
+				orderNo = today + StringUtils.leftPad(String.valueOf(sequence), 20, '0');
+				paymentOrder.setOrderNo(ObjectUtils.toString(orderNo));
+			}else{
+				paymentOrder.setOrderNo(orderNo);
+			}
+			paymentOrder.setCreate(now); // 时间
+			paymentOrder.setPayEnd(now);
+			paymentOrder.setOrderId(sequence);
+			
+			if (StringUtils.isBlank(paymentOrder.getOtherOrderNo())){
+				paymentOrder.setOtherOrderNo(orderNo);
+			}
+			
+			Date __timeoutExpress = null;
+			if(StringUtils.isNotBlank(timeoutExpress)){
+				//设置最晚付款时间，yyyyMMddHHmmss
+//				String _timeoutExpress = DateUtils.format(
+//						org.apache.commons.lang.time.DateUtils.addMinutes(
+//								paymentOrder.getCreate(), Integer.parseInt(timeoutExpress)), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+				__timeoutExpress = DateUtils.parseDate(timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+				paymentOrder.setTimeoutExpress(__timeoutExpress);
+			}else{
+				// 默认最晚付款时间24小时
+				String _timeoutExpress = DateUtils.format(
+						org.apache.commons.lang.time.DateUtils.addMinutes(now, PaymentConstant.DEFAULT_TIMEOUTEXPRESS), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+				__timeoutExpress = DateUtils.parseDate(_timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
+				paymentOrder.setTimeoutExpress(__timeoutExpress);
+			}
+			
+			StringBuffer insertOrderSql = new StringBuffer();
+			insertOrderSql.setLength(0);
+			insertOrderSql.append("insert into SN_PAY.PAY_ORDER");
+			
+			insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
+			
+			insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,D_TIMEOUT_EXPRESS,N_LOGIN_AID) ");
+			insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress,:loginAid);");
+			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
+			int result = sessionDao.update(insertOrderSql.toString(), paramSource);
+			
+			if (logger.isInfoEnabled() && result > 0)
+				logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
+		} catch (ValidationException e) {
+			logger.error(this.getClass().getSimpleName(),e);
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			logger.error(this.getClass().getSimpleName(),e);
+			throw new RuntimeException(e.getMessage());
 		}
-		paymentOrder.setCreate(now); // 时间
-		paymentOrder.setPayEnd(now);
-		paymentOrder.setOrderId(sequence);
-		
-		if (StringUtils.isBlank(paymentOrder.getOtherOrderNo())){
-			paymentOrder.setOtherOrderNo(orderNo);
-		}
-		
-		Date __timeoutExpress = null;
-		if(StringUtils.isNotBlank(timeoutExpress)){
-			//设置最晚付款时间，yyyyMMddHHmmss
-//			String _timeoutExpress = DateUtils.format(
-//					org.apache.commons.lang.time.DateUtils.addMinutes(
-//							paymentOrder.getCreate(), Integer.parseInt(timeoutExpress)), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
-			__timeoutExpress = DateUtils.parseDate(timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
-			paymentOrder.setTimeoutExpress(__timeoutExpress);
-		}else{
-			// 默认最晚付款时间24小时
-			String _timeoutExpress = DateUtils.format(
-					org.apache.commons.lang.time.DateUtils.addMinutes(now, PaymentConstant.DEFAULT_TIMEOUTEXPRESS), DateUtils.DATE_FORMAT_DATETIME_COMPACT);
-			__timeoutExpress = DateUtils.parseDate(_timeoutExpress,DateUtils.DATE_FORMAT_DATETIME_COMPACT);
-			paymentOrder.setTimeoutExpress(__timeoutExpress);
-		}
-		
-		StringBuffer insertOrderSql = new StringBuffer();
-		insertOrderSql.setLength(0);
-		insertOrderSql.append("insert into SN_PAY.PAY_ORDER");
-		
-		insertOrderSql.append(payConfigToute.getSuffixBySeq(sequence));//添加表后缀
-		
-		insertOrderSql.append(" (N_ORDER_ID,S_ORDER_NO,N_PAY_PLATFORM_ID,S_OTHER_ORDER_NO,N_CARDTYPE_ID,N_AID,N_AMOUNT,S_CURRENCY,N_MONEY,N_GAME_ID,N_GAREA_ID,N_IMPREST_PLOY_ID,N_GIFT_GAREA_ID,D_CREATE,N_IP,N_PAY_IP,S_PAY_STATE,D_PAY_END,S_STATE,S_MONEY_CURRENCY,S_IMPREST_MODE,S_PAYPARTNER_FRONT_CALL,S_PAYPARTNER_BACKEND_CALL,S_PAYPARTNER_OTHER_ORDER_NO,N_GSERVER_ID,S_INFO,N_VALUE_AMOUNT,N_MERCHANT_ID,S_YUE_CURRENCY,N_YUE_MONEY,S_YUE_PAY_STATE,S_MERCHANT_NO,S_MERCHANT_NAME,S_PRODUCTNAME,S_BODY,S_GOODS_DETAIL,S_TERMINAL_TYPE,D_TIMEOUT_EXPRESS,N_LOGIN_AID) ");
-		insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress,:loginAid);");
-		SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
-		int result = sessionDao.update(insertOrderSql.toString(), paramSource);
-		
-		if (logger.isInfoEnabled() && result > 0)
-			logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
 	}
 
 	public void checkOrderIsProcessed(PaymentOrder paymentOrder)
