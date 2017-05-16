@@ -110,7 +110,7 @@ public class PaymentOrderService{
 	 * @param issuerId
 	 * @throws DataAccessException
 	 */
-	@Transactional(propagation=Propagation.REQUIRED,value="txManager")
+	@Transactional(propagation=Propagation.REQUIRED,value="txManager",rollbackFor=RuntimeException.class)
 	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
 		throws DataAccessException,RuntimeException{
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
@@ -187,11 +187,11 @@ public class PaymentOrderService{
 				logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
 		} catch (ValidationException e) {
 			logger.error(this.getClass().getSimpleName(),e);
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			throw new IllegalArgumentException("支付生成订单失败,{}",e);
 		} catch (Exception e) {
 			logger.error(this.getClass().getSimpleName(),e);
-			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+//			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 			throw new IllegalArgumentException("支付生成订单异常,{}",e);
 		}
 	}
