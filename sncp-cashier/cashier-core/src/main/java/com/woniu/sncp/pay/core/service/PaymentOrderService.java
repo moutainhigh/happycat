@@ -2,6 +2,9 @@ package com.woniu.sncp.pay.core.service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -17,15 +20,20 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.http.client.ClientProtocolException;
+import org.bouncycastle.crypto.RuntimeCryptoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -102,14 +110,14 @@ public class PaymentOrderService{
 	 * @param issuerId
 	 * @throws DataAccessException
 	 */
-	@Transactional(propagation=Propagation.REQUIRED,value="transactionManager",rollbackFor = RuntimeException.class)
+	@Transactional(propagation=Propagation.REQUIRED,value="txManager")
 	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
-			throws DataAccessException {
+		throws DataAccessException,RuntimeException{
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 //		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO,S_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"','"+paymentOrder.getOrderNo()+"')";
 		try {
 			final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"')";
-			Long sequence = mQueueService.createSequence(orderSeqSql);
+			Long sequence = this.createSequence(orderSeqSql);
 			
 			if(null == sequence){
 				throw new ValidationException("订单序列创建失败["+sequence+"],payPartnerOtherOrderNo:"+paymentOrder.getPaypartnerOtherOrderNo());
@@ -179,10 +187,12 @@ public class PaymentOrderService{
 				logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
 		} catch (ValidationException e) {
 			logger.error(this.getClass().getSimpleName(),e);
-			throw new RuntimeException(e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			throw new IllegalArgumentException("支付生成订单失败,{}",e);
 		} catch (Exception e) {
 			logger.error(this.getClass().getSimpleName(),e);
-			throw new RuntimeException(e.getMessage());
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			throw new IllegalArgumentException("支付生成订单异常,{}",e);
 		}
 	}
 
@@ -655,7 +665,7 @@ public class PaymentOrderService{
 	 * @param callbackTaskType    收银台回调业务方队列任务类型
 	 * @return
 	 */
-	public synchronized String createCallbackSyncTask(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt,String oppositeCurrency,String oppositeOrderNo,String callbackTaskType) {
+	public String createCallbackSyncTask(PaymentOrder paymentOrder,PaymentMerchant payemntMerchnt,String oppositeCurrency,String oppositeOrderNo,String callbackTaskType) {
 		try {
 			if (StringUtils.isBlank(callbackTaskType))
 				throw new IllegalArgumentException("创建收银台回调业务方队列任务参数错误，callbackTaskType不能为空");
@@ -756,5 +766,24 @@ public class PaymentOrderService{
 			logger.error("创建收银台回调业务方推送失败:",e);
 		}
 		return "fail";
+	}
+	
+	
+	/**
+	 * 通过sql返回当前自增序列值
+	 * @param getSeqSql
+	 * @return
+	 */
+	public Long createSequence(final String getSeqSql){
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		sessionDao.getMyJdbcTemplate().update(new PreparedStatementCreator() {
+			public PreparedStatement createPreparedStatement(  
+                    Connection connection) throws SQLException {
+                PreparedStatement ps = connection.prepareStatement(getSeqSql,PreparedStatement.RETURN_GENERATED_KEYS);  
+                return ps;  
+            }  
+        }, keyHolder); 
+		Long sequence = keyHolder.getKey().longValue();
+		return sequence;
 	}
 }

@@ -114,7 +114,7 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="aid",required=false) String aid,
 			@RequestParam(value="money") String money,
 			@RequestParam(value="clientip") String clientIp,
-			@RequestParam(value="imprestmode",required=false) String imprestMode,
+			@RequestParam(value="mode",required=false) String imprestMode,
 			@RequestParam(value="productname") String productName,
 			@RequestParam(value="backendurl") String backendurl,
 			@RequestParam(value="fontendurl",required=false) String fontendurl,

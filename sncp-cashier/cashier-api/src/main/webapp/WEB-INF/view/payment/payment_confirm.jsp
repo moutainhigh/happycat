@@ -34,7 +34,7 @@
         	<input type="hidden" name="account" value="${ret.account}"/>
         	<input type="hidden" id="money" name="money" value="${ret.money}"/>
         	<input type="hidden" name="clientip" value="${ret.clientip}"/>
-        	<input type="hidden" name="mode" value="${ret.imprestmode}"/>
+        	<input type="hidden" name="mode" value="${ret.mode}"/>
         	<input type="hidden" name="productname" value="${ret.productname}"/>
         	<input type="hidden" name="backendurl" value="${ret.backendurl}"/>
         	<input type="hidden" name="fontendurl" value="${ret.fontendurl}"/>
