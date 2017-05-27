@@ -100,7 +100,7 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="stageNum",required=false) String stageNum,
 			@RequestParam(value="yueMoney",required=false) String yueMoney,
 			@RequestParam(value="yueCurrency",required=false) String yueCurrency,
-			@RequestParam(value="currency",required=false) String moneyCurrency,
+			@RequestParam(value = "currency") String moneyCurrency,
 			@RequestParam(value="fcbsmscode",required=false) String smscode,
 			@RequestParam(value="body",required=false) String body,
 			@RequestParam(value="goodsDetail",required=false) String goodsDetail,
@@ -132,6 +132,14 @@ public class PaymentController extends ApiBaseController{
     	if(StringUtils.isBlank(backendurl) || backendurl.indexOf("http") != 0){
     		logger.error("回调地址不可以为空,account:"+account);
     		request.setAttribute("msg", "backendurl为空或格式错误");
+    		retMap = ErrorCode.getErrorCode(56009);
+    		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+    		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+    		return ORDER_ERROR_PAGE;
+    	}
+		if (StringUtils.isBlank(moneyCurrency)) {
+    		logger.error("参数不可以为空,moneyCurrency:"+moneyCurrency);
+    		request.setAttribute("msg", "moneyCurrency为空或格式错误");
     		retMap = ErrorCode.getErrorCode(56009);
     		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
     		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
