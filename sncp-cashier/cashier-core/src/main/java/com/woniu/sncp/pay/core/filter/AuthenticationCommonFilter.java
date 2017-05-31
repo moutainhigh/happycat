@@ -122,6 +122,7 @@ public class AuthenticationCommonFilter extends OncePerRequestFilter {
 					request.setAttribute("merchantid", jsonData.get("merchantid"));
 					request.setAttribute("gameid", jsonData.get("gameid"));
 					request.setAttribute("account", jsonData.get("account"));
+					request.setAttribute("aid", jsonData.containsKey("aid")?jsonData.get("aid"):"");
 					request.setAttribute("clientip", jsonData.get("clientip"));
 					request.setAttribute("imprestmode", jsonData.get("imprestmode"));
 					request.setAttribute("productname", jsonData.get("productname"));//

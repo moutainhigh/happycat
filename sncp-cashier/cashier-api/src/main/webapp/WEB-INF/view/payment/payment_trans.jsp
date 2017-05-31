@@ -24,6 +24,7 @@
 		<input type="hidden" name="merchantid" value="${ret.merchantid }" />
 		<input type="hidden" name="gameid" value="${ret.gameid }" />
 		<input type="hidden" name="account" value="${ret.account }" />
+		<input type="hidden" name="aid" value="${ret.aid}"/>
 		<input type="hidden" name="clientip" value="${ret.clientip }" />
 		<input type="hidden" name="imprestmode" value="${ret.imprestmode }" />
 		<input type="hidden" name="productname" value="${ret.productname }" />

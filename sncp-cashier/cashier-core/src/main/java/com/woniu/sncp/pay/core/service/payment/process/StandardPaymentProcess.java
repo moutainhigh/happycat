@@ -71,7 +71,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 	@Value("${direct.imprest.url}")
 	private String directImprestUrl;
 	
-	public synchronized void doPay(Map<String, Object> inParams){
+	public void doPay(Map<String, Object> inParams){
 		HttpServletRequest request = (HttpServletRequest) inParams.get("request");
 		HttpServletResponse response = (HttpServletResponse) inParams.get("response");
 		AbstractPayment actualPayment = (AbstractPayment) inParams.get("abstractPayment");

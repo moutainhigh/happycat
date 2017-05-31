@@ -13,6 +13,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
@@ -25,6 +26,7 @@ import org.springframework.http.HttpStatus;
 @ComponentScan(basePackages={"com.woniu.sncp.pojo","com.woniu.sncp.pay","com.woniu.sncp.ocp.business.passport"})
 @SpringBootApplication
 @EnableAutoConfiguration
+@EnableTransactionManagement
 @EnableEurekaClient
 @EnableCircuitBreaker
 public class CashierApplication extends SpringBootServletInitializer {

@@ -34,7 +34,7 @@
         	<input type="hidden" name="account" value="${ret.account}"/>
         	<input type="hidden" id="money" name="money" value="${ret.money}"/>
         	<input type="hidden" name="clientip" value="${ret.clientip}"/>
-        	<input type="hidden" name="mode" value="${ret.imprestmode}"/>
+        	<input type="hidden" name="mode" value="${ret.mode}"/>
         	<input type="hidden" name="productname" value="${ret.productname}"/>
         	<input type="hidden" name="backendurl" value="${ret.backendurl}"/>
         	<input type="hidden" name="fontendurl" value="${ret.fontendurl}"/>
@@ -45,9 +45,9 @@
         	<input type="hidden" name="bankCardType" id="bankCardType"/>
         	<input type="hidden" name="sign" value="${ret.sign}"/>
         	<input type="hidden" name="ext" value="${ret.ext}"/>
-        	<input type="hidden" name="terminalType" value="${ret.terminaltype}"/>
-        	<input type="hidden" name="timeoutExpress" value="${ret.timeoutexpress}"/>
-        	<input type="hidden" name="goodsDetail" value="${ret.goodsdetail}"/>
+        	<input type="hidden" name="terminalType" value="${ret.terminalType}"/>
+        	<input type="hidden" name="timeoutExpress" value="${ret.timeoutExpress}"/>
+        	<input type="hidden" name="goodsDetail" value="${ret.goodsDetail}"/>
         	<input type="hidden" name="body" value="${ret.body}"/>
         	<!-- 获取验证码使用 -->
         	<%-- <input type="hidden" id="accountid" name="accountid" value="${ret.accountid}"/> --%>

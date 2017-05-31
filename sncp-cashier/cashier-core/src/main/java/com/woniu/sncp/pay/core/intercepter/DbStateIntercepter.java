@@ -84,8 +84,10 @@ public class DbStateIntercepter {
 		} catch (Exception e) {
 			//获取db机器状态异常,终止操作
 			logger.error(this.getClass().getSimpleName()+"------>检测db状态异常:{}",e);
+			throw new RuntimeException("检测db状态异常:{}",e);
 		} catch (Throwable e) {
 			logger.error(this.getClass().getSimpleName()+"------>系统异常:{}",e);
+			throw new RuntimeException("系统异常:{}",e);
 		}
 		return obj;
     }
