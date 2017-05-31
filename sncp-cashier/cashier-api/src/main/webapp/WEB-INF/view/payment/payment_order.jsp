@@ -36,7 +36,13 @@
 
 	<script type="text/javascript">
 		//document.charset="${infoMap.acceptCharset}";
-		form_bot.submit();
+		//form_bot.submit();
+		var action = form_bot.action; 
+		if(action.indexOf("?") > 0){ 
+			location.href=action;
+		} else {
+			form_bot.submit();
+		} 
 	</script>
 </body>
 
