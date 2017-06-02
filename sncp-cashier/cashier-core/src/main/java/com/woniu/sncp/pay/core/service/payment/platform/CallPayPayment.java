@@ -311,7 +311,7 @@ public class CallPayPayment extends AbstractPayment {
 					if( null != response.getOrderPayResponseData() && 
 							PaymentConstant.PAYMENT_STATE_PAYED.equals(response.getOrderPayResponseData().getStatusCode() )){
 						// 直接支付参数
-						logger.info(this.getClass().getSimpleName()+" 直接支付参数:{} ",response.getOrderPayResponseData().getPrePayParams());
+						logger.info(this.getClass().getSimpleName()+" 直接支付参数:{} ",response.getOrderPayResponseData().getDirectPayParams());
 						outParams = ErrorCode.getErrorCode(1);
 						outParams.putAll(response.getOrderPayResponseData().getDirectPayParams());
 					}else{

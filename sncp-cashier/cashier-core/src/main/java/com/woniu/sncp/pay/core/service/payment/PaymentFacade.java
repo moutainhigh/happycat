@@ -416,6 +416,10 @@ public class PaymentFacade {
 			paymentParams.remove("payUrl");
 			paymentParams.remove("acceptCharset");
 			paymentParams.remove("defaultBankName");
+			if(paymentParams.get(ErrorCode.TIP_CODE).equals(ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE))){
+				paymentParams.remove(ErrorCode.TIP_CODE);
+				paymentParams.remove(ErrorCode.TIP_INFO);
+			}
 
 			outParams.put("paymentParams", paymentParams); // 返回给支付平台的参数
 			outParams.put("paymentPlatform", platform); // 支付平台POJO
