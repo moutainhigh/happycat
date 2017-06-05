@@ -494,9 +494,28 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			}
 			
 			// 订单金额校验 - 对方金额和我方金额比对
-			String oppositeMoney = String.valueOf(payResultMap.get(PaymentConstant.OPPOSITE_MONEY));
-			if (!paymentOrderService.checkOrderMoney(paymentOrder, (new BigDecimal(oppositeMoney)).intValue())){
-				throw new ValidationException("支付订单金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
+			// 是否校验金额,默认是校验
+			Platform _platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentOrder.getPayPlatformId()));
+			String platformExt = _platform.getPlatformExt();//平台扩展
+			Boolean checkAmount = true;
+			if(StringUtils.isNotEmpty(platformExt)){
+				JSONObject extJson = JSONObject.parseObject(platformExt);
+				// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
+				if(extJson.containsKey("checkAmount") && StringUtils.isNotEmpty(extJson.getString("checkAmount"))){
+					if(extJson.getString("checkAmount").equals("0")){
+						checkAmount = false;
+					};
+				}
+			}
+			
+			if(checkAmount){
+				// 金额进行校验
+				String oppositeMoney = String.valueOf(payResultMap.get(PaymentConstant.OPPOSITE_MONEY));
+				if (!paymentOrderService.checkOrderMoney(paymentOrder, (new BigDecimal(oppositeMoney)).intValue())){
+					throw new ValidationException("支付订单金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
+				}
+			}else{
+				logger.warn("订单金额不需要校验,继续进行支付,orderNo:" + paymentOrder.getOrderNo());
 			}
 				
 			logger.warn("2.订单验证通过,继续进行支付,orderNo:" + paymentOrder.getOrderNo());
