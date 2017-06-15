@@ -113,6 +113,7 @@ public class IndexController extends ApiBaseController{
 			@RequestParam(value="account",required=false) String account,
 			@RequestParam(value="aid",required=false) String aid,
 			@RequestParam(value="money") String money,
+			@RequestParam(value="currency") String ioscurrency,
 			@RequestParam(value="clientip") String clientIp,
 			@RequestParam(value="mode",required=false) String imprestMode,
 			@RequestParam(value="productname") String productName,

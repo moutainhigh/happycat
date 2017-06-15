@@ -1,6 +1,7 @@
 package com.woniu.sncp.pay;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -11,7 +12,11 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.snail.ocp.client.http.connection.RestHttpConnection;
 import com.snail.ocp.client.http.connection.SpringRestTemplateDelegate;
@@ -35,6 +40,26 @@ import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 @Configuration
 public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 
+	
+	@Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver slr = new SessionLocaleResolver();
+        slr.setDefaultLocale(Locale.US);
+        return slr;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
+        lci.setParamName("locale");
+        return lci;
+    }
+	
+	@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new LocaleChangeInterceptor());
+    }
+	
 	/**
 	 * 验证码
 	 * @return
@@ -57,7 +82,7 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		registration.addInitParameter("kaptcha.obscurificator.impl", "com.woniu.kaptcha.impl.ShadowGimpy");//<!-- 设置验证码水印效果，如果没有这个param，将显示默认的 -->
 		return registration;
 	}
-
+	
 	/**
 	 * memcache 配置
 	 */

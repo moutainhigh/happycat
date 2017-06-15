@@ -33,12 +33,15 @@
         	<input type="hidden" name="gameid" value="${ret.gameid}"/>
         	<input type="hidden" name="account" value="${ret.account}"/>
         	<input type="hidden" id="money" name="money" value="${ret.money}"/>
+        	<c:if test="${not empty ret.currency }">
+               <input type="hidden" id="currency" name="currency" value="${ret.currency }"/>
+            </c:if>
         	<input type="hidden" name="clientip" value="${ret.clientip}"/>
         	<input type="hidden" name="mode" value="${ret.mode}"/>
         	<input type="hidden" name="productname" value="${ret.productname}"/>
         	<input type="hidden" name="backendurl" value="${ret.backendurl}"/>
         	<input type="hidden" name="fontendurl" value="${ret.fontendurl}"/>
-        	<input type="hidden" name="currency" value="${ret.currency}"/>
+        	<%-- <input type="hidden" name="moneyCurrency" value="${ret.currency}"/> --%>
         	<input type="hidden" name="aid" value="${ret.aid}"/>
         	<input type="hidden" name="platformid" id="platformId"/>
         	<input type="hidden" name="bankcd" id="bankcdId"/>
