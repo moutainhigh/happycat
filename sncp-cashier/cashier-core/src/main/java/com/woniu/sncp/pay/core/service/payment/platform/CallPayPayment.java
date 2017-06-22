@@ -9,6 +9,7 @@ import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -812,6 +813,10 @@ public class CallPayPayment extends AbstractPayment {
 				}
 			} else {
 				getRequestBody(reqMap, origRequest, "utf-8");
+				for (Enumeration<String> e = origRequest.getParameterNames(); e.hasMoreElements();) {
+					String key = e.nextElement();
+					reqMap.put(key, origRequest.getParameter(key));
+				}
 			}
 			logger.info("The original data is : " + reqMap.toString());
 			
