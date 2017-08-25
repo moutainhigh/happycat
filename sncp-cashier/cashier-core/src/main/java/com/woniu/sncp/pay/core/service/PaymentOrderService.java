@@ -62,8 +62,10 @@ import com.woniu.sncp.pay.repository.pay.MessageQueue;
 import com.woniu.sncp.pay.repository.pay.MessageQueueLog;
 import com.woniu.sncp.pay.repository.pay.PassportAsyncTask;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
+import com.woniu.sncp.pay.repository.pay.PaymentOrderDiscountRecordRepository;
 import com.woniu.sncp.pay.repository.pay.PaymentOrderRepository;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrderDiscountRecord;
 
 
 @Service("paymentOrderService")
@@ -73,7 +75,8 @@ public class PaymentOrderService{
 	
 	@Resource
 	private BaseSessionDAO sessionDao;
-	
+	@Resource
+	PaymentOrderDiscountRecordRepository   paymentOrderDiscountRecordRepository;
 	@Resource 
 	PaymentOrderDao paymentOrderDao;
 	
@@ -111,7 +114,7 @@ public class PaymentOrderService{
 	 * @throws DataAccessException
 	 */
 	@Transactional(propagation=Propagation.REQUIRED,value="txManager",rollbackFor=RuntimeException.class)
-	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress)
+	public void createOrderAndGenOrderNo(PaymentOrder paymentOrder, long issuerId,String timeoutExpress,PaymentOrderDiscountRecord discountRecord)
 		throws DataAccessException,RuntimeException{
 //		long sequence = sessionDao.findForLong("select sn_imprest.pay_order_sq.nextval from dual");
 //		final String orderSeqSql = "INSERT INTO SN_PAY.PAY_ORDER_SQ(N_ID,N_MERCHANT_ID,S_PAYPARTNER_OTHER_ORDER_NO,S_ORDER_NO) VALUES(NULL,"+paymentOrder.getMerchantId()+",'"+paymentOrder.getPaypartnerOtherOrderNo()+"','"+paymentOrder.getOrderNo()+"')";
@@ -182,7 +185,16 @@ public class PaymentOrderService{
 			insertOrderSql.append(" values(:orderId,:orderNo,:payPlatformId,:otherOrderNo,:cardTypeId,:aid,:amount,:currency,:money,:gameId,:gareaId,:imprestPloyId,:giftGareaId,:create,:ip,:payIp,:payState,:payEnd,:state,:moneyCurrency,:imprestMode,:paypartnerFrontCall,:paypartnerBackendCall,:paypartnerOtherOrderNo,:gserverId,:info,:valueAmount,:merchantId,:yueCurrency,:yueMoney,:yuePayState,:merchantNo,:merchantName,:productname,:body,:goodsDetail,:terminalType,:timeoutExpress,:loginAid);");
 			SqlParameterSource paramSource = new BeanPropertySqlParameterSource(paymentOrder);
 			int result = sessionDao.update(insertOrderSql.toString(), paramSource);
-			
+			if(discountRecord!=null) {
+				discountRecord.setOrderNo(paymentOrder.getOrderNo());
+				discountRecord.setCreateDate(now);
+				discountRecord.setMerchantId(paymentOrder.getMerchantId());
+				discountRecord.setPartnerOrderNo(paymentOrder.getPaypartnerOtherOrderNo());	
+	 
+				paymentOrderDiscountRecordRepository.save(discountRecord);
+				if (logger.isInfoEnabled())
+					logger.info("订单：" + paymentOrder.getOrderNo()+"价格改变:"+discountRecord.getMoney());
+			}
 			if (logger.isInfoEnabled() && result > 0)
 				logger.info("支付生成订单成功：" + paymentOrder.getOrderNo());
 		} catch (ValidationException e) {

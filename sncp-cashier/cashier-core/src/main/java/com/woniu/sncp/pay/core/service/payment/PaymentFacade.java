@@ -1,7 +1,9 @@
 package com.woniu.sncp.pay.core.service.payment;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -17,12 +19,13 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.pay.common.utils.PaymentConstant;
-import com.woniu.pay.pojo.Platform;
+ import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.utils.Assert;
 import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.GameManagerService;
+import com.woniu.sncp.pay.core.service.PaymentDiscountService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;
 import com.woniu.sncp.pay.core.service.PlatformService;
@@ -32,6 +35,8 @@ import com.woniu.sncp.pay.core.service.payment.process.PaymentProcess;
 import com.woniu.sncp.pay.repository.pay.Game;
 import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrderDiscount;
+import com.woniu.sncp.pojo.payment.PaymentOrderDiscountRecord;
 import com.woniu.sncp.web.IpUtils;
 
 
@@ -59,6 +64,96 @@ public class PaymentFacade {
 	
 	@Resource
 	private PlatformService platformService;
+	@Resource
+	private PaymentDiscountService paymentDiscountService;
+	/**
+	 * 折扣变化金额
+	 * @param merchantId
+	 * @param paymentId
+	 * @param money
+	 * @return
+	 */
+	public Map<String, Object> discount (long merchantId, long paymentId, String money) {
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		
+		BigDecimal min=null;
+		PaymentOrderDiscount data=null;
+		List<PaymentOrderDiscount> list = paymentDiscountService.queryOrderDiscount(merchantId, paymentId);
+
+		for (PaymentOrderDiscount discount : list) {
+
+			BigDecimal _value = null;
+
+			float value = discount.getValue();
+
+			if (StringUtils.equals(discount.getCalcStandard(), PaymentOrderDiscount.PERSENT_STANDARD)) {// 按百分比计算
+				value=value/100f;
+				if (StringUtils.equals(discount.getDiscountType(), PaymentOrderDiscount.FEE_TYPE)) {// 手续费
+					_value = new BigDecimal(money).multiply(new BigDecimal(value));
+				} else if (StringUtils.equals(discount.getDiscountType(), PaymentOrderDiscount.DISCOUNT_TYPE)) {// 折扣
+					_value = new BigDecimal(money).multiply(new BigDecimal(value)).multiply(new BigDecimal(-1));
+				}
+
+			} else if (StringUtils.equals(discount.getCalcStandard(), PaymentOrderDiscount.FIXED_STANDARD)) {// 固定金额
+				if (StringUtils.equals(discount.getDiscountType(), PaymentOrderDiscount.FEE_TYPE)) {// 手续费
+					_value = new BigDecimal(value);
+				} else if (StringUtils.equals(discount.getDiscountType(), PaymentOrderDiscount.DISCOUNT_TYPE)) {// 折扣
+					_value = new BigDecimal(value).multiply(new BigDecimal(-1));
+				}
+			}
+			if(min==null) {
+				min=_value;
+				data=discount;
+			}else	if(_value.compareTo(min)<0) {
+				min=_value;
+				data=discount;
+			}
+		
+		}
+		result.put("data", data);  
+		result.put("value", min==null?new BigDecimal(0):min);
+		return result;
+ 	}
+	
+	
+ 
+	 
+ 
+	protected 	Map<String,Object > discountOrder(long merchantId, long paymentId,AbstractPayment actualPayment,	String orderMoney ,Map<String, Object> extendParams ) {
+		Map<String,Object >result=new HashMap<String,Object>();
+		Map<String,Object > discountMap=null;
+		String  money=new BigDecimal(orderMoney).setScale(2,	BigDecimal.ROUND_HALF_UP).toString();
+  		 
+			discountMap = discount(merchantId, paymentId, money);
+
+		 
+ 
+		PaymentOrderDiscount discount = (PaymentOrderDiscount) discountMap.get("data");
+ 
+		
+		if(discount!=null) {
+			BigDecimal moneyChange = discountMap.get("value")==null? new BigDecimal(0):(BigDecimal) discountMap.get("value");
+
+			BigDecimal payMoney = new BigDecimal(money).add(moneyChange );
+			// 最低支付1分钱
+			if (payMoney.compareTo(new BigDecimal(0.01)) < 0) {
+				payMoney = new BigDecimal(0.01);
+			}
+			
+			result.put("discount", discount);			
+			result.put("orderMoney", Float.valueOf(payMoney.floatValue()));
+
+		}else {
+			result.put("discount", discount);			
+			result.put("orderMoney", Float.valueOf(money));
+		}
+	
+		return  result;
+
+	}
+	
+	
 	
 	/**
 	 * 创建订单，保存第三方回调地址，第三方前台地址，第三方订单号
@@ -108,6 +203,9 @@ public class PaymentFacade {
 			// 3.获取实际支付平台对象
 			AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
 			Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);
+			
+			
+			Map<String,Object > discountOrder=discountOrder(merchantId, paymentId, actualPayment, money, extendParams);//计算手续费
 
 			// 4.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
@@ -198,6 +296,30 @@ public class PaymentFacade {
 				paymentOrder.setGareaId(0L); // 表示充往中心
 				paymentOrder.setGiftGareaId(0L); // 道具送往分区
 				paymentOrder.setMoney(Float.valueOf(money));
+				
+				paymentOrder.setMoney((Float)discountOrder.get("orderMoney"));				
+				PaymentOrderDiscount		discount=(PaymentOrderDiscount)discountOrder.get("discount");
+				PaymentOrderDiscountRecord discountRecord=null;
+				if(discount!=null) {
+					paymentOrder.setMoneyDiscountBefore(Float.valueOf(money));
+					paymentOrder.setMoneyDiscountAfter(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountChange(paymentOrder.getMoneyDiscountAfter()-paymentOrder.getMoneyDiscountBefore());
+					
+					
+					discountRecord = new PaymentOrderDiscountRecord();
+					discountRecord.setDiscountId(discount.getId());
+					discountRecord.setMoney(paymentOrder.getMoneyDiscountChange());
+					discountRecord.setPaymentId(paymentId);
+					
+					
+				}else {
+					paymentOrder.setMoneyDiscountBefore(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountAfter(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountChange(0f);
+				 
+				}
+				
+				
 
 				paymentOrder.setState(PaymentOrder.IMPREST_STATE_NOT_COMPLETED); // 状态
 				paymentOrder.setPayState(PaymentOrder.PAYMENT_STATE_CREATED);
@@ -233,10 +355,12 @@ public class PaymentFacade {
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				paymentOrder.setMerchantName(platform.getMerchantName());
 				
-				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress);
+				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress,discountRecord);
 			} else {
 				//modified by fuzl 充值方式无法切换问题解决
-				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf(money));
+//				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf(money));
+				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf((Float)discountOrder.get("orderMoney")));
+
 //				Assert.assertEquals("支付平台ID与订单中平台ID不一致，请重新核对",paymentOrder.getPlatformId(), paymentId);
 				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
 					throw new OrderIsSuccessException("订单已支付，请重新核对");
@@ -476,6 +600,13 @@ public class PaymentFacade {
 			// 2.获取实际支付平台对象
 			AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
 			Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);
+			
+			DecimalFormat decimalFormat = new DecimalFormat("0.00");
+
+			String orderMoney =decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney));
+
+			
+			Map<String,Object> discountOrder=discountOrder(merchantId, paymentId, actualPayment, orderMoney, extendParams);//计算手续费
 
 			// 3.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
@@ -523,9 +654,34 @@ public class PaymentFacade {
 				
 				paymentOrder.setGareaId(0L); // 表示充往中心
 				paymentOrder.setGiftGareaId(0L); // 道具送往分区
-				DecimalFormat decimalFormat = new DecimalFormat("0.00");
-				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
-				paymentOrder.setMoney(orderMoney);
+//				DecimalFormat decimalFormat = new DecimalFormat("0.00");
+//				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
+//				paymentOrder.setMoney(orderMoney);
+				
+				paymentOrder.setMoney((Float)discountOrder.get("orderMoney"));				
+				PaymentOrderDiscount		discount=(PaymentOrderDiscount)discountOrder.get("discount");
+				PaymentOrderDiscountRecord discountRecord=null;
+				if(discount!=null) {
+					paymentOrder.setMoneyDiscountBefore(Float.valueOf(decimalFormat.format(orderMoney)));
+					paymentOrder.setMoneyDiscountAfter(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountChange(paymentOrder.getMoneyDiscountAfter()-paymentOrder.getMoneyDiscountBefore());
+					
+					
+					discountRecord = new PaymentOrderDiscountRecord();
+					discountRecord.setDiscountId(discount.getId());
+					discountRecord.setMoney(paymentOrder.getMoneyDiscountChange());
+					discountRecord.setPaymentId(paymentId);
+					
+					
+				}else {
+					paymentOrder.setMoneyDiscountBefore(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountAfter(paymentOrder.getMoney());
+					paymentOrder.setMoneyDiscountChange(0f);
+				 
+				}
+ 				
+				
+				
 				paymentOrder.setYueMoney(Float.valueOf(yueMoney));//余额支付金额
 				paymentOrder.setYueCurrency(yueCurrency);//余额币种
 				paymentOrder.setYuePayState(PaymentOrder.PAYMENT_STATE_CREATED);//余额支付支付状态
@@ -549,12 +705,14 @@ public class PaymentFacade {
 				paymentOrder.setMerchantNo(platform.getMerchantNo());
 				paymentOrder.setMerchantName(platform.getMerchantName());
 				
-				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress);
+				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress,discountRecord);
 			} else {
 				//modified by fuzl 充值方式无法切换问题解决
-				DecimalFormat decimalFormat = new DecimalFormat("0.00");
-				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
-				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), orderMoney);
+//				DecimalFormat decimalFormat = new DecimalFormat("0.00");
+//				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
+//				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), orderMoney);
+ 				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(),  Float.valueOf(orderMoney));
+
 //				Assert.assertEquals("支付平台ID与订单中平台ID不一致，请重新核对",paymentOrder.getPlatformId(), paymentId);
 				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
 					throw new IllegalArgumentException("订单已支付，请重新核对");

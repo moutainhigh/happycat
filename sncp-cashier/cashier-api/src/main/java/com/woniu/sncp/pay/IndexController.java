@@ -3,6 +3,7 @@ package com.woniu.sncp.pay;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -11,9 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+ 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,14 +28,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.snail.ocp.tools.mapper.DozerMapper;
+ 
 import com.woniu.pay.common.utils.PaymentConstant;
-import com.woniu.pay.pojo.CreditStage;
+ import com.woniu.pay.pojo.CreditStage;
 import com.woniu.pay.pojo.GamePropsCurrency;
 import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.lang.DateUtil;
 import com.woniu.sncp.lang.ObjectUtil;
-import com.woniu.sncp.pay.common.exception.ValidationException;
+ import com.woniu.sncp.pay.common.exception.ValidationException;
+import com.woniu.sncp.pay.common.pojo.OrderDiscountRecordQueryRequest;
+import com.woniu.sncp.pay.common.pojo.PaymentOrderDiscountRecordResponse;
+import com.woniu.sncp.pay.common.pojo.PaymentOrderDiscountResponse;
+import com.woniu.sncp.pay.core.OrderDiscountRecordQuery;
 import com.woniu.sncp.pay.core.service.CorePassportService;
+import com.woniu.sncp.pay.core.service.PaymentDiscountService;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.fcb.FcbService;
@@ -41,6 +51,8 @@ import com.woniu.sncp.pay.repository.pay.PaymentMerchantDetail;
 import com.woniu.sncp.pay.web.api.ApiBaseController;
 import com.woniu.sncp.pojo.passport.Passport;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
+import com.woniu.sncp.pojo.payment.PaymentOrderDiscount;
+import com.woniu.sncp.pojo.payment.PaymentOrderDiscountRecord;
 import com.woniu.sncp.web.IpUtils;
 import com.woniu.sncp.web.response.ResultResponse;
 
@@ -57,6 +69,10 @@ public class IndexController extends ApiBaseController{
 	private FcbService fcbService;
 	@Autowired
 	private CorePassportService corePassportService;
+	
+	
+	@Autowired
+	private PaymentDiscountService paymentDiscountService;
 	
 	private final static String ORDER_CONFIRM_PAGE = "/payment/payment_confirm";
 	private final static String ORDER_ERROR_PAGE = "/payment/error";
@@ -89,6 +105,51 @@ public class IndexController extends ApiBaseController{
 //		}
 //		return ORDER_ERROR_PAGE;
 //    }
+	
+	
+
+	
+	@RequestMapping("/payment/discount")
+	public void discount(@RequestParam(value="callback",required=false) String callback,@RequestParam long merchantId,HttpServletRequest requeset,HttpServletResponse response) {
+		List<PaymentOrderDiscount> list=paymentDiscountService.queryOrderDiscount(merchantId);
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<PaymentOrderDiscountResponse> data=null;
+		if(CollectionUtils.isNotEmpty(list)) {
+			data=DozerMapper.mapList(list, PaymentOrderDiscountResponse.class);
+			 
+		}else {
+			data=Collections.emptyList();
+		}
+		
+		result.put("data", data);
+		writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS, "", result));
+	}
+	
+	@RequestMapping("/payment/discount/record")
+	public void discount(@RequestParam(value="callback",required=false) String callback, OrderDiscountRecordQueryRequest  bean,HttpServletRequest requeset,HttpServletResponse response) {
+		OrderDiscountRecordQuery query=new OrderDiscountRecordQuery();
+		DozerMapper.copy(bean,query);
+		com.woniu.sncp.pay.core.Pageable<PaymentOrderDiscountRecord> pageable = paymentDiscountService.queryRecord(query);
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<PaymentOrderDiscountRecord> items=pageable.getItems();
+		
+		List<PaymentOrderDiscountRecordResponse> list=null;
+		if(CollectionUtils.isNotEmpty(items)) {
+			list=DozerMapper.mapList(items, PaymentOrderDiscountRecordResponse.class);
+			 
+		}
+ 
+		result.put("totalPage",pageable.getTotalPage() );
+		result.put("currentpage", pageable.getCurrentPage());
+		result.put("pageSize", pageable.getPageSize());
+ 
+ 
+		result.put("items",list);
+		writeJsonp(callback, response, new ResultResponse(ResultResponse.SUCCESS, "", result));
+		 
+	}
+	
+	
 	
     /**
      * 收银台首页
