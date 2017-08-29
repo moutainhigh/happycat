@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.woniu.sncp.pay.core.OrderDiscountRecordQuery;
 import com.woniu.sncp.pay.core.Pageable;
@@ -69,7 +70,7 @@ public class PaymentDiscountService {
 
 		discountDao.save(bean);
 	}
-
+	@Transactional
 	public void updateRecord(PaymentOrderDiscountRecord bean) {
 		discountRecordDao.save(bean);
 

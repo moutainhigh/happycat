@@ -540,7 +540,7 @@ public class PaymentFacade {
 			paymentParams.remove("payUrl");
 			paymentParams.remove("acceptCharset");
 			paymentParams.remove("defaultBankName");
-			if(paymentParams.get(ErrorCode.TIP_CODE).equals(ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE))){
+			if(ObjectUtils.equals(paymentParams.get(ErrorCode.TIP_CODE), ErrorCode.getErrorCode(1).get(ErrorCode.TIP_CODE))){
 				paymentParams.remove(ErrorCode.TIP_CODE);
 				paymentParams.remove(ErrorCode.TIP_INFO);
 			}

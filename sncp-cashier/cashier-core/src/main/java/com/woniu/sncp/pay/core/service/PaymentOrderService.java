@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
+import javax.persistence.Column;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -75,9 +76,8 @@ public class PaymentOrderService{
 	
 	@Resource
 	private BaseSessionDAO sessionDao;
-	@Resource
-	PaymentOrderDiscountRecordRepository   paymentOrderDiscountRecordRepository;
-	@Resource 
+ 
+ 	@Resource 
 	PaymentOrderDao paymentOrderDao;
 	
 	@Resource
@@ -189,10 +189,14 @@ public class PaymentOrderService{
 				discountRecord.setOrderNo(paymentOrder.getOrderNo());
 				discountRecord.setCreateDate(now);
 				discountRecord.setMerchantId(paymentOrder.getMerchantId());
+				
+ 
+				
 				discountRecord.setPartnerOrderNo(paymentOrder.getPaypartnerOtherOrderNo());	
-	 
-				paymentOrderDiscountRecordRepository.save(discountRecord);
-				if (logger.isInfoEnabled())
+				StringBuilder sql=new StringBuilder("insert into SN_PAY.PAY_ORDER_DISCOUNT_RECORD(N_DISCOUNT_ID,N_MERCHANT_ID,N_PAYMENT_ID,S_ORDER_NO,S_PAYPARTNER_OTHER_ORDER_NO,N_MONEY,D_CREATE)");
+				sql.append("values(:discountId,:merchantId,:paymentId,:orderNo,:partnerOrderNo,:money,:createDate)");
+ 				sessionDao.update(sql.toString() , new BeanPropertySqlParameterSource(discountRecord));
+ 				if (logger.isInfoEnabled())
 					logger.info("订单：" + paymentOrder.getOrderNo()+"价格改变:"+discountRecord.getMoney());
 			}
 			if (logger.isInfoEnabled() && result > 0)
@@ -207,7 +211,7 @@ public class PaymentOrderService{
 			throw new IllegalArgumentException("支付生成订单异常,{}",e);
 		}
 	}
-
+	 
 	public void checkOrderIsProcessed(PaymentOrder paymentOrder)
 			throws OrderIsSuccessException, ValidationException, OrderIsRefundException {
 		
