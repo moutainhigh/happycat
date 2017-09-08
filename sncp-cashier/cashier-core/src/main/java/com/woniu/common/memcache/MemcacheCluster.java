@@ -8,32 +8,30 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableBeanFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+ 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.sncp.pay.core.service.MemcachedService;
 
 import net.snail.sms.threadpool.ThreadPool;
 
-@Component
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class MemcacheCluster implements InitializingBean {
+ 
+ public class MemcacheCluster  {
 	private final Logger logger = Logger.getLogger(this.getClass());
 
 	// private final static String ORDER_KEY = "IMP_ORDER_KEY";
 	private int keyExpiredDay = 7;// 默认7天
-	@Autowired
-	private MemcachedService memcachedService;
+ 	private MemcachedService memcachedService;
 
-	private static MemcacheCluster redisCluster = null;
+	public void setMemcachedService(MemcachedService memcachedService) {
+		this.memcachedService = memcachedService;
+	}
+
+	private static MemcacheCluster redisCluster = new MemcacheCluster();
+ 
 
 	public static MemcacheCluster getInstance() {
-
+		
 		return redisCluster;
 	}
 
@@ -100,10 +98,6 @@ public class MemcacheCluster implements InitializingBean {
 		return list;
 	}
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		// TODO Auto-generated method stub
-		redisCluster = this;
-	}
+ 
 
 }

@@ -23,8 +23,10 @@ import com.snail.ocp.client.http.connection.SpringRestTemplateDelegate;
 import com.snail.ocp.client.http.pojo.HttpOption;
 import com.snail.ocp.client.pojo.DefaultHeader;
 import com.snail.ocp.sdk.http.account.service.AccountInterfaceImpl;
+import com.woniu.common.memcache.MemcacheCluster;
 import com.woniu.kaptcha.servlet.KaptchaServlet;
 import com.woniu.pay.common.utils.PaymentConstant;
+import com.woniu.sncp.pay.core.service.MemcachedService;
 
 import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 
@@ -40,6 +42,11 @@ import net.rubyeye.xmemcached.utils.XMemcachedClientFactoryBean;
 @Configuration
 public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 
+	@Bean public MemcacheCluster memcacheCluster(MemcachedService memcachedService) {
+		MemcacheCluster  memcacheCluster=	MemcacheCluster.getInstance();
+		memcacheCluster.setMemcachedService(memcachedService);
+		return memcacheCluster;
+	}
 	
 	@Bean
     public LocaleResolver localeResolver() {
