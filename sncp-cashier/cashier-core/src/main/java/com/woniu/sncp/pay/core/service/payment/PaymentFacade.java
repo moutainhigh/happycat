@@ -18,11 +18,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.woniu.common.memcache.MemcacheCluster;
 import com.woniu.pay.common.utils.PaymentConstant;
  import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.core.ContentUtils;
 import com.woniu.sncp.pay.core.service.CorePassportService;
 import com.woniu.sncp.pay.core.service.GameManagerService;
 import com.woniu.sncp.pay.core.service.PaymentDiscountService;
@@ -211,6 +213,8 @@ public class PaymentFacade {
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
 			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
+				MemcacheCluster.getInstance().setList(pOrderNo, "新订单支付");
+
 				String backendUrl = ObjectUtils.toString(extendParams.get("backendurl"));
 				String fontendurl = ObjectUtils.toString(extendParams.get("fontendurl"));
 				
@@ -222,7 +226,12 @@ public class PaymentFacade {
 					if(aid>0){
 						paymentOrder.setAid(aid);
 					}else{
-						return ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+						
+						Map<String, Object> result= ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+						MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+						return result;
+					 
 					}
 				}else{
 					if(StringUtils.isNotBlank(account)){
@@ -234,7 +243,12 @@ public class PaymentFacade {
 							try {
 								passport = corePassportService.queryPassport(account);
 							} catch (Exception e) {
-								return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+								
+								Map<String, Object> result=ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+								MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+								return result;
+								  
 							}
 							corePassportService.validatepassport(passport);
 							paymentOrder.setAid(passport.getId());
@@ -266,7 +280,11 @@ public class PaymentFacade {
 					try {
 						passport = corePassportService.queryPassport(loginAccount);
 					} catch (Exception e) {
-						return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+						Map<String, Object> result=ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+						MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+						return result;
+					 
 					}
 					corePassportService.validatepassport(passport);
 					paymentOrder.setLoginAid(passport.getId());
@@ -357,6 +375,8 @@ public class PaymentFacade {
 				
 				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress,discountRecord);
 			} else {
+				MemcacheCluster.getInstance().setList(pOrderNo, "接口再次请求支付");
+
 				//modified by fuzl 充值方式无法切换问题解决
 //				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf(money));
 				Assert.assertEquals("金额与订单中的金额不一致，请重新核对",paymentOrder.getMoney(), Float.valueOf((Float)discountOrder.get("orderMoney")));
@@ -379,7 +399,12 @@ public class PaymentFacade {
 					if(aid>0){
 						paymentOrder.setAid(aid);
 					}else{
-						return ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+						
+						Map<String, Object> result=ErrorCode.put(ErrorCode.getErrorCode(10001), ErrorCode.TIP_INFO,ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO));
+						MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+						return result;
+					 
 					}
 				}else{
 					if(StringUtils.isNotBlank(account)){
@@ -391,7 +416,12 @@ public class PaymentFacade {
 							try {
 								passport = corePassportService.queryPassport(account);
 							} catch (Exception e) {
-								return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+								
+								Map<String, Object> result=ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+								MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+								return result;
+							 
 							}
 							corePassportService.validatepassport(passport);
 							paymentOrder.setAid(passport.getId());
@@ -423,8 +453,14 @@ public class PaymentFacade {
 					try {
 						passport = corePassportService.queryPassport(loginAccount);
 					} catch (Exception e) {
-						return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
-					}
+						
+						
+						
+						Map<String, Object> result=ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+						MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+
+						return result;
+ 					}
 					corePassportService.validatepassport(passport);
 					paymentOrder.setLoginAid(passport.getId());
 				}else{
@@ -512,10 +548,16 @@ public class PaymentFacade {
 			if(callPayRemoteFlag){
 				//5.请求远端服务,提交cbss-api处理第三方平台支付请求,
 				inParams.put("extendParams",extendParams);
+				MemcacheCluster.getInstance().setList(pOrderNo, "开始远程调用Payment,"+ContentUtils.safeLogJson(inParams));
+
 				paymentParams = actualPayment.callPay(inParams);
 			}else{
+	 		    MemcacheCluster.getInstance().setList(pOrderNo, "开始本地调用Payment,"+ContentUtils.safeLogJson(inParams));
+
 				paymentParams = actualPayment.orderedParams(inParams);
 			}
+ 		    MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
+
 			
 			// 操作成功，用于给上层判断
 			outParams = ErrorCode.getErrorCode(1);
@@ -551,16 +593,26 @@ public class PaymentFacade {
 
 		} catch (DataAccessException e) {
 			logger.error("数据库操作异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(14102), ErrorCode.ERROR_INFO, e.getMessage());
-		} catch(OrderIsSuccessException e){
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(14102), ErrorCode.ERROR_INFO, e.getMessage());
+			
+			 
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
+ 		} catch(OrderIsSuccessException e){
 			logger.error("OrderIsSuccessException异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(56014), ErrorCode.TIP_INFO, e.getMessage());
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(56014), ErrorCode.TIP_INFO, e.getMessage());
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
 		} catch (IllegalArgumentException e) {
 			logger.error("validation异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(14101), ErrorCode.TIP_INFO, e.getMessage());
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(14101), ErrorCode.TIP_INFO, e.getMessage());
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
 		} catch (Exception e) {
 			logger.error("未知异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(10002), ErrorCode.ERROR_INFO, e.getMessage());
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(10002), ErrorCode.ERROR_INFO, e.getMessage());
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
 		}
 		return outParams;
 	}
@@ -612,6 +664,7 @@ public class PaymentFacade {
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
 			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
+				MemcacheCluster.getInstance().setList(pOrderNo, "新订单支付");
 				String backendUrl = ObjectUtils.toString(extendParams.get("backendurl"));
 				String fontendurl = ObjectUtils.toString(extendParams.get("fontendurl"));
 				
@@ -624,7 +677,11 @@ public class PaymentFacade {
 					try {
 						passport = corePassportService.queryPassport(account);
 					} catch (Exception e) {
-						return ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+						
+						
+						Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(20110), ErrorCode.TIP_INFO, e.getMessage());
+						MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+						return result;
 					}
 					corePassportService.validatepassport(passport);
 					paymentOrder.setAid(passport.getId());
@@ -707,6 +764,8 @@ public class PaymentFacade {
 				
 				paymentOrderService.createOrderAndGenOrderNo(paymentOrder,7L,timeoutExpress,discountRecord);
 			} else {
+				
+				MemcacheCluster.getInstance().setList(pOrderNo, "接口再次请求支付");
 				//modified by fuzl 充值方式无法切换问题解决
 //				DecimalFormat decimalFormat = new DecimalFormat("0.00");
 //				Float orderMoney = Float.valueOf(decimalFormat.format(Float.valueOf(money) - Float.valueOf(yueMoney)));
@@ -739,7 +798,12 @@ public class PaymentFacade {
 			inParams.put(PaymentConstant.CLIENT_IP, clientIp);
 			inParams.putAll(extendParams);
 
+		    MemcacheCluster.getInstance().setList(pOrderNo, "开始本地调用Payment,"+ContentUtils.safeLogJson(inParams));
+
 			Map<String, Object> paymentParams = actualPayment.orderedParams(inParams);
+				 
+	 		    MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
+			
 			// 操作成功，用于给上层判断
 			outParams = ErrorCode.getErrorCode(1);
 
@@ -770,13 +834,21 @@ public class PaymentFacade {
 
 		} catch (DataAccessException e) {
 			logger.error("数据库操作异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(14102), ErrorCode.ERROR_INFO, e);
-		} catch (IllegalArgumentException e) {
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(14102), ErrorCode.ERROR_INFO, e.getMessage());
+			
+			 
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
+ 		} catch (IllegalArgumentException e) {
 			logger.error("validation异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(14101), ErrorCode.TIP_INFO, e.getMessage());
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(14101), ErrorCode.TIP_INFO, e.getMessage());
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
 		} catch (Exception e) {
 			logger.error("未知异常", e);
-			return ErrorCode.put(ErrorCode.getErrorCode(10002), ErrorCode.ERROR_INFO, e);
+			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(10002), ErrorCode.ERROR_INFO, e.getMessage());
+			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			return result;
 		}
 		return outParams;
 	}
