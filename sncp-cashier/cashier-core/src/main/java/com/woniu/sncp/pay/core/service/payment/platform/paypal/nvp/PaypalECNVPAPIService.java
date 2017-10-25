@@ -137,7 +137,7 @@ public class PaypalECNVPAPIService extends ExpressCheckoutService {
 		if(nvpMap == null || !SUCCESS.equalsIgnoreCase(nvpMap.get("ACK"))){
 			throw newException("Paypal SetExpressCheckOut response ack is not success.");
 		}
-		
+		logger.info("Paypal SetExpressCheckOut response:{}", nvpMap.toString());
 		String token = nvpMap.get("TOKEN");
 		if(StringUtils.isBlank(token)){
 			throw newException("Paypal SetExpressCheckOut response token is not found.");
@@ -151,8 +151,8 @@ public class PaypalECNVPAPIService extends ExpressCheckoutService {
 		Map<String, String> result = new HashMap<String, String>();
 		result.put(ExpressCheckoutService.PAY_URL, endpoint);
 //		result.put(ExpressCheckoutService.PAY_CMD, "_express-checkout");
-//		result.put(ExpressCheckoutService.TOKEN, token);
-		logger.info("SetExpressCheckOut request successfully. url : {}" + platform.getPayUrl());
+		result.put(ExpressCheckoutService.TOKEN, token);
+		logger.info("SetExpressCheckOut request successfully. url : {}", platform.getPayUrl());
 		return result;
 	}
 

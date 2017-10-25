@@ -1,6 +1,8 @@
 package com.woniu.sncp.pay.web.api;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -121,16 +123,30 @@ public class PaymentFontController extends ApiBaseController{
 			}
 		}
 		
+//		String orderStatus = (String)request.getAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS);
+		String orderStatus = "";
+		List<String> param=new ArrayList<>();
+		if(StringUtils.isNotBlank(orderNo)) {
+			param.add("orderNo="+ orderNo);	
+		}
+		if(StringUtils.isNotBlank(openId)) {
+			param.add("openId="+ openId);	
+		}
+		if(StringUtils.isNotBlank(orderStatus)) {
+			param.add("orderStatus="+  orderStatus);	
+		}
+		
+		if(order.getAid() != null) {
+			param.add("aid="+  order.getAid());	
+		}
+		param.add("platformId="+  paymentId);	
+		
+		String queryStr = StringUtils.join(param, "&");
+		
 		if(directUrl.contains("?")){
-			if(StringUtils.isNotBlank(openId)){
-				return "redirect:"+directUrl+"&orderNo="+orderNo+"&openId="+openId;
-			}
-			return "redirect:"+directUrl+"&orderNo="+orderNo;
+			return "redirect:"+directUrl + queryStr;
 		}else{
-			if(StringUtils.isNotBlank(openId)){
-				return "redirect:"+directUrl+"?orderNo="+orderNo+"&openId="+openId;
-			}
-			return "redirect:"+directUrl+"?orderNo="+orderNo;
+			return "redirect:"+directUrl+"?" + queryStr;
 		}
 	}
 	
