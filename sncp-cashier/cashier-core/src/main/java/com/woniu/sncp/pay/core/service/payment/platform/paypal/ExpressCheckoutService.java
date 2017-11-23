@@ -83,7 +83,7 @@ public abstract class ExpressCheckoutService {
 		resourcePath = RESTUtil.formatURIPath(resourcePath, new Object[] {merchantId, token});
 		String payload = createJson(payLoad);
 		logger.info("Send transactionContexts payload:{}", payload);
-		return PayPalResource.configureAndExecute(context, HttpMethod.POST, resourcePath, payload, String.class);
+		return PayPalResource.configureAndExecute(context, HttpMethod.PUT, resourcePath, payload, String.class);
 		
 	}
 	
