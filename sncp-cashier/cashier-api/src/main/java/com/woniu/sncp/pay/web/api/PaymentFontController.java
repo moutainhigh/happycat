@@ -123,8 +123,7 @@ public class PaymentFontController extends ApiBaseController{
 			}
 		}
 		
-//		String orderStatus = (String)request.getAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS);
-		String orderStatus = "";
+		String orderStatus = (String)request.getAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS);
 		List<String> param=new ArrayList<>();
 		if(StringUtils.isNotBlank(orderNo)) {
 			param.add("orderNo="+ orderNo);	

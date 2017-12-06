@@ -33,6 +33,9 @@ import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.KuaiqianQuickPa
 import com.woniu.sncp.pay.core.service.payment.platform.kuaiqian.www.KuaiqianPCQuickPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.moneybookers.MoneyBookersPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.nbcb.NbcbDPPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.oversea.openbucks.OpenbucksPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.oversea.rixty.RixtyPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.oversea.xsolla.XsollaPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.paypal.PaypalPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.shengpay.ShengftpayBankDirectPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.shenzpay.ShenzpayDPPayment;
@@ -111,6 +114,15 @@ public class PaymentMapConfig {
 	MoneyBookersPayment moneyBookersPayment;
 	
 	@Resource
+	private RixtyPayment rixtyPayment;
+	
+	@Resource
+	private OpenbucksPayment openbucksPayment;
+	
+	@Resource
+	private XsollaPayment xsollaPayment;
+	
+	@Resource
 	AlipayAppPayment alipayAppPayment;
 	
 	
@@ -173,6 +185,10 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1038", unionPayPaymentNew_1);//<!-- 银联在线支付新版pc -->
 		paymentMap.put("PAYMENT_1039", alipayQRCodeUrlPayment);//<!-- 支付宝扫码新 -->
 		paymentMap.put("PAYMENT_1040", weixinPaymentForQrCode);//<!-- 微信扫码新 -->
+		
+		paymentMap.put("PAYMENT_1053", openbucksPayment);//<!-- Openbucks -->
+		paymentMap.put("PAYMENT_1054", rixtyPayment);//<!-- Rixty -->
+		paymentMap.put("PAYMENT_1055", xsollaPayment);//<!-- Xsolla -->
 		
 		
 		//app

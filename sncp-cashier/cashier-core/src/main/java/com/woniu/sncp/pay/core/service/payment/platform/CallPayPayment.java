@@ -11,6 +11,7 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -361,7 +362,7 @@ public class CallPayPayment extends AbstractPayment {
 		Map<String, Object> outParams = new HashMap<String, Object>();
 		
 		// 原始请求参数
-		Map<String, Object> origiRequestMap = new HashMap<String, Object>();
+		Map<String, Object> origiRequestMap = new LinkedHashMap<String, Object>();
 		
 		try {
 			String callPayUrl = "";
@@ -404,6 +405,11 @@ public class CallPayPayment extends AbstractPayment {
 					sb.append(key+"="+origiRequest.getParameter(keyString)).append("&");
 					origiRequestMap.put(keyString, origiRequest.getParameter(keyString));
 				}
+			} if ("3".equals(readType)) {
+				//处理原始QueryString
+				String queryString = origiRequest.getQueryString();
+				origiRequestMap.put("QueryString", queryString);
+				sb.append(queryString);
 			} else {
 				getRequestBody(origiRequestMap, origiRequest, "utf-8");
 				sb.append(origiRequestMap.get("RequestBody"));
@@ -894,7 +900,7 @@ public class CallPayPayment extends AbstractPayment {
 		DIOrderPayBackGetOrderNoResponse response = new DIOrderPayBackGetOrderNoResponse();
 		
 		// 请求map
-		Map<String, Object> reqMap = new HashMap<String, Object>();
+		Map<String, Object> reqMap = new LinkedHashMap<String, Object>();
 		try {
 			// 封装请求数据
 			
@@ -934,6 +940,10 @@ public class CallPayPayment extends AbstractPayment {
 					String keyString = ObjectUtils.toString(key);
 					reqMap.put(keyString, origRequest.getParameter(keyString));
 				}
+			} if ("3".equals(readType)) {
+				//处理原始QueryString
+				String queryString = origRequest.getQueryString();
+				reqMap.put("QueryString", queryString);
 			} else {
 				getRequestBody(reqMap, origRequest, "utf-8");
 			}

@@ -877,6 +877,8 @@ public class PaymentFacade {
 		Platform platform = (Platform) request.getAttribute(PaymentConstant.PAYMENT_PLATFORM);
 		// 是否调用远端服务,默认调用本地
 		Boolean callPayRemoteFlag = false;
+		//前端跳转后是否需要验证等操作处理
+		boolean frontProcess = false;
 		if(null != platform){
 			// 2.根据平台扩展判断是否需要调用远程服务,add by fuzl@mysnail.com
 			String merchantExt = platform.getExtend();
@@ -888,6 +890,9 @@ public class PaymentFacade {
 						callPayRemoteFlag = true;
 					};
 				}
+				if("1".equals(extJson.getString("frontProcess"))){
+					frontProcess = true;
+				};
 			}
 		}
 		
@@ -897,7 +902,11 @@ public class PaymentFacade {
 			orderNo = actualImprestPayment.callPayGetOrderNoFromRequest(platform,request);
 		}else{
 			// 调用本地服务
-			orderNo = actualImprestPayment.getOrderNoFromRequest(request);
+			if (frontProcess) {
+				orderNo = actualImprestPayment.getOrderNoFromRequest(request, platform);
+			} else {
+				orderNo = actualImprestPayment.getOrderNoFromRequest(request);
+			}
 		}
 		
 		if (StringUtils.isBlank(orderNo))
