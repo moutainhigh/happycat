@@ -157,8 +157,6 @@ public class OpenbucksPayment extends AbstractPayment {
 		}
 		//Validate merchantTrackingID amountValue currencyCode
 		String orderNo = postback.getResponse().getPayment().getMerchantData().getMerchantTrackingID();
-		//TODO test
-		orderNo = "20171129-1053-007-0000003733";
 		// 订单查询
 		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
 		Assert.notNull(paymentOrder, "Validate merchantTrackingID not empty,orderNo:" + orderNo);
