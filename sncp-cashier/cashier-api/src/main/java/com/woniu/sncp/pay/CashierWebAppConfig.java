@@ -3,6 +3,7 @@ package com.woniu.sncp.pay;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,7 @@ import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -348,7 +350,7 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		paypalConfigurationMap.put("sandbox.EmailAddress", "paypalsnail@snailgame.net");
 		paypalConfigurationMap.put("clientId", paypalClientId);//<!-- Credentials -->
 		paypalConfigurationMap.put("clientSecret", clientSecret);
-		paypalConfigurationMap.put("http.ConnectionTimeOut", "5000");//<!-- Connection Information -->
+		paypalConfigurationMap.put("http.ConnectionTimeOut", "10000");//<!-- Connection Information -->
 		paypalConfigurationMap.put("http.Retry", "2");
 		paypalConfigurationMap.put("http.ReadTimeOut", "30000");
 		paypalConfigurationMap.put("http.MaxConnection", "100");
@@ -357,5 +359,16 @@ public class CashierWebAppConfig extends WebMvcConfigurerAdapter {
 		paypalConfigurationMap.put("acct1.Password", paypalPassword);
 		paypalConfigurationMap.put("acct1.Signature", paypalSignature);
 		return paypalConfigurationMap;
+	}
+	
+	@Bean(name="paypalExecutor")
+	public Executor getAsyncExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(10);
+		executor.setMaxPoolSize(20);
+		executor.setQueueCapacity(100);
+		executor.setThreadNamePrefix("Paypal-");
+		executor.initialize();
+		return executor;
 	}
 }

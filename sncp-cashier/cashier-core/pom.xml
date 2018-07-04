@@ -33,11 +33,11 @@
 			<artifactId>cashier-common</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.woniu.sncp</groupId>
 			<artifactId>cashier-domain</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 		<!-- 银联 app支付 新SDK -->
 		<dependency>
 			<groupId>com.unionpay.acp</groupId>

@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 
@@ -1013,6 +1014,11 @@ public abstract class AbstractPayment implements Payment,Transfer {
 			}
 		}
 		return ret;
+	}
+	
+	@Override
+	public String getOrderNoFromRequest(HttpServletRequest request, Platform platform) {
+		return null;
 	}
 	
 	/**********************************************************/

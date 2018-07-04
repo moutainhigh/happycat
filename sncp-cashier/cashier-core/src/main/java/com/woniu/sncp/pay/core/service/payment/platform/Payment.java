@@ -105,6 +105,13 @@ public interface Payment {
 	String getOrderNoFromRequest(HttpServletRequest request); 
 	
 	/**
+	 * 各平台从第三方平台返回的request中获取订单号,主要用于前台返回
+	 * 
+	 * @param request
+	 */
+	String getOrderNoFromRequest(HttpServletRequest request, Platform platform); 
+	
+	/**
 	 * 取消订单
 	 * 
 	 * @param inParams

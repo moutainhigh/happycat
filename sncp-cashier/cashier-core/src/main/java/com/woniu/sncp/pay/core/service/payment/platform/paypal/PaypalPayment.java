@@ -12,8 +12,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.dao.DataAccessException;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.fastjson.JSONObject;
 import com.paypal.ipn.IPNMessage;
 import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
@@ -30,6 +32,11 @@ public class PaypalPayment extends AbstractPayment {
 
 	/** paypal通知订单状态消息 支付完成 */
 	private static final String TRADE_FLAG_COMPLETED = "Completed";
+	
+	/*@Autowired
+	@Qualifier("paypalExecutor")*/
+	@Resource(name="paypalExecutor")
+	private ThreadPoolTaskExecutor poolExecutor;
 	
 //	private ExpressCheckoutService ecService;
 	
@@ -68,17 +75,28 @@ public class PaypalPayment extends AbstractPayment {
 		//SetExpressCheckout
 		Map<String, String> result = ecService.setExpressCheckout(paymentOrder, platform);
 		if (result != null && result.containsKey(ExpressCheckoutService.PAY_URL)) {
-			//TODO 发起STC请求，抛送用户数据
+			// 发起STC请求，抛送用户数据 可改为异步
 			//STC请求失败，业务上为不影响交易流程。所以在此捕获不抛出
-			
-//			String token = result.get(ExpressCheckoutService.TOKEN);
-//			PaypalSetTransactionContextParameter parameter = (PaypalSetTransactionContextParameter) order
-//					.getExtraMap().get(RAAS_PARAM);
-//			try {
-//				sendSetTransactionContextToPaypal(token, parameter);
-//			} catch (Exception e) {
-//				log.warn("SetTransactionContext failed!");
-//			}
+			final ExpressCheckoutService tcService = ecService;
+			poolExecutor.execute(new Runnable() {
+				@Override
+				public void run() {
+					JSONObject extend = JSONObject.parseObject(paymentOrder.getInfo());
+					String raasParam = extend.getString("raas_param");
+					if (StringUtils.isNotEmpty(raasParam)) {
+						String token = result.get(ExpressCheckoutService.TOKEN);
+						result.remove(ExpressCheckoutService.TOKEN);
+						String merchantId  = platform.getManageUser();
+						//RAAS
+						try {
+							String resp = tcService.setTransactionContextToPaypal(merchantId, token, raasParam);
+							logger.info("SetTransactionContext success:{}", resp);
+						} catch (Exception e) {
+							logger.warn("SetTransactionContext failed!{}", e.getMessage());
+						}
+					}
+				}
+			});
 			return new HashMap<String, Object>(result);
 		} else {
 			throw new PaypalPaymentException("SetExpressCheckout failed");
