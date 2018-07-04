@@ -201,9 +201,6 @@ public class XmlConvertUtil {
 		return treeMap;
 	}
     
-    
-    
-    
     private static String getEncoding(String text) {
         String result = null;
 
