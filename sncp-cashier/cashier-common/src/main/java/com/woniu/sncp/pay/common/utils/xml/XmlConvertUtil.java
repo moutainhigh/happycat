@@ -1,10 +1,12 @@
 package com.woniu.sncp.pay.common.utils.xml;
 
 
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,8 +15,11 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.Node;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.exception.ValidationException;
@@ -123,14 +128,57 @@ public class XmlConvertUtil {
         retMap.put("totalCount", total); // 总记录数
         return retMap;
     }
+    
+    /**
+	 * 增加防止部实体注入逻辑 <功能详细描述>
+	 * 
+	 * @param reader
+	 * @throws SAXException
+	 * @see [类、类#方法、类#成员]
+	 */
+	public static void setReaderFeature(SAXReader reader) throws SAXException {
+		//
+		// 36: java.lang.NullPointerException
+		// 37: at
+		// com.sun.org.apache.xerces.internal.impl.dtd.XMLDTDProcessor.startDTD(XMLDTDProcessor.java:685)
+		// reader.setFeature("http://apache.org/xml/features/disallow-doctype-decl",
+		// true);
+		reader.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
+		reader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+		reader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+		reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+	}
+	
+	public static Document parseText(String text) throws DocumentException, SAXException {
+		Document result = null;
 
+		SAXReader reader = new SAXReader();
+		setReaderFeature(reader);
+
+		String encoding = getEncoding(text);
+
+		InputSource source = new InputSource(new StringReader(text));
+		source.setEncoding(encoding);
+
+		result = reader.read(source);
+
+		// if the XML parser doesn't provide a way to retrieve the encoding,
+		// specify it manually
+		if (result.getXMLEncoding() == null) {
+			result.setXMLEncoding(encoding);
+		}
+
+		return result;
+	}
+    
+    
     public static String readXmlNode(String resData,String nodePath) {
 		Document doc = null;
 		try {
-			doc = DocumentHelper.parseText(resData);
-		} catch (DocumentException e) {
+			doc = parseText(resData);
+		} catch (Exception e) {
 			throw new ValidationException("xml转换异常");
-		}
+		}  
 		Node node = doc.selectSingleNode(nodePath);
 		String nodeText = node.getText();
 		return nodeText;
@@ -139,10 +187,10 @@ public class XmlConvertUtil {
     public static Map<String,Object> XmlNodesToMap(String resData,String xpath) {
 		Document doc = null;
 		try {
-			doc = DocumentHelper.parseText(resData);
-		} catch (DocumentException e) {
+			doc = parseText(resData);
+		} catch (Exception e) {
 			throw new ValidationException("xml转换异常");
-		}
+		}  
 		List selectNodes = doc.selectNodes(xpath);
 		Map<String,Object> treeMap = new TreeMap<String,Object>();
 		for (Object object : selectNodes) {
@@ -152,4 +200,33 @@ public class XmlConvertUtil {
 		
 		return treeMap;
 	}
+    
+    
+    
+    
+    private static String getEncoding(String text) {
+        String result = null;
+
+        String xml = text.trim();
+
+        if (xml.startsWith("<?xml")) {
+            int end = xml.indexOf("?>");
+            String sub = xml.substring(0, end);
+            StringTokenizer tokens = new StringTokenizer(sub, " =\"\'");
+
+            while (tokens.hasMoreTokens()) {
+                String token = tokens.nextToken();
+
+                if ("encoding".equals(token)) {
+                    if (tokens.hasMoreTokens()) {
+                        result = tokens.nextToken();
+                    }
+
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
 }
