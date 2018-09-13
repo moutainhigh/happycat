@@ -17,18 +17,18 @@
 	<link rel="icon" type="image/x-icon" href="/images/favicon.ico" />    
 	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />    
 	<link rel="bookmark" type="image/x-icon" href="/images/favicon.ico" />
-	<link href="//www3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
-    <link href="//www3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
-    <link href="//www3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />
-    <link href="//www3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
-    <link href="//www3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
+	<link href="//uswww3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
+    <link href="//uswww3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
+    <link href="//uswww3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />
+    <link href="//uswww3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
+    <link href="//uswww3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
 	<meta name="Copyright" content="Copyright (c) 2011 <spring:message code="payment.company.name"/>" />
 	<meta name="Keywords" content="提供最完善，最优质的游戏服务，了解蜗牛最及时的游戏资讯，拥有最真实的玩家互动社区" />
 </head>
 <body>
 	<div class="pay_header">
          <div class="logo_con">
-             <img src="//www3.woniu.com/pay/images/top.png" />
+             <img src="//uswww3.woniu.com/pay/images/top.png" />
           </div>
     </div>
 	<div class="pay-result">

@@ -16,12 +16,12 @@
 	    <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />    
 		<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />    
 		<link rel="bookmark" type="image/x-icon" href="/images/favicon.ico" />
-	    <link href="//www3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
-	    <link href="//www3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
-	    <link href="//www3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />
-	    <link href="//www3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
-	    <link href="//www3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
-	    <script src="//www3.woniu.com/pay/js/wn_sso.js"></script>
+	    <link href="//uswww3.woniu.com/includes/css/reset.css" type="text/css" rel="stylesheet" />
+	    <link href="//uswww3.woniu.com/includes/css/common.css" type="text/css" rel="stylesheet" />
+	    <link href="//uswww3.woniu.com/includes/css/index.css" type="text/css" rel="stylesheet" />
+	    <link href="//uswww3.woniu.com/includes/css/custom.css" type="text/css" rel="stylesheet" />
+	    <link href="//uswww3.woniu.com/pay/css/pay.css" type="text/css" rel="styleSheet"/>
+	    <script src="//uswww3.woniu.com/pay/js/wn_sso.js"></script>
 	    <title><spring:message code="payment.confirm.title"/></title>
 	    <meta name="Copyright" content="Copyright (c) 2011 <spring:message code="payment.company.name"/>" />
 		<meta name="Keywords" content="提供最完善，最优质的游戏服务，了解蜗牛最及时的游戏资讯，拥有最真实的玩家互动社区" />
@@ -74,7 +74,7 @@
         </form>
         <div class="pay_header">
             <div class="logo_con">
-                <img src="//www3.woniu.com/pay/images/top.png" />
+                <img src="//uswww3.woniu.com/pay/images/top.png" />
              </div>
         </div>
         <div class="pay_body">
@@ -151,14 +151,14 @@
 	                <c:when test="${idx.count le 18 }">
 	                <div class="item card" bankcd="${debit.content}" val="${debit.bankPlatformId}"
 	                bankType="${debit.debitPayType}" payType="${debit.creditPayType}">
-	                    <img src="//www3.woniu.com/pay/images/logo/bank/${debit.content}.gif" />
+	                    <img src="//uswww3.woniu.com/pay/images/logo/bank/${debit.content}.gif" />
 	                    <div class="border"></div>
 	                </div>
 	                </c:when>
 	                <c:otherwise>
 	                <div class="item card hidden" bankcd="${debit.content}" val="${debit.bankPlatformId}"
 	                bankType="${debit.debitPayType}" payType="${debit.creditPayType}">
-	                    <img src="//www3.woniu.com/pay/images/logo/bank/${debit.content}.gif" />
+	                    <img src="//uswww3.woniu.com/pay/images/logo/bank/${debit.content}.gif" />
 	                    <div class="border"></div>
 	                </div>	
 	                </c:otherwise>
@@ -195,7 +195,7 @@
                     	<c:if test="${third.dispFlag eq 'N'}">
                     		<div class="new"></div>
                     	</c:if>
-                        <img src="//www3.woniu.com/pay/images/logo/platform/${third.content}.png" />
+                        <img src="//uswww3.woniu.com/pay/images/logo/platform/${third.content}.png" />
                         <div class="border"></div>
                     </div>
                     </c:forEach>
@@ -211,13 +211,13 @@
                 <c:choose>
 	                <c:when test="${idx.count le 18 }">
 	                <div class="item card" bankcd="${credit.content}" val="${credit.bankPlatformId}">
-	                    <img src="//www3.woniu.com/pay/images/logo/bank/${credit.content}.gif" />
+	                    <img src="//uswww3.woniu.com/pay/images/logo/bank/${credit.content}.gif" />
 	                    <div class="border"></div>
 	                </div>
 	               	</c:when>
 	                <c:otherwise>
 	                <div class="item card hidden" bankcd="${credit.content}" val="${credit.bankPlatformId}">
-	                    <img src="//www3.woniu.com/pay/images/logo/bank/${credit.content}.gif" />
+	                    <img src="//uswww3.woniu.com/pay/images/logo/bank/${credit.content}.gif" />
 	                    <div class="border"></div>
 	                </div>
 	                </c:otherwise>
@@ -271,19 +271,19 @@
                   <div class="other-pay clearfix">
                   	<c:if test="${(not empty ret.yxCardList) }">
                       <div class="card item" tar="game_card" >
-                         <img src="//www3.woniu.com/pay/images/game_card.png" />
+                         <img src="//uswww3.woniu.com/pay/images/game_card.png" />
                          <div class="border"></div>
                       </div>
                     </c:if>
                    <c:if test="${(not empty ret.mobileCardList) }">
                      <div class="card item" tar="tel_card">
-                         <img src="//www3.woniu.com/pay/images/tel_card.png" />
+                         <img src="//uswww3.woniu.com/pay/images/tel_card.png" />
                          <div class="border"></div>
                      </div>
                    </c:if>
                    <c:if test="${(not empty ret.wnMobileSpecCardList) }">
                      <div class="card item" tar="wn_spec_card">
-                         <img src="//www3.woniu.com/pay/images/wn_spec_card.png" />
+                         <img src="//uswww3.woniu.com/pay/images/wn_spec_card.png" />
                          <div class="border"></div>
                      </div>
                    </c:if>
@@ -295,7 +295,7 @@
 	                      <label class="lh44">支持种类：</label>
 	                      <ul class="payNumList clearfix">
 	                       	<c:forEach items="${ret.yxCardList}" var="yxCard" varStatus="idx">
-	                       		<li class="payNum" otype="${yxCard.type}" cardcd="${yxCard.content}" pid="${yxCard.bankPlatformId}"><img src="//www3.woniu.com/pay/images/logo/card/${yxCard.content}.gif" /><em></em></li>
+	                       		<li class="payNum" otype="${yxCard.type}" cardcd="${yxCard.content}" pid="${yxCard.bankPlatformId}"><img src="//uswww3.woniu.com/pay/images/logo/card/${yxCard.content}.gif" /><em></em></li>
 	                       	</c:forEach>
 	                      </ul>
 	                      <div class="clearfix">
@@ -313,7 +313,7 @@
 	                      <label class="lh44">运营商：</label>
 	                      <ul class="payNumList clearfix">
 	                      	<c:forEach items="${ret.mobileCardList}" var="mCard" varStatus="idx">
-	                       		<li class="payNum" otype="${mCard.type}" cardcd="${mCard.content}" pid="${mCard.bankPlatformId}"><img src="//www3.woniu.com/pay/images/logo/card/${mCard.content}.gif" /><em></em></li>
+	                       		<li class="payNum" otype="${mCard.type}" cardcd="${mCard.content}" pid="${mCard.bankPlatformId}"><img src="//uswww3.woniu.com/pay/images/logo/card/${mCard.content}.gif" /><em></em></li>
 	                       	</c:forEach>
 	                      </ul>
 	                      <div class="clearfix">
@@ -332,7 +332,7 @@
 	                      <label class="lh44">运营商：</label>
 	                      <ul class="payNumList clearfix">
 	                      	<c:forEach items="${ret.wnMobileSpecCardList}" var="wmSpecCard" varStatus="idx">
-	                       		<li class="payNum" otype="${wmSpecCard.type}" cardcd="${wmSpecCard.content}" pid="${wmSpecCard.bankPlatformId}"><img src="//www3.woniu.com/pay/images/logo/card/${wmSpecCard.content}.gif" /><em></em></li>
+	                       		<li class="payNum" otype="${wmSpecCard.type}" cardcd="${wmSpecCard.content}" pid="${wmSpecCard.bankPlatformId}"><img src="//uswww3.woniu.com/pay/images/logo/card/${wmSpecCard.content}.gif" /><em></em></li>
 	                       	</c:forEach>
 	                      </ul>
 	                      <div class="clearfix">
@@ -403,7 +403,7 @@
         <!-- sms -->
         <div class="pop" id="pop"></div>
 
-        <img src="//www3.woniu.com/pay/images/loading.gif" style="display: none;" class="loading"/>
+        <img src="//uswww3.woniu.com/pay/images/loading.gif" style="display: none;" class="loading"/>
 
           <!-- <div class="sms" id="sms" style="display:none">
            <span class="title"></span>
@@ -448,9 +448,9 @@
               </div>
              </div>
 	
-	<script src="//www3.woniu.com/includes/js/jquery-latest.js"></script>
-        <script src="//www3.woniu.com/pay/js/payment.js"></script>
-        <script src="//www3.woniu.com/pay/js/md5.js"></script>
-        <script src="//www3.woniu.com/imp/script/qrcode/qrcode.js"></script>
+	<script src="//uswww3.woniu.com/includes/js/jquery-latest.js"></script>
+        <script src="//uswww3.woniu.com/pay/js/payment.js"></script>
+        <script src="//uswww3.woniu.com/pay/js/md5.js"></script>
+        <script src="//uswww3.woniu.com/imp/script/qrcode/qrcode.js"></script>
     </body>
 </html>
