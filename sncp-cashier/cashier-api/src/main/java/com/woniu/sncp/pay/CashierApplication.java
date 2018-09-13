@@ -40,8 +40,9 @@ public class CashierApplication extends SpringBootServletInitializer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		 SpringApplication.run(CashierApplication.class, args);
+		System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "|{}");
+
+		SpringApplication.run(CashierApplication.class, args);
 	}
 	@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer() {

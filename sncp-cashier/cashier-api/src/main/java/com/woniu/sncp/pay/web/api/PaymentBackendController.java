@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,6 +103,77 @@ public class PaymentBackendController extends ApiBaseController{
     	
     	return new ResultResponse(ResultResponse.SUCCESS,"已发校验请求",results);
     }
+	private    Map<String, String> toParameterMap(HttpServletRequest req) {
+		Map<String, String> map = new HashMap<String, String>();
+		Enumeration e = req.getParameterNames();
+
+		while (e.hasMoreElements()) {
+			String key = (String) e.nextElement();
+			String val = req.getParameter(key);
+
+			map.put(key, val);
+		}
+
+		return map;
+	}
+	@RequestMapping(value = { "/codapay" })
+	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("codapay 回调  queryString:{}", request.getQueryString());
+
+		logger.info("codapay 回调  params:{}", JsonUtils.toJson(toParameterMap(request)));
+
+		String orderNo=request.getParameter("OrderId ");
+		PaymentOrder paymentOrder=null;
+		if(StringUtils.isNotBlank(orderNo)){
+			paymentOrder=		paymentOrderService.queryOrder(orderNo);
+		}
+
+
+		if(paymentOrder!=null){
+			String mapping=String.format("/payment/backend/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
+			request.getRequestDispatcher(mapping).forward(request,response);
+
+		}else{
+			logger.info("找不到对应的 codapay ，定单号:{}",orderNo);
+
+			try{
+				response.getWriter().write("{\"ResultCode\":-1}");
+			}catch (Exception e){
+				logger.error("",e);
+			}
+
+		}
+
+	}
+	@RequestMapping(value = { "/bluepay" })
+	public void bluepay(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("bluepay 回调  queryString:{}", request.getQueryString());
+
+		logger.info("bluepay 回调  params:{}", JsonUtils.toJson(toParameterMap(request)));
+
+		String orderNo=request.getParameter("t_id ");
+		PaymentOrder paymentOrder=null;
+		if(StringUtils.isNotBlank(orderNo)){
+			paymentOrder=		paymentOrderService.queryOrder(orderNo);
+		}
+
+
+		if(paymentOrder!=null){
+				String mapping=String.format("/payment/backend/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
+				request.getRequestDispatcher(mapping).forward(request,response);
+
+		}else{
+			logger.info("找不到对应的 bluepay定单 ，定单号:{}",orderNo);
+
+			try{
+				response.getWriter().write("faild");
+			}catch (Exception e){
+ 				logger.error("",e);
+			}
+
+		}
+
+	}
 	
 	/**
 	 * 通用回调接口

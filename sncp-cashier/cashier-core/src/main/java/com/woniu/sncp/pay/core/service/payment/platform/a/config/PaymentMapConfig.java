@@ -5,6 +5,10 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepayBankPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepayCardPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepaySmsPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.codapay.CodapayPayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -121,7 +125,23 @@ public class PaymentMapConfig {
 	
 	@Resource
 	private XsollaPayment xsollaPayment;
-	
+
+
+
+	@Resource(name="BluepaySmsPayment")
+	private BluepaySmsPayment bluepaySmsPayment;
+
+	@Resource(name="BluapayBankPayment")
+	BluepayBankPayment bluepayBankPayment;
+
+	@Resource(name="BluepayCardPayment")
+	BluepayCardPayment  bluepayCardPayment;
+
+	@Resource(name="codapayPayment")
+	CodapayPayment codapayPayment;
+
+
+
 	@Resource
 	AlipayAppPayment alipayAppPayment;
 	
@@ -189,7 +209,12 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1053", openbucksPayment);//<!-- Openbucks -->
 		paymentMap.put("PAYMENT_1054", rixtyPayment);//<!-- Rixty -->
 		paymentMap.put("PAYMENT_1055", xsollaPayment);//<!-- Xsolla -->
-		
+
+		paymentMap.put("PAYMENT_1056", bluepaySmsPayment);//
+		paymentMap.put("PAYMENT_1057", bluepayCardPayment);//
+		paymentMap.put("PAYMENT_1058", bluepayBankPayment);//
+		paymentMap.put("PAYMENT_1059", codapayPayment);//
+
 		
 		//app
 		paymentMap.put("PAYMENT_2002", alipayAppPayment);//
@@ -213,6 +238,16 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_3007", wnMobileCardPayment);//<!-- wap蜗牛移动充值卡 -->
 		paymentMap.put("PAYMENT_3009", alipayWapAppPayment);//<!-- 新版本支付宝20160907 -->
 		paymentMap.put("PAYMENT_3010", unionPayPaymentNew_1);//<!-- 银联在线支付新版wap -->
+
+
+		paymentMap.put("PAYMENT_3021", bluepaySmsPayment);//<!-- 银联在线支付新版wap -->
+		paymentMap.put("PAYMENT_3023", bluepayCardPayment);//<!-- 银联在线支付新版wap -->
+
+		paymentMap.put("PAYMENT_3018", codapayPayment);//<!-- 银联在线支付新版wap -->
+
+
+
+
 		
 		//兔兔币、余额支付
 		paymentMap.put("PAYMENT_4001", ttbPayment);//<!-- 兔兔币 -->

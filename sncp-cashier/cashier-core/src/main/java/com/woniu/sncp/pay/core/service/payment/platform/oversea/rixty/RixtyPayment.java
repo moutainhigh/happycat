@@ -20,6 +20,7 @@ import com.woniu.sncp.net.NetServiceException;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.core.service.payment.Constant;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.oversea.rixty.utils.NVPClient;
 import com.woniu.sncp.pay.core.service.payment.platform.oversea.rixty.utils.NVPCodec;
@@ -180,7 +181,7 @@ public class RixtyPayment extends AbstractPayment {
 			if (!platform.getMerchantNo().equals(details.get(Field.USER)) || !platform.getPayKey().equals(details.get(Field.PWD))
 					|| !platform.getBackendKey().equals(details.get(Field.SIGNATURE))) {
 				logger.info("verify failed!");
-				request.setAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS, "failed");
+				request.setAttribute(Constant.ORDER_FRONT_CALLBACK_STATUS, "failed");
 				return orderNo;
 			}
 		} catch (NVPException nvpe) {

@@ -29,8 +29,7 @@
 	<div class="pay_header">
          <div class="logo_con">
              <img src="//www3.woniu.com/pay/images/top.png" />
-             <img style="float: right;padding-top: 10px;" src="//www3.woniu.com/pay/images/customer_phone.png" />
-         </div>
+          </div>
     </div>
 	<div class="pay-result">
             <h2><i class="tips-icon payOk"></i><span class="tips-msg"><spring:message code="payment.confirm.msg.order.pay.success" /></span></h2>
@@ -44,13 +43,7 @@
             </ul>
             <button class="btn" id="close" onclick="javascript:window.opener=null;window.open('','_self');window.close();">关闭</button>
    </div>
-   <div class="pay_bottom">
-       <p class="question_title">支付遇到问题</p>
-       <p class="question">网银支付支持哪些银行？</p>
-       <p class="answer">答：网银支付需要提前开通网银，可以选择网上银行（支持工商银行、农业银行、建设银行、中国银行、交通银行、兴业银行等在内的16家银行）</p>
-       <p class="question">帐户支付支持哪些帐户？</p>
-       <p class="answer">答：帐户支付可以支持支付宝、财付通帐户进行支付。</p>
-   </div>
+
 </body>
 
 </html>

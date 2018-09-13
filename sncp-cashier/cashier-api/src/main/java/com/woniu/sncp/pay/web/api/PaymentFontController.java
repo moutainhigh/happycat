@@ -24,6 +24,7 @@ import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;
 import com.woniu.sncp.pay.core.service.PlatformService;
+import com.woniu.sncp.pay.core.service.payment.Constant;
 import com.woniu.sncp.pay.core.service.payment.PaymentFacade;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.paypal.PaypalPayment;
@@ -123,7 +124,7 @@ public class PaymentFontController extends ApiBaseController{
 			}
 		}
 		
-		String orderStatus = (String)request.getAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS);
+		String orderStatus = (String)request.getAttribute(Constant.ORDER_FRONT_CALLBACK_STATUS);
 		List<String> param=new ArrayList<>();
 		if(StringUtils.isNotBlank(orderNo)) {
 			param.add("orderNo="+ orderNo);	

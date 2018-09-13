@@ -169,7 +169,6 @@ public class PaymentFacade {
 	 * @param imprestMode
 	 * @param clientIp
 	 * @param extendParams  
-	 * @param subject
 	 * @param body
 	 * @param goodsDetail
 	 * @param terminalType
@@ -558,7 +557,12 @@ public class PaymentFacade {
 			}
  		    MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
 
-			
+			String oppositeOrderNo=paymentParams!=null?(String)paymentParams.get("oppositeOrderNo"):null;
+			if(StringUtils.isNotBlank(oppositeOrderNo)){
+				paymentOrder.setOtherOrderNo(oppositeOrderNo);
+				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
+
+			}
 			// 操作成功，用于给上层判断
 			outParams = ErrorCode.getErrorCode(1);
 
@@ -802,8 +806,13 @@ public class PaymentFacade {
 
 			Map<String, Object> paymentParams = actualPayment.orderedParams(inParams);
 				 
-	 		    MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
-			
+			MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
+			String oppositeOrderNo = paymentParams != null ? (String) paymentParams.get("oppositeOrderNo") : null;
+			if (StringUtils.isNotBlank(oppositeOrderNo)) {
+				paymentOrder.setOtherOrderNo(oppositeOrderNo);
+				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED, PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
+
+			}
 			// 操作成功，用于给上层判断
 			outParams = ErrorCode.getErrorCode(1);
 

@@ -29,6 +29,7 @@ import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.core.service.payment.Constant;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.oversea.openbucks.dto.Authentication;
 import com.woniu.sncp.pay.core.service.payment.platform.oversea.openbucks.dto.Payload;
@@ -272,7 +273,7 @@ public class OpenbucksPayment extends AbstractPayment {
 		String tid = request.getParameter("tid");
 		String status = request.getParameter("status");
 		if (StringUtils.isNotEmpty(status)) {
-			request.setAttribute(PaymentConstant.ORDER_FRONT_CALLBACK_STATUS, status);
+			request.setAttribute(Constant.ORDER_FRONT_CALLBACK_STATUS, status);
 		}
 		return tid;
 	}

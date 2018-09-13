@@ -75,8 +75,7 @@
         <div class="pay_header">
             <div class="logo_con">
                 <img src="//www3.woniu.com/pay/images/top.png" />
-                <img style="float: right;padding-top: 10px;" src="//www3.woniu.com/pay/images/customer_phone.png" />
-            </div>
+             </div>
         </div>
         <div class="pay_body">
             <div class="bread">
@@ -89,22 +88,38 @@
                 	<div class="status_str">
                     	<spring:message code="payment.confirm.msg.order.success.info"/>
                     </div>
-                	<div class="total"><spring:message code="payment.confirm.lable.amount.pay"/><span class="num">￥<em id="money-old">${ret.money}</em></span></div>
-                    <div class="total"><spring:message code="payment.confirm.lable.order.amount"/><span class="num">${ret.money} <spring:message code="payment.confirm.lable.order.currency"/></span>&nbsp;&nbsp;</div>
-                    <div class="status_str"><spring:message code="payment.confirm.lable.order.no"/><span id="order_no" class="order_no">${ret.orderno}</span></div>
+                	<%--<div class="total"><spring:message code="payment.confirm.lable.amount.pay"/><span class="num">￥<em id="money-old">${ret.money}</em></span></div>--%>
+                    <%--<div class="total"><spring:message code="payment.confirm.lable.order.amount"/><span class="num">${ret.money} <spring:message code="payment.confirm.lable.order.currency"/></span>&nbsp;&nbsp;</div>--%>
+					<c:choose >
+						<c:when test="${not empty ret.moneyCurrency }">
+							<div class="total"><spring:message code="payment.confirm.lable.amount.pay"/><span class="num">${ret.money} ${ret.moneyCurrency}</span></div>
+						</c:when>
+						<c:when test="${not empty ret.currency }">
+							<div class="total"><spring:message code="payment.confirm.lable.amount.pay"/><span class="num">${ret.money} ${ret.currency}</span></div>
+						</c:when>
+					</c:choose>
+                     <div class="status_str"><spring:message code="payment.confirm.lable.order.no"/><span id="order_no" class="order_no">${ret.orderno}</span></div>
                     <div class="clear"></div>
                 </div>
-                <div class="order_info">
-                    <!-- 订单编号： -->
-                    <p><spring:message code="payment.confirm.lable.order.no"/>${ret.orderno}</p>
-                    <!-- 商品名称： -->
-                    <p><spring:message code="payment.confirm.lable.product.name"/>${ret.productname}</p>
-                    <!-- 交易金额： -->
-                    <p><spring:message code="payment.confirm.lable.order.amount1"/>${ret.money} 
-                    	<spring:message code="payment.confirm.lable.order.currency"/></p>
-                    <!-- 下单时间： -->
-                    <p><spring:message code="payment.confirm.lable.order.createtime"/>${ret.paydate}</p>
-                </div>
+				<div class="order_info">
+					<!-- 订单编号： -->
+					<p><spring:message code="payment.confirm.lable.order.no"/>${ret.orderno}</p>
+					<!-- 商品名称： -->
+					<p><spring:message code="payment.confirm.lable.product.name"/>${ret.productname}</p>
+					<!-- 交易金额： -->
+
+					<c:choose >
+						<c:when test="${not empty ret.moneyCurrency }">
+							<p><spring:message code="payment.confirm.lable.order.amount1"/>${ret.money} ${ret.moneyCurrency}</p>
+						</c:when>
+						<c:when test="${not empty ret.currency }">
+							<p><spring:message code="payment.confirm.lable.order.amount1"/>${ret.money} ${ret.currency}</p>
+						</c:when>
+					</c:choose>
+
+					<!-- 下单时间： -->
+					<p><spring:message code="payment.confirm.lable.order.createtime"/>${ret.paydate}</p>
+				</div>
             </div>
             <div class="toggle"><span><spring:message code="payment.confirm.msg.order.info"/></span></div> 
             <div class="clear"></div>
@@ -383,13 +398,7 @@
 				<div class="wxNoteDv"
 					style="font-size: 16px; color: #000000;"></div>
 		</div>
-        <div class="pay_bottom">
-            <p class="question_title">支付遇到问题</p>
-            <p class="question">网银支付支持哪些银行？</p>
-            <p class="answer">答：网银支付需要提前开通网银，可以选择网上银行（支持工商银行、农业银行、建设银行、中国银行、交通银行、兴业银行等在内的16家银行）</p>
-            <p class="question">帐户支付支持哪些帐户？</p>
-            <p class="answer">答：帐户支付可以支持支付宝、财付通帐户进行支付。</p>
-        </div>
+
         
         <!-- sms -->
         <div class="pop" id="pop"></div>
