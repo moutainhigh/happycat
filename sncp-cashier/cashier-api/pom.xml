@@ -284,11 +284,11 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources/message</directory>
-				<targetPath>/message</targetPath>
+				<targetPath>${project.build.directory}/classes/message</targetPath>
 			</resource>
 			<resource>
 				<directory>src/main/resources/static</directory>
-				<targetPath>/static</targetPath>
+				<targetPath>${project.build.directory}/classes/static</targetPath>
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
