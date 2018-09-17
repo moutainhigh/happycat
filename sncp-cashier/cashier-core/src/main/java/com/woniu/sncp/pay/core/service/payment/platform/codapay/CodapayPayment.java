@@ -124,6 +124,7 @@ public class CodapayPayment extends AbstractPayment {
 			JSONObject extend = JSONObject.parseObject(ext);
 			JSONObject countryObj = extend.getJSONObject("country");
 			JSONObject currencyObj = extend.getJSONObject("currency");
+			JSONObject apiKeyObj = extend.getJSONObject("apiKey");
 			String currencyStr=paymentOrder.getMoneyCurrency();
 			logger.info("paymentOrder currency:{}",currencyStr);
 			if(StringUtils.isBlank(currencyStr)){
@@ -133,13 +134,14 @@ public class CodapayPayment extends AbstractPayment {
 
 			country = countryObj.getString(currencyStr);
 			currency = currencyObj.getString(currencyStr);
+			apiKey=apiKeyObj.getString(currencyStr);
 			Assert.notNull(country,"找不到货币"+currencyStr+"对应的国家编码");
 			Assert.notNull(currency,"找不到货币"+currencyStr+"对应的货币编码");
 			// appId = extend.getString("appId");
 			airtimeRestUrl = extend.getString("airtimeRestUrl");
 			Assert.hasLength(airtimeRestUrl,"airtimeRestUrl配置不能为空");
-
-			apiKey = extend.getString("apiKey");
+//
+//			apiKey = extend.getString("apiKey");
 
 			Assert.hasLength(apiKey,"apiKey配置不能为空");
 			paymentType = extend.getString("airtimeTxntype");

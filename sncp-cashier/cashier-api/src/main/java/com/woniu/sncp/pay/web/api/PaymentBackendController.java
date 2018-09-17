@@ -103,24 +103,14 @@ public class PaymentBackendController extends ApiBaseController{
     	
     	return new ResultResponse(ResultResponse.SUCCESS,"已发校验请求",results);
     }
-	private    Map<String, String> toParameterMap(HttpServletRequest req) {
-		Map<String, String> map = new HashMap<String, String>();
-		Enumeration e = req.getParameterNames();
 
-		while (e.hasMoreElements()) {
-			String key = (String) e.nextElement();
-			String val = req.getParameter(key);
-
-			map.put(key, val);
-		}
-
-		return map;
-	}
 	@RequestMapping(value = { "/codapay" })
 	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		logger.info("codapay 回调  queryString:{}", request.getQueryString());
 
-		logger.info("codapay 回调  params:{}", JsonUtils.toJson(toParameterMap(request)));
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
+
 
 		String orderNo=request.getParameter("OrderId ");
 		PaymentOrder paymentOrder=null;
@@ -149,7 +139,8 @@ public class PaymentBackendController extends ApiBaseController{
 	public void bluepay(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		logger.info("bluepay 回调  queryString:{}", request.getQueryString());
 
-		logger.info("bluepay 回调  params:{}", JsonUtils.toJson(toParameterMap(request)));
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
 
 		String orderNo=request.getParameter("t_id ");
 		PaymentOrder paymentOrder=null;
