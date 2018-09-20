@@ -62,6 +62,28 @@ public class PaymentFontController extends ApiBaseController{
 	}
 
 
+	private void fontDispatch(String orderNo,HttpServletRequest request, HttpServletResponse response) throws Exception{
+		PaymentOrder paymentOrder=null;
+		if(StringUtils.isNotBlank(orderNo)){
+			paymentOrder=		paymentOrderService.queryOrder(orderNo);
+		}
+
+
+		if(paymentOrder!=null){
+			String mapping=String.format("/payment/front/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
+			request.getRequestDispatcher(mapping).forward(request,response);
+
+		}else{
+			logger.info("找不到定单号:{}",orderNo);
+
+			try{
+				response.getWriter().write("{\"ResultCode\":-1}");
+			}catch (Exception e){
+				logger.error("",e);
+			}
+
+		}
+	}
 
 	@RequestMapping(value = { "/codapay" })
 	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -72,26 +94,7 @@ public class PaymentFontController extends ApiBaseController{
 
 
 		String orderNo=request.getParameter("OrderId ");
-		PaymentOrder paymentOrder=null;
-		if(StringUtils.isNotBlank(orderNo)){
-			paymentOrder=		paymentOrderService.queryOrder(orderNo);
-		}
-
-
-		if(paymentOrder!=null){
-			String mapping=String.format("/payment/front/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
-			request.getRequestDispatcher(mapping).forward(request,response);
-
-		}else{
-			logger.info("找不到对应的 codapay ，定单号:{}",orderNo);
-
-			try{
-				response.getWriter().write("{\"ResultCode\":-1}");
-			}catch (Exception e){
-				logger.error("",e);
-			}
-
-		}
+		fontDispatch(orderNo,request,response);
 
 	}
 	@RequestMapping(value = { "/bluepay" })
@@ -102,29 +105,18 @@ public class PaymentFontController extends ApiBaseController{
 				+ request.getRequestURL().toString(), request);
 
 		String orderNo=request.getParameter("t_id");
-		PaymentOrder paymentOrder=null;
-		if(StringUtils.isNotBlank(orderNo)){
-			paymentOrder=		paymentOrderService.queryOrder(orderNo);
-		}
-
-
-		if(paymentOrder!=null){
-			String mapping=String.format("/payment/front/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
-			request.getRequestDispatcher(mapping).forward(request,response);
-
-		}else{
-			logger.info("找不到对应的 bluepay定单 ，定单号:{}",orderNo);
-
-			try{
-				response.getWriter().write("faild");
-			}catch (Exception e){
-				logger.error("",e);
-			}
-
-		}
-
+		fontDispatch(orderNo,request,response);
 	}
+	@RequestMapping(value = { "/molpay" })
+	public void molpay(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("molpay 回调  queryString:{}", request.getQueryString());
 
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
+
+		String orderNo=request.getParameter("referenceId");
+		fontDispatch(orderNo,request,response);
+	}
 	
 	/**
 	 * 前台返回 - 显示订单处理结果

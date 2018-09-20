@@ -104,15 +104,7 @@ public class PaymentBackendController extends ApiBaseController{
     	return new ResultResponse(ResultResponse.SUCCESS,"已发校验请求",results);
     }
 
-	@RequestMapping(value = { "/codapay" })
-	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		logger.info("codapay 回调  queryString:{}", request.getQueryString());
-
-		logRequestParams("(" + request.getMethod() + ")"
-				+ request.getRequestURL().toString(), request);
-
-
-		String orderNo=request.getParameter("OrderId ");
+    private void backendDispatcher(String orderNo,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		PaymentOrder paymentOrder=null;
 		if(StringUtils.isNotBlank(orderNo)){
 			paymentOrder=		paymentOrderService.queryOrder(orderNo);
@@ -124,7 +116,7 @@ public class PaymentBackendController extends ApiBaseController{
 			request.getRequestDispatcher(mapping).forward(request,response);
 
 		}else{
-			logger.info("找不到对应的 codapay ，定单号:{}",orderNo);
+			logger.info("找不到定单:{}",orderNo);
 
 			try{
 				response.getWriter().write("{\"ResultCode\":-1}");
@@ -133,6 +125,19 @@ public class PaymentBackendController extends ApiBaseController{
 			}
 
 		}
+	}
+
+	@RequestMapping(value = { "/codapay" })
+	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("codapay 回调  queryString:{}", request.getQueryString());
+
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
+
+
+		String orderNo=request.getParameter("OrderId ");
+		backendDispatcher(orderNo,request,response);
+
 
 	}
 	@RequestMapping(value = { "/bluepay" })
@@ -143,26 +148,21 @@ public class PaymentBackendController extends ApiBaseController{
 				+ request.getRequestURL().toString(), request);
 
 		String orderNo=request.getParameter("t_id");
-		PaymentOrder paymentOrder=null;
-		if(StringUtils.isNotBlank(orderNo)){
-			paymentOrder=		paymentOrderService.queryOrder(orderNo);
-		}
+		backendDispatcher(orderNo,request,response);
 
 
-		if(paymentOrder!=null){
-				String mapping=String.format("/payment/backend/api/common/%s/%s",paymentOrder.getMerchantId()+"",paymentOrder.getPayPlatformId()+"");
-				request.getRequestDispatcher(mapping).forward(request,response);
+	}
 
-		}else{
-			logger.info("找不到对应的 bluepay定单 ，定单号:{}",orderNo);
+	@RequestMapping(value = { "/molpay" })
+	public void molpay(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("bluepay 回调  queryString:{}", request.getQueryString());
 
-			try{
-				response.getWriter().write("faild");
-			}catch (Exception e){
- 				logger.error("",e);
-			}
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
 
-		}
+		String orderNo=request.getParameter("referenceId");
+		backendDispatcher(orderNo,request,response);
+
 
 	}
 	
