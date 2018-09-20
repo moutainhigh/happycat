@@ -101,7 +101,7 @@ public class PaymentFontController extends ApiBaseController{
 		logRequestParams("(" + request.getMethod() + ")"
 				+ request.getRequestURL().toString(), request);
 
-		String orderNo=request.getParameter("t_id ");
+		String orderNo=request.getParameter("t_id");
 		PaymentOrder paymentOrder=null;
 		if(StringUtils.isNotBlank(orderNo)){
 			paymentOrder=		paymentOrderService.queryOrder(orderNo);

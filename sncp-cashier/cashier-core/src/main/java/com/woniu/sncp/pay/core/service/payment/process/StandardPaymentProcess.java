@@ -39,6 +39,7 @@ import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
 import com.woniu.sncp.web.IpUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("standardPaymentProcess")
 public class StandardPaymentProcess extends AbstractPaymentProcess{
@@ -608,7 +609,8 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		resultMap.put("payResult", PaymentConstant.PAYMENT_STATE_PAYED);
 		return resultMap;
 	}
-	
+
+	@Transactional
 	public Map<String, Object> validateBackParams(AbstractPayment actualPayment,
 			Map<String, Object> inParams) throws DataAccessException, ValidationException, OrderIsSuccessException, PaymentRedirectException, OrderIsRefundException {
 	

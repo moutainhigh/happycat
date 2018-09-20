@@ -72,7 +72,7 @@ public class BluepayCardPayment extends BluepaySmsPayment {
 		String url = MapUtils.getString(urls, currencyStr);
 		String productId = platform.getMerchantNo();
 
-		Assert.hasLength(url, "没有打到币种" + currencyStr + "对应的支付地址");
+		Assert.hasLength(url, "没有找到币种" + currencyStr + "对应的支付地址");
 		String orderNo = paymentOrder.getOrderNo();
 		String price =new BigDecimal( paymentOrder.getMoney().toString()).multiply(new BigDecimal(100)).intValue()+"";//请求单位为分
 
@@ -84,11 +84,11 @@ public class BluepayCardPayment extends BluepaySmsPayment {
 
 		return params;
 	}
-
-	@Override
-	public String getOrderNoFromRequest(HttpServletRequest request) {
-		return request.getParameter("t_id");
-	}
+//?status=200&price=5000&transactionId=20180919-1057-007-0000003942&code=200&description=Success&cardNo=38178468546812736089&provider=bluecoins&customerId=1537324933&productId=1814&operatorId=undefined
+//	@Override
+//	public String getOrderNoFromRequest(HttpServletRequest request) {
+//		return request.getParameter("transactionId");
+//	}
 
 
 

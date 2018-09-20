@@ -114,7 +114,7 @@ public class BluepaySmsPayment extends AbstractPayment {
 
 	@Override
 	public String getOrderNoFromRequest(HttpServletRequest request) {
-		return request.getParameter("t_id");
+		return request.getParameter("transactionId");
 	}
 
 	@Override
@@ -145,16 +145,17 @@ public class BluepaySmsPayment extends AbstractPayment {
 		logger.info("validateBackParams params:{}", JsonUtils.toJson(toParameterMap(request)));
 
 		String queryString = request.getQueryString();
-		String signStr = StringUtils.substringBefore(queryString, "&encrypt=") + platform.getBackendKey();
+		String signStr = StringUtils.substringBefore(queryString, "&encrypt=") + platform.getPayKey();
 		String sign = MD5Encrypt.encrypt(signStr, "utf-8");
 		logger.info("签名字符串：{},签名{}", signStr, sign);
-		if (StringUtils.equalsIgnoreCase(sign, request.getParameter("encrypt"))) {
-			logger.info("签名字符串：{},签名{}", signStr, sign);
+		String encrypt=request.getParameter("encrypt");
+		if (!StringUtils.equalsIgnoreCase(sign,encrypt )) {
+			logger.info("签名字符串：{},本地签名{},签名:{}", signStr, sign,encrypt);
 			throw new ValidationException("支付平台加密校验失败");
 
 		}
 
-		String orderNo = getOrderNoFromRequest(request);
+		String orderNo =  request.getParameter("t_id");;
 		// 订单查询
 		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
 		Assert.notNull(paymentOrder, "支付订单查询为空,orderNo:" + orderNo);

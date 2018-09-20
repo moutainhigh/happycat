@@ -90,62 +90,62 @@ public class BluepayBankPayment extends BluepaySmsPayment {
 
 
 
-	@Override
-	public Map<String, Object> validateBackParams(HttpServletRequest request, Platform platform)
-			throws ValidationException, DataAccessException, PaymentRedirectException {
-		logger.info("validateBackParams params:{}", JsonUtils.toJson(toParameterMap(request)));
-
-
-
-		String queryString=request.getQueryString();
-		String signStr=StringUtils.substringBefore(queryString,"&encrypt=")+platform.getBackendKey();
-		String sign=MD5Encrypt.encrypt(signStr,"utf-8");
-		logger.info("签名字符串：{},签名{}",signStr,sign);
-		if(StringUtils.equalsIgnoreCase(sign,request.getParameter("encrypt"))){
-			logger.info("签名字符串：{},签名{}",signStr,sign);
-			  throw new ValidationException("支付平台加密校验失败");
-
-		}
-
-
-		String orderNo = getOrderNoFromRequest(request);
-		// 订单查询
-		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
-		Assert.notNull(paymentOrder, "支付订单查询为空,orderNo:" + orderNo);
-
- 		String oppositeOrderNo = request.getParameter("bt_id");
-
-
-
-		String payResult = StringUtils.trim(request.getParameter("status"));
-
-		Map<String, Object> returned = new HashMap<String, Object>();
-		String payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
-		if (StringUtils.equals(payResult, "200")) { // 支付成功
-			logger.info("CodaPay返回支付成功");
-			String paymentMoney = StringUtils.trim(request.getParameter("price"));
-			BigDecimal totalPrice = new BigDecimal(paymentMoney).setScale(0);
-			BigDecimal money = new BigDecimal(paymentOrder.getMoney()).multiply(new BigDecimal("100")).setScale(0);
-			if (money.compareTo(totalPrice) == 0) {
-				logger.info("支付成功");
-				returned.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(money.intValue()));
-
-				payState = PaymentConstant.PAYMENT_STATE_PAYED;
-			} else {
-				logger.info("支付失败，返回金额不一致");
-			}
-		} else { // 未支付
-			logger.info("CodaPay返回未支付");
-		}
-
-		returned.put(PaymentConstant.PAYMENT_STATE, payState);
-
-		returned.put(PaymentConstant.PAYMENT_ORDER, paymentOrder);
-		returned.put(PaymentConstant.OPPOSITE_ORDERNO, oppositeOrderNo);
-
-		returned.put(PaymentConstant.PAYMENT_MODE, paymentOrder.getImprestMode());
-		return returned;
-	}
+//	@Override
+//	public Map<String, Object> validateBackParams(HttpServletRequest request, Platform platform)
+//			throws ValidationException, DataAccessException, PaymentRedirectException {
+//		logger.info("validateBackParams params:{}", JsonUtils.toJson(toParameterMap(request)));
+//
+//
+//
+//		String queryString=request.getQueryString();
+//		String signStr=StringUtils.substringBefore(queryString,"&encrypt=")+platform.getBackendKey();
+//		String sign=MD5Encrypt.encrypt(signStr,"utf-8");
+//		logger.info("签名字符串：{},签名{}",signStr,sign);
+//		if(StringUtils.equalsIgnoreCase(sign,request.getParameter("encrypt"))){
+//			logger.info("签名字符串：{},签名{}",signStr,sign);
+//			  throw new ValidationException("支付平台加密校验失败");
+//
+//		}
+//
+//
+//		String orderNo =  request.getParameter("t_id");;
+//		// 订单查询
+//		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
+//		Assert.notNull(paymentOrder, "支付订单查询为空,orderNo:" + orderNo);
+//
+// 		String oppositeOrderNo = request.getParameter("bt_id");
+//
+//
+//
+//		String payResult = StringUtils.trim(request.getParameter("status"));
+//
+//		Map<String, Object> returned = new HashMap<String, Object>();
+//		String payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
+//		if (StringUtils.equals(payResult, "200")) { // 支付成功
+//			logger.info("CodaPay返回支付成功");
+//			String paymentMoney = StringUtils.trim(request.getParameter("price"));
+//			BigDecimal totalPrice = new BigDecimal(paymentMoney).setScale(0);
+//			BigDecimal money = new BigDecimal(paymentOrder.getMoney()).multiply(new BigDecimal("100")).setScale(0);
+//			if (money.compareTo(totalPrice) == 0) {
+//				logger.info("支付成功");
+//				returned.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(money.intValue()));
+//
+//				payState = PaymentConstant.PAYMENT_STATE_PAYED;
+//			} else {
+//				logger.info("支付失败，返回金额不一致");
+//			}
+//		} else { // 未支付
+//			logger.info("CodaPay返回未支付");
+//		}
+//
+//		returned.put(PaymentConstant.PAYMENT_STATE, payState);
+//
+//		returned.put(PaymentConstant.PAYMENT_ORDER, paymentOrder);
+//		returned.put(PaymentConstant.OPPOSITE_ORDERNO, oppositeOrderNo);
+//
+//		returned.put(PaymentConstant.PAYMENT_MODE, paymentOrder.getImprestMode());
+//		return returned;
+//	}
 
 	@SuppressWarnings("unchecked")
 	@Override
