@@ -93,7 +93,7 @@ public class PaymentFontController extends ApiBaseController{
 				+ request.getRequestURL().toString(), request);
 
 
-		String orderNo=request.getParameter("OrderId ");
+		String orderNo=request.getParameter("OrderId");
 		fontDispatch(orderNo,request,response);
 
 	}
