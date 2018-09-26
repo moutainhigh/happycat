@@ -192,13 +192,7 @@ public class CodapayPayment extends AbstractPayment {
 		return request.getParameter("OrderId");
 	}
 
-	@Override
-	public void paymentReturn(Map<String, Object> inParams, HttpServletResponse response, boolean isImprestedSuccess) {
-		if (isImprestedSuccess)
-			super.responseAndWrite(response, "success");
-		else
-			super.responseAndWrite(response, "fail");
-	}
+ 
 
 	public static Map<String, String> toParameterMap(HttpServletRequest req) {
 		Map<String, String> map = new HashMap<String, String>();
@@ -403,13 +397,19 @@ public class CodapayPayment extends AbstractPayment {
 //
 //		return returned;
 //	}
-
+	@Override
+	public void paymentReturn(Map<String, Object> inParams, HttpServletResponse response, boolean isImprestedSuccess) {
+		if (isImprestedSuccess)
+			super.responseAndWrite(response, "ResultCode=0");
+		else
+			super.responseAndWrite(response, "ResultCode=-1");
+	}
 	@Override
 	public void backendResponse(Map<String, Object> params, HttpServletResponse response, boolean isSccess) {
 		if (isSccess)
-			super.responseAndWrite(response, "{\"ResultCode\":0}");
+			super.responseAndWrite(response, "ResultCode=0");
 		else
-			super.responseAndWrite(response, "{\"ResultCode\":-1}");
+			super.responseAndWrite(response, "ResultCode=-1");
 	}
 
 }
