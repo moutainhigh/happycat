@@ -108,7 +108,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			String platformExt = _platform.getPlatformExt();//平台扩展
 			// 是否校验金额,默认是校验
 			Boolean checkAmount = true;
-			if(StringUtils.isNotEmpty(platformExt)){
+ 			if(StringUtils.isNotEmpty(platformExt)){
 				JSONObject extJson = JSONObject.parseObject(platformExt);
 				// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
 				if(extJson.containsKey("checkAmount") && StringUtils.isNotEmpty(extJson.getString("checkAmount"))){
@@ -116,6 +116,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 						checkAmount = false;
 					};
 				}
+			 
 			}
 			
 			
@@ -499,6 +500,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			Platform _platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentOrder.getPayPlatformId()));
 			String platformExt = _platform.getPlatformExt();//平台扩展
 			Boolean checkAmount = true;
+			Boolean saveBackendMoney=false;
 			if(StringUtils.isNotEmpty(platformExt)){
 				JSONObject extJson = JSONObject.parseObject(platformExt);
 				// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
@@ -507,7 +509,16 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 						checkAmount = false;
 					};
 				}
+				if(extJson.containsKey("saveBackendMoney") && StringUtils.isNotEmpty(extJson.getString("saveBackendMoney"))){
+					if(extJson.getString("saveBackendMoney").equals("0")){
+						saveBackendMoney = false;
+					}else {
+						saveBackendMoney = true;
+					}
+				}
 			}
+			
+			 
 			
 			if(checkAmount){
 				// 金额进行校验
@@ -516,7 +527,16 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					throw new ValidationException("支付订单金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
 				}
 			}else{
+			
 				logger.warn("订单金额不需要校验,继续进行支付,orderNo:" + paymentOrder.getOrderNo());
+				String oppositeMoney = String.valueOf(payResultMap.get(PaymentConstant.OPPOSITE_MONEY));
+				BigDecimal opMoneyDecimal = new BigDecimal(oppositeMoney);
+				if(saveBackendMoney&&!paymentOrderService.checkOrderMoney(paymentOrder, (opMoneyDecimal.intValue()))) {
+				
+					float money=opMoneyDecimal.divide(new BigDecimal(100), 2 ,RoundingMode.HALF_UP).floatValue();
+					paymentOrderService.updateOrderMoney(paymentOrder,money);
+					
+				}
 			}
 				
 			logger.warn("2.订单验证通过,继续进行支付,orderNo:" + paymentOrder.getOrderNo());
@@ -639,6 +659,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		
 		// 是否校验金额,默认是校验
 		Boolean checkAmount = true;
+		Boolean saveBackendMoney=false;
 		if(StringUtils.isNotEmpty(platformExt)){
 			JSONObject extJson = JSONObject.parseObject(platformExt);
 			// callPayRemoteFlag 0 不要远程服务，1 需要远程服务
@@ -646,6 +667,13 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				if(extJson.getString("checkAmount").equals("0")){
 					checkAmount = false;
 				};
+			}
+			if(extJson.containsKey("saveBackendMoney") && StringUtils.isNotEmpty(extJson.getString("saveBackendMoney"))){
+				if(extJson.getString("saveBackendMoney").equals("0")){
+					saveBackendMoney = false;
+				}else {
+					saveBackendMoney = true;
+				}
 			}
 		}
 		
@@ -682,6 +710,14 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				throw new ValidationException("订单["+paymentOrder.getOrderNo()+"]金额不匹配:我方:" + paymentOrder.getMoney() * 100 + ",对方:" + oppositeMoney);
 		}else{
 			logger.info(this.getClass().getSimpleName()+"^_^渠道:{} 不校验金额,我方:{},对方:{}",platform.getPlatformId(),paymentOrder.getMoney() * 100,ObjectUtils.toString(oppositeMoney));
+ 			BigDecimal opMoneyDecimal = new BigDecimal(oppositeMoney);
+			if(saveBackendMoney&&!paymentOrderService.checkOrderMoney(paymentOrder, (opMoneyDecimal.intValue()))) {
+			
+				float money=opMoneyDecimal.divide(new BigDecimal(100), 2 ,RoundingMode.HALF_UP).floatValue();
+				paymentOrderService.updateOrderMoney(paymentOrder,money);
+				
+			}
+
 		}
 		
 		// 7.设置订单状态（支付平台返回值判断） 

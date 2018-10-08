@@ -161,19 +161,15 @@ public class BluepayBankPayment extends BluepaySmsPayment {
 			logger.info("paymentOrder currency:{}", currencyStr);
 		}
 
-		Map<String,String> payCheckUrl=config.getPayCheckUrl();
-		String url=MapUtils.getString(payCheckUrl,currencyStr);
-
+  
 
 		String oppositeOrderNo = paymentOrder.getOtherOrderNo();
 
-		StringBuilder builder=new StringBuilder(url);
-
+ 
 		//http://test.api.bluepay.tech/thaiCharge/service/queryTrans?operatorId=9&productid=1&t_id=20161223truemoney&encrypt=b198435f20fd032dab782b7a4d341678
 
 
-		long txnId = Long.valueOf(oppositeOrderNo);
-		PaymentResult result = null;
+ 		PaymentResult result = null;
 
 		logger.info("codapay 支付验证返回，resultCode:" + result.getResultCode() + ",retmsg:" + result.getResultDesc());
 

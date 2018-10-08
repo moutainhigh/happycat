@@ -15,6 +15,7 @@ import com.woniu.sncp.pay.common.utils.http.HttpUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -102,7 +103,7 @@ public class BluepaySmsPayment extends AbstractPayment {
 
 		Assert.hasLength(url, "没有打到币种" + currencyStr + "对应的支付地址");
 		String orderNo = paymentOrder.getOrderNo();
-		String price =new BigDecimal(paymentOrder.getMoney().toString()).multiply(new BigDecimal(100)).intValue() +"";//请求单位为分
+		String price = new BigDecimal(paymentOrder.getMoney().toString()).multiply(new BigDecimal(100)).intValue() + "";// 请求单位为分
 
 		Map<String, Object> params = new HashMap<String, Object>();
 
@@ -125,7 +126,7 @@ public class BluepaySmsPayment extends AbstractPayment {
 			super.responseAndWrite(response, "fail");
 	}
 
-	public   Map<String, String> toParameterMap(HttpServletRequest req) {
+	public Map<String, String> toParameterMap(HttpServletRequest req) {
 		Map<String, String> map = new HashMap<String, String>();
 		Enumeration e = req.getParameterNames();
 
@@ -140,22 +141,21 @@ public class BluepaySmsPayment extends AbstractPayment {
 	}
 
 	@Override
-	public Map<String, Object> validateBackParams(HttpServletRequest request, Platform platform)
-			throws ValidationException, DataAccessException, PaymentRedirectException {
+	public Map<String, Object> validateBackParams(HttpServletRequest request, Platform platform) throws ValidationException, DataAccessException, PaymentRedirectException {
 		logger.info("validateBackParams params:{}", JsonUtils.toJson(toParameterMap(request)));
 
 		String queryString = request.getQueryString();
 		String signStr = StringUtils.substringBefore(queryString, "&encrypt=") + platform.getPayKey();
 		String sign = MD5Encrypt.encrypt(signStr, "utf-8");
 		logger.info("签名字符串：{},签名{}", signStr, sign);
-		String encrypt=request.getParameter("encrypt");
-		if (!StringUtils.equalsIgnoreCase(sign,encrypt )) {
-			logger.info("签名字符串：{},本地签名{},签名:{}", signStr, sign,encrypt);
+		String encrypt = request.getParameter("encrypt");
+		if (!StringUtils.equalsIgnoreCase(sign, encrypt)) {
+			logger.info("签名字符串：{},本地签名{},签名:{}", signStr, sign, encrypt);
 			throw new ValidationException("支付平台加密校验失败");
 
 		}
 
-		String orderNo =  request.getParameter("t_id");;
+		String orderNo = request.getParameter("t_id");
 		// 订单查询
 		PaymentOrder paymentOrder = paymentOrderService.queryOrder(orderNo);
 		Assert.notNull(paymentOrder, "支付订单查询为空,orderNo:" + orderNo);
@@ -166,19 +166,20 @@ public class BluepaySmsPayment extends AbstractPayment {
 
 		Map<String, Object> returned = new HashMap<String, Object>();
 		String payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
+		String ext = ObjectUtils.toString(platform.getExtend());
+ 
 		if (StringUtils.equals(payResult, "200")) { // 支付成功
 			logger.info("CodaPay返回支付成功");
 			String paymentMoney = StringUtils.trim(request.getParameter("price"));
 			BigDecimal totalPrice = new BigDecimal(paymentMoney).setScale(0);
-			BigDecimal money = new BigDecimal(paymentOrder.getMoney()).multiply(new BigDecimal("100")).setScale(0);
-			if (money.compareTo(totalPrice) == 0) {
-				logger.info("支付成功");
-				returned.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(money.intValue()));
+ 		 
+		 
+					logger.info("支付成功");
+					returned.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(totalPrice.intValue()));
 
-				payState = PaymentConstant.PAYMENT_STATE_PAYED;
-			} else {
-				logger.info("支付失败，返回金额不一致");
-			}
+					payState = PaymentConstant.PAYMENT_STATE_PAYED;
+			 
+			
 		} else { // 未支付
 			logger.info("CodaPay返回未支付");
 		}
@@ -220,8 +221,8 @@ public class BluepaySmsPayment extends AbstractPayment {
 
 					String query = url + "?" + paramString + "&encrypt=" + MD5Encrypt.encrypt(paramString + platform.getBackendKey());
 					String response = HttpclientUtil.get(query);
-					JSONObject   resp=JSONObject.parseObject(response);
-//					resp.getJSONObject()
+					JSONObject resp = JSONObject.parseObject(response);
+					// resp.getJSONObject()
 				}
 			} catch (Exception e) {
 
@@ -232,12 +233,10 @@ public class BluepaySmsPayment extends AbstractPayment {
 
 		String oppositeOrderNo = paymentOrder.getOtherOrderNo();
 
-		StringBuilder builder = new StringBuilder(url);
-
+ 
 		// http://test.api.bluepay.tech/thaiCharge/service/queryTrans?operatorId=9&productid=1&t_id=20161223truemoney&encrypt=b198435f20fd032dab782b7a4d341678
 
-		long txnId = Long.valueOf(oppositeOrderNo);
-		PaymentResult result = null;
+ 		PaymentResult result = null;
 
 		logger.info("codapay 支付验证返回，resultCode:" + result.getResultCode() + ",retmsg:" + result.getResultDesc());
 
@@ -246,15 +245,12 @@ public class BluepaySmsPayment extends AbstractPayment {
 		if (0 == result.getResultCode()) { // 支付不成功
 			payState = PaymentConstant.PAYMENT_STATE_NOPAYED;
 			BigDecimal totalPrice = new BigDecimal(ObjectUtils.toString(result.getTotalPrice())).multiply(new BigDecimal("100")).setScale(0);
-			BigDecimal money = new BigDecimal(paymentOrder.getMoney()).multiply(new BigDecimal("100")).setScale(0);
-			if (money.compareTo(totalPrice) == 0) {
+ 			 
 				logger.info("支付成功");
-				outParams.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(money.intValue()));
+				outParams.put(PaymentConstant.OPPOSITE_MONEY, String.valueOf(totalPrice.intValue()));
 
 				payState = PaymentConstant.PAYMENT_STATE_PAYED;
-			} else {
-				logger.info("支付失败，返回金额不一致");
-			}
+		 
 			// 设置充值类型 - 不传则默认1-网银支付
 
 		} else {
