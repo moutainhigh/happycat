@@ -23,6 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.json.JsonUtils;
+import com.woniu.sncp.ocp.utils.ProxoolUtil;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsRefundException;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
@@ -35,6 +36,7 @@ import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;
 import com.woniu.sncp.pay.core.service.PlatformService;
 import com.woniu.sncp.pay.core.service.fcb.FcbService;
+import com.woniu.sncp.pay.core.service.monitor.MonitorMessageService;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
@@ -71,7 +73,8 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 	
 	@Value("${direct.imprest.url}")
 	private String directImprestUrl;
-	
+	@Resource
+	private MonitorMessageService monitorMessageService;
 	public void doPay(Map<String, Object> inParams){
 		HttpServletRequest request = (HttpServletRequest) inParams.get("request");
 		HttpServletResponse response = (HttpServletResponse) inParams.get("response");
@@ -532,9 +535,12 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 				String oppositeMoney = String.valueOf(payResultMap.get(PaymentConstant.OPPOSITE_MONEY));
 				BigDecimal opMoneyDecimal = new BigDecimal(oppositeMoney);
 				if(saveBackendMoney&&!paymentOrderService.checkOrderMoney(paymentOrder, (opMoneyDecimal.intValue()))) {
-				
+		
 					float money=opMoneyDecimal.divide(new BigDecimal(100), 2 ,RoundingMode.HALF_UP).floatValue();
 					paymentOrderService.updateOrderMoney(paymentOrder,money);
+					String alertMsg = "^_^渠道:"+_platform.getPlatformId()+" 不校验金额,我方:"+paymentOrder.getMoney() * 100+",对方:"+ObjectUtils.toString(oppositeMoney)+",请确认发货数量";
+					logger.info(alertMsg);
+					monitorMessageService.sendMsg(alertMsg);
 					
 				}
 			}
@@ -712,9 +718,14 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 			logger.info(this.getClass().getSimpleName()+"^_^渠道:{} 不校验金额,我方:{},对方:{}",platform.getPlatformId(),paymentOrder.getMoney() * 100,ObjectUtils.toString(oppositeMoney));
  			BigDecimal opMoneyDecimal = new BigDecimal(oppositeMoney);
 			if(saveBackendMoney&&!paymentOrderService.checkOrderMoney(paymentOrder, (opMoneyDecimal.intValue()))) {
-			
+				
+	
 				float money=opMoneyDecimal.divide(new BigDecimal(100), 2 ,RoundingMode.HALF_UP).floatValue();
 				paymentOrderService.updateOrderMoney(paymentOrder,money);
+				
+				String alertMsg = "^_^渠道:"+platform.getPlatformId()+" 不校验金额,我方:"+paymentOrder.getMoney() * 100+",对方:"+ObjectUtils.toString(oppositeMoney)+",请确认发货数量";
+				logger.info(alertMsg);
+				monitorMessageService.sendMsg(alertMsg);
 				
 			}
 
