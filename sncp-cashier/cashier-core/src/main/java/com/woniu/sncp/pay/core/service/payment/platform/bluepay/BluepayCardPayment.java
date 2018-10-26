@@ -63,11 +63,8 @@ public class BluepayCardPayment extends BluepaySmsPayment {
 		BluepayConfig config = getConfig( platform);
 
 		String currencyStr = paymentOrder.getMoneyCurrency();
-		logger.info("paymentOrder currency:{}", currencyStr);
-		if (StringUtils.isBlank(currencyStr)) {
-			currencyStr = paymentOrder.getCurrency();
-			logger.info("paymentOrder currency:{}", currencyStr);
-		}
+		logger.info("paymentOrder:{}, MoneyCurrency:{}",paymentOrder.getOrderNo(), currencyStr);
+ 
 		Map<String, String> urls = config.getCardPayUrl();
 		String url = MapUtils.getString(urls, currencyStr);
 		String productId = platform.getMerchantNo();

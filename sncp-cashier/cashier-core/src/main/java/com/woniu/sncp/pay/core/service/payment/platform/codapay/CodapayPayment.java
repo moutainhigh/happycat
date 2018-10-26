@@ -1,65 +1,36 @@
 package com.woniu.sncp.pay.core.service.payment.platform.codapay;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.InitResult;
-import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.ItemInfo;
-import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.PaymentResult;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
-import org.dom4j.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+//Myanmar:
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.woniu.pay.common.utils.PaymentConstant;
-import com.woniu.pay.common.utils.RefundmentConstant;
 import com.woniu.pay.pojo.Platform;
-import com.woniu.sncp.cbss.api.imprest.direct.request.DIOrderRefundQueryRequest;
-import com.woniu.sncp.cbss.api.imprest.direct.response.DIOrderNoRefundBackCallData;
-import com.woniu.sncp.cbss.api.imprest.direct.response.DIOrderNoRefundQueryData;
-import com.woniu.sncp.cbss.api.imprest.direct.response.DIOrderNoRefundQueryResponse;
 import com.woniu.sncp.json.JsonUtils;
-import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
-import com.woniu.sncp.pay.common.utils.encrypt.Dsa;
-import com.woniu.sncp.pay.common.utils.encrypt.EncryptFactory;
-import com.woniu.sncp.pay.common.utils.encrypt.EncryptStringUtils;
-import com.woniu.sncp.pay.common.utils.encrypt.Rsa;
-import com.woniu.sncp.pay.common.utils.http.PayCheckUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
-import com.woniu.sncp.pay.core.service.payment.platform.alipay.tools.AlipayHelper;
-import com.woniu.sncp.pay.core.transfer.model.TransferModel;
+import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.InitResult;
+import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.ItemInfo;
+import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.PaymentResult;
 import com.woniu.sncp.pojo.payment.PaymentOrder;
-import com.woniu.sncp.pojo.payment.TransferOrder;
-import com.woniu.sncp.pojo.refund.PayRefundBatch;
-import org.springframework.web.client.RestTemplate;
-//Myanmar:
 
 
 
@@ -126,12 +97,9 @@ public class CodapayPayment extends AbstractPayment {
 			JSONObject currencyObj = extend.getJSONObject("currency");
 			JSONObject apiKeyObj = extend.getJSONObject("apiKey");
 			String currencyStr=paymentOrder.getMoneyCurrency();
-			logger.info("paymentOrder currency:{}",currencyStr);
-			if(StringUtils.isBlank(currencyStr)){
-				currencyStr=paymentOrder.getCurrency();
-				logger.info("paymentOrder currency:{}",currencyStr);
-			}
+			logger.info("paymentOrder:{}, MoneyCurrency:{}",paymentOrder.getOrderNo(), currencyStr);
 
+ 
 			country = countryObj.getString(currencyStr);
 			currency = currencyObj.getString(currencyStr);
 			apiKey=apiKeyObj.getString(currencyStr);

@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepayBankPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepayCardPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.bluepay.BluepaySmsPayment;
+import com.woniu.sncp.pay.core.service.payment.platform.boa.BoaHostPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.codapay.CodapayPayment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -139,7 +140,9 @@ public class PaymentMapConfig {
 
 	@Resource(name="codapayPayment")
 	CodapayPayment codapayPayment;
-
+	
+	@Resource(name="boaHostPayment")
+	BoaHostPayment boaHostPayment;
 
 
 	@Resource
@@ -214,7 +217,10 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1057", bluepayCardPayment);//
 		paymentMap.put("PAYMENT_1058", bluepayBankPayment);//
 		paymentMap.put("PAYMENT_1059", codapayPayment);//
+		paymentMap.put("PAYMENT_1060", boaHostPayment);//
 
+		
+		
 		
 		//app
 		paymentMap.put("PAYMENT_2002", alipayAppPayment);//

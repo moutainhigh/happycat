@@ -254,6 +254,7 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					paymentOrder.setPayEnd(new Date());
 					if(StringUtils.isNotBlank(oppositeCurrency)){
 						if(!oppositeCurrency.equals(paymentOrder.getMoneyCurrency())){
+							logger.warn("订单:{}  回调 回来的币种:{}",paymentOrder.getOrderNo(),oppositeCurrency);
 							paymentOrder.setMoneyCurrency(oppositeCurrency);// 设置回调回来的支付币种
 						}
 					}
@@ -337,7 +338,9 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 					paymentOrder.setPayEnd(new Date());
 					if(StringUtils.isNotBlank(oppositeCurrency)){
 						if(!oppositeCurrency.equals(paymentOrder.getMoneyCurrency())){
+							logger.warn("订单:{}  回调 回来的币种:{}",paymentOrder.getOrderNo(),oppositeCurrency);
 							paymentOrder.setMoneyCurrency(oppositeCurrency);// 设置回调回来的支付币种
+							
 						}
 					}
 					//TODO 创建消息队列，推送游戏
