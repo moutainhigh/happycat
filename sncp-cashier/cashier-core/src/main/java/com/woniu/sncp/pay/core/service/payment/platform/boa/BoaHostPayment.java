@@ -167,6 +167,7 @@ public class BoaHostPayment extends AbstractPayment {
 		if (isImprestedSuccess)
 			super.responseAndWrite(response, "success");
 		else
+			response.setStatus(500);
 			super.responseAndWrite(response, "fail");
 	}
 
