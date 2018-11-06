@@ -86,7 +86,8 @@ public class PaybyonePayment extends AbstractPayment {
 			
 
 			result.put(PaymentConstant.OPPOSITE_ORDERNO, oppositeOrderNo);
-			result.put(PaymentConstant.OPPOSITE_CURRENCY, "USD");//paybyone  只支持USD
+			Assert.isTrue(StringUtils.equalsIgnoreCase(paymentOrder.getMoneyCurrency(),"USD"),paymentOrder.getOrderNo()+"只支持美元");
+//			result.put(PaymentConstant.OPPOSITE_CURRENCY, "USD");//paybyone  只支持USD
 			result.put("payUrl", url);
 		}
 
