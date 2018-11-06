@@ -23,7 +23,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.json.JsonUtils;
-import com.woniu.sncp.ocp.utils.ProxoolUtil;
+
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsRefundException;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
@@ -649,8 +649,12 @@ public class StandardPaymentProcess extends AbstractPaymentProcess{
 		// 1.查询支付平台及判断
 		String merchantId = String.valueOf(inParams.get("merchantid"));
 		String paymentId = String.valueOf(inParams.get("paymentId"));
-		Platform platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
 		
+		request.setAttribute("merchantid", merchantId);
+		request.setAttribute("paymentId", paymentId);
+		
+		Platform platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
+
 		// 2.根据商户扩展判断是否需要调用远程服务,add by fuzl@mysnail.com
 		String merchantExt = platform.getExtend();
 		String platformExt = platform.getPlatformExt();//平台扩展

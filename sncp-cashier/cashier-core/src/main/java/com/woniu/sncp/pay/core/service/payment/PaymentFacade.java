@@ -557,9 +557,19 @@ public class PaymentFacade {
 			}
  		    MemcacheCluster.getInstance().setList(pOrderNo, "调用Payment返回:"+ContentUtils.safeLogJson(paymentParams));
 
-			String oppositeOrderNo=paymentParams!=null?(String)paymentParams.get("oppositeOrderNo"):null;
+			String oppositeOrderNo=paymentParams!=null?(String)paymentParams.get(PaymentConstant.OPPOSITE_ORDERNO):null;
+			String oppositeCurrency=paymentParams!=null?(String)paymentParams.get(PaymentConstant.OPPOSITE_CURRENCY):null;
+			boolean flag=false;
 			if(StringUtils.isNotBlank(oppositeOrderNo)){
 				paymentOrder.setOtherOrderNo(oppositeOrderNo);
+				flag=true;
+			}
+
+			if(StringUtils.isNotBlank(oppositeCurrency)){
+				paymentOrder.setMoneyCurrency(oppositeCurrency);
+				flag=true;
+			}
+			if(flag) {
 				paymentOrderService.updateOrder(paymentOrder, PaymentOrder.PAYMENT_STATE_CREATED ,PaymentOrder.IMPREST_STATE_NOT_COMPLETED);
 
 			}

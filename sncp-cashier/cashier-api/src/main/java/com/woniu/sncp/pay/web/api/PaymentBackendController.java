@@ -9,11 +9,12 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import com.woniu.sncp.crypto.MD5Encrypt;
 import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.core.service.MemcachedService;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;
@@ -67,7 +69,8 @@ public class PaymentBackendController extends ApiBaseController{
 	
 	@Resource
 	private PaymentMerchantService paymentMerchantService;
-	
+	@Autowired
+	MemcachedService memcachedService;
     /**
      * 支付订单验证
      * 
@@ -103,7 +106,6 @@ public class PaymentBackendController extends ApiBaseController{
     	
     	return new ResultResponse(ResultResponse.SUCCESS,"已发校验请求",results);
     }
-
     private void backendDispatcher(String orderNo,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		PaymentOrder paymentOrder=null;
 		if(StringUtils.isNotBlank(orderNo)){
@@ -126,6 +128,24 @@ public class PaymentBackendController extends ApiBaseController{
 
 		}
 	}
+ 
+	@RequestMapping(value = { "/paybyone" })
+	public void paybyone(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("paybyone 回调  queryString:{}", request.getQueryString());
+
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
+	 
+		String oppositeOrderNo=request.getParameter("token");
+//		memcachedService.set("paybyone@token:"+oppositeOrderNo, 24*60*60, "20181105-1065-007-0000004055");
+
+		String orderNo=ObjectUtils.toString( memcachedService.get("paybyone@token:"+oppositeOrderNo));
+
+		backendDispatcher(orderNo, request,response);
+
+
+	}
+
 
 	@RequestMapping(value = { "/codapay" })
 	public void codapay(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -152,6 +172,7 @@ public class PaymentBackendController extends ApiBaseController{
 
 
 	}
+	
 
 	@RequestMapping(value = { "/molpay" })
 	public void molpay(HttpServletRequest request, HttpServletResponse response) throws Exception{

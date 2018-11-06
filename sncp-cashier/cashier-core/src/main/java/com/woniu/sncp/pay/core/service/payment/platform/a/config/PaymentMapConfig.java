@@ -143,8 +143,10 @@ public class PaymentMapConfig {
 	
 	@Resource(name="boaHostPayment")
 	BoaHostPayment boaHostPayment;
-
-
+	
+	@Resource(name="PaybyonePayment")
+	AbstractPayment paybyonePayment;
+	
 	@Resource
 	AlipayAppPayment alipayAppPayment;
 	
@@ -218,7 +220,7 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1058", bluepayBankPayment);//
 		paymentMap.put("PAYMENT_1059", codapayPayment);//
 		paymentMap.put("PAYMENT_1060", boaHostPayment);//
-
+		paymentMap.put("PAYMENT_1065", paybyonePayment);//
 		
 		
 		
@@ -252,8 +254,10 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_3018", codapayPayment);//<!-- 银联在线支付新版wap -->
 
 
+		paymentMap.put("PAYMENT_3028", paypalPayment);//<!-- Paypal -->
+		paymentMap.put("PAYMENT_3029", paybyonePayment);//<!-- paybyone wap -->
 
-
+		
 		
 		//兔兔币、余额支付
 		paymentMap.put("PAYMENT_4001", ttbPayment);//<!-- 兔兔币 -->

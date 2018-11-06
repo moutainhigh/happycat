@@ -9,10 +9,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.woniu.sncp.json.JsonUtils;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +25,7 @@ import com.woniu.pay.common.utils.PaymentConstant;
 import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.lang.DateUtil;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
+import com.woniu.sncp.pay.core.service.MemcachedService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.PaymentService;
 import com.woniu.sncp.pay.core.service.PlatformService;
@@ -48,7 +51,8 @@ public class PaymentFontController extends ApiBaseController{
 	private PaymentFacade paymentFacade;
 	
 	private final static String Errorurl = "/payment/error";
-	
+	@Autowired
+	MemcachedService memcachedService;
 	/**
 	 * 运维监控这个地址，勿删
 	 * @param request
@@ -61,12 +65,12 @@ public class PaymentFontController extends ApiBaseController{
 		return "/payment/test/front";
 	}
 
-
+ 
 	private void fontDispatch(String orderNo,HttpServletRequest request, HttpServletResponse response) throws Exception{
 		PaymentOrder paymentOrder=null;
 		if(StringUtils.isNotBlank(orderNo)){
 			paymentOrder=		paymentOrderService.queryOrder(orderNo);
-		}
+ 		}
 
 
 		if(paymentOrder!=null){
@@ -97,6 +101,21 @@ public class PaymentFontController extends ApiBaseController{
 		fontDispatch(orderNo,request,response);
 
 	}
+	@RequestMapping(value = { "/paybyone" })
+	public void paybyone(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		logger.info("paybyone 回调  queryString:{}", request.getQueryString());
+
+		logRequestParams("(" + request.getMethod() + ")"
+				+ request.getRequestURL().toString(), request);
+	 
+		String oppositeOrderNo=request.getParameter("token");
+		String orderNo=ObjectUtils.toString( memcachedService.get("paybyone@token:"+oppositeOrderNo));
+
+		fontDispatch(orderNo,request,response);
+
+
+	}
+
 	@RequestMapping(value = { "/bluepay" })
 	public void bluepay(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		logger.info("bluepay 回调  queryString:{}", request.getQueryString());
