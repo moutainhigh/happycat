@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.woniu.sncp.json.JsonUtils;
 import com.woniu.sncp.pay.common.exception.PaymentRedirectException;
 import com.woniu.sncp.pay.common.exception.ValidationException;
 import com.woniu.sncp.pay.common.utils.Assert;
+import com.woniu.sncp.pay.common.utils.http.IpUtils;
 import com.woniu.sncp.pay.core.service.payment.platform.AbstractPayment;
 import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.InitResult;
 import com.woniu.sncp.pay.core.service.payment.platform.codapay.schema.ItemInfo;
@@ -141,7 +143,13 @@ public class CodapayPayment extends AbstractPayment {
 
 		itemInfo.setPrice(paymentOrder.getMoney());
 		items.add(itemInfo);
-		InitResult result = CodaRestUtil.initTxn(orderNo, items, new HashMap<String, String>());
+		
+		HashMap<String, String>profile=new HashMap<String, String>();
+		profile.put("user_id", Objects.toString(paymentOrder.getAid()))		;
+	
+//		profile.put("client_ip",	IpUtils.longToIp(paymentOrder.getIp()))		;
+
+		InitResult result = CodaRestUtil.initTxn(orderNo, items, profile);
 
 		logger.info("[InitTxn] ResultCode=" + result.getResultCode() + ", TxnId=" + result.getTxnId());
 		Map<String, Object> params = new HashMap<String, Object>();

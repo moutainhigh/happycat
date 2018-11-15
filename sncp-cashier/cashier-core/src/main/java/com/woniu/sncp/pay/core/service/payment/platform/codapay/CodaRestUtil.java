@@ -137,7 +137,9 @@ public class CodaRestUtil {
 
 		InitResult result = null;
 		try {
-			String resp = HttpClient.post(initUrl, headers, JsonUtils.toJson(body), 5000, "utf-8");
+			String params= JsonUtils.toJson(body);
+			logger.info("[initTxn] request orderId:{},params:{}", orderId,params);
+			String resp = HttpClient.post(initUrl, headers,params, 5000, "utf-8");
 			logger.info("[initTxn] response", resp);
 //			{"initResult":{"resultCode":0,"txnId":5367467180957773693}}
 			JSONObject json=JSON.parseObject(resp);
