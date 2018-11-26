@@ -103,6 +103,7 @@ public class PaymentWapController extends ApiBaseController{
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			@RequestParam(value="aid",required=false) String aid,
+			@RequestParam(value="paypwd",required=false) String paypwd,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -148,6 +149,8 @@ public class PaymentWapController extends ApiBaseController{
 		
 		//增加扩展参数设置
 		exMap.put("ext", ext);
+		
+		exMap.put("paypwd", paypwd);
 		
 		try{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
@@ -1386,6 +1389,7 @@ public class PaymentWapController extends ApiBaseController{
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			@RequestParam(value="aid",required=false) String aid,
+			@RequestParam(value="paypwd",required=false) String paypwd,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1428,6 +1432,9 @@ public class PaymentWapController extends ApiBaseController{
 		exMap.put("openid", openId);
 		exMap.put("ext", ext);
 		
+		
+		
+		exMap.put("paypwd", paypwd);
 		try{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			//判断是否是组合支付

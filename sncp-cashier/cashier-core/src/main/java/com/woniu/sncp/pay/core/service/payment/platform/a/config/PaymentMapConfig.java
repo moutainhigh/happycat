@@ -146,6 +146,10 @@ public class PaymentMapConfig {
 	
 	@Resource(name="PaybyonePayment")
 	AbstractPayment paybyonePayment;
+
+
+	@Resource(name="WnbPayment")
+	AbstractPayment wnbPayment;
 	
 	@Resource
 	AlipayAppPayment alipayAppPayment;
@@ -221,7 +225,8 @@ public class PaymentMapConfig {
 		paymentMap.put("PAYMENT_1059", codapayPayment);//
 		paymentMap.put("PAYMENT_1060", boaHostPayment);//
 		paymentMap.put("PAYMENT_1065", paybyonePayment);//
-		
+		paymentMap.put("PAYMENT_1067", wnbPayment);//
+
 		
 		
 		//app
@@ -256,7 +261,7 @@ public class PaymentMapConfig {
 
 		paymentMap.put("PAYMENT_3028", paypalPayment);//<!-- Paypal -->
 		paymentMap.put("PAYMENT_3029", paybyonePayment);//<!-- paybyone wap -->
-
+		paymentMap.put("PAYMENT_3031", wnbPayment);//<!--蜗牛币-->
 		
 		
 		//兔兔币、余额支付

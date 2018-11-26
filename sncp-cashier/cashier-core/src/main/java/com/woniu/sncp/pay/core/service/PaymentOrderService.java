@@ -386,6 +386,28 @@ public class PaymentOrderService{
 		if (logger.isInfoEnabled() && result > 0)
 			logger.info("更改支付订单成功：" + paymentOrder.getOrderNo());
 	}
+	public void updateOrderInfo(PaymentOrder paymentOrder,String info) {
+		
+ 		StringBuffer updateOrderSql = new StringBuffer();
+		updateOrderSql.setLength(0);
+		
+		updateOrderSql.append("update SN_PAY.PAY_ORDER");
+		
+		updateOrderSql.append(payConfigToute.getSuffixBySeq(paymentOrder.getOrderId()));//添加表后缀
+		
+		updateOrderSql.append(" set S_INFO = :info");
+		updateOrderSql.append(" where N_ORDER_ID = :orderId;");
+		Map<String,Object> paramSource=new HashMap<String,Object>();
+		paramSource.put("orderId", paymentOrder.getOrderId());
+		paramSource.put("info", info);
+	int result = sessionDao.update(updateOrderSql.toString(), paramSource);
+		
+		if (logger.isInfoEnabled() && result > 0) {
+			logger.info("更改支付订单成功：" + paymentOrder.getOrderNo());
+		}
+			
+		}
+ 
 	public void updateOrderMoney(PaymentOrder paymentOrder,float money) throws DataAccessException,
 			IllegalArgumentException {
 		logger.info("更改支付订单" + paymentOrder.getOrderNo() + "为：money:" + money);

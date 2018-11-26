@@ -22,7 +22,8 @@ spring:
     cas-server-url-prefix: https://sso.woniu.com
     redirect-after-validation: true
     use-session: true
-    server-name: http://cashier.woniu.com
+    server-name: https://us.cashier.woniu.com
+    encoding: utf-8
   #jpa config
   jpa:
     show-sql: true

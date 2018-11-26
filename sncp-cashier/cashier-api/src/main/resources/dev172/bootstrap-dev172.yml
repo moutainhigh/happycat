@@ -11,6 +11,7 @@ spring:
       password: 1@^&IuRE(VBGPoiuy
       profile: hystrixApp,dsSnPayDev172
 
+
 discover:
   hostname1: 10.206.2.253
   hostname2: 10.206.2.238
@@ -23,3 +24,13 @@ eureka:
       defaultZone: http://${discover.hostname1}:8761/eureka/,http://${discover.hostname2}:8761/eureka/
   instance:
     preferIpAddress: true
+
+    
+cloud:
+  api: 
+    url: http://cloud.api.woniu.com
+    accessId: 2010
+    accessType: 8
+    accessKey: grssiAYYUjvRPUV
+    accessPasswd: v2fz2wN8hnPqB3
+    

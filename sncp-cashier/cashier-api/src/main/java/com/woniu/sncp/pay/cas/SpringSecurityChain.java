@@ -78,7 +78,12 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
         
         
         		//m singleSignOutFilter,casAuthenticationFilterForMobile,casValidationFilter,casHttpServletRequestWrapperFilter,casAssertionThreadLocalFilter
-        		
+
+		http.headers().contentTypeOptions().disable();
+		http.headers().frameOptions().disable();
+		http.headers().cacheControl().disable();
+		http.headers().xssProtection().disable();
+
         http.csrf().disable(); //禁用CSRF
     }
 	

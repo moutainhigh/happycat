@@ -1,6 +1,7 @@
 package com.woniu.sncp.pay;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.snail.ocp.tools.mapper.DozerMapper;
  
 import com.woniu.pay.common.utils.PaymentConstant;
@@ -42,10 +44,12 @@ import com.woniu.sncp.pay.common.pojo.PaymentOrderDiscountRecordResponse;
 import com.woniu.sncp.pay.common.pojo.PaymentOrderDiscountResponse;
 import com.woniu.sncp.pay.core.OrderDiscountRecordQuery;
 import com.woniu.sncp.pay.core.service.CorePassportService;
+import com.woniu.sncp.pay.core.service.IssuerComparisonService;
 import com.woniu.sncp.pay.core.service.PaymentDiscountService;
 import com.woniu.sncp.pay.core.service.PaymentMerchantService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
 import com.woniu.sncp.pay.core.service.fcb.FcbService;
+import com.woniu.sncp.pay.repository.pay.IssuerComparison;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchant;
 import com.woniu.sncp.pay.repository.pay.PaymentMerchantDetail;
 import com.woniu.sncp.pay.web.api.ApiBaseController;
@@ -69,7 +73,8 @@ public class IndexController extends ApiBaseController{
 	private FcbService fcbService;
 	@Autowired
 	private CorePassportService corePassportService;
-	
+	@Resource
+	IssuerComparisonService issuerComparisonService;
 	
 	@Autowired
 	private PaymentDiscountService paymentDiscountService;
@@ -209,7 +214,8 @@ public class IndexController extends ApiBaseController{
     	
     	//查询可支付平台
     	List<PaymentMerchantDetail> merchantDtl = paymentMerchantService.queryPaymentMerchantDtl(merchantId);
-    	
+    	List<PaymentMerchantDetail> paymentWnbList = new ArrayList<PaymentMerchantDetail>();
+
     	List<PaymentMerchantDetail> paymentDebitList = new ArrayList<PaymentMerchantDetail>();
     	List<PaymentMerchantDetail> paymentCreditList = new ArrayList<PaymentMerchantDetail>();
     	List<PaymentMerchantDetail> paymentThirdList = new ArrayList<PaymentMerchantDetail>();
@@ -218,8 +224,14 @@ public class IndexController extends ApiBaseController{
     	List<PaymentMerchantDetail> paymentMobileCardList = new ArrayList<PaymentMerchantDetail>();
     	List<PaymentMerchantDetail> paymentWnMobileSpecCardList = new ArrayList<PaymentMerchantDetail>();//蜗牛移动全能充值卡
     	List<PaymentMerchantDetail> paymentFcbList = new ArrayList<PaymentMerchantDetail>();
+    	boolean hasWnb=false;
     	for (PaymentMerchantDetail paymentMerchantDetail : merchantDtl) {
-			if(PaymentMerchantDetail.TYPE_BANK.equals(paymentMerchantDetail.getType())){
+    		
+    		if(PaymentMerchantDetail.TYPE_WNB_PC.equals(paymentMerchantDetail.getType())){
+    			paymentWnbList.add(paymentMerchantDetail);
+    			hasWnb=true;
+			
+			}else	if(PaymentMerchantDetail.TYPE_BANK.equals(paymentMerchantDetail.getType())){
 				paymentDebitList.add(paymentMerchantDetail);
 			} else if (PaymentMerchantDetail.TYPE_CREDIT_STAGE.equals(paymentMerchantDetail.getType())){
 				paymentCreditList.add(paymentMerchantDetail);
@@ -275,6 +287,7 @@ public class IndexController extends ApiBaseController{
 			}
 		}
 
+
     	//组装平台列表
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     	retMap.put("paydate", sdf.format(new Date()));
@@ -282,6 +295,8 @@ public class IndexController extends ApiBaseController{
     	retMap.put("debitlist", paymentDebitList);
     	retMap.put("creditlist", paymentCreditList);
     	retMap.put("thirdlist", paymentThirdList);
+    	retMap.put("wnblist", paymentWnbList);
+    	
     	retMap.put("ttbList", paymentTtbList);
     	retMap.put("yxCardList", paymentYxCardList);
     	retMap.put("mobileCardList", paymentMobileCardList);
@@ -289,6 +304,27 @@ public class IndexController extends ApiBaseController{
     	retMap.put("wnMobileSpecCardList", paymentWnMobileSpecCardList);
     	//翡翠币
     	retMap.put("fcbList", paymentFcbList);
+    	
+    	if(hasWnb) {
+    		
+    		
+ 			String productCode = JSON.parseObject(ObjectUtils.toString(retMap.get("ext"))).getString("productcode");
+
+    		int amount = -1;
+    		try {
+    		
+    				IssuerComparison issuerComparison = issuerComparisonService.findIssuerComparison(1L, productCode);
+    				String otherMark = issuerComparison.getOtherMark();
+    				amount =new BigDecimal( JSON.parseObject(otherMark).getString("wnb")).intValue();
+    				retMap.put("wnbAmount", amount);
+    		} catch (Exception e) {
+    			logger.error("issuerMark error", e);
+    		}
+    	}
+    	
+    	
+    	
+    	
     	
     	request.setAttribute("ret", retMap);
     	

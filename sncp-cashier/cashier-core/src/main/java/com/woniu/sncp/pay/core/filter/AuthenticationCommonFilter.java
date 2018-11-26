@@ -207,6 +207,7 @@ public class AuthenticationCommonFilter extends OncePerRequestFilter {
 		treeMap.remove("ttbDjjMoney");
 		treeMap.remove("cardNo");
 		treeMap.remove("cardPwd");
+		treeMap.remove("paypwd");
 		treeMap.remove("captchaValue");
 		treeMap.remove("accountid");
 		treeMap.remove("smscode");

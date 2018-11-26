@@ -3,6 +3,8 @@ package com.woniu.sncp.pay.cas;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jasig.cas.client.configuration.ConfigurationKey;
+import org.jasig.cas.client.configuration.ConfigurationKeys;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -17,7 +19,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "spring.cas")
 public class SecurityCasConfigure {
 	static final String separator = ",";
-
 	private String validateFilters;
 	private String signOutFilters;
 	private String authFilters;
@@ -26,6 +27,7 @@ public class SecurityCasConfigure {
 
 	private String casServerUrlPrefix;
 	private String casServerLoginUrl;
+	private String encoding;
 	private String casServerMLoginUrl;
 	private String serverName;
 	private boolean useSession = true;
@@ -117,5 +119,13 @@ public class SecurityCasConfigure {
 
 	public void setUseSession(boolean useSession) {
 		this.useSession = useSession;
+	}
+
+	public String getEncoding() {
+		return encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
 	}
 }

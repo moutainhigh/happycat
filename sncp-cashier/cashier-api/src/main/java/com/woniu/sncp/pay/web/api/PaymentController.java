@@ -92,6 +92,7 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="bankCardType",required=false) String bankCardType,
 			@RequestParam(value="mode",required=false) String mode,
 			@RequestParam(value="cardtype",required=false) String cardtype,
+	
 			@RequestParam(value="productname") String productName,
 			@RequestParam(value="backendurl") String backendurl,
 			@RequestParam(value="fontendurl",required=false) String fontendurl,
@@ -107,6 +108,7 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			@RequestParam(value="aid",required=false) String aid,
+			@RequestParam(value="paypwd",required=false) String paypwd,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -152,6 +154,9 @@ public class PaymentController extends ApiBaseController{
 		exMap.put("backendurl", backendurl);
 		exMap.put("fontendurl", fontendurl);
 		exMap.put("cardtype", cardtype);
+		
+		exMap.put("paypwd", paypwd);
+		
 		//增加信用卡分期支付参数
 		exMap.put("stagePlan", stagePlan);
 		exMap.put("stageNum", stageNum);
@@ -1457,6 +1462,7 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			@RequestParam(value="aid",required=false) String aid,
+			@RequestParam(value="paypwd",required=false) String paypwd,
 			HttpServletRequest request){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1494,6 +1500,8 @@ public class PaymentController extends ApiBaseController{
 		exMap.put("backendurl", backendurl);
 		exMap.put("fontendurl", fontendurl);
 		exMap.put("ext", ext);
+		
+		exMap.put("paypwd", paypwd);
 		try{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);
 			//判断是否是组合支付
@@ -1587,6 +1595,7 @@ public class PaymentController extends ApiBaseController{
 			@RequestParam(value="terminalType",required=false) String terminalType,
 			@RequestParam(value="timeoutExpress",required=false) String timeoutExpress,
 			@RequestParam(value="aid",required=false) String aid,
+			@RequestParam(value="paypwd",required=false) String paypwd,
 			HttpServletRequest request, HttpServletResponse response){
     	
     	Map<String,Object> retMap = new HashMap<String, Object>();
@@ -1628,6 +1637,8 @@ public class PaymentController extends ApiBaseController{
 		exMap.put("fontendurl", fontendurl);
 		exMap.put("openid", openId);
 		exMap.put("ext", ext);
+		
+		exMap.put("paypwd", paypwd);
 		
 		try{
 			mode = paymentOrderService.getOrderMode(mode, bankCd);

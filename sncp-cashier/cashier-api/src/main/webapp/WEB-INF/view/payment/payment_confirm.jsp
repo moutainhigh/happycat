@@ -66,7 +66,8 @@
         	<input type="hidden" id="cardNo" name="cardNo"/>
         	<input type="hidden" id="cardPwd" name="cardPwd"/>
         	<input type="hidden" id="captchaValue" name="captchaValue"/>
-        	
+        	<!-- 支付密码蜗牛币使用 -->
+        	<input type="hidden" id="paypwd" name="paypwd"/>
         	<!-- 组合使用翡翠币 -->
         	<input type="hidden" id="yueMoney" name="yueMoney"/>
         	<input type="hidden" id="yueCurrency" name="yueCurrency"/>
@@ -130,6 +131,10 @@
             	<c:if test="${not empty ret.thirdlist}">
             		<a href="javascript:;" class="nav" tar="thrid_platform"><spring:message code="payment.confirm.tab.pay.platform"/></a>
             	</c:if>
+            	<c:if test="${not empty ret.wnblist}">
+            		<a href="javascript:;" class="nav" tar="wnb">WNB
+            	</c:if>
+            	
             	<c:if test="${not empty ret.creditlist}">
             		<a href="javascript:;" class="nav" tar="credit_card">信用卡分期</a>
             	</c:if>
@@ -264,6 +269,47 @@
                 </c:forEach>
             </div>
             </c:if>
+            
+ 
+
+
+			<c:if test="${ not empty ret.wnblist}">
+				<%--<iframe src="//us.cashier.woniu.com/sso/isSSOLogin" style="display: none"></iframe>--%>
+
+				<div class="platforms list" id="wnb" val="sp" >
+					<p></p>
+
+						<div class="platform_list" val="sp"  >
+						<c:forEach items="${ret.wnblist}" var="wnb" varStatus="idx">
+							<div class="platform_list clearfix" id="coupo" pid="${wnb.content}">
+								<p>
+									<label>蜗牛币余额：</label>
+									<span id="wnbMoney">*</span><sub>(1蜗牛币=1元)</sub>
+									 
+								</p>
+								<c:if test="${ret.wnbAmount >= 0}">
+								<p class="amount">
+									<label>需要支付：</label>
+									<span>${ret.wnbAmount}</span><sub>蜗牛币</sub>
+									
+								</p>
+								<p class="input">
+									<label>支付密码：</label>
+									<span><input class="wnb_pwd_input" type="password" /></span> 									
+								</p>
+								
+								</c:if>
+								<p class="pay-info-password" style="display: none;">您的账户没有设置支付密码，请先设置支付密码，或试试其它支付方式。</p>
+
+								<p class="pay-info" style="display: none;">您的账户余额不足，请先充值蜗牛币，或试试其它支付方式。</p>
+							</div>
+						</c:forEach>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</c:if>
+
+            
             <!-- 其他支付 -->
             <c:if test="${(not empty ret.yxCardList) or (not empty ret.mobileCardList) or (not empty ret.wnMobileSpecCardList)}">
             <div class="platforms pt40 other list" id="other" val="O">

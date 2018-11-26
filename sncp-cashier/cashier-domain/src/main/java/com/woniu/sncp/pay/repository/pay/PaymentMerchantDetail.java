@@ -64,6 +64,9 @@ public class PaymentMerchantDetail implements Serializable{
 	public final static String TYPE_TTB_ANDROID = "qa";
 	public final static String TYPE_TTB_IOS = "qi";
 	
+	
+	public final static String TYPE_WNB_PC="sp";
+	public final static String TYPE_WNB_WAP="sw";
 	/**
 	 * 游戏充值卡
 	 */

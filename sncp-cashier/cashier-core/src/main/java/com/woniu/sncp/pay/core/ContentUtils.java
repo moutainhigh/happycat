@@ -19,7 +19,7 @@ import com.woniu.pay.common.utils.RefundmentConstant;
 import com.woniu.sncp.json.JsonUtils;
 
 public abstract class ContentUtils {
-	private static Set<String> filter = new HashSet<String>(Arrays.asList("pwd", "password","cardPwd"));
+	private static Set<String> filter = new HashSet<String>(Arrays.asList("pwd", "password","cardPwd","paypwd"));
 
 	public static String safeLogJson(Map<String, Object> params) {
 		Map<String, Object> inParams = new HashMap<String, Object>();
