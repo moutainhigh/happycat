@@ -65,9 +65,9 @@ public class WnbPayment extends AbstractPayment {
 		Platform platform = (Platform) inParams.get(PaymentConstant.PAYMENT_PLATFORM);
 		String orderNo = paymentOrder.getOrderNo();
 
-		Long aid = SecuritySSOAuth.getLoginId();
-		Assert.notNull(aid, "用户没有登录");
-		
+		Long aid =paymentOrder.getAid();
+		Assert.notNull(aid, "aid不能为空");
+
 		
 		 
 			String info = paymentOrder.getInfo();

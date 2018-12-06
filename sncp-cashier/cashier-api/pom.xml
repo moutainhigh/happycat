@@ -24,6 +24,7 @@
 
 
 	<dependencies>
+
 		<dependency>
 			<groupId>com.woniu.sncp</groupId>
 			<artifactId>cashier-core</artifactId>
@@ -140,6 +141,8 @@
 			<artifactId>cas-client-support-distributed-ehcache</artifactId>
 			<version>${sso.cas.version}</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>com.woniu</groupId>
 			<artifactId>sncp-captcha</artifactId>

@@ -1,20 +1,26 @@
 package com.woniu.sncp.pay.cas;
 
 import javax.annotation.Resource;
+import javax.servlet.*;
 
 import org.jasig.cas.client.authentication.AuthenticationFilter;
-import org.jasig.cas.client.session.SingleSignOutFilter;
+ import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;
 import org.jasig.cas.client.util.AssertionThreadLocalFilter;
 import org.jasig.cas.client.util.HttpServletRequestWrapperFilter;
 import org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter;
+import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +32,11 @@ import com.alibaba.druid.support.http.WebStatFilter;
 import com.woniu.sncp.pay.core.filter.AuthenticationCommonFilter;
 import com.woniu.sncp.pay.core.filter.LogMonitorFilter;
 import com.woniu.sncp.pay.core.filter.RequestClearFilter;
+import org.springframework.util.ResourceUtils;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * <p>
@@ -47,6 +58,36 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 	
 	public SpringSecurityChain() {
 	}
+	@Bean
+	public ServletContextInitializer initializer(ServerProperties server) {
+		return new ServletContextInitializer() {
+
+			@Override
+			public void onStartup(ServletContext servletContext) throws ServletException {
+
+
+				Map<String,String> map=server.getContextParameters();
+				for(Map.Entry<String,String> entry:map.entrySet()){
+					servletContext.setInitParameter(entry.getKey(), entry.getValue());
+				}
+
+				try{
+
+
+					Properties properties=PropertiesLoaderUtils.loadProperties(new FileSystemResource(ResourceUtils.getFile("classpath:java-cas-client.properties")));
+					for(String key:properties.stringPropertyNames()){
+						String value=properties.getProperty(key);
+						servletContext.setInitParameter(key, value);
+					}
+				}catch (Exception e){
+					e.printStackTrace();
+				}
+
+			}
+		};
+	}
+
+
 
 	/*定义安全策略*/
     @Override
@@ -92,100 +133,121 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		return new SecurityCasConfigure();
 	}
 
-	/**
-	 * 用于实现单点登出功能
-	 */
-	@Bean
-	public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener() {
-		ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> listener = new ServletListenerRegistrationBean<>();
-		listener.setEnabled(casEnabled);
-		listener.setListener(new SingleSignOutHttpSessionListener());
-		listener.setOrder(11);
-		return listener;
-	}
+//	/**
+//	 * 用于实现单点登出功能
+//	 */
+//	@Bean
+//	public ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> singleSignOutHttpSessionListener() {
+//		ServletListenerRegistrationBean<SingleSignOutHttpSessionListener> listener = new ServletListenerRegistrationBean<>();
+//		listener.setEnabled(casEnabled);
+//		listener.setListener(new SingleSignOutHttpSessionListener());
+//		listener.setOrder(11);
+//		return listener;
+//	}
 
-	/**
-	 * 该过滤器用于实现单点登出功能，单点退出配置，一定要放在其他filter之前
-	 */
+
 	@Bean
-	public FilterRegistrationBean logOutFilter() {
+	public FilterRegistrationBean ticketValidation() {
+		final Cas20ProxyReceivingTicketValidationFilter	filter=new Cas20ProxyReceivingTicketValidationFilter();
+
 		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		LogoutFilter logoutFilter = new LogoutFilter(
-				autoconfig.getCasServerUrlPrefix() + "/logout?service=" + autoconfig.getServerName(),
-				new SecurityContextLogoutHandler());
-		filterRegistration.setFilter(logoutFilter);
-		filterRegistration.setEnabled(casEnabled);
-		if (autoconfig.getSignOutFilters().size() > 0)
-			filterRegistration.setUrlPatterns(autoconfig.getSignOutFilters());
-		else
-			filterRegistration.addUrlPatterns("/logout");
-		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
-		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
+
+
+
+		filterRegistration.setFilter(filter);
+//		filterRegistration.setEnabled(casEnabled);
+		filterRegistration.addUrlPatterns("/wnb/*");
+
+
 		filterRegistration.setOrder(12);
 		return filterRegistration;
 	}
 
+
+//	/**
+//	 * 该过滤器用于实现单点登出功能，单点退出配置，一定要放在其他filter之前
+//	 */
+//	@Bean
+//	public FilterRegistrationBean logOutFilter() {
+//		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+//		LogoutFilter logoutFilter = new LogoutFilter(
+//				autoconfig.getCasServerUrlPrefix() + "/logout?service=" + autoconfig.getServerName(),
+//				new SecurityContextLogoutHandler());
+//		filterRegistration.setFilter(logoutFilter);
+//		filterRegistration.setEnabled(casEnabled);
+//		if (autoconfig.getSignOutFilters().size() > 0)
+//			filterRegistration.setUrlPatterns(autoconfig.getSignOutFilters());
+//		else
+//			filterRegistration.addUrlPatterns("/logout");
+////		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
+////		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
+//		filterRegistration.setOrder(12);
+//		return filterRegistration;
+//	}
+
 	/**
 	 * 该过滤器用于实现单点登出功能，单点退出配置，一定要放在其他filter之前
 	 */
-	@Bean
-	public FilterRegistrationBean singleSignOutFilter() {
-		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		filterRegistration.setFilter(new SingleSignOutFilter());
-		filterRegistration.setEnabled(casEnabled);
-		if (autoconfig.getSignOutFilters().size() > 0)
-			filterRegistration.setUrlPatterns(autoconfig.getSignOutFilters());
-		else
-			filterRegistration.addUrlPatterns("/*");
-		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
-		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.setOrder(13);
-		return filterRegistration;
-	}
+//	@Bean
+//	public FilterRegistrationBean singleSignOutFilter() {
+//		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+//		filterRegistration.setFilter(new SingleSignOutFilter());
+//		filterRegistration.setEnabled(casEnabled);
+//		if (autoconfig.getSignOutFilters().size() > 0)
+//			filterRegistration.setUrlPatterns(autoconfig.getSignOutFilters());
+//		else
+//			filterRegistration.addUrlPatterns("/*");
+////		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
+////		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
+//		filterRegistration.setOrder(13);
+//		return filterRegistration;
+//	}
 
 	/**
 	 * 该过滤器负责用户的认证工作
 	 */
-	@Bean
-	public FilterRegistrationBean authenticationFilter() {
-		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		filterRegistration.setFilter(new AuthenticationFilter());
-		filterRegistration.setEnabled(casEnabled);
-		if (autoconfig.getAuthFilters().size() > 0)
-			filterRegistration.setUrlPatterns(autoconfig.getAuthFilters());
-		else
-			filterRegistration.addUrlPatterns("/*");
-		// casServerLoginUrl:cas服务的登陆url
-		filterRegistration.addInitParameter("casServerLoginUrl", autoconfig.getCasServerLoginUrl());
-		// 本项目登录ip+port
-		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.addInitParameter("useSession", autoconfig.isUseSession() ? "true" : "false");
-		filterRegistration.addInitParameter("redirectAfterValidation",
-				autoconfig.isRedirectAfterValidation() ? "true" : "false");
-		filterRegistration.setOrder(14);
-		return filterRegistration;
-	}
-
-	/**
-	 * 该过滤器负责对Ticket的校验工作
-	 */
-	@Bean
-	public FilterRegistrationBean cas20ProxyReceivingTicketValidationFilter() {
-		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		Cas20ProxyReceivingTicketValidationFilter cas20ProxyReceivingTicketValidationFilter = new Cas20ProxyReceivingTicketValidationFilter();
-		// cas20ProxyReceivingTicketValidationFilter.setTicketValidator(cas20ServiceTicketValidator());
-		cas20ProxyReceivingTicketValidationFilter.setServerName(autoconfig.getServerName());
-		filterRegistration.setFilter(cas20ProxyReceivingTicketValidationFilter);
-		filterRegistration.setEnabled(casEnabled);
-		if (autoconfig.getValidateFilters().size() > 0)
-			filterRegistration.setUrlPatterns(autoconfig.getValidateFilters());
-		else
-			filterRegistration.addUrlPatterns("/*");
-		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
-		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
-		filterRegistration.setOrder(15);
-		return filterRegistration;
-	}
+//	@Bean
+//	public FilterRegistrationBean authenticationFilter() {
+//		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+//		filterRegistration.setFilter(new AuthenticationFilter());
+//		filterRegistration.setEnabled(casEnabled);
+//		if (autoconfig.getAuthFilters().size() > 0)
+//			filterRegistration.setUrlPatterns(autoconfig.getAuthFilters());
+//		else
+//			filterRegistration.addUrlPatterns("/*");
+//		// casServerLoginUrl:cas服务的登陆url
+////		filterRegistration.addInitParameter("casServerLoginUrl", autoconfig.getCasServerLoginUrl());
+////		// 本项目登录ip+port
+////		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
+////		filterRegistration.addInitParameter("useSession", autoconfig.isUseSession() ? "true" : "false");
+////		filterRegistration.addInitParameter("redirectAfterValidation",
+////				autoconfig.isRedirectAfterValidation() ? "true" : "false");
+//		filterRegistration.setOrder(14);
+//		return filterRegistration;
+//	}
+//
+//	/**
+//	 * 该过滤器负责对Ticket的校验工作
+//	 */
+//	@Bean
+//	public FilterRegistrationBean cas20ProxyReceivingTicketValidationFilter() {
+//		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+//		Cas20ProxyReceivingTicketValidationFilter cas20ProxyReceivingTicketValidationFilter = new Cas20ProxyReceivingTicketValidationFilter();
+//		// cas20ProxyReceivingTicketValidationFilter.setTicketValidator(cas20ServiceTicketValidator());
+//		cas20ProxyReceivingTicketValidationFilter.setServerName(autoconfig.getServerName());
+//		filterRegistration.setFilter(cas20ProxyReceivingTicketValidationFilter);
+//		filterRegistration.setEnabled(casEnabled);
+//		if (autoconfig.getValidateFilters().size() > 0)
+//			filterRegistration.setUrlPatterns(autoconfig.getValidateFilters());
+//		else
+//			filterRegistration.addUrlPatterns("/*");
+////		filterRegistration.addInitParameter("casServerUrlPrefix", autoconfig.getCasServerUrlPrefix());
+////		filterRegistration.addInitParameter("serverName", autoconfig.getServerName());
+////		filterRegistration.addInitParameter("service","https://uswww3.woniu.com/pay/loginSuccess.html");
+//
+//		filterRegistration.setOrder(15);
+//		return filterRegistration;
+//	}
 
 	/**
 	 * 该过滤器对HttpServletRequest请求包装，
@@ -193,17 +255,17 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 	 * 
 	 */
 	//@Bean
-	public FilterRegistrationBean httpServletRequestWrapperFilter() {
-		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
-		filterRegistration.setFilter(new HttpServletRequestWrapperFilter());
-		filterRegistration.setEnabled(true);
-		if (autoconfig.getRequestWrapperFilters().size() > 0)
-			filterRegistration.setUrlPatterns(autoconfig.getRequestWrapperFilters());
-		else
-			filterRegistration.addUrlPatterns("/*");
-		filterRegistration.setOrder(16);
-		return filterRegistration;
-	}
+//	public FilterRegistrationBean httpServletRequestWrapperFilter() {
+//		FilterRegistrationBean filterRegistration = new FilterRegistrationBean();
+//		filterRegistration.setFilter(new HttpServletRequestWrapperFilter());
+//		filterRegistration.setEnabled(true);
+//		if (autoconfig.getRequestWrapperFilters().size() > 0)
+//			filterRegistration.setUrlPatterns(autoconfig.getRequestWrapperFilters());
+//		else
+//			filterRegistration.addUrlPatterns("/*");
+//		filterRegistration.setOrder(16);
+//		return filterRegistration;
+//	}
 
 	/**
 	 * 该过滤器使得可以通过org.jasig.cas.client.util.AssertionHolder来获取用户的登录名。
@@ -222,7 +284,7 @@ public class SpringSecurityChain extends WebSecurityConfigurerAdapter{
 		filterRegistration.setOrder(17);
 		return filterRegistration;
 	}
-	
+//
 	
 	
 	

@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.util.AbstractCasFilter;
+import org.jasig.cas.client.validation.Assertion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +31,8 @@ import com.woniu.sncp.pay.core.service.payment.platform.wnb.SignatureUtils;
 import com.woniu.sncp.web.response.ResultResponse;
 
 import okhttp3.HttpUrl;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 public class WnbController extends ApiBaseController {
@@ -76,9 +81,9 @@ Environment environment;
 	@ResponseBody
 	public Map<String, Object> queryWnbAmount(HttpServletRequest request) {
 		Long aid = SecuritySSOAuth.getLoginId();
- 		
- 
-		
+
+
+
 		Map<String, Object> retMap = new HashMap<String, Object>();
 		if(aid==null){
 			retMap.put("msgcode", "0");

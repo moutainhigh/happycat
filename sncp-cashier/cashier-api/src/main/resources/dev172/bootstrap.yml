@@ -6,6 +6,7 @@ server:
       secure: false
 
 
+
 spring:
   application:
     name: micro-cloud-cashier
@@ -20,19 +21,19 @@ spring:
     basename: message/i18n/messages
     encoding: UTF-8
   #cas client config
-
-  cas: 
+  cas:
     sign-out-filters: /logout
     auth-filters: /sso/**,/m/sso/**,/security/*,/security/ttb/pay
-    validate-filters: /*
+    validate-filters: /wnb/*
     request-wrapper-filters: /*
     assertion-filters: /*
     cas-server-login-url: /login
     cas-server-m-login-url: /m/login
-    cas-server-url-prefix: https://sso.woniu.com
+    cas-server-url-prefix: https://ussso.woniu.com
     redirect-after-validation: true
-    use-session: true
-    server-name: http://us.cashier.woniu.com
+    use-session: false
+    server-name: https://uswww3.woniu.com/pay/loginSuccess.html
+    service:  https://uswww3.woniu.com/pay/loginSuccess.html
     encoding: utf-8
   #jpa config
   jpa:

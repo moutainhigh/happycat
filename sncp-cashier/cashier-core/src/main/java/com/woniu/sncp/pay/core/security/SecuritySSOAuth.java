@@ -1,15 +1,23 @@
 package com.woniu.sncp.pay.core.security;
 
 import org.jasig.cas.client.authentication.AttributePrincipal;
+import org.jasig.cas.client.util.AbstractCasFilter;
 import org.jasig.cas.client.validation.Assertion;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 
 
 public class SecuritySSOAuth{
 	
 	public static Long getLoginId(){
-		Assertion assertion = org.jasig.cas.client.util.AssertionHolder
-				.getAssertion();
+		HttpServletRequest request=	((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+
+
+		Assertion	assertion=request==null? org.jasig.cas.client.util.AssertionHolder.getAssertion(): (Assertion) request.getAttribute(AbstractCasFilter.CONST_CAS_ASSERTION);
+
+
 		if (assertion != null) {
 			AttributePrincipal ap = assertion.getPrincipal();
 			java.util.Map<String, Object> map = ap.getAttributes();

@@ -1,6 +1,7 @@
 package com.woniu.sncp.pay;
 
 
+import com.woniu.sncp.pay.cas.SSLUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,7 +42,11 @@ public class CashierApplication extends SpringBootServletInitializer {
 	 */
 	public static void main(String[] args) {
 		System.setProperty("tomcat.util.http.parser.HttpParser.requestTargetAllow", "|{}");
-
+//		try {
+//			SSLUtils.ignoreSsl();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 		SpringApplication.run(CashierApplication.class, args);
 	}
 	@Bean
