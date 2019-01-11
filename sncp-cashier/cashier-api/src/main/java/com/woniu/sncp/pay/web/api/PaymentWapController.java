@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.woniu.pay.common.utils.PaymentConstant;
+import com.woniu.pay.pojo.Platform;
 import com.woniu.sncp.lang.DateUtil;
+import com.woniu.sncp.pay.common.Constant;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.core.service.GameManagerService;
 import com.woniu.sncp.pay.core.service.PaymentOrderService;
@@ -43,7 +45,7 @@ import com.woniu.sncp.web.response.ResultResponse;
 @Controller
 @RequestMapping("/wap/api")
 public class PaymentWapController extends ApiBaseController{
-	
+ 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Resource
@@ -190,6 +192,34 @@ public class PaymentWapController extends ApiBaseController{
 		}
 		
 		logger.info("支付订单信息,"+retMap);
+		//2.已支付定单直接跳转到前端页面
+    	if (retMap != null && StringUtils.equalsIgnoreCase(ObjectUtils.toString(retMap.get(ErrorCode.TIP_CODE)), "56014")) {
+    		 
+    		request.setAttribute("infoMap", retMap);
+    		request.setAttribute("retCode", retMap.get(ErrorCode.TIP_CODE));
+    		request.setAttribute("retMsg", retMap.get(ErrorCode.TIP_INFO));
+    		try {
+    			Platform 	paymentPlatform=	(Platform) retMap.get("paymentPlatform");
+        		PaymentOrder paymentOrder=(PaymentOrder) retMap.get("paymentOrder");
+        		String frontUrl=paymentPlatform.getFrontUrl(paymentOrder.getMerchantId());
+        		if(StringUtils.isNotBlank(frontUrl)) {
+        			int beginIndex=StringUtils.indexOf(frontUrl, "/payment/front/api");
+        			if (beginIndex != -1) {
+        				String path = frontUrl.substring(beginIndex);
+        				request.setAttribute(Constant.FORWARD_TO_FONT, true);
+
+        				return "forward:" + path;
+        			}
+        			 
+        		}
+    		}catch(Exception e) {
+    			logger.error("处理转发失败",e);
+    		}
+    		
+    		
+    	 
+    	 
+        }
     	
     	//2.跳转到第三方支付页面
     	if (retMap != null && StringUtils.equalsIgnoreCase(ObjectUtils.toString(retMap.get(ErrorCode.TIP_CODE)), "1")) {

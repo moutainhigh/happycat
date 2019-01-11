@@ -1,10 +1,13 @@
 package com.woniu.sncp.pay.web.api;
 
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +18,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +57,13 @@ public class PaymentFontController extends ApiBaseController{
 	private final static String Errorurl = "/payment/error";
 	@Autowired
 	MemcachedService memcachedService;
+	@Autowired
+	Environment environment;
+	private String frontDelay=null;
+	@PostConstruct
+	public void postConstruct() {
+		frontDelay=	environment.getProperty("front.delay.url");
+	}
 	/**
 	 * 运维监控这个地址，勿删
 	 * @param request
@@ -227,6 +238,126 @@ public class PaymentFontController extends ApiBaseController{
 			return "redirect:"+directUrl+"?" + queryStr;
 		}
 	}
+	
+	/**
+	 * 前台返回 - 显示订单处理结果
+	 * @return
+	 */
+	@RequestMapping(value="/commondelay/{merchantid}/{paymentid}")
+	public String commonPaymentFontDelay(@PathVariable("merchantid") Long merchantId,@PathVariable("paymentid") Long paymentId,HttpServletRequest request) {
+		logRequestParams("commonPaymentFont", request);
+		
+		Platform platform = platformService.queryPlatform(merchantId, paymentId);
+		platformService.validatePaymentPlatform(platform);
+		request.setAttribute(PaymentConstant.PAYMENT_PLATFORM, platform);
+		
+		AbstractPayment actualPayment = (AbstractPayment) paymentService.findPaymentById(paymentId);
+		Assert.notNull(actualPayment,"抽象支付平台配置不正确,查询平台为空,paymentId:" + paymentId);
+		
+		if (actualPayment instanceof PaypalPayment) {
+			platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
+			platformService.validatePaymentPlatform(platform);
+			
+			request.setAttribute(PaymentConstant.PAYMENT_PLATFORM, platform);
+			request.setAttribute(PaymentConstant.MERCHANT_ID, merchantId);
+		}
+		
+		Map<String,Object> result = paymentFacade.processPaymentFont(actualPayment, request);
+		PaymentOrder order = (PaymentOrder) result.get(PaymentConstant.PAYMENT_ORDER);
+		if(order == null){
+			request.setAttribute("msg", "订单不存在");
+    		request.setAttribute("retCode", ErrorCode.getErrorCode(54208).get(ErrorCode.TIP_CODE));
+    		request.setAttribute("retMsg", ErrorCode.getErrorCode(54208).get(ErrorCode.TIP_INFO));
+			return Errorurl;
+		}
+		
+		String directUrl = getFrontUrl(order);
+		if(StringUtils.isEmpty(directUrl)){
+			request.setAttribute("msg", "页面跳转地址未配置");
+			request.setAttribute("retCode", ErrorCode.getErrorCode(56101).get(ErrorCode.TIP_CODE));
+    		request.setAttribute("retMsg", ErrorCode.getErrorCode(56101).get(ErrorCode.TIP_INFO));
+			return Errorurl;
+		}
+		
+		request.setAttribute("msg", result.get(ErrorCode.TIP_INFO));
+		if(StringUtils.isNotBlank(frontDelay)) {
+ 
+			Map<String, String> param=new HashMap<String,String>();
+	 		param.put("orderno", order.getPaypartnerOtherOrderNo());
+			param.put("merchantid", ObjectUtils.toString(order.getMerchantId()));
+			param.put("money",ObjectUtils.toString( order.getMoney()));
+//			param.put("productname", order.ge));
+			param.put("fontendurl", directUrl);
+			param.put("msgcode", "1");
+			
+			param.put("message", "等待支付");
+			param.put("showhead", "no");
+			SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			param.put("time", dateformat.format( order.getCreate()));
+			
+			List<String> list=new ArrayList<String>();
+			for(Map.Entry<String,String> entry:param.entrySet()) {
+				list.add(entry.getKey()+"="+ URLEncoder.encode(entry.getValue()).replaceAll("\\+","%20"));	
+			}
+			 
+			return "redirect:"+frontDelay+"?"+StringUtils.join(list, "&");
+			
+		}
+ 
+		
+		
+		
+		if (1 != (Integer)result.get(ErrorCode.TIP_CODE)){
+			if(directUrl.contains("?")){
+				return "redirect:"+directUrl+"&errMsg="+result.get(ErrorCode.TIP_CODE)+result.get(ErrorCode.TIP_INFO);
+			}else{
+				return "redirect:"+directUrl+"?errMsg="+result.get(ErrorCode.TIP_CODE)+result.get(ErrorCode.TIP_INFO);
+			}
+		}
+		
+		setAttributes(request, result);
+		
+		String orderNo = order.getPaypartnerOtherOrderNo();
+		if(StringUtils.isBlank(orderNo)){
+			orderNo = order.getOrderNo();
+		}
+		
+		String ext = order.getInfo();
+		String openId = "";
+		if(StringUtils.isNotBlank(ext)){
+			JSONObject extend = JSONObject.parseObject(ext);
+			if(extend.containsKey("openid") && StringUtils.isNotBlank(extend.getString("openid"))){
+				openId = extend.getString("openid");
+			}
+		}
+		
+		String orderStatus = (String)request.getAttribute(Constant.ORDER_FRONT_CALLBACK_STATUS);
+		List<String> param=new ArrayList<>();
+		if(StringUtils.isNotBlank(orderNo)) {
+			param.add("orderNo="+ orderNo);	
+		}
+		if(StringUtils.isNotBlank(openId)) {
+			param.add("openId="+ openId);	
+		}
+		if(StringUtils.isNotBlank(orderStatus)) {
+			param.add("orderStatus="+  orderStatus);	
+		}
+		
+		if(order.getAid() != null) {
+			param.add("aid="+  order.getAid());	
+		}
+		param.add("platformId="+  paymentId);	
+		
+		String queryStr = StringUtils.join(param, "&");
+		
+		if(directUrl.contains("?")){
+			return "redirect:"+directUrl + queryStr;
+		}else{
+			return "redirect:"+directUrl+"?" + queryStr;
+		}
+	}
+	
+	
 	
 	private final static String PAGE_PAYMENT_SUCCESS = "/payment/payment_success";
 	private final static String PAGE_PAYMENT_PROCESS = "/payment/payment_process";

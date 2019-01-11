@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.woniu.common.memcache.MemcacheCluster;
 import com.woniu.pay.common.utils.PaymentConstant;
  import com.woniu.pay.pojo.Platform;
+import com.woniu.sncp.pay.common.Constant;
 import com.woniu.sncp.pay.common.errorcode.ErrorCode;
 import com.woniu.sncp.pay.common.exception.OrderIsSuccessException;
 import com.woniu.sncp.pay.common.utils.Assert;
@@ -180,10 +182,12 @@ public class PaymentFacade {
 			String imprestMode, String clientIp,Map<String, Object> extendParams,String moneyCurrency,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
+		Platform platform=null;
+		PaymentOrder paymentOrder=null;
 		try {
 
 			// 1.查询支付平台信息
-			Platform platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
+			platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
 			platformService.validatePaymentPlatform(platform);
 			
 			// 2.根据平台扩展判断是否需要调用远程服务
@@ -210,7 +214,7 @@ public class PaymentFacade {
 
 			// 4.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
-			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
+			paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
 				MemcacheCluster.getInstance().setList(pOrderNo, "新订单支付");
 
@@ -616,6 +620,11 @@ public class PaymentFacade {
 			logger.error("OrderIsSuccessException异常", e);
 			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(56014), ErrorCode.TIP_INFO, e.getMessage());
 			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
+			
+		 
+			
+			result.put("paymentPlatform", platform); // 支付平台POJO
+			result.put("paymentOrder", paymentOrder); // 订单信息
 			return result;
 		} catch (IllegalArgumentException e) {
 			logger.error("validation异常", e);
@@ -657,10 +666,12 @@ public class PaymentFacade {
 			String imprestMode, String clientIp,Map<String, Object> extendParams,String body,String goodsDetail,String terminalType,String timeoutExpress) {
 		
 		Map<String, Object> outParams = null;
+		PaymentOrder paymentOrder=null;
+		Platform platform=null;
 		try {
 
 			// 1.查询支付平台信息
-			Platform platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
+			platform = platformService.queryPlatform(Long.valueOf(merchantId), Long.valueOf(paymentId));
 			platformService.validatePaymentPlatform(platform);
 
 			// 2.获取实际支付平台对象
@@ -676,7 +687,7 @@ public class PaymentFacade {
 
 			// 3.判断订单是否生成
 			String defaultbank = ObjectUtils.toString(extendParams.get("defaultbank"));
-			PaymentOrder paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
+		    paymentOrder = paymentOrderService.queryOrderByPartnerOrderNo(pOrderNo,Long.valueOf(merchantId));
 			if (paymentOrder == null) {
 				MemcacheCluster.getInstance().setList(pOrderNo, "新订单支付");
 				String backendUrl = ObjectUtils.toString(extendParams.get("backendurl"));
@@ -788,7 +799,7 @@ public class PaymentFacade {
 
 //				Assert.assertEquals("支付平台ID与订单中平台ID不一致，请重新核对",paymentOrder.getPlatformId(), paymentId);
 				if(PaymentOrder.PAYMENT_STATE_PAYED.equals(paymentOrder.getPayState())){
-					throw new IllegalArgumentException("订单已支付，请重新核对");
+					throw new OrderIsSuccessException("订单已支付，请重新核对");
 				}
 				paymentOrder.setPayPlatformId(paymentId);//更换支付方式
 				//增加渠道商户号,
@@ -858,7 +869,17 @@ public class PaymentFacade {
 			 
 			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
 			return result;
- 		} catch (IllegalArgumentException e) {
+		} catch (OrderIsSuccessException e) {
+			logger.error("OrderIsSuccessException异常", e);
+			Map<String, Object> result = ErrorCode.put(ErrorCode.getErrorCode(56014), ErrorCode.TIP_INFO, e.getMessage());
+
+			String msg = ObjectUtils.toString(result.get(ErrorCode.TIP_CODE)) + ":" + ObjectUtils.toString(ErrorCode.getErrorCode(56014).get(ErrorCode.TIP_INFO)) + "OrderIsSuccessException异常";
+			logger.info(pOrderNo + ":" + msg);
+			MemcacheCluster.getInstance().setList(pOrderNo, msg);
+			result.put("paymentPlatform", platform); // 支付平台POJO
+			result.put("paymentOrder", paymentOrder); // 订单信息
+			return result;
+ 		}catch (IllegalArgumentException e) {
 			logger.error("validation异常", e);
 			Map<String,Object> result= ErrorCode.put(ErrorCode.getErrorCode(14101), ErrorCode.TIP_INFO, e.getMessage());
 			MemcacheCluster.getInstance().setList(pOrderNo, ObjectUtils.toString(result.get(ErrorCode.TIP_CODE))+":"+ObjectUtils.toString(ErrorCode.getErrorCode(10001).get(ErrorCode.TIP_INFO)));
@@ -916,29 +937,42 @@ public class PaymentFacade {
 		}
 		
 		String orderNo = "";
-		if(callPayRemoteFlag){
-			// 调用远程服务
-			orderNo = actualImprestPayment.callPayGetOrderNoFromRequest(platform,request);
-		}else{
-			// 调用本地服务
-			if (frontProcess) {
-				orderNo = actualImprestPayment.getOrderNoFromRequest(request, platform);
+		PaymentOrder order = null;
+ 		Boolean tag=(Boolean) request.getAttribute(Constant.FORWARD_TO_FONT);
+
+		 if(BooleanUtils.isTrue(tag)) {
+				Map<String, Object> infoMap = (Map<String, Object>) request.getAttribute("infoMap");
+				if(infoMap!=null&&infoMap.get("paymentOrder")!=null) {
+					order=(PaymentOrder)infoMap.get("paymentOrder");
+				}
+		 }  
+		if (order == null) {
+
+			if (callPayRemoteFlag) {
+				// 调用远程服务
+				orderNo = actualImprestPayment.callPayGetOrderNoFromRequest(platform, request);
 			} else {
-				orderNo = actualImprestPayment.getOrderNoFromRequest(request);
+				// 调用本地服务
+				if (frontProcess) {
+					orderNo = actualImprestPayment.getOrderNoFromRequest(request, platform);
+				} else {
+					orderNo = actualImprestPayment.getOrderNoFromRequest(request);
+				}
+			}
+
+			if (StringUtils.isBlank(orderNo)) {
+				return ErrorCode.getErrorCode(14105);
+			}
+			try {
+				order = paymentOrderService.queryOrder(orderNo);
+			} catch (DataAccessException e) {
+				logger.error("充值订单查询异常", e);
+				result = ErrorCode.getErrorCode(14102);
+				return result;
 			}
 		}
-		
-		if (StringUtils.isBlank(orderNo))
-			return ErrorCode.getErrorCode(14105);
-		
-		PaymentOrder order = null;
-		try {
-			order = paymentOrderService.queryOrder(orderNo);
-		} catch (DataAccessException e) {
-			logger.error("充值订单查询异常", e);
-			result = ErrorCode.getErrorCode(14102);
-			return result;
-		}
+
+	
 		
 		if (order != null) {
 			result.put(PaymentConstant.PAYMENT_ORDER,order);
